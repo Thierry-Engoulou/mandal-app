@@ -34,7 +34,9 @@ export function youtubeEmbedUrl(url: string): string | null {
  * Renvoie null si ce n'est pas un lien GeoGebra reconnu.
  */
 export function geogebraEmbedUrl(url: string): string | null {
-  const match = url.match(/geogebra\.org\/(?:m|classic|material)(?:\/show)?\/([A-Za-z0-9]{6,})/);
+  const match = url.match(
+    /geogebra\.org\/(?:m|classic|material|graphing|calculator|geometry|3d)(?:\/show)?\/([A-Za-z0-9]{6,})/,
+  );
   if (!match) return null;
   const id = match[1];
   return `https://www.geogebra.org/material/iframe/id/${id}/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false`;
