@@ -24,6 +24,7 @@ import { Route as AuthenticatedDashboardEtudiantRouteImport } from './routes/_au
 import { Route as AuthenticatedEnseignantRouteImport } from './routes/_authenticated.enseignant'
 import { Route as AuthenticatedEtablissementRouteImport } from './routes/_authenticated.etablissement'
 import { Route as AuthenticatedEtudiantRouteImport } from './routes/_authenticated.etudiant'
+import { Route as AuthIndexRouteImport } from './routes/auth.index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesCourseIdRouteImport } from './routes/courses.$courseId'
@@ -146,6 +147,11 @@ const AuthenticatedEtudiantRoute = AuthenticatedEtudiantRouteImport.update({
   id: '/etudiant',
   path: '/etudiant',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthIndexRoute = AuthIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthRoute,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/callback',
@@ -430,6 +436,7 @@ export interface FileRoutesByFullPath {
   '/etudiant': typeof AuthenticatedEtudiantRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/courses/$courseId': typeof CoursesCourseIdRoute
+  '/auth/': typeof AuthIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/admin/demandes': typeof AuthenticatedAdminDemandesRoute
   '/admin/utilisateurs': typeof AuthenticatedAdminUtilisateursRoute
@@ -476,7 +483,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRouteWithChildren
   '/citoyennete': typeof CitoyenneteRoute
   '/culture': typeof CultureRoute
   '/demande-inscription': typeof DemandeInscriptionRoute
@@ -486,6 +492,7 @@ export interface FileRoutesByTo {
   '/dashboard-etudiant': typeof AuthenticatedDashboardEtudiantRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/courses/$courseId': typeof CoursesCourseIdRoute
+  '/auth': typeof AuthIndexRoute
   '/courses': typeof CoursesIndexRoute
   '/admin/demandes': typeof AuthenticatedAdminDemandesRoute
   '/admin/utilisateurs': typeof AuthenticatedAdminUtilisateursRoute
@@ -548,6 +555,7 @@ export interface FileRoutesById {
   '/_authenticated/etudiant': typeof AuthenticatedEtudiantRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/courses/$courseId': typeof CoursesCourseIdRoute
+  '/auth/': typeof AuthIndexRoute
   '/courses/': typeof CoursesIndexRoute
   '/_authenticated/admin/demandes': typeof AuthenticatedAdminDemandesRoute
   '/_authenticated/admin/utilisateurs': typeof AuthenticatedAdminUtilisateursRoute
@@ -611,6 +619,7 @@ export interface FileRouteTypes {
     | '/etudiant'
     | '/auth/callback'
     | '/courses/$courseId'
+    | '/auth/'
     | '/courses/'
     | '/admin/demandes'
     | '/admin/utilisateurs'
@@ -657,7 +666,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/auth'
     | '/citoyennete'
     | '/culture'
     | '/demande-inscription'
@@ -667,6 +675,7 @@ export interface FileRouteTypes {
     | '/dashboard-etudiant'
     | '/auth/callback'
     | '/courses/$courseId'
+    | '/auth'
     | '/courses'
     | '/admin/demandes'
     | '/admin/utilisateurs'
@@ -728,6 +737,7 @@ export interface FileRouteTypes {
     | '/_authenticated/etudiant'
     | '/auth/callback'
     | '/courses/$courseId'
+    | '/auth/'
     | '/courses/'
     | '/_authenticated/admin/demandes'
     | '/_authenticated/admin/utilisateurs'
@@ -891,6 +901,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/etudiant'
       preLoaderRoute: typeof AuthenticatedEtudiantRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/auth/': {
+      id: '/auth/'
+      path: '/'
+      fullPath: '/auth/'
+      preLoaderRoute: typeof AuthIndexRouteImport
+      parentRoute: typeof AuthRoute
     }
     '/auth/callback': {
       id: '/auth/callback'
@@ -1393,10 +1410,12 @@ const AuthenticatedRouteRouteWithChildren =
 
 interface AuthRouteChildren {
   AuthCallbackRoute: typeof AuthCallbackRoute
+  AuthIndexRoute: typeof AuthIndexRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthCallbackRoute: AuthCallbackRoute,
+  AuthIndexRoute: AuthIndexRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
