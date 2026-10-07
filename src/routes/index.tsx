@@ -1,5 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { trackPageView } from "@/lib/site-analytics";
 import {
   ArrowRight,
   GraduationCap,
@@ -374,12 +376,15 @@ function Footer() {
         <p className="text-xs text-muted-foreground">
           © 2026 M'ANDAL (Mahol Andal) · Tous droits réservés.
         </p>
-        <div className="flex flex-wrap gap-5 text-sm font-semibold text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-5 text-sm font-semibold text-muted-foreground">
           <Link to="/" className="hover:text-emerald-500">🏠 Accueil</Link>
           <Link to="/education" className="hover:text-emerald-500">📚 Éducation</Link>
           <Link to="/citoyennete" className="hover:text-orange-500">⚖️ Citoyenneté</Link>
           <Link to="/culture" className="hover:text-amber-500">🌍 Culture</Link>
           <a href="#parrainage" className="hover:text-foreground">🤝 Parrainage</a>
+          <Link to="/admin" className="text-xs text-slate-400 hover:text-emerald-400 flex items-center gap-1 border border-slate-700/60 rounded-full px-2.5 py-0.5">
+            🛡️ Admin
+          </Link>
         </div>
       </div>
     </footer>
@@ -387,6 +392,10 @@ function Footer() {
 }
 
 function HomePage() {
+  useEffect(() => {
+    trackPageView("Accueil M'ANDAL");
+  }, []);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />

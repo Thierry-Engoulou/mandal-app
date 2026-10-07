@@ -33,6 +33,7 @@ import { Input } from "@/components/ui/input";
 import { AuthRequiredModal } from "@/components/auth-required-modal";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { trackPageView, trackExamDownload } from "@/lib/site-analytics";
 
 const educationSearchSchema = z.object({
   niveau: z.string().optional(),
@@ -572,7 +573,12 @@ export function EducationPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  useEffect(() => {
+    trackPageView(activeLevel ? `Éducation — ${activeLevel.name}` : "Volet 01 : Éducation");
+  }, [activeLevel]);
+
   const handleOpenCourse = (title: string, levelId: string) => {
+    trackExamDownload(title, activeLevel?.name || levelId);
     if (userSession) {
       window.location.href = "/etudiant/cours";
     } else {

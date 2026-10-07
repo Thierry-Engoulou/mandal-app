@@ -14,6 +14,7 @@ import { MandalLogo } from "@/components/mandal-logo";
 import { Button } from "@/components/ui/button";
 import { AuthRequiredModal } from "@/components/auth-required-modal";
 import { supabase } from "@/integrations/supabase/client";
+import { trackPageView } from "@/lib/site-analytics";
 
 export const Route = createFileRoute("/culture")({
   head: () => ({
@@ -35,6 +36,7 @@ function CulturePage() {
   const [modalTitle, setModalTitle] = useState("Histoire du continent");
 
   useEffect(() => {
+    trackPageView("Volet 03 : Culture");
     supabase.auth.getSession().then(({ data }) => {
       if (data.session?.user) {
         setUserSession({ id: data.session.user.id });

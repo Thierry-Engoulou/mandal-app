@@ -9,8 +9,8 @@ async function assertSuperAdmin(context: { supabase: any; userId: string }) {
     .eq("id", context.userId)
     .maybeSingle();
   if (error) throw new Error(error.message);
-  if (data?.role !== "super_admin") {
-    throw new Error("Accès réservé au super administrateur.");
+  if (data?.role !== "super_admin" && data?.role !== "admin") {
+    throw new Error("Accès réservé aux administrateurs de la plateforme.");
   }
 }
 
