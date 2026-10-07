@@ -22,6 +22,7 @@ export function bucketForType(type: ConceptType) {
 
 /** Transforme un lien YouTube en URL d'intégration. Renvoie null si ce n'est pas YouTube. */
 export function youtubeEmbedUrl(url: string): string | null {
+  if (!url) return null;
   const match = url.match(
     /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/,
   );
@@ -30,16 +31,29 @@ export function youtubeEmbedUrl(url: string): string | null {
 
 /**
  * Transforme un lien de matériel GeoGebra (ex: geogebra.org/m/abcDEF12,
+ * geogebra.org/graphing/abcDEF12, geogebra.org/suite/abcDEF12,
  * ou geogebra.org/classic/abcDEF12) en URL d'intégration iframe.
  * Renvoie null si ce n'est pas un lien GeoGebra reconnu.
  */
 export function geogebraEmbedUrl(url: string): string | null {
-  const match = url.match(
-    /geogebra\.org\/(?:m|classic|material|graphing|calculator|geometry|3d)(?:\/show)?\/([A-Za-z0-9]{6,})/,
+  if (!url) return null;
+  const trimmed = url.trim();
+
+  // Détection lien GeoGebra complet (m, classic, material, graphing, calculator, geometry, 3d, suite)
+  const match = trimmed.match(
+    /geogebra\.org\/(?:m|classic|material|graphing|calculator|geometry|3d|suite)(?:\/show)?\/([A-Za-z0-9]{6,})/i,
   );
-  if (!match) return null;
-  const id = match[1];
-  return `https://www.geogebra.org/material/iframe/id/${id}/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false`;
+  if (match) {
+    const id = match[1];
+    return `https://www.geogebra.org/material/iframe/id/${id}/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false`;
+  }
+
+  // Si l'utilisateur saisit directement l'identifiant GeoGebra (ex: vtdcfvcc)
+  if (/^[A-Za-z0-9]{6,12}$/.test(trimmed)) {
+    return `https://www.geogebra.org/material/iframe/id/${trimmed}/width/700/height/500/border/888888/sfsb/true/smb/false/stb/false/stbh/false/ai/false/asb/false/sri/true/rc/false/ld/false/sdz/true/ctl/false`;
+  }
+
+  return null;
 }
 
 /** Exemple de spec pour une leçon "graphique", à titre de placeholder dans l'éditeur. */
