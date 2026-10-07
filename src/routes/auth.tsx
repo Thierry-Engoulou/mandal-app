@@ -33,12 +33,15 @@ function AuthPage() {
 
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: `${window.location.origin}/auth/callback`,
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
     });
-    if (result.error) {
+    if (error) {
       setGoogleLoading(false);
-      toast.error(result.error.message);
+      toast.error(error.message);
     }
   };
 
@@ -62,7 +65,13 @@ function AuthPage() {
       .maybeSingle();
     setLoading(false);
     toast.success("Bon retour ! Content de vous revoir");
-    navigate({ to: profile?.role === "teacher" ? "/enseignant" : "/etudiant" });
+    if (profile?.role === "admin" || profile?.role === "super_admin") {
+      navigate({ to: "/admin" });
+    } else if (profile?.role === "teacher") {
+      navigate({ to: "/enseignant" });
+    } else {
+      navigate({ to: "/etudiant" });
+    }
   };
 
   return (
