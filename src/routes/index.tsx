@@ -332,8 +332,6 @@ function Footer() {
               « Apprendre avec sourire et rigueur »
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Présenté par <strong>Ing ENGOULOU SIKANDI Thierry</strong>.
-              <br />
               Démocratiser le soutien scolaire et l'excellence académique pour tous les élèves du Cameroun.
             </p>
           </div>
