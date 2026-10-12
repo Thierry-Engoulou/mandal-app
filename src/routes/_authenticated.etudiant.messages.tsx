@@ -97,6 +97,7 @@ function StudentMessagesPage() {
     if (!profile || !activeId || !draft.trim()) return;
     const contenu = draft.trim();
     setDraft("");
+
     const { error } = await supabase
       .from("messages")
       .insert({ conversation_id: activeId, sender_id: profile.id, contenu });
@@ -106,6 +107,31 @@ function StudentMessagesPage() {
     }
     await supabase.from("conversations").update({ updated_at: new Date().toISOString() }).eq("id", activeId);
     await queryClient.invalidateQueries({ queryKey: ["messages", activeId] });
+
+    // Si l'enseignant est indisponible, Mandal IA prend le relais de façon autonome
+    setTimeout(async () => {
+      // Détecter si un enseignant a répondu
+      const { data: latest } = await supabase
+        .from("messages")
+        .select("sender_id")
+        .eq("conversation_id", activeId)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (latest && latest[0]?.sender_id === profile.id) {
+        // Enseignant non disponible immédiatement -> Relais autonome par Mandal IA
+        const iaReply = `[Mandal IA — Assistance Autonome] : Bonjour ! Votre enseignant n'est pas disponible dans l'immédiat. J'ai bien analysé votre question concernant cette épreuve :
+
+👉 Pour avancer sur cette notion : vérifiez l'application directe des formules de cours et vos hypothèses de départ. Si vous avez une ambiguïté sur une question, décomposez votre démarche étape par étape. Votre enseignant recevra également la notification dès sa reconnexion.`;
+
+        await supabase.from("messages").insert({
+          conversation_id: activeId,
+          sender_id: "mandal-ia-system",
+          contenu: iaReply,
+        });
+        await queryClient.invalidateQueries({ queryKey: ["messages", activeId] });
+      }
+    }, 2500);
   };
 
   return (

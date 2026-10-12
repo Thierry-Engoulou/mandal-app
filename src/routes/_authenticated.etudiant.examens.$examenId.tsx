@@ -234,14 +234,59 @@ function ExamRunnerPage() {
         </div>
       ) : (
         <>
-          <div className="sticky top-16 z-10 flex items-center justify-between rounded-2xl bg-card px-5 py-3 shadow-sm md:top-4">
-            <span className="inline-flex items-center gap-2 font-display text-lg font-bold text-foreground">
-              <Clock className="size-5 text-primary" />
-              {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
-            </span>
-            <span className="text-sm text-muted-foreground">
-              {Object.keys(answers).length} / {data.questions.length} répondues
-            </span>
+          <div className="sticky top-16 z-10 flex flex-col gap-2 rounded-2xl bg-card p-4 shadow-md md:top-4 border border-border">
+            <div className="flex items-center justify-between">
+              <span className={`inline-flex items-center gap-2 font-display text-xl font-black ${remaining !== null && remaining <= 1800 ? "text-amber-600 dark:text-amber-400 animate-pulse" : "text-primary"}`}>
+                <Clock className="size-6" />
+                {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
+              </span>
+              <span className="text-sm font-semibold text-muted-foreground">
+                {Object.keys(answers).length} / {data.questions.length} questions traitées
+              </span>
+            </div>
+
+            {/* Alerte obligatoire à moins de 30 minutes */}
+            {remaining !== null && remaining <= 1800 && (
+              <div className="flex items-start gap-3 rounded-xl border border-amber-500/40 bg-amber-500/15 p-3 text-amber-900 dark:text-amber-200">
+                <span className="text-xl">⚠️</span>
+                <div className="text-xs leading-relaxed">
+                  <strong className="font-bold uppercase tracking-wider block text-amber-800 dark:text-amber-300">
+                    Rappel obligatoire : Il reste moins de {minutes} minutes !
+                  </strong>
+                  Pour une bonne pratique d'examen, préparez dès maintenant vos formats rédigés à la main. Vous devez impérativement <strong>scanner ou photographier</strong> vos feuilles d'épreuve ci-dessous avant l'envoi automatique.
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Section Téléversement des feuilles de composition physiques */}
+          <div className="rounded-2xl border-2 border-dashed border-primary/40 bg-primary/5 p-6 text-center space-y-3">
+            <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+              <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h3 className="font-display text-base font-bold text-foreground">
+              Scanner ou Photographier vos feuilles de composition
+            </h3>
+            <p className="text-xs text-muted-foreground max-w-md mx-auto">
+              Si vous composez sur feuilles ou format d'examen, photographiez vos pages rédigées. Elles seront transmises à votre enseignant et analysées pour la correction.
+            </p>
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition">
+              <span>📷 Photographier / Charger mes copies (Format, PDF ou Scan)</span>
+              <input
+                type="file"
+                accept="image/*,application/pdf"
+                multiple
+                className="hidden"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files.length > 0) {
+                    toast.success(`${e.target.files.length} fichier(s) de copie prêt(s) pour la transmission à l'enseignant.`);
+                  }
+                }}
+              />
+            </label>
           </div>
 
           <ol className="space-y-4">

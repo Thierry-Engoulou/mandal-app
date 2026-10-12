@@ -219,6 +219,46 @@ export function useProgrammeDetail(programmeId: string) {
     enabled: !!programmeId,
     queryKey: ["programme-detail", programmeId],
     queryFn: async (): Promise<ProgrammeDetailResponse | null> => {
+      // 1. Si c'est un cours officiel ou de démonstration prédéfini
+      if (programmeId.startsWith("curated-")) {
+        const { CURATED_COURSES_DETAILS } = await import("./curated-courses-data");
+        if (CURATED_COURSES_DETAILS[programmeId]) {
+          return CURATED_COURSES_DETAILS[programmeId];
+        }
+        // Fallback générique pour les autres curated IDs
+        return {
+          programme: {
+            id: programmeId,
+            titre: "Programme Académique — M'ANDAL",
+            description: "Cours complet, fiches de révision et exercices d'application.",
+            matiereNom: "Général",
+            classeNom: "Classe d'Examen",
+          },
+          chapitres: [
+            {
+              id: `${programmeId}-ch1`,
+              programme_id: programmeId,
+              titre: "Module 1 : Notions fondamentales & Définitions",
+              ordre: 1,
+              niveau: "Examen",
+              concepts: [
+                {
+                  id: `${programmeId}-c1`,
+                  chapitre_id: `${programmeId}-ch1`,
+                  titre: "Fiche de synthèse et règles essentielles",
+                  ordre: 1,
+                  type_contenu: "texte",
+                  contenu_texte: "Bienvenue dans ce cours M'ANDAL. Consultez les fiches de cours, entraînez-vous sur les exercices d'annales et utilisez Mandal IA pour vérifier vos acquis.",
+                  media_url: null,
+                  duree_minutes: 20,
+                },
+              ],
+            },
+          ],
+        };
+      }
+
+      // 2. Sinon, interroger la table programmes de Supabase
       const { data, error } = await supabase
         .from("programmes")
         .select(

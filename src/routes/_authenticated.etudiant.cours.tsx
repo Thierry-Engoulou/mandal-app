@@ -358,9 +358,9 @@ export function StudentCoursesIndexPage() {
               return (
                 <li key={p.id}>
                   <Link
-                    to={isCurated ? "/education" : "/etudiant/cours/$programmeId"}
-                    params={isCurated ? {} : { programmeId: p.id }}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-card p-5 sm:p-6 shadow-sm border border-border/80 transition-all hover:border-primary/50 hover:shadow-md hover:bg-secondary/40"
+                    to="/etudiant/cours/$programmeId"
+                    params={{ programmeId: p.id }}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl bg-card p-5 sm:p-6 shadow-sm border border-border/80 transition-all hover:border-primary/50 hover:shadow-md hover:bg-secondary/40 cursor-pointer"
                   >
                     <div className="flex items-start gap-4 min-w-0 flex-1">
                       <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary mt-0.5">

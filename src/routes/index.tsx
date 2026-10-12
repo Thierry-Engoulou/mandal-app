@@ -56,6 +56,7 @@ const navLinks = [
   { to: "/education", label: "Éducation", icon: "📚" },
   { to: "/citoyennete", label: "Citoyenneté", icon: "⚖️" },
   { to: "/culture", label: "Culture", icon: "🌍" },
+  { to: "/a-propos", label: "À propos", icon: "✨" },
 ] as const;
 
 function Header() {

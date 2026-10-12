@@ -37,6 +37,7 @@ const navItems = [
   { to: "/etudiant/messages", label: "Messages", exact: false, icon: MessageSquare },
   { to: "/etudiant/notifications", label: "Notifications", exact: false, icon: Bell },
   { to: "/etudiant/historique", label: "Historique", exact: false, icon: History },
+  { to: "/a-propos", label: "À propos de M'ANDAL", exact: false, icon: Sparkles },
 ] satisfies { to: string; label: string; icon: LucideIcon; exact: boolean }[];
 
 const orientationChildren = [
