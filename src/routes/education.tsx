@@ -54,15 +54,7 @@ export const Route = createFileRoute("/education")({
   component: EducationPage,
 });
 
-type OptionId =
-  | "bepc"
-  | "probatoire"
-  | "bac"
-  | "alevel"
-  | "enst"
-  | "universite"
-  | "enspd"
-  | "iut";
+type OptionId = "bepc" | "probatoire" | "bac" | "alevel" | "enst" | "universite" | "enspd" | "iut";
 
 interface SubjectItem {
   matiere: string;
@@ -105,7 +97,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 06 : Statistiques, effectifs cumulés et diagrammes circulaires",
           "Chapitre 07 : Géométrie dans l'espace : cônes, pyramides, cylindres et sphères",
         ],
-        description: "Fondamentaux d'arithmétique, géométrie plane, calcul algébrique et entraînement intensif aux annales du BEPC.",
+        description:
+          "Fondamentaux d'arithmétique, géométrie plane, calcul algébrique et entraînement intensif aux annales du BEPC.",
       },
       {
         matiere: "Sciences Physiques & Chimie — 3ème",
@@ -117,7 +110,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 04 : Combustion des métaux et des hydrocarbures (alcanes)",
           "Chapitre 05 : Optique : lentilles minces convergentes et formation des images",
         ],
-        description: "Expériences guidées, circuits électriques, réactions chimiques fondamentales et corrigés types BEPC.",
+        description:
+          "Expériences guidées, circuits électriques, réactions chimiques fondamentales et corrigés types BEPC.",
       },
       {
         matiere: "Français & Expression — 3ème",
@@ -128,7 +122,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 03 : Expression écrite, argumentation et rédaction de récits",
           "Chapitre 04 : Vocabulaire, figures de style et orthographe lexicale",
         ],
-        description: "Maîtrise de la langue française, analyse de texte littéraire et rédaction d'examen officiel.",
+        description:
+          "Maîtrise de la langue française, analyse de texte littéraire et rédaction d'examen officiel.",
       },
       {
         matiere: "Sciences de la Vie et de la Terre (SVT) — 3ème",
@@ -139,14 +134,16 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 03 : Micro-organismes et système immunitaire de l'organisme",
           "Chapitre 04 : Préservation de l'environnement et gestion des écosystèmes",
         ],
-        description: "Fonctionnement du corps humain, hygiène de vie, défenses immunitaires et écologie.",
+        description:
+          "Fonctionnement du corps humain, hygiène de vie, défenses immunitaires et écologie.",
       },
     ],
   },
   {
     id: "probatoire",
     name: "Probatoire (Séries A · C · D · TI)",
-    subtitle: "Enseignement secondaire 2nd cycle — Classes de Première (1ère D, 1ère C, 1ère A, 1ère TI)",
+    subtitle:
+      "Enseignement secondaire 2nd cycle — Classes de Première (1ère D, 1ère C, 1ère A, 1ère TI)",
     badge: "Examen Probatoire National",
     type: "scolaire",
     color: "emerald",
@@ -172,7 +169,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 14 : Transformations du plan (Homothéties, translations et rotations)",
           "Chapitre 15 : Statistiques à une et deux variables et ajustement linéaire",
         ],
-        description: "Programme complet officiel du Probatoire Cameroun avec fiches de synthèse, exercices types et démonstrations pas à pas.",
+        description:
+          "Programme complet officiel du Probatoire Cameroun avec fiches de synthèse, exercices types et démonstrations pas à pas.",
       },
       {
         matiere: "Physique-Chimie — 1ère C & D",
@@ -187,7 +185,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 07 : Optique géométrique : lentilles minces, miroirs et instruments d'optique",
           "Chapitre 08 : Chimie organique : hydrocarbures, alcanes, alcools et composés carbonylés",
         ],
-        description: "Cours approfondis, modélisations graphiques, expériences de laboratoire et annales officielles du Probatoire.",
+        description:
+          "Cours approfondis, modélisations graphiques, expériences de laboratoire et annales officielles du Probatoire.",
       },
       {
         matiere: "Sciences de la Vie et de la Terre (SVT) — 1ère D",
@@ -200,7 +199,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 05 : Reproduction humaine et régulation hormonale",
           "Chapitre 06 : Écologie, flux d'énergie et conservation de la biodiversité",
         ],
-        description: "Génétique, immunologie, géologie et physiologie humaine selon le programme officiel.",
+        description:
+          "Génétique, immunologie, géologie et physiologie humaine selon le programme officiel.",
       },
       {
         matiere: "Français & Littérature — Première",
@@ -222,7 +222,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 03 : Réseaux informatiques, adressage IP et protocoles Internet",
           "Chapitre 04 : Sécurité numérique et traitement automatisé des données",
         ],
-        description: "Notions d'algorithmique, logique de programmation et technologies de l'information.",
+        description:
+          "Notions d'algorithmique, logique de programmation et technologies de l'information.",
       },
     ],
   },
@@ -252,7 +253,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 11 : Coniques : ellipses, hyperboles et paraboles (Série C)",
           "Chapitre 12 : Statistiques à deux variables et droites de régression linéaire",
         ],
-        description: "Préparation d'excellence au Baccalauréat avec théorèmes fondamentaux, démonstrations et annales corrigées pas à pas.",
+        description:
+          "Préparation d'excellence au Baccalauréat avec théorèmes fondamentaux, démonstrations et annales corrigées pas à pas.",
       },
       {
         matiere: "Physique-Chimie — Terminale C & D",
@@ -269,7 +271,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 09 : Spectrophotométrie et suivi cinétique de réactions",
           "Chapitre 10 : Effet photoélectrique et dualité onde-corpuscule de la lumière",
         ],
-        description: "Programme complet de physique et chimie de Terminale avec modélisations numériques et protocoles expérimentaux.",
+        description:
+          "Programme complet de physique et chimie de Terminale avec modélisations numériques et protocoles expérimentaux.",
       },
       {
         matiere: "Sciences de la Vie et de la Terre (SVT) — Terminale D",
@@ -284,7 +287,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 07 : Géodynamique interne et formation des chaînes de montagnes",
           "Chapitre 08 : Gestion des ressources énergétiques et géologiques",
         ],
-        description: "Programme officiel de SVT Terminale D : génétique approfondie, neurosciences et géodynamique.",
+        description:
+          "Programme officiel de SVT Terminale D : génétique approfondie, neurosciences et géodynamique.",
       },
       {
         matiere: "Philosophie — Terminale",
@@ -295,7 +299,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 03 : L'État, la justice, le droit et la liberté politique",
           "Chapitre 04 : Philosophie africaine contemporaine, traditions et modernité",
         ],
-        description: "Notions philosophiques majeures, méthodologie de la dissertation philosophique et étude de textes d'auteurs.",
+        description:
+          "Notions philosophiques majeures, méthodologie de la dissertation philosophique et étude de textes d'auteurs.",
       },
       {
         matiere: "Informatique — Terminale TI",
@@ -306,7 +311,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Chapitre 03 : Développement web fullstack (HTML5, CSS3, JavaScript)",
           "Chapitre 04 : Cybersécurité, cryptographie et administration réseau",
         ],
-        description: "Bases de données relationnelles, développement web et sécurité des réseaux informatiques.",
+        description:
+          "Bases de données relationnelles, développement web et sécurité des réseaux informatiques.",
       },
     ],
   },
@@ -332,7 +338,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Unit 07 : Sequences, Series, Maclaurin & Taylor Expansions",
           "Unit 08 : Probability Distributions (Binomial, Normal & Poisson)",
         ],
-        description: "Full GCE A-Level syllabus covering Pure Mathematics, Statistics, and Further Mechanics.",
+        description:
+          "Full GCE A-Level syllabus covering Pure Mathematics, Statistics, and Further Mechanics.",
       },
       {
         matiere: "Physics & Chemistry (GCE A-Level)",
@@ -347,7 +354,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Unit 07 : Inorganic Chemistry: Periodicity & Transition Elements",
           "Unit 08 : Organic Chemistry: Reaction Mechanisms & Spectroscopy (NMR, IR)",
         ],
-        description: "Theoretical mastery and practical laboratory question-solving for top grades in GCE A-Level.",
+        description:
+          "Theoretical mastery and practical laboratory question-solving for top grades in GCE A-Level.",
       },
       {
         matiere: "English Literature & General Paper",
@@ -358,7 +366,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Unit 03 : Poetry Analysis : Metre, Rhyme & Thematic Exploration",
           "Unit 04 : Contemporary Global Issues, Ethics & African Renaissance",
         ],
-        description: "Comprehensive preparation for GCE Literature in English and General Paper papers.",
+        description:
+          "Comprehensive preparation for GCE Literature in English and General Paper papers.",
       },
     ],
   },
@@ -382,7 +391,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Module 05 : Thermodynamique appliquée et machines thermiques",
           "Module 06 : Électronique de puissance et traitement du signal",
         ],
-        description: "Modules avancés en génie mécanique, génie électrique et sciences industrielles pour formateurs d'élite.",
+        description:
+          "Modules avancés en génie mécanique, génie électrique et sciences industrielles pour formateurs d'élite.",
       },
       {
         matiere: "Pédagogie Appliquée & Didactique Technique",
@@ -393,14 +403,16 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Module 03 : Évaluation des compétences et barèmes normatifs",
           "Module 04 : Intégration des TICE dans l'enseignement technique",
         ],
-        description: "Méthodologie d'enseignement, transmission des savoirs pratiques et gestion de classe technique.",
+        description:
+          "Méthodologie d'enseignement, transmission des savoirs pratiques et gestion de classe technique.",
       },
     ],
   },
   {
     id: "universite",
     name: "Université (Licence · Master · Doctorat)",
-    subtitle: "Enseignement Supérieur Universitaire (Sciences fondamentales, Ingénierie & Humanités)",
+    subtitle:
+      "Enseignement Supérieur Universitaire (Sciences fondamentales, Ingénierie & Humanités)",
     badge: "Cycle LMD Universitaire",
     type: "scolaire",
     color: "emerald",
@@ -417,7 +429,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Module 05 : Géométrie différentielle et calcul tensoriel",
           "Module 06 : Analyse numérique matricielle et optimisation",
         ],
-        description: "Parcours mathématique universitaire rigoureux pour facultés de sciences et écoles d'ingénieurs.",
+        description:
+          "Parcours mathématique universitaire rigoureux pour facultés de sciences et écoles d'ingénieurs.",
       },
       {
         matiere: "Physique Fondamentale & Sciences de la Matière",
@@ -464,7 +477,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Module 05 : Dénombrement accéléré et calcul des probabilités de concours",
           "Module 06 : Annales corrigées pas à pas des 10 dernières sessions ENSPD",
         ],
-        description: "Entraînement de haut niveau axé sur la rapidité, l'exactitude des calculs et les astuces de résolution d'épreuves de polytechnique.",
+        description:
+          "Entraînement de haut niveau axé sur la rapidité, l'exactitude des calculs et les astuces de résolution d'épreuves de polytechnique.",
       },
       {
         matiere: "Prépa Concours ENSPD : Physique & Chimie d'Ingénierie",
@@ -477,7 +491,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Module 05 : Chimie des solutions aqueuses, équilibres chimiques et thermochimie",
           "Module 06 : Annales corrigées de physique-chimie du concours ENSPD",
         ],
-        description: "Méthodologie de résolution rapide des épreuves de sciences physiques avec barèmes officiels.",
+        description:
+          "Méthodologie de résolution rapide des épreuves de sciences physiques avec barèmes officiels.",
       },
       {
         matiere: "Prépa Concours ENSPD : Épreuves Blanches & QCM Éliminatoires",
@@ -487,7 +502,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Module 02 : Épreuve blanche n°2 avec correction vidéo détaillée",
           "Module 03 : Techniques de gestion du stress, du temps et élimination des pièges classiques",
         ],
-        description: "Simulations réelles dans les conditions exactes d'examen pour maximiser vos chances de réussite.",
+        description:
+          "Simulations réelles dans les conditions exactes d'examen pour maximiser vos chances de réussite.",
       },
     ],
   },
@@ -509,7 +525,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Module 03 : Mesures physiques, métrologie et capteurs industriels",
           "Module 04 : Corrigés types des épreuves antérieures du concours IUT",
         ],
-        description: "Préparation ciblée pour réussir l'entrée en filières technologiques et génie appliqué.",
+        description:
+          "Préparation ciblée pour réussir l'entrée en filières technologiques et génie appliqué.",
       },
       {
         matiere: "Prépa Concours IUT : Mathématiques Pratiques & Logique",
@@ -520,7 +537,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Module 03 : Statistiques appliquées, probabilités et raisonnement logique",
           "Module 04 : Épreuves types et annales corrigées du concours IUT",
         ],
-        description: "Renforcement méthodique axé sur la logique, la rapidité d'exécution et les calculs sans calculatrice.",
+        description:
+          "Renforcement méthodique axé sur la logique, la rapidité d'exécution et les calculs sans calculatrice.",
       },
       {
         matiere: "Prépa Concours IUT : Sciences Appliquées & Dessin Technique",
@@ -530,7 +548,8 @@ const LEVEL_OPTIONS: LevelOption[] = [
           "Module 02 : Électronique fondamentale : diodes, transistors et portes logiques",
           "Module 03 : Matériaux industriels et procédés de fabrication",
         ],
-        description: "Culture technique et industrielle pour faire la différence lors des épreuves de sélection.",
+        description:
+          "Culture technique et industrielle pour faire la différence lors des épreuves de sélection.",
       },
     ],
   },
@@ -623,22 +642,37 @@ export function EducationPage() {
             <MandalLogo />
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
-            <Link to="/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-emerald-400 transition-colors">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-emerald-400 transition-colors"
+            >
               <span>🏠</span> Accueil
             </Link>
-            <Link to="/education" className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-400">
+            <Link
+              to="/education"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-400"
+            >
               <span>📚</span> Éducation
             </Link>
-            <Link to="/citoyennete" className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-blue-400 transition-colors">
+            <Link
+              to="/citoyennete"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-blue-400 transition-colors"
+            >
               <span>⚖️</span> Citoyenneté
             </Link>
-            <Link to="/culture" className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-amber-400 transition-colors">
+            <Link
+              to="/culture"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-amber-400 transition-colors"
+            >
               <span>🌍</span> Culture
             </Link>
           </nav>
           <div className="flex items-center gap-3">
             {userSession ? (
-              <Button asChild className="rounded-full bg-emerald-600 font-semibold text-white hover:bg-emerald-500 shadow-lg shadow-emerald-950">
+              <Button
+                asChild
+                className="rounded-full bg-emerald-600 font-semibold text-white hover:bg-emerald-500 shadow-lg shadow-emerald-950"
+              >
                 <Link to="/etudiant">Mon Tableau de bord</Link>
               </Button>
             ) : (
@@ -646,7 +680,10 @@ export function EducationPage() {
                 <Button asChild variant="ghost" className="text-slate-200 hover:bg-slate-800">
                   <Link to="/auth">Connexion</Link>
                 </Button>
-                <Button asChild className="rounded-full bg-emerald-600 font-semibold text-white hover:bg-emerald-500 shadow-lg shadow-emerald-950">
+                <Button
+                  asChild
+                  className="rounded-full bg-emerald-600 font-semibold text-white hover:bg-emerald-500 shadow-lg shadow-emerald-950"
+                >
                   <Link to="/inscription">Inscription</Link>
                 </Button>
               </>
@@ -674,29 +711,39 @@ export function EducationPage() {
                 </button>
 
                 <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
-                  <Link to="/" className="hover:text-white">Accueil</Link>
+                  <Link to="/" className="hover:text-white">
+                    Accueil
+                  </Link>
                   <span>/</span>
-                  <Link to="/education" search={{ niveau: undefined }} className="hover:text-white">Éducation</Link>
+                  <Link to="/education" search={{ niveau: undefined }} className="hover:text-white">
+                    Éducation
+                  </Link>
                   <span>/</span>
                   <span className="font-bold text-emerald-400">{activeLevel.name}</span>
                 </div>
               </div>
 
               {/* Bannière Header du Niveau Dédié */}
-              <div className={cn(
-                "relative overflow-hidden rounded-3xl border p-8 sm:p-12 shadow-2xl",
-                activeLevel.type === "concours"
-                  ? "border-amber-500/30 bg-gradient-to-br from-amber-950/60 via-slate-900 to-slate-950 shadow-amber-950/40"
-                  : "border-emerald-500/30 bg-gradient-to-br from-emerald-950/70 via-slate-900 to-slate-950 shadow-emerald-950/40"
-              )}>
+              <div
+                className={cn(
+                  "relative overflow-hidden rounded-3xl border p-8 sm:p-12 shadow-2xl",
+                  activeLevel.type === "concours"
+                    ? "border-amber-500/30 bg-gradient-to-br from-amber-950/60 via-slate-900 to-slate-950 shadow-amber-950/40"
+                    : "border-emerald-500/30 bg-gradient-to-br from-emerald-950/70 via-slate-900 to-slate-950 shadow-emerald-950/40",
+                )}
+              >
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <span className={cn(
-                    "rounded-full px-3.5 py-1 text-xs font-black uppercase tracking-wider",
-                    activeLevel.type === "concours"
-                      ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-                      : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                  )}>
-                    {activeLevel.type === "concours" ? "🏆 Concours d'Entrée" : "🎓 Niveau Scolaire"}
+                  <span
+                    className={cn(
+                      "rounded-full px-3.5 py-1 text-xs font-black uppercase tracking-wider",
+                      activeLevel.type === "concours"
+                        ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
+                        : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40",
+                    )}
+                  >
+                    {activeLevel.type === "concours"
+                      ? "🏆 Concours d'Entrée"
+                      : "🎓 Niveau Scolaire"}
                   </span>
                   {activeLevel.badge && (
                     <span className="rounded-full bg-slate-800 border border-slate-700 px-3 py-1 text-xs font-medium text-slate-300">
@@ -712,22 +759,29 @@ export function EducationPage() {
                   {activeLevel.subtitle}
                 </p>
                 <p className="mt-3 max-w-3xl text-sm text-slate-300 leading-relaxed">
-                  Accédez à tous les programmes officiels, chapitres pas à pas, fiches mémo de formules, quiz d'auto-évaluation et exercices corrigés enregistrés pour ce niveau.
+                  Accédez à tous les programmes officiels, chapitres pas à pas, fiches mémo de
+                  formules, quiz d'auto-évaluation et exercices corrigés enregistrés pour ce niveau.
                 </p>
 
                 {/* Statistiques Rapides */}
                 <div className="mt-8 flex flex-wrap items-center gap-4 sm:gap-6 border-t border-slate-800/80 pt-6">
                   <div className="flex items-center gap-2 rounded-xl bg-slate-900/80 px-4 py-2 border border-slate-800">
                     <BookOpen className="size-4 text-emerald-400" />
-                    <span className="text-xs font-bold text-white">{activeLevel.defaultSubjects.length} Matières complètes</span>
+                    <span className="text-xs font-bold text-white">
+                      {activeLevel.defaultSubjects.length} Matières complètes
+                    </span>
                   </div>
                   <div className="flex items-center gap-2 rounded-xl bg-slate-900/80 px-4 py-2 border border-slate-800">
                     <CheckCircle2 className="size-4 text-blue-400" />
-                    <span className="text-xs font-bold text-white">{totalChapters} Chapitres détaillés</span>
+                    <span className="text-xs font-bold text-white">
+                      {totalChapters} Chapitres détaillés
+                    </span>
                   </div>
                   <div className="flex items-center gap-2 rounded-xl bg-slate-900/80 px-4 py-2 border border-slate-800">
                     <Sparkles className="size-4 text-amber-400" />
-                    <span className="text-xs font-bold text-white">Quiz &amp; Simulations GeoGebra</span>
+                    <span className="text-xs font-bold text-white">
+                      Quiz &amp; Simulations GeoGebra
+                    </span>
                   </div>
                 </div>
               </div>
@@ -743,7 +797,8 @@ export function EducationPage() {
                       Inscription obligatoire pour débloquer l'intégralité des cours
                     </h3>
                     <p className="text-xs text-slate-300 mt-0.5">
-                      Consultez la liste des matières et chapitres ci-dessous. Pour ouvrir une leçon, lancer un quiz ou télécharger les fiches, créez votre compte gratuit.
+                      Consultez la liste des matières et chapitres ci-dessous. Pour ouvrir une
+                      leçon, lancer un quiz ou télécharger les fiches, créez votre compte gratuit.
                     </p>
                   </div>
                 </div>
@@ -820,7 +875,9 @@ export function EducationPage() {
                       <div className="mt-6 space-y-2">
                         <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
                           <span>Programme détaillé par chapitre :</span>
-                          <span className="text-emerald-400 font-semibold">Cliquer pour ouvrir</span>
+                          <span className="text-emerald-400 font-semibold">
+                            Cliquer pour ouvrir
+                          </span>
                         </div>
 
                         <div className="space-y-1.5 max-h-[360px] overflow-y-auto pr-1">
@@ -828,7 +885,9 @@ export function EducationPage() {
                             <button
                               key={cIdx}
                               type="button"
-                              onClick={() => handleOpenCourse(`${sub.matiere} — ${chap}`, activeLevel.id)}
+                              onClick={() =>
+                                handleOpenCourse(`${sub.matiere} — ${chap}`, activeLevel.id)
+                              }
                               className="w-full flex items-center justify-between gap-2.5 rounded-xl border border-slate-800/80 bg-slate-950/70 px-3.5 py-2.5 text-left text-xs text-slate-300 transition hover:border-emerald-500/50 hover:bg-slate-950 hover:text-white cursor-pointer group"
                             >
                               <div className="flex items-center gap-2.5 min-w-0">
@@ -853,7 +912,9 @@ export function EducationPage() {
                         <span>Fiches mémo · Quiz chronométrés</span>
                       </div>
                       <Button
-                        onClick={() => handleOpenCourse(`Programme complet ${sub.matiere}`, activeLevel.id)}
+                        onClick={() =>
+                          handleOpenCourse(`Programme complet ${sub.matiere}`, activeLevel.id)
+                        }
                         className="bg-emerald-600 font-bold text-white hover:bg-emerald-500 shadow-md cursor-pointer"
                         size="sm"
                       >
@@ -876,39 +937,69 @@ export function EducationPage() {
 
                 <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   <div
-                    onClick={() => handleOpenCourse(`Fiches de synthèse Maths & Physique (${activeLevel.name})`, activeLevel.id)}
+                    onClick={() =>
+                      handleOpenCourse(
+                        `Fiches de synthèse Maths & Physique (${activeLevel.name})`,
+                        activeLevel.id,
+                      )
+                    }
                     className="p-5 rounded-2xl border border-slate-800 bg-slate-950 hover:border-emerald-500/50 cursor-pointer transition"
                   >
                     <BookOpen className="size-6 text-emerald-400" />
                     <h4 className="mt-3 font-bold text-sm text-white">Fiches de Synthèse</h4>
-                    <p className="mt-1 text-xs text-slate-400">Résumés de cours et formulaires téléchargeables.</p>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Résumés de cours et formulaires téléchargeables.
+                    </p>
                   </div>
 
                   <div
-                    onClick={() => handleOpenCourse(`Quiz & Épreuves interactives (${activeLevel.name})`, activeLevel.id)}
+                    onClick={() =>
+                      handleOpenCourse(
+                        `Quiz & Épreuves interactives (${activeLevel.name})`,
+                        activeLevel.id,
+                      )
+                    }
                     className="p-5 rounded-2xl border border-slate-800 bg-slate-950 hover:border-blue-500/50 cursor-pointer transition"
                   >
                     <Sparkles className="size-6 text-blue-400" />
-                    <h4 className="mt-3 font-bold text-sm text-white">Quiz &amp; Auto-évaluation</h4>
-                    <p className="mt-1 text-xs text-slate-400">Tests interactifs corrigés avec scores.</p>
+                    <h4 className="mt-3 font-bold text-sm text-white">
+                      Quiz &amp; Auto-évaluation
+                    </h4>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Tests interactifs corrigés avec scores.
+                    </p>
                   </div>
 
                   <div
-                    onClick={() => handleOpenCourse(`Annales et Corrigés officiels (${activeLevel.name})`, activeLevel.id)}
+                    onClick={() =>
+                      handleOpenCourse(
+                        `Annales et Corrigés officiels (${activeLevel.name})`,
+                        activeLevel.id,
+                      )
+                    }
                     className="p-5 rounded-2xl border border-slate-800 bg-slate-950 hover:border-amber-500/50 cursor-pointer transition"
                   >
                     <Award className="size-6 text-amber-400" />
                     <h4 className="mt-3 font-bold text-sm text-white">Annales Corrigées</h4>
-                    <p className="mt-1 text-xs text-slate-400">Épreuves des sessions antérieures décortiquées.</p>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Épreuves des sessions antérieures décortiquées.
+                    </p>
                   </div>
 
                   <div
-                    onClick={() => handleOpenCourse(`Laboratoire GeoGebra & Simulations (${activeLevel.name})`, activeLevel.id)}
+                    onClick={() =>
+                      handleOpenCourse(
+                        `Laboratoire GeoGebra & Simulations (${activeLevel.name})`,
+                        activeLevel.id,
+                      )
+                    }
                     className="p-5 rounded-2xl border border-slate-800 bg-slate-950 hover:border-teal-500/50 cursor-pointer transition"
                   >
                     <Cpu className="size-6 text-teal-400" />
                     <h4 className="mt-3 font-bold text-sm text-white">Simulations Virtuelles</h4>
-                    <p className="mt-1 text-xs text-slate-400">GeoGebra et manipulations 2D/3D en ligne.</p>
+                    <p className="mt-1 text-xs text-slate-400">
+                      GeoGebra et manipulations 2D/3D en ligne.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -919,7 +1010,8 @@ export function EducationPage() {
                   Prêt à commencer vos cours de {activeLevel.name} ?
                 </h3>
                 <p className="mt-2 max-w-2xl mx-auto text-sm text-slate-300">
-                  Rejoignez la communauté M'ANDAL gratuitement et accédez à tous vos cours, exercices et simulations dès aujourd'hui.
+                  Rejoignez la communauté M'ANDAL gratuitement et accédez à tous vos cours,
+                  exercices et simulations dès aujourd'hui.
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center items-center gap-3">
                   <Button
@@ -966,7 +1058,8 @@ export function EducationPage() {
                   Le parcours de l'élève, du BEPC aux grands concours d'entrée
                 </p>
                 <p className="mt-4 max-w-3xl text-sm text-slate-300 sm:text-base leading-relaxed">
-                  Maîtrise des fondamentaux académiques (Maths, Physique, SVT, etc.) et préparation méthodique aux grands examens et concours nationaux.
+                  Maîtrise des fondamentaux académiques (Maths, Physique, SVT, etc.) et préparation
+                  méthodique aux grands examens et concours nationaux.
                 </p>
               </div>
 
@@ -982,7 +1075,8 @@ export function EducationPage() {
                     </h2>
                   </div>
                   <span className="text-xs font-medium text-slate-400">
-                    Connecté à la base de données <span className="font-bold text-emerald-400">Supabase M'Andal</span>
+                    Connecté à la base de données{" "}
+                    <span className="font-bold text-emerald-400">Supabase M'Andal</span>
                   </span>
                 </div>
 
@@ -991,7 +1085,10 @@ export function EducationPage() {
                   {LEVEL_OPTIONS.map((opt) => {
                     const isConcours = opt.type === "concours";
                     const count = opt.defaultSubjects.length;
-                    const chapCount = opt.defaultSubjects.reduce((a, b) => a + b.chapitres.length, 0);
+                    const chapCount = opt.defaultSubjects.reduce(
+                      (a, b) => a + b.chapitres.length,
+                      0,
+                    );
 
                     return (
                       <div
@@ -1001,17 +1098,19 @@ export function EducationPage() {
                           "group relative flex flex-col justify-between rounded-3xl border p-6 text-left transition-all duration-300 cursor-pointer hover:-translate-y-1 shadow-lg",
                           isConcours
                             ? "border-amber-500/30 bg-gradient-to-b from-slate-900 to-amber-950/20 hover:border-amber-400 hover:shadow-amber-950/40"
-                            : "border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 hover:border-emerald-400 hover:shadow-emerald-950/40"
+                            : "border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 hover:border-emerald-400 hover:shadow-emerald-950/40",
                         )}
                       >
                         <div>
                           <div className="flex items-center justify-between">
-                            <span className={cn(
-                              "text-xs font-bold uppercase px-2.5 py-0.5 rounded-full",
-                              isConcours
-                                ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-                                : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                            )}>
+                            <span
+                              className={cn(
+                                "text-xs font-bold uppercase px-2.5 py-0.5 rounded-full",
+                                isConcours
+                                  ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
+                                  : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40",
+                              )}
+                            >
                               {isConcours ? "🏆 Concours" : "🎓 Scolaire"}
                             </span>
                             <span className="text-xs text-slate-400 font-semibold">
@@ -1049,7 +1148,8 @@ export function EducationPage() {
                     Outils pédagogiques &amp; Contenus de cours (Maths &amp; Physique)
                   </h2>
                   <p className="mt-2 text-sm text-slate-300">
-                    Un environnement complet conçu pour rendre l'apprentissage clair, rigoureux et stimulant.
+                    Un environnement complet conçu pour rendre l'apprentissage clair, rigoureux et
+                    stimulant.
                   </p>
                 </div>
 
@@ -1065,7 +1165,8 @@ export function EducationPage() {
                       Cours de Mathématiques &amp; Physique
                     </h3>
                     <p className="mt-2 text-xs leading-relaxed text-slate-300">
-                      Syllabus complet, fiches de synthèse, formules clés et démonstrations pas à pas.
+                      Syllabus complet, fiches de synthèse, formules clés et démonstrations pas à
+                      pas.
                     </p>
                     <span className="mt-4 inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400">
                       Consulter les fiches <ArrowRight className="size-3" />
@@ -1083,7 +1184,8 @@ export function EducationPage() {
                       Épreuves &amp; Quiz interactifs
                     </h3>
                     <p className="mt-2 text-xs leading-relaxed text-slate-300">
-                      Entraînements chronométrés et tests d'auto-évaluation par chapitre avec barème officiel.
+                      Entraînements chronométrés et tests d'auto-évaluation par chapitre avec barème
+                      officiel.
                     </p>
                     <span className="mt-4 inline-flex items-center gap-1 text-[11px] font-semibold text-blue-400">
                       Lancer un entraînement <ArrowRight className="size-3" />
@@ -1101,7 +1203,8 @@ export function EducationPage() {
                       Correction d'épreuves pas à pas
                     </h3>
                     <p className="mt-2 text-xs leading-relaxed text-slate-300">
-                      Corrigés détaillés, pièges fréquents et barèmes officiels des sessions antérieures.
+                      Corrigés détaillés, pièges fréquents et barèmes officiels des sessions
+                      antérieures.
                     </p>
                     <span className="mt-4 inline-flex items-center gap-1 text-[11px] font-semibold text-teal-400">
                       Voir les annales corrigées <ArrowRight className="size-3" />
@@ -1119,7 +1222,8 @@ export function EducationPage() {
                       Épreuves de bourse d'excellence
                     </h3>
                     <p className="mt-2 text-xs leading-relaxed text-slate-300">
-                      Sujets de sélection pour les programmes de financement, parrainage et bourses d'études.
+                      Sujets de sélection pour les programmes de financement, parrainage et bourses
+                      d'études.
                     </p>
                     <span className="mt-4 inline-flex items-center gap-1 text-[11px] font-semibold text-amber-400">
                       Accéder aux sujets de bourse <ArrowRight className="size-3" />
@@ -1137,7 +1241,8 @@ export function EducationPage() {
                       Simulation virtuelle &amp; GeoGebra
                     </h3>
                     <p className="mt-2 text-xs leading-relaxed text-slate-300">
-                      Visualisations graphiques interactives de fonctions mathématiques, simulations d'expériences de physique et manipulation directe de figures en 2D/3D.
+                      Visualisations graphiques interactives de fonctions mathématiques, simulations
+                      d'expériences de physique et manipulation directe de figures en 2D/3D.
                     </p>
                     <span className="mt-4 inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400">
                       Ouvrir le laboratoire virtuel <ArrowRight className="size-3" />
@@ -1173,19 +1278,28 @@ export function EducationPage() {
                       <ul className="mt-6 space-y-3.5 text-sm text-slate-300">
                         <li className="flex items-start gap-3">
                           <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                          <span><strong>Présentation de l'école</strong> &amp; débouchés d'ingénierie</span>
+                          <span>
+                            <strong>Présentation de l'école</strong> &amp; débouchés d'ingénierie
+                          </span>
                         </li>
                         <li className="flex items-start gap-3">
                           <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                          <span><strong>Concours d'entrée</strong> (après Bac, Probatoire, BEPC/CAP, autre)</span>
+                          <span>
+                            <strong>Concours d'entrée</strong> (après Bac, Probatoire, BEPC/CAP,
+                            autre)
+                          </span>
                         </li>
                         <li className="flex items-start gap-3">
                           <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                          <span><strong>Cours de renforcement</strong> (Maths, Physique-Chimie)</span>
+                          <span>
+                            <strong>Cours de renforcement</strong> (Maths, Physique-Chimie)
+                          </span>
                         </li>
                         <li className="flex items-start gap-3">
                           <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                          <span><strong>Correction d'épreuves</strong> et annales corrigées</span>
+                          <span>
+                            <strong>Correction d'épreuves</strong> et annales corrigées
+                          </span>
                         </li>
                       </ul>
                     </div>
@@ -1213,19 +1327,27 @@ export function EducationPage() {
                       <ul className="mt-6 space-y-3.5 text-sm text-slate-300">
                         <li className="flex items-start gap-3">
                           <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                          <span><strong>Présentation de l'IUT</strong> et des filières d'avenir</span>
+                          <span>
+                            <strong>Présentation de l'IUT</strong> et des filières d'avenir
+                          </span>
                         </li>
                         <li className="flex items-start gap-3">
                           <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                          <span><strong>Filière technologique</strong> &amp; industrielle</span>
+                          <span>
+                            <strong>Filière technologique</strong> &amp; industrielle
+                          </span>
                         </li>
                         <li className="flex items-start gap-3">
                           <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                          <span><strong>Physique appliquée</strong> &amp; sciences de l'ingénieur</span>
+                          <span>
+                            <strong>Physique appliquée</strong> &amp; sciences de l'ingénieur
+                          </span>
                         </li>
                         <li className="flex items-start gap-3">
                           <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                          <span><strong>Spécialités</strong>, métiers et passerelles</span>
+                          <span>
+                            <strong>Spécialités</strong>, métiers et passerelles
+                          </span>
                         </li>
                       </ul>
                     </div>

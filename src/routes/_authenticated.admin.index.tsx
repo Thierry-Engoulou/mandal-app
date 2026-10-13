@@ -36,7 +36,10 @@ export const Route = createFileRoute("/_authenticated/admin/")({
   head: () => ({
     meta: [
       { title: "Tableau de Bord Administrateur — MANDAL" },
-      { name: "description", content: "Statistiques complètes et pilotage sécurisé de la plateforme M'ANDAL." },
+      {
+        name: "description",
+        content: "Statistiques complètes et pilotage sécurisé de la plateforme M'ANDAL.",
+      },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
@@ -44,16 +47,76 @@ export const Route = createFileRoute("/_authenticated/admin/")({
 
 // Liste officielle des niveaux et classes suivies
 const CURRICULUM_CLASSES = [
-  { id: "tle_c", label: "Terminale C", sub: "Mathématiques & Sciences Physiques", category: "Baccalauréat", color: "bg-emerald-500" },
-  { id: "tle_d", label: "Terminale D", sub: "Sciences de la Vie et de la Terre", category: "Baccalauréat", color: "bg-emerald-600" },
-  { id: "tle_a_ti", label: "Terminale A & TI", sub: "Littéraire, Arts & Informatique", category: "Baccalauréat", color: "bg-teal-500" },
-  { id: "1ere_d", label: "Première D", sub: "Probatoire Scientifique (15 chapitres Maths)", category: "Probatoire", color: "bg-blue-500" },
-  { id: "1ere_c", label: "Première C", sub: "Probatoire Mathématiques & Physiques", category: "Probatoire", color: "bg-blue-600" },
-  { id: "1ere_a_ti", label: "Première A & TI", sub: "Probatoire Général & Numérique", category: "Probatoire", color: "bg-indigo-500" },
-  { id: "3eme", label: "3ème / BEPC", sub: "Premier Cycle & Brevet d'Études", category: "BEPC", color: "bg-amber-500" },
-  { id: "enspd", label: "Prépa ENSPD", sub: "Polytechnique Douala (Grandes Écoles)", category: "Concours", color: "bg-purple-500" },
-  { id: "iut", label: "Prépa IUT", sub: "Filières Technologiques & Industrielles", category: "Concours", color: "bg-rose-500" },
-  { id: "alevel", label: "Advanced Level", sub: "Cameroon GCE Board (Lower/Upper Sixth)", category: "GCE A-Level", color: "bg-cyan-500" },
+  {
+    id: "tle_c",
+    label: "Terminale C",
+    sub: "Mathématiques & Sciences Physiques",
+    category: "Baccalauréat",
+    color: "bg-emerald-500",
+  },
+  {
+    id: "tle_d",
+    label: "Terminale D",
+    sub: "Sciences de la Vie et de la Terre",
+    category: "Baccalauréat",
+    color: "bg-emerald-600",
+  },
+  {
+    id: "tle_a_ti",
+    label: "Terminale A & TI",
+    sub: "Littéraire, Arts & Informatique",
+    category: "Baccalauréat",
+    color: "bg-teal-500",
+  },
+  {
+    id: "1ere_d",
+    label: "Première D",
+    sub: "Probatoire Scientifique (15 chapitres Maths)",
+    category: "Probatoire",
+    color: "bg-blue-500",
+  },
+  {
+    id: "1ere_c",
+    label: "Première C",
+    sub: "Probatoire Mathématiques & Physiques",
+    category: "Probatoire",
+    color: "bg-blue-600",
+  },
+  {
+    id: "1ere_a_ti",
+    label: "Première A & TI",
+    sub: "Probatoire Général & Numérique",
+    category: "Probatoire",
+    color: "bg-indigo-500",
+  },
+  {
+    id: "3eme",
+    label: "3ème / BEPC",
+    sub: "Premier Cycle & Brevet d'Études",
+    category: "BEPC",
+    color: "bg-amber-500",
+  },
+  {
+    id: "enspd",
+    label: "Prépa ENSPD",
+    sub: "Polytechnique Douala (Grandes Écoles)",
+    category: "Concours",
+    color: "bg-purple-500",
+  },
+  {
+    id: "iut",
+    label: "Prépa IUT",
+    sub: "Filières Technologiques & Industrielles",
+    category: "Concours",
+    color: "bg-rose-500",
+  },
+  {
+    id: "alevel",
+    label: "Advanced Level",
+    sub: "Cameroon GCE Board (Lower/Upper Sixth)",
+    category: "GCE A-Level",
+    color: "bg-cyan-500",
+  },
 ];
 
 function AdminDashboardPage() {
@@ -123,7 +186,8 @@ function AdminDashboardPage() {
           (c.id === "1ere_c" && (niv.includes("1ere c") || niv.includes("premiere c"))) ||
           (c.id === "tle_c" && (niv.includes("tle c") || niv.includes("terminale c"))) ||
           (c.id === "tle_d" && (niv.includes("tle d") || niv.includes("terminale d"))) ||
-          (c.id === "3eme" && (niv.includes("3eme") || niv.includes("troisieme") || niv.includes("bepc"))) ||
+          (c.id === "3eme" &&
+            (niv.includes("3eme") || niv.includes("troisieme") || niv.includes("bepc"))) ||
           (c.id === "enspd" && (niv.includes("enspd") || niv.includes("polytechnique"))) ||
           (c.id === "iut" && niv.includes("iut"))
         ) {
@@ -152,8 +216,14 @@ function AdminDashboardPage() {
     });
   }, [data?.profiles]);
 
-  const totalRegisteredStudents = data?.profiles.filter((p) => p.role === "student").length || data?.users.filter((u) => u.role === "student").length || 0;
-  const totalRegisteredTeachers = data?.profiles.filter((p) => p.role === "teacher").length || data?.users.filter((u) => u.role === "teacher").length || 0;
+  const totalRegisteredStudents =
+    data?.profiles.filter((p) => p.role === "student").length ||
+    data?.users.filter((u) => u.role === "student").length ||
+    0;
+  const totalRegisteredTeachers =
+    data?.profiles.filter((p) => p.role === "teacher").length ||
+    data?.users.filter((u) => u.role === "teacher").length ||
+    0;
 
   // Export des statistiques en fichier CSV
   const handleExportStats = () => {
@@ -178,7 +248,10 @@ function AdminDashboardPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", `mandal_statistiques_${new Date().toISOString().split("T")[0]}.csv`);
+    link.setAttribute(
+      "download",
+      `mandal_statistiques_${new Date().toISOString().split("T")[0]}.csv`,
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -206,7 +279,8 @@ function AdminDashboardPage() {
               Tableau de Bord &amp; Statistiques M'ANDAL
             </h1>
             <p className="mt-1 text-sm text-slate-300 max-w-2xl">
-              Suivi en temps réel du trafic, des téléchargements d'épreuves, et de la répartition des élèves par classe.
+              Suivi en temps réel du trafic, des téléchargements d'épreuves, et de la répartition
+              des élèves par classe.
             </p>
           </div>
 
@@ -219,7 +293,9 @@ function AdminDashboardPage() {
               disabled={isFetching}
               className="rounded-xl border-slate-700 bg-slate-900/80 text-xs font-bold text-slate-200 hover:bg-slate-800 cursor-pointer shadow-sm"
             >
-              <RefreshCw className={`mr-2 size-3.5 ${isFetching ? "animate-spin text-emerald-400" : ""}`} />
+              <RefreshCw
+                className={`mr-2 size-3.5 ${isFetching ? "animate-spin text-emerald-400" : ""}`}
+              />
               Actualiser en direct
             </Button>
 
@@ -250,19 +326,29 @@ function AdminDashboardPage() {
         {/* Compteur 1 : Visites du site */}
         <div className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl transition hover:border-emerald-500/50">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Trafic Global</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Trafic Global
+            </span>
             <div className="flex size-10 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-400">
               <Eye className="size-5" />
             </div>
           </div>
           <div className="mt-4">
             <div className="font-display text-3xl sm:text-4xl font-black text-white">
-              {isLoading ? <Skeleton className="h-10 w-24" /> : data?.analytics.totalVisits.toLocaleString()}
+              {isLoading ? (
+                <Skeleton className="h-10 w-24" />
+              ) : (
+                data?.analytics.totalVisits.toLocaleString()
+              )}
             </div>
-            <p className="mt-1 text-xs text-slate-400 font-medium">Visiteurs &amp; Visites uniques</p>
+            <p className="mt-1 text-xs text-slate-400 font-medium">
+              Visiteurs &amp; Visites uniques
+            </p>
           </div>
           <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span className="text-emerald-400 font-bold">+{data?.analytics.visitsToday} aujourd'hui</span>
+            <span className="text-emerald-400 font-bold">
+              +{data?.analytics.visitsToday} aujourd'hui
+            </span>
             <span className="text-slate-400">{data?.analytics.visitsThisWeek} cette semaine</span>
           </div>
         </div>
@@ -270,19 +356,29 @@ function AdminDashboardPage() {
         {/* Compteur 2 : Téléchargements d'Épreuves */}
         <div className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl transition hover:border-blue-500/50">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Téléchargements</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Téléchargements
+            </span>
             <div className="flex size-10 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-400">
               <Download className="size-5" />
             </div>
           </div>
           <div className="mt-4">
             <div className="font-display text-3xl sm:text-4xl font-black text-white">
-              {isLoading ? <Skeleton className="h-10 w-24" /> : data?.analytics.totalDownloads.toLocaleString()}
+              {isLoading ? (
+                <Skeleton className="h-10 w-24" />
+              ) : (
+                data?.analytics.totalDownloads.toLocaleString()
+              )}
             </div>
-            <p className="mt-1 text-xs text-slate-400 font-medium">Épreuves &amp; Corrigés officiels</p>
+            <p className="mt-1 text-xs text-slate-400 font-medium">
+              Épreuves &amp; Corrigés officiels
+            </p>
           </div>
           <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span className="text-blue-400 font-bold">+{data?.analytics.downloadsToday} aujourd'hui</span>
+            <span className="text-blue-400 font-bold">
+              +{data?.analytics.downloadsToday} aujourd'hui
+            </span>
             <span className="text-slate-400">Taux conversion 46%</span>
           </div>
         </div>
@@ -290,7 +386,9 @@ function AdminDashboardPage() {
         {/* Compteur 3 : Élèves Inscrits */}
         <div className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl transition hover:border-amber-500/50">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Élèves Inscrits</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Élèves Inscrits
+            </span>
             <div className="flex size-10 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-400">
               <GraduationCap className="size-5" />
             </div>
@@ -299,7 +397,9 @@ function AdminDashboardPage() {
             <div className="font-display text-3xl sm:text-4xl font-black text-white">
               {isLoading ? <Skeleton className="h-10 w-20" /> : totalRegisteredStudents}
             </div>
-            <p className="mt-1 text-xs text-slate-400 font-medium">Apprenants actifs sur la plateforme</p>
+            <p className="mt-1 text-xs text-slate-400 font-medium">
+              Apprenants actifs sur la plateforme
+            </p>
           </div>
           <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
             <span className="text-amber-400 font-bold">10 Niveaux scolaires</span>
@@ -310,20 +410,31 @@ function AdminDashboardPage() {
         {/* Compteur 4 : Enseignants & Partenaires */}
         <div className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl transition hover:border-purple-500/50">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Réseau Éducatif</span>
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Réseau Éducatif
+            </span>
             <div className="flex size-10 items-center justify-center rounded-2xl bg-purple-500/15 text-purple-400">
               <School className="size-5" />
             </div>
           </div>
           <div className="mt-4">
             <div className="font-display text-3xl sm:text-4xl font-black text-white">
-              {isLoading ? <Skeleton className="h-10 w-20" /> : `${totalRegisteredTeachers} / ${data?.etablissements.length || 0}`}
+              {isLoading ? (
+                <Skeleton className="h-10 w-20" />
+              ) : (
+                `${totalRegisteredTeachers} / ${data?.etablissements.length || 0}`
+              )}
             </div>
             <p className="mt-1 text-xs text-slate-400 font-medium">Enseignants / Établissements</p>
           </div>
           <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span className="text-purple-400 font-bold">{data?.invitations.length || 0} invitations</span>
-            <Link to="/admin/utilisateurs" className="text-slate-300 hover:text-white flex items-center gap-0.5">
+            <span className="text-purple-400 font-bold">
+              {data?.invitations.length || 0} invitations
+            </span>
+            <Link
+              to="/admin/utilisateurs"
+              className="text-slate-300 hover:text-white flex items-center gap-0.5"
+            >
               Gérer <ArrowUpRight className="size-3" />
             </Link>
           </div>
@@ -345,7 +456,8 @@ function AdminDashboardPage() {
               </h2>
             </div>
             <p className="mt-1 text-xs text-slate-400">
-              Répartition des effectifs d'apprenants enregistrés dans la base de données pour chaque promotion.
+              Répartition des effectifs d'apprenants enregistrés dans la base de données pour chaque
+              promotion.
             </p>
           </div>
 
@@ -404,7 +516,14 @@ function AdminDashboardPage() {
                 <span>Programmes associés : 100% complets</span>
                 <Link
                   to="/education"
-                  search={{ niveau: item.id === "1ere_d" || item.id === "1ere_c" ? "probatoire" : item.id === "tle_c" || item.id === "tle_d" ? "bac" : item.id }}
+                  search={{
+                    niveau:
+                      item.id === "1ere_d" || item.id === "1ere_c"
+                        ? "probatoire"
+                        : item.id === "tle_c" || item.id === "tle_d"
+                          ? "bac"
+                          : item.id,
+                  }}
                   className="font-semibold text-emerald-400 hover:underline flex items-center gap-0.5"
                 >
                   Voir cours <ArrowUpRight className="size-3" />
@@ -490,7 +609,9 @@ function AdminDashboardPage() {
             ))}
 
             <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-950/20 p-4 text-xs text-slate-300">
-              <span className="font-bold text-emerald-400">⚡ Synthèse d'audience :</span> Le volet <strong>Éducation</strong> concentre 62% des consultations, suivi par l'accueil et les fiches de citoyenneté.
+              <span className="font-bold text-emerald-400">⚡ Synthèse d'audience :</span> Le volet{" "}
+              <strong>Éducation</strong> concentre 62% des consultations, suivi par l'accueil et les
+              fiches de citoyenneté.
             </div>
           </div>
         </div>
@@ -508,7 +629,8 @@ function AdminDashboardPage() {
                 Journal d'Audit de Sécurité &amp; Contrôle d'Accès
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
-                Historique inviolable des connexions administratives et des événements de protection RLS.
+                Historique inviolable des connexions administratives et des événements de protection
+                RLS.
               </p>
             </div>
           </div>
@@ -571,7 +693,8 @@ function AdminDashboardPage() {
             Gestion des Utilisateurs &amp; Rôles
           </h3>
           <p className="mt-2 text-xs leading-relaxed text-slate-300">
-            Valider les enseignants, modifier les droits d'accès, rattacher des comptes aux établissements scolaires.
+            Valider les enseignants, modifier les droits d'accès, rattacher des comptes aux
+            établissements scolaires.
           </p>
         </Link>
 
@@ -589,7 +712,8 @@ function AdminDashboardPage() {
             Demandes d'Inscription &amp; Parrainage
           </h3>
           <p className="mt-2 text-xs leading-relaxed text-slate-300">
-            Consulter les candidatures d'élèves recommandés, valider les dossiers d'excellence et affecter les parrains.
+            Consulter les candidatures d'élèves recommandés, valider les dossiers d'excellence et
+            affecter les parrains.
           </p>
         </Link>
       </div>

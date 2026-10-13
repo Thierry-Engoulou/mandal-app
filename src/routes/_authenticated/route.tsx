@@ -77,4 +77,3 @@ function AuthenticatedLayout() {
 
   return <Outlet />;
 }
-

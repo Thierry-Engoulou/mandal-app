@@ -45,7 +45,10 @@ function AboutPage() {
             <Button asChild variant="ghost">
               <Link to="/education">Éducation</Link>
             </Button>
-            <Button asChild className="rounded-full bg-emerald-600 px-5 font-semibold text-white hover:bg-emerald-500">
+            <Button
+              asChild
+              className="rounded-full bg-emerald-600 px-5 font-semibold text-white hover:bg-emerald-500"
+            >
               <Link to="/auth">Mon Espace</Link>
             </Button>
           </div>
@@ -62,7 +65,9 @@ function AboutPage() {
             « Mahol Andal » : Bâtir l'Avenir par le Savoir et la Sagesse
           </h1>
           <p className="mt-6 text-base sm:text-xl text-muted-foreground leading-relaxed">
-            M'ANDAL est une plateforme éducative d'excellence conçue pour accompagner chaque élève et étudiant africain, du collège aux plus grands concours d'ingénieurs et d'enseignement supérieur.
+            M'ANDAL est une plateforme éducative d'excellence conçue pour accompagner chaque élève
+            et étudiant africain, du collège aux plus grands concours d'ingénieurs et d'enseignement
+            supérieur.
           </p>
         </div>
       </section>
@@ -78,10 +83,15 @@ function AboutPage() {
               D'où vient le nom M'ANDAL ?
             </h2>
             <p className="mt-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Le nom <strong>M'ANDAL</strong> prend sa source dans l'expression peule et camerounaise <em>« Mahol Andal »</em>, signifiant littéralement <strong>« Construire le Savoir »</strong> ou <strong>« L'Édifice de la Connaissance »</strong>.
+              Le nom <strong>M'ANDAL</strong> prend sa source dans l'expression peule et
+              camerounaise <em>« Mahol Andal »</em>, signifiant littéralement{" "}
+              <strong>« Construire le Savoir »</strong> ou{" "}
+              <strong>« L'Édifice de la Connaissance »</strong>.
             </p>
             <p className="mt-3 text-sm sm:text-base text-muted-foreground leading-relaxed">
-              Pour nous, le savoir n'est pas un privilège réservé à une élite, mais un droit fondamental, une force d'émancipation et le levier numéro un de développement pour l'Afrique contemporaine.
+              Pour nous, le savoir n'est pas un privilège réservé à une élite, mais un droit
+              fondamental, une force d'émancipation et le levier numéro un de développement pour
+              l'Afrique contemporaine.
             </p>
           </div>
           <div className="rounded-3xl border border-border bg-card p-8 shadow-sm space-y-4">
@@ -91,7 +101,10 @@ function AboutPage() {
               </span>
               <div>
                 <h3 className="font-bold text-foreground">Rigueur & Programmes Officiels</h3>
-                <p className="text-xs text-muted-foreground mt-1">Conformité intégrale avec les programmes du BEPC, Probatoire, Baccalauréat et prépas concours d'Afrique centrale.</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Conformité intégrale avec les programmes du BEPC, Probatoire, Baccalauréat et
+                  prépas concours d'Afrique centrale.
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -100,7 +113,10 @@ function AboutPage() {
               </span>
               <div>
                 <h3 className="font-bold text-foreground">Intelligence Artificielle Éducative</h3>
-                <p className="text-xs text-muted-foreground mt-1">Mandal IA assiste l'élève dans la compréhension, structure des épreuves d'entraînement et corrige ses copies manuscrites.</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Mandal IA assiste l'élève dans la compréhension, structure des épreuves
+                  d'entraînement et corrige ses copies manuscrites.
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -109,7 +125,10 @@ function AboutPage() {
               </span>
               <div>
                 <h3 className="font-bold text-foreground">Solidarité & Parrainage</h3>
-                <p className="text-xs text-muted-foreground mt-1">Permettre aux élèves brillants mais défavorisés de bénéficier du soutien des anciens élèves et partenaires.</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Permettre aux élèves brillants mais défavorisés de bénéficier du soutien des
+                  anciens élèves et partenaires.
+                </p>
               </div>
             </div>
           </div>
@@ -133,28 +152,32 @@ function AboutPage() {
               <span className="text-3xl">📚</span>
               <h3 className="mt-4 font-display text-lg font-bold">1. Éducation</h3>
               <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Cours interactifs, simulations physiques GeoGebra, annales corrigées et fiches synthétiques.
+                Cours interactifs, simulations physiques GeoGebra, annales corrigées et fiches
+                synthétiques.
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-emerald-500/40 transition">
               <span className="text-3xl">⚖️</span>
               <h3 className="mt-4 font-display text-lg font-bold">2. Citoyenneté</h3>
               <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Formation civique, respect du bien public, intégrité et valeurs républicaines pour les futurs cadres du pays.
+                Formation civique, respect du bien public, intégrité et valeurs républicaines pour
+                les futurs cadres du pays.
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-emerald-500/40 transition">
               <span className="text-3xl">🌍</span>
               <h3 className="mt-4 font-display text-lg font-bold">3. Culture</h3>
               <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Valorisation du patrimoine, des langues nationales et de l'histoire africaine pour forger des citoyens éclairés.
+                Valorisation du patrimoine, des langues nationales et de l'histoire africaine pour
+                forger des citoyens éclairés.
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-emerald-500/40 transition">
               <span className="text-3xl">🤝</span>
               <h3 className="mt-4 font-display text-lg font-bold">4. Parrainage</h3>
               <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                Mise en relation d'élèves méritants avec des mentors professionnels et bourses d'études.
+                Mise en relation d'élèves méritants avec des mentors professionnels et bourses
+                d'études.
               </p>
             </div>
           </div>
@@ -164,12 +187,19 @@ function AboutPage() {
       {/* Appel à l'action */}
       <section className="py-16 bg-card border-t border-border text-center">
         <div className="mx-auto max-w-3xl px-4">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold">Prêt à transformer votre parcours scolaire ?</h2>
+          <h2 className="font-display text-2xl sm:text-3xl font-bold">
+            Prêt à transformer votre parcours scolaire ?
+          </h2>
           <p className="mt-3 text-sm sm:text-base text-muted-foreground">
-            Rejoignez dès maintenant des milliers d'élèves et préparez vos examens avec l'appui de Mandal IA.
+            Rejoignez dès maintenant des milliers d'élèves et préparez vos examens avec l'appui de
+            Mandal IA.
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Button asChild size="lg" className="rounded-full bg-emerald-600 px-8 font-bold text-white hover:bg-emerald-500">
+            <Button
+              asChild
+              size="lg"
+              className="rounded-full bg-emerald-600 px-8 font-bold text-white hover:bg-emerald-500"
+            >
               <Link to="/inscription">
                 Créer un compte élève <ArrowRight className="ml-2 size-4" />
               </Link>

@@ -65,7 +65,10 @@ export function MandalPedagogyTabs() {
   ];
 
   return (
-    <section id="architecture-pedagogique" className="relative overflow-hidden bg-slate-900 py-20 text-white lg:py-28">
+    <section
+      id="architecture-pedagogique"
+      className="relative overflow-hidden bg-slate-900 py-20 text-white lg:py-28"
+    >
       {/* Background glowing decorations */}
       <div className="pointer-events-none absolute -left-40 top-1/4 h-96 w-96 rounded-full bg-emerald-500/10 blur-3xl" />
       <div className="pointer-events-none absolute -right-40 bottom-1/4 h-96 w-96 rounded-full bg-amber-500/10 blur-3xl" />
@@ -83,7 +86,8 @@ export function MandalPedagogyTabs() {
             </span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base text-slate-300 sm:text-lg">
-            Une approche d'excellence en 3 piliers complémentaires pour outiller chaque apprenant face aux défis du 21e siècle.
+            Une approche d'excellence en 3 piliers complémentaires pour outiller chaque apprenant
+            face aux défis du 21e siècle.
           </p>
         </div>
 
@@ -122,7 +126,9 @@ export function MandalPedagogyTabs() {
                   <div
                     className={cn(
                       "flex size-10 items-center justify-center rounded-xl transition-all",
-                      isSelected ? tab.pillColor : "bg-slate-700/50 text-slate-400 group-hover:text-white",
+                      isSelected
+                        ? tab.pillColor
+                        : "bg-slate-700/50 text-slate-400 group-hover:text-white",
                     )}
                   >
                     <Icon className="size-5" />
@@ -176,8 +182,12 @@ export function MandalPedagogyTabs() {
                         <BookOpen className="size-5" />
                       </div>
                       <div>
-                        <h4 className="font-display text-lg font-bold text-white">Niveaux Scolaires</h4>
-                        <p className="text-xs text-slate-400">Du secondaire supérieur aux premiers cycles universitaires</p>
+                        <h4 className="font-display text-lg font-bold text-white">
+                          Niveaux Scolaires
+                        </h4>
+                        <p className="text-xs text-slate-400">
+                          Du secondaire supérieur aux premiers cycles universitaires
+                        </p>
                       </div>
                     </div>
 
@@ -219,7 +229,10 @@ export function MandalPedagogyTabs() {
                           "Simulation virtuelle & graphiques",
                           "Suivi et progression continue",
                         ].map((feature) => (
-                          <li key={feature} className="flex items-center gap-2 text-xs text-slate-300 sm:text-sm">
+                          <li
+                            key={feature}
+                            className="flex items-center gap-2 text-xs text-slate-300 sm:text-sm"
+                          >
                             <CheckCircle2 className="size-4 shrink-0 text-emerald-400" />
                             <span>{feature}</span>
                           </li>
@@ -229,7 +242,10 @@ export function MandalPedagogyTabs() {
                   </div>
 
                   <div className="mt-8 pt-4 border-t border-slate-800 flex justify-end">
-                    <Button asChild className="w-full sm:w-auto bg-emerald-600 text-white hover:bg-emerald-500">
+                    <Button
+                      asChild
+                      className="w-full sm:w-auto bg-emerald-600 text-white hover:bg-emerald-500"
+                    >
                       <Link to="/courses">
                         Accéder aux cours scolaires <ArrowRight className="ml-2 size-4" />
                       </Link>
@@ -245,8 +261,12 @@ export function MandalPedagogyTabs() {
                         <Award className="size-5" />
                       </div>
                       <div>
-                        <h4 className="font-display text-lg font-bold text-white">Concours d'Excellence</h4>
-                        <p className="text-xs text-slate-400">Préparations intensives aux grandes écoles du Cameroun</p>
+                        <h4 className="font-display text-lg font-bold text-white">
+                          Concours d'Excellence
+                        </h4>
+                        <p className="text-xs text-slate-400">
+                          Préparations intensives aux grandes écoles du Cameroun
+                        </p>
                       </div>
                     </div>
 
@@ -310,7 +330,11 @@ export function MandalPedagogyTabs() {
                   </div>
 
                   <div className="mt-8 pt-4 border-t border-slate-800 flex justify-end">
-                    <Button asChild variant="outline" className="w-full sm:w-auto border-amber-500/40 text-amber-300 hover:bg-amber-500/10">
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full sm:w-auto border-amber-500/40 text-amber-300 hover:bg-amber-500/10"
+                    >
                       <Link to="/courses">
                         Découvrir les prépas concours <ArrowRight className="ml-2 size-4" />
                       </Link>
@@ -344,21 +368,31 @@ export function MandalPedagogyTabs() {
                     <div className="flex size-11 items-center justify-center rounded-xl bg-orange-500/20 text-orange-400">
                       <Landmark className="size-6" />
                     </div>
-                    <h4 className="mt-4 font-display text-lg font-bold text-white">Institutions et droits</h4>
-                    <p className="mt-1 text-xs text-slate-400">Le cadre démocratique et la protection des libertés</p>
+                    <h4 className="mt-4 font-display text-lg font-bold text-white">
+                      Institutions et droits
+                    </h4>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Le cadre démocratique et la protection des libertés
+                    </p>
 
                     <ul className="mt-6 space-y-3 text-sm text-slate-300">
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-orange-400 shrink-0 mt-0.5" />
-                        <span><strong>La Constitution</strong> et les institutions de la République</span>
+                        <span>
+                          <strong>La Constitution</strong> et les institutions de la République
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-orange-400 shrink-0 mt-0.5" />
-                        <span><strong>Droits de l'enfant</strong> et de l'élève dans le cadre scolaire</span>
+                        <span>
+                          <strong>Droits de l'enfant</strong> et de l'élève dans le cadre scolaire
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-orange-400 shrink-0 mt-0.5" />
-                        <span><strong>Le rôle du citoyen</strong> éclairé en démocratie</span>
+                        <span>
+                          <strong>Le rôle du citoyen</strong> éclairé en démocratie
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -370,21 +404,32 @@ export function MandalPedagogyTabs() {
                     <div className="flex size-11 items-center justify-center rounded-xl bg-amber-500/20 text-amber-400">
                       <ShieldCheck className="size-6" />
                     </div>
-                    <h4 className="mt-4 font-display text-lg font-bold text-white">Devoirs et vivre-ensemble</h4>
-                    <p className="mt-1 text-xs text-slate-400">L'éthique, la tolérance et la cohésion nationale</p>
+                    <h4 className="mt-4 font-display text-lg font-bold text-white">
+                      Devoirs et vivre-ensemble
+                    </h4>
+                    <p className="mt-1 text-xs text-slate-400">
+                      L'éthique, la tolérance et la cohésion nationale
+                    </p>
 
                     <ul className="mt-6 space-y-3 text-sm text-slate-300">
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-amber-400 shrink-0 mt-0.5" />
-                        <span><strong>Respect des lois</strong> et protection du bien commun</span>
+                        <span>
+                          <strong>Respect des lois</strong> et protection du bien commun
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-amber-400 shrink-0 mt-0.5" />
-                        <span><strong>Lutte contre la corruption</strong> et l'incivisme au quotidien</span>
+                        <span>
+                          <strong>Lutte contre la corruption</strong> et l'incivisme au quotidien
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-amber-400 shrink-0 mt-0.5" />
-                        <span><strong>Cohabitation pacifique</strong>, dialogue et tolérance interculturelle</span>
+                        <span>
+                          <strong>Cohabitation pacifique</strong>, dialogue et tolérance
+                          interculturelle
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -396,21 +441,32 @@ export function MandalPedagogyTabs() {
                     <div className="flex size-11 items-center justify-center rounded-xl bg-teal-500/20 text-teal-400">
                       <HeartHandshake className="size-6" />
                     </div>
-                    <h4 className="mt-4 font-display text-lg font-bold text-white">Engagement civique</h4>
-                    <p className="mt-1 text-xs text-slate-400">Agir concrètement pour transformer sa communauté</p>
+                    <h4 className="mt-4 font-display text-lg font-bold text-white">
+                      Engagement civique
+                    </h4>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Agir concrètement pour transformer sa communauté
+                    </p>
 
                     <ul className="mt-6 space-y-3 text-sm text-slate-300">
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-teal-400 shrink-0 mt-0.5" />
-                        <span><strong>Participer activement</strong> à la vie de sa communauté</span>
+                        <span>
+                          <strong>Participer activement</strong> à la vie de sa communauté
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-teal-400 shrink-0 mt-0.5" />
-                        <span><strong>Bénévolat</strong>, solidarité et action associative</span>
+                        <span>
+                          <strong>Bénévolat</strong>, solidarité et action associative
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-teal-400 shrink-0 mt-0.5" />
-                        <span><strong>Comprendre les élections</strong>, le vote et la responsabilité civile</span>
+                        <span>
+                          <strong>Comprendre les élections</strong>, le vote et la responsabilité
+                          civile
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -430,7 +486,8 @@ export function MandalPedagogyTabs() {
                   Culture, Racines & Fierté Africaine
                 </h3>
                 <p className="mt-1 text-base text-amber-300/90 font-medium">
-                  Valoriser le patrimoine africain plus précisément Camerounais et son histoire millénaire
+                  Valoriser le patrimoine africain plus précisément Camerounais et son histoire
+                  millénaire
                 </p>
               </div>
 
@@ -442,21 +499,31 @@ export function MandalPedagogyTabs() {
                     <div className="flex size-11 items-center justify-center rounded-xl bg-amber-500/20 text-amber-400">
                       <History className="size-6" />
                     </div>
-                    <h4 className="mt-4 font-display text-lg font-bold text-white">Histoire du continent</h4>
-                    <p className="mt-1 text-xs text-slate-400">Comprendre nos origines et trajectoires historiques</p>
+                    <h4 className="mt-4 font-display text-lg font-bold text-white">
+                      Histoire du continent
+                    </h4>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Comprendre nos origines et trajectoires historiques
+                    </p>
 
                     <ul className="mt-6 space-y-3 text-sm text-slate-300">
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-amber-400 shrink-0 mt-0.5" />
-                        <span><strong>Grands royaumes</strong> et empires africains</span>
+                        <span>
+                          <strong>Grands royaumes</strong> et empires africains
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-amber-400 shrink-0 mt-0.5" />
-                        <span><strong>La période précoloniale</strong> et ses savoirs ancestraux</span>
+                        <span>
+                          <strong>La période précoloniale</strong> et ses savoirs ancestraux
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-amber-400 shrink-0 mt-0.5" />
-                        <span><strong>Colonisation</strong>, luttes de libération et indépendances</span>
+                        <span>
+                          <strong>Colonisation</strong>, luttes de libération et indépendances
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -468,21 +535,31 @@ export function MandalPedagogyTabs() {
                     <div className="flex size-11 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400">
                       <Palette className="size-6" />
                     </div>
-                    <h4 className="mt-4 font-display text-lg font-bold text-white">Patrimoine culturel</h4>
-                    <p className="mt-1 text-xs text-slate-400">La richesse vivante des arts et des traditions</p>
+                    <h4 className="mt-4 font-display text-lg font-bold text-white">
+                      Patrimoine culturel
+                    </h4>
+                    <p className="mt-1 text-xs text-slate-400">
+                      La richesse vivante des arts et des traditions
+                    </p>
 
                     <ul className="mt-6 space-y-3 text-sm text-slate-300">
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <span><strong>Langues nationales</strong> et traditions orales</span>
+                        <span>
+                          <strong>Langues nationales</strong> et traditions orales
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <span><strong>Arts, artisanat</strong> et architecture traditionnels</span>
+                        <span>
+                          <strong>Arts, artisanat</strong> et architecture traditionnels
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <span><strong>Musique et danses</strong> du Cameroun et d'Afrique</span>
+                        <span>
+                          <strong>Musique et danses</strong> du Cameroun et d'Afrique
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -494,21 +571,31 @@ export function MandalPedagogyTabs() {
                     <div className="flex size-11 items-center justify-center rounded-xl bg-orange-500/20 text-orange-400">
                       <Flame className="size-6" />
                     </div>
-                    <h4 className="mt-4 font-display text-lg font-bold text-white">Figures et fierté</h4>
-                    <p className="mt-1 text-xs text-slate-400">Les modèles d'inspiration pour la jeunesse</p>
+                    <h4 className="mt-4 font-display text-lg font-bold text-white">
+                      Figures et fierté
+                    </h4>
+                    <p className="mt-1 text-xs text-slate-400">
+                      Les modèles d'inspiration pour la jeunesse
+                    </p>
 
                     <ul className="mt-6 space-y-3 text-sm text-slate-300">
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-orange-400 shrink-0 mt-0.5" />
-                        <span><strong>Grandes figures</strong> historiques et contemporaines</span>
+                        <span>
+                          <strong>Grandes figures</strong> historiques et contemporaines
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-orange-400 shrink-0 mt-0.5" />
-                        <span><strong>Innovations africaines</strong> apportées au monde</span>
+                        <span>
+                          <strong>Innovations africaines</strong> apportées au monde
+                        </span>
                       </li>
                       <li className="flex items-start gap-2.5">
                         <CheckCircle2 className="size-4 text-orange-400 shrink-0 mt-0.5" />
-                        <span><strong>Construire une identité</strong> africaine positive et ambitieuse</span>
+                        <span>
+                          <strong>Construire une identité</strong> africaine positive et ambitieuse
+                        </span>
                       </li>
                     </ul>
                   </div>

@@ -108,11 +108,22 @@ function StudentHelpPage() {
           <div className="mt-4 space-y-4">
             <div className="space-y-2">
               <Label htmlFor="help-subject">Sujet</Label>
-              <Input id="help-subject" name="subject" required placeholder="Ex. Accès à ma classe" />
+              <Input
+                id="help-subject"
+                name="subject"
+                required
+                placeholder="Ex. Accès à ma classe"
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="help-message">Message</Label>
-              <Textarea id="help-message" name="message" required rows={6} placeholder="Votre message…" />
+              <Textarea
+                id="help-message"
+                name="message"
+                required
+                rows={6}
+                placeholder="Votre message…"
+              />
             </div>
             <Button type="submit" className="w-full" disabled={sending}>
               {sending ? "Envoi…" : "Envoyer"}

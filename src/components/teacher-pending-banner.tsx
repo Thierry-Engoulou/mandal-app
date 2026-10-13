@@ -24,8 +24,8 @@ export function TeacherPendingBanner({
             : "Compte en attente de validation par votre chef d'établissement"}
         </p>
         <p className="mt-1 opacity-90">
-          Vous gardez un accès complet à votre espace en attendant. La validation servira
-          uniquement à confirmer votre rattachement à l'établissement.
+          Vous gardez un accès complet à votre espace en attendant. La validation servira uniquement
+          à confirmer votre rattachement à l'établissement.
         </p>
       </div>
     </div>

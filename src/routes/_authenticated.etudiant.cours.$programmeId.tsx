@@ -1,5 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowLeft, CheckCircle2, ChevronDown, ChevronUp, Circle, FileText, PlayCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCircle2,
+  ChevronDown,
+  ChevronUp,
+  Circle,
+  FileText,
+  PlayCircle,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import {
   useProgrammeDetail,
@@ -129,7 +137,9 @@ function StudentProgrammePage() {
           {programme.matiereNom ?? "Programme"} · {programme.classeNom ?? ""}
         </p>
         <h1 className="mt-2 font-display text-2xl font-bold">{programme.titre}</h1>
-        {programme.description ? <p className="mt-2 text-sm opacity-90">{programme.description}</p> : null}
+        {programme.description ? (
+          <p className="mt-2 text-sm opacity-90">{programme.description}</p>
+        ) : null}
         <div className="mt-4 flex items-center gap-3">
           <Progress value={pct} className="h-2 max-w-xs bg-primary-foreground/20" />
           <span className="text-sm font-semibold">
@@ -169,7 +179,9 @@ function StudentProgrammePage() {
                 {isOpen ? (
                   <ul className="mt-4 space-y-2 border-t border-border pt-4">
                     {ch.concepts.length === 0 ? (
-                      <li className="text-sm text-muted-foreground">Aucune leçon dans ce module.</li>
+                      <li className="text-sm text-muted-foreground">
+                        Aucune leçon dans ce module.
+                      </li>
                     ) : (
                       ch.concepts.map((k) => {
                         const done = doneSet.has(k.id);
@@ -195,7 +207,9 @@ function StudentProgrammePage() {
                                 ) : (
                                   <Circle className="size-4 shrink-0 text-muted-foreground" />
                                 )}
-                                <span className="text-sm font-medium text-foreground">{k.titre}</span>
+                                <span className="text-sm font-medium text-foreground">
+                                  {k.titre}
+                                </span>
                                 <span className="ml-auto shrink-0 text-xs text-muted-foreground">
                                   {conceptTypeLabel(k.type_contenu)}
                                   {k.duree_minutes ? ` · ${k.duree_minutes} min` : ""}

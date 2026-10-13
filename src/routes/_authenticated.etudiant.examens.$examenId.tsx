@@ -122,10 +122,12 @@ function ExamRunnerPage() {
     return (
       <div className="rounded-2xl bg-card p-10 text-center shadow-sm">
         <Lock className="mx-auto size-8 text-muted-foreground" />
-        <p className="mt-3 font-display text-lg font-bold text-foreground">Ce quiz est verrouillé</p>
+        <p className="mt-3 font-display text-lg font-bold text-foreground">
+          Ce quiz est verrouillé
+        </p>
         <p className="mt-2 text-sm text-muted-foreground">
-          Complétez les {lock.totalConcepts} leçons du chapitre « {lock.chapitreTitre} » pour y accéder
-          ({lock.conceptsTermines}/{lock.totalConcepts} faites).
+          Complétez les {lock.totalConcepts} leçons du chapitre « {lock.chapitreTitre} » pour y
+          accéder ({lock.conceptsTermines}/{lock.totalConcepts} faites).
         </p>
         <Link to="/etudiant/examens" className="mt-6 inline-block text-sm font-medium text-primary">
           Retour aux examens
@@ -167,8 +169,12 @@ function ExamRunnerPage() {
       {result ? (
         <div className="rounded-2xl bg-card p-8 text-center shadow-sm">
           <Trophy className="mx-auto size-8 text-success" />
-          <p className="mt-3 font-display text-3xl font-bold text-foreground">{result.score} / 20</p>
-          <p className="mt-1 text-sm text-muted-foreground">+{result.xp} XP ajoutés à votre compte</p>
+          <p className="mt-3 font-display text-3xl font-bold text-foreground">
+            {result.score} / 20
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            +{result.xp} XP ajoutés à votre compte
+          </p>
           <Link
             to="/etudiant/examens"
             className="mt-6 inline-block rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
@@ -202,7 +208,9 @@ function ExamRunnerPage() {
         <>
           <div className="sticky top-16 z-10 flex flex-col gap-2 rounded-2xl bg-card p-4 shadow-md md:top-4 border border-border">
             <div className="flex items-center justify-between">
-              <span className={`inline-flex items-center gap-2 font-display text-xl font-black ${remaining !== null && remaining <= 1800 ? "text-amber-600 dark:text-amber-400 animate-pulse" : "text-primary"}`}>
+              <span
+                className={`inline-flex items-center gap-2 font-display text-xl font-black ${remaining !== null && remaining <= 1800 ? "text-amber-600 dark:text-amber-400 animate-pulse" : "text-primary"}`}
+              >
                 <Clock className="size-6" />
                 {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
               </span>
@@ -219,7 +227,9 @@ function ExamRunnerPage() {
                   <strong className="font-bold uppercase tracking-wider block text-amber-800 dark:text-amber-300">
                     Rappel obligatoire : Il reste moins de {minutes} minutes !
                   </strong>
-                  Pour une bonne pratique d'examen, préparez dès maintenant vos formats rédigés à la main. Vous devez impérativement <strong>scanner ou photographier</strong> vos feuilles d'épreuve ci-dessous avant l'envoi automatique.
+                  Pour une bonne pratique d'examen, préparez dès maintenant vos formats rédigés à la
+                  main. Vous devez impérativement <strong>scanner ou photographier</strong> vos
+                  feuilles d'épreuve ci-dessous avant l'envoi automatique.
                 </div>
               </div>
             )}
@@ -229,15 +239,26 @@ function ExamRunnerPage() {
           <div className="rounded-2xl border-2 border-dashed border-primary/40 bg-primary/5 p-6 text-center space-y-3">
             <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
               <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                />
               </svg>
             </div>
             <h3 className="font-display text-base font-bold text-foreground">
               Scanner ou Photographier vos feuilles de composition
             </h3>
             <p className="text-xs text-muted-foreground max-w-md mx-auto">
-              Si vous composez sur feuilles ou format d'examen, photographiez vos pages rédigées. Elles seront transmises à votre enseignant et analysées pour la correction.
+              Si vous composez sur feuilles ou format d'examen, photographiez vos pages rédigées.
+              Elles seront transmises à votre enseignant et analysées pour la correction.
             </p>
             <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition">
               <span>📷 Photographier / Charger mes copies (Format, PDF ou Scan)</span>
@@ -248,7 +269,9 @@ function ExamRunnerPage() {
                 className="hidden"
                 onChange={(e) => {
                   if (e.target.files && e.target.files.length > 0) {
-                    toast.success(`${e.target.files.length} fichier(s) de copie prêt(s) pour la transmission à l'enseignant.`);
+                    toast.success(
+                      `${e.target.files.length} fichier(s) de copie prêt(s) pour la transmission à l'enseignant.`,
+                    );
                   }
                 }}
               />

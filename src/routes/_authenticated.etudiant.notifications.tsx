@@ -40,7 +40,12 @@ function StudentNotificationsPage() {
       .channel("notifications-eleve")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "notifications", filter: `profile_id=eq.${profile.id}` },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "notifications",
+          filter: `profile_id=eq.${profile.id}`,
+        },
         () => queryClient.invalidateQueries({ queryKey: ["notifications"] }),
       )
       .subscribe();
@@ -51,14 +56,20 @@ function StudentNotificationsPage() {
 
   const markAllRead = async () => {
     if (!profile) return;
-    await supabase.from("notifications").update({ lu: true }).eq("profile_id", profile.id).eq("lu", false);
+    await supabase
+      .from("notifications")
+      .update({ lu: true })
+      .eq("profile_id", profile.id)
+      .eq("lu", false);
     await queryClient.invalidateQueries({ queryKey: ["notifications"] });
   };
 
   return (
     <div className="space-y-6">
       <header className="flex items-center justify-between">
-        <h1 className="font-display text-2xl font-bold tracking-tight text-foreground">Notifications</h1>
+        <h1 className="font-display text-2xl font-bold tracking-tight text-foreground">
+          Notifications
+        </h1>
         <Button variant="outline" className="rounded-xl" onClick={markAllRead}>
           <CheckCheck className="size-4" /> Tout marquer comme lu
         </Button>

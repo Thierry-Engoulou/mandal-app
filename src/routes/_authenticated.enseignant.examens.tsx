@@ -23,7 +23,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -120,19 +127,21 @@ function TeacherExamsPage() {
     queryFn: async (): Promise<ExamenRow[]> => {
       const { data, error } = await supabase
         .from("examens")
-        .select(`
+        .select(
+          `
           *,
           chapitres:chapitre_id(id, titre, programme_id),
           classes:classe_id(id, nom)
-        `)
+        `,
+        )
         .eq("created_by", profile!.id)
         .order("created_at", { ascending: false });
 
       if (error) throw new Error(error.message);
       return (data ?? []).map((row) => ({
         ...row,
-        chapitres: Array.isArray(row.chapitres) ? row.chapitres[0] ?? null : row.chapitres,
-        classes: Array.isArray(row.classes) ? row.classes[0] ?? null : row.classes,
+        chapitres: Array.isArray(row.chapitres) ? (row.chapitres[0] ?? null) : row.chapitres,
+        classes: Array.isArray(row.classes) ? (row.classes[0] ?? null) : row.classes,
       })) as ExamenRow[];
     },
   });
@@ -238,10 +247,7 @@ function TeacherExamsPage() {
       };
 
       if (editingExam) {
-        const { error } = await supabase
-          .from("examens")
-          .update(payload)
-          .eq("id", editingExam.id);
+        const { error } = await supabase.from("examens").update(payload).eq("id", editingExam.id);
         if (error) throw error;
         toast.success("Quiz mis à jour avec succès.");
       } else {
@@ -293,7 +299,9 @@ function TeacherExamsPage() {
     try {
       const nextOrdre = questions.length + 1;
       const selectedOptionText =
-        questionForm.options[parseInt(questionForm.reponse_correcte, 10)]?.trim() || cleanOptions[0] || null;
+        questionForm.options[parseInt(questionForm.reponse_correcte, 10)]?.trim() ||
+        cleanOptions[0] ||
+        null;
 
       const { error } = await supabase.from("questions").insert({
         examen_id: questionsDialog.id,
@@ -361,7 +369,8 @@ function TeacherExamsPage() {
             Gestion des Quiz & Examens
           </h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Créez des quiz par chapitre, associez des conditions de déverrouillage et gérez vos questions.
+            Créez des quiz par chapitre, associez des conditions de déverrouillage et gérez vos
+            questions.
           </p>
         </div>
         <Button onClick={openCreateDialog} className="gap-2 self-start sm:self-auto">
@@ -381,7 +390,8 @@ function TeacherExamsPage() {
           <div>
             <h3 className="font-semibold text-lg">Aucun quiz créé pour le moment</h3>
             <p className="text-muted-foreground text-sm">
-              Commencez par créer votre premier quiz et associez-le à un chapitre pour évaluer vos élèves.
+              Commencez par créer votre premier quiz et associez-le à un chapitre pour évaluer vos
+              élèves.
             </p>
           </div>
           <Button onClick={openCreateDialog} variant="outline" className="gap-2">
@@ -392,7 +402,10 @@ function TeacherExamsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {examens.map((exam) => (
-            <Card key={exam.id} className="flex flex-col justify-between hover:shadow-md transition-shadow">
+            <Card
+              key={exam.id}
+              className="flex flex-col justify-between hover:shadow-md transition-shadow"
+            >
               <CardHeader className="pb-3">
                 <div className="flex items-start justify-between gap-2">
                   <Badge variant={exam.statut === "publie" ? "default" : "secondary"}>
@@ -401,11 +414,17 @@ function TeacherExamsPage() {
 
                   {/* Lock condition badge */}
                   {exam.deverrouille_si === "tous_concepts_termines" ? (
-                    <Badge variant="outline" className="border-amber-500/50 text-amber-600 bg-amber-50 text-xs flex items-center gap-1">
+                    <Badge
+                      variant="outline"
+                      className="border-amber-500/50 text-amber-600 bg-amber-50 text-xs flex items-center gap-1"
+                    >
                       <Lock className="h-3 w-3" /> Verrouillé (cours requis)
                     </Badge>
                   ) : (
-                    <Badge variant="outline" className="border-emerald-500/50 text-emerald-600 bg-emerald-50 text-xs flex items-center gap-1">
+                    <Badge
+                      variant="outline"
+                      className="border-emerald-500/50 text-emerald-600 bg-emerald-50 text-xs flex items-center gap-1"
+                    >
                       <Unlock className="h-3 w-3" /> Toujours ouvert
                     </Badge>
                   )}
@@ -439,7 +458,9 @@ function TeacherExamsPage() {
                   </div>
                   <div className="flex items-center gap-1">
                     <HelpCircle className="h-3.5 w-3.5" />
-                    <span>{exam.nb_questions} question{exam.nb_questions > 1 ? "s" : ""}</span>
+                    <span>
+                      {exam.nb_questions} question{exam.nb_questions > 1 ? "s" : ""}
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -518,7 +539,12 @@ function TeacherExamsPage() {
                   <Select
                     value={examForm.classe_id}
                     onValueChange={(val) =>
-                      setExamForm({ ...examForm, classe_id: val, programme_id: "", chapitre_id: "" })
+                      setExamForm({
+                        ...examForm,
+                        classe_id: val,
+                        programme_id: "",
+                        chapitre_id: "",
+                      })
                     }
                   >
                     <SelectTrigger>
@@ -544,7 +570,11 @@ function TeacherExamsPage() {
                     }
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder={!examForm.classe_id ? "Choisir classe d'abord" : "Sélectionner programme"} />
+                      <SelectValue
+                        placeholder={
+                          !examForm.classe_id ? "Choisir classe d'abord" : "Sélectionner programme"
+                        }
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {programmes.map((p) => (
@@ -565,7 +595,13 @@ function TeacherExamsPage() {
                   onValueChange={(val) => setExamForm({ ...examForm, chapitre_id: val })}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder={!examForm.programme_id ? "Choisir programme d'abord" : "Sélectionner un chapitre"} />
+                    <SelectValue
+                      placeholder={
+                        !examForm.programme_id
+                          ? "Choisir programme d'abord"
+                          : "Sélectionner un chapitre"
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {chapitres.map((ch) => (
@@ -612,7 +648,10 @@ function TeacherExamsPage() {
                     min={1}
                     value={examForm.duree_minutes}
                     onChange={(e) =>
-                      setExamForm({ ...examForm, duree_minutes: parseInt(e.target.value, 10) || 15 })
+                      setExamForm({
+                        ...examForm,
+                        duree_minutes: parseInt(e.target.value, 10) || 15,
+                      })
                     }
                   />
                 </div>
@@ -640,7 +679,8 @@ function TeacherExamsPage() {
                   📄 Joindre le Sujet / Épreuve en PDF
                 </Label>
                 <p className="text-xs text-muted-foreground">
-                  Chargez l'épreuve complète en PDF. Les élèves de la classe sélectionnée recevront le document et composeront dans le temps imparti.
+                  Chargez l'épreuve complète en PDF. Les élèves de la classe sélectionnée recevront
+                  le document et composeront dans le temps imparti.
                 </p>
                 <Input
                   type="file"
@@ -689,7 +729,8 @@ function TeacherExamsPage() {
               </h4>
               {questions.length === 0 ? (
                 <p className="text-xs text-muted-foreground italic bg-muted/40 p-3 rounded text-center">
-                  Aucune question enregistrée. Utilisez le formulaire ci-dessous pour en ajouter une.
+                  Aucune question enregistrée. Utilisez le formulaire ci-dessous pour en ajouter
+                  une.
                 </p>
               ) : (
                 <div className="space-y-2">
@@ -724,8 +765,12 @@ function TeacherExamsPage() {
                                 : "text-muted-foreground"
                             }`}
                           >
-                            {opt === q.reponse_correcte && <CheckCircle2 className="h-3 w-3 shrink-0" />}
-                            <span>{String.fromCharCode(65 + oIdx)}. {opt}</span>
+                            {opt === q.reponse_correcte && (
+                              <CheckCircle2 className="h-3 w-3 shrink-0" />
+                            )}
+                            <span>
+                              {String.fromCharCode(65 + oIdx)}. {opt}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -742,7 +787,9 @@ function TeacherExamsPage() {
               </h4>
 
               <div className="space-y-1">
-                <Label htmlFor="enonce" className="text-xs">Énoncé de la question *</Label>
+                <Label htmlFor="enonce" className="text-xs">
+                  Énoncé de la question *
+                </Label>
                 <Input
                   id="enonce"
                   placeholder="ex: Quelle est la solution de l'équation x² - 4 = 0 ?"
@@ -753,16 +800,23 @@ function TeacherExamsPage() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-xs">Options de réponses (Sélectionnez la bonne réponse) *</Label>
+                <Label className="text-xs">
+                  Options de réponses (Sélectionnez la bonne réponse) *
+                </Label>
                 <RadioGroup
                   value={questionForm.reponse_correcte}
-                  onValueChange={(val) => setQuestionForm({ ...questionForm, reponse_correcte: val })}
+                  onValueChange={(val) =>
+                    setQuestionForm({ ...questionForm, reponse_correcte: val })
+                  }
                   className="space-y-2"
                 >
                   {questionForm.options.map((opt, i) => (
                     <div key={i} className="flex items-center gap-2">
                       <RadioGroupItem value={i.toString()} id={`opt-${i}`} />
-                      <Label htmlFor={`opt-${i}`} className="font-mono text-xs w-5 text-muted-foreground">
+                      <Label
+                        htmlFor={`opt-${i}`}
+                        className="font-mono text-xs w-5 text-muted-foreground"
+                      >
                         {String.fromCharCode(65 + i)}
                       </Label>
                       <Input
@@ -782,14 +836,19 @@ function TeacherExamsPage() {
 
               <div className="flex items-center justify-between pt-2">
                 <div className="flex items-center gap-2">
-                  <Label htmlFor="points" className="text-xs">Points :</Label>
+                  <Label htmlFor="points" className="text-xs">
+                    Points :
+                  </Label>
                   <Input
                     id="points"
                     type="number"
                     min={1}
                     value={questionForm.points}
                     onChange={(e) =>
-                      setQuestionForm({ ...questionForm, points: parseInt(e.target.value, 10) || 1 })
+                      setQuestionForm({
+                        ...questionForm,
+                        points: parseInt(e.target.value, 10) || 1,
+                      })
                     }
                     className="w-16 h-8 text-xs"
                   />

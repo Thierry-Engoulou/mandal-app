@@ -248,7 +248,8 @@ export function useProgrammeDetail(programmeId: string) {
                   titre: "Fiche de synthèse et règles essentielles",
                   ordre: 1,
                   type_contenu: "texte",
-                  contenu_texte: "Bienvenue dans ce cours M'ANDAL. Consultez les fiches de cours, entraînez-vous sur les exercices d'annales et utilisez Mandal IA pour vérifier vos acquis.",
+                  contenu_texte:
+                    "Bienvenue dans ce cours M'ANDAL. Consultez les fiches de cours, entraînez-vous sur les exercices d'annales et utilisez Mandal IA pour vérifier vos acquis.",
                   media_url: null,
                   duree_minutes: 20,
                 },

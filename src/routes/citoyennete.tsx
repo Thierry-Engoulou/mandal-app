@@ -69,22 +69,37 @@ function CitizenshipPage() {
             <MandalLogo />
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
-            <Link to="/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-blue-400">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-blue-400"
+            >
               <span>🏠</span> Accueil
             </Link>
-            <Link to="/education" className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-emerald-400">
+            <Link
+              to="/education"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-emerald-400"
+            >
               <span>📚</span> Éducation
             </Link>
-            <Link to="/citoyennete" className="inline-flex items-center gap-1.5 text-sm font-bold text-blue-400">
+            <Link
+              to="/citoyennete"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-blue-400"
+            >
               <span>⚖️</span> Citoyenneté
             </Link>
-            <Link to="/culture" className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-amber-400">
+            <Link
+              to="/culture"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-amber-400"
+            >
               <span>🌍</span> Culture
             </Link>
           </nav>
           <div className="flex items-center gap-3">
             {userSession ? (
-              <Button asChild className="rounded-full bg-blue-600 font-semibold text-white hover:bg-blue-500">
+              <Button
+                asChild
+                className="rounded-full bg-blue-600 font-semibold text-white hover:bg-blue-500"
+              >
                 <Link to="/etudiant">Mon Tableau de bord</Link>
               </Button>
             ) : (
@@ -92,7 +107,10 @@ function CitizenshipPage() {
                 <Button asChild variant="ghost" className="text-slate-200 hover:bg-slate-800">
                   <Link to="/auth">Connexion</Link>
                 </Button>
-                <Button asChild className="rounded-full bg-blue-600 font-semibold text-white hover:bg-blue-500">
+                <Button
+                  asChild
+                  className="rounded-full bg-blue-600 font-semibold text-white hover:bg-blue-500"
+                >
                   <Link to="/inscription">Inscription</Link>
                 </Button>
               </>
@@ -122,7 +140,8 @@ function CitizenshipPage() {
               Comprendre ses droits, ses devoirs et l'engagement civique
             </p>
             <p className="mt-4 max-w-3xl text-sm text-slate-300 sm:text-base leading-relaxed">
-              Conscience civique, respect des institutions et des devoirs républicains pour construire une nation forte, tolérante et solidaire.
+              Conscience civique, respect des institutions et des devoirs républicains pour
+              construire une nation forte, tolérante et solidaire.
             </p>
           </div>
 
@@ -134,21 +153,31 @@ function CitizenshipPage() {
                 <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-500/20 text-blue-400">
                   <Landmark className="size-6" />
                 </div>
-                <h2 className="mt-6 font-display text-xl font-bold text-white">Institutions et droits</h2>
-                <p className="mt-1 text-xs text-slate-400">Fondements juridiques et protection républicaine</p>
+                <h2 className="mt-6 font-display text-xl font-bold text-white">
+                  Institutions et droits
+                </h2>
+                <p className="mt-1 text-xs text-slate-400">
+                  Fondements juridiques et protection républicaine
+                </p>
 
                 <ul className="mt-6 space-y-4 text-sm text-slate-300">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                    <span><strong>La Constitution</strong> et les institutions de l'État</span>
+                    <span>
+                      <strong>La Constitution</strong> et les institutions de l'État
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                    <span><strong>Droits de l'enfant</strong> et de l'élève en milieu scolaire</span>
+                    <span>
+                      <strong>Droits de l'enfant</strong> et de l'élève en milieu scolaire
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                    <span><strong>Le rôle du citoyen</strong> en démocratie</span>
+                    <span>
+                      <strong>Le rôle du citoyen</strong> en démocratie
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -169,21 +198,31 @@ function CitizenshipPage() {
                 <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-500/20 text-blue-400">
                   <ShieldCheck className="size-6" />
                 </div>
-                <h2 className="mt-6 font-display text-xl font-bold text-white">Devoirs et vivre-ensemble</h2>
-                <p className="mt-1 text-xs text-slate-400">Éthique, respect mutuel et cohésion nationale</p>
+                <h2 className="mt-6 font-display text-xl font-bold text-white">
+                  Devoirs et vivre-ensemble
+                </h2>
+                <p className="mt-1 text-xs text-slate-400">
+                  Éthique, respect mutuel et cohésion nationale
+                </p>
 
                 <ul className="mt-6 space-y-4 text-sm text-slate-300">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                    <span><strong>Respect des lois</strong> et du bien commun</span>
+                    <span>
+                      <strong>Respect des lois</strong> et du bien commun
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                    <span><strong>Lutte contre la corruption</strong> au quotidien</span>
+                    <span>
+                      <strong>Lutte contre la corruption</strong> au quotidien
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                    <span><strong>Cohabitation pacifique</strong> et tolérance</span>
+                    <span>
+                      <strong>Cohabitation pacifique</strong> et tolérance
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -204,21 +243,31 @@ function CitizenshipPage() {
                 <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-500/20 text-blue-400">
                   <HeartHandshake className="size-6" />
                 </div>
-                <h2 className="mt-6 font-display text-xl font-bold text-white">Engagement civique</h2>
-                <p className="mt-1 text-xs text-slate-400">L'action concrète au service de la communauté</p>
+                <h2 className="mt-6 font-display text-xl font-bold text-white">
+                  Engagement civique
+                </h2>
+                <p className="mt-1 text-xs text-slate-400">
+                  L'action concrète au service de la communauté
+                </p>
 
                 <ul className="mt-6 space-y-4 text-sm text-slate-300">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                    <span><strong>Participer à la vie</strong> de sa communauté</span>
+                    <span>
+                      <strong>Participer à la vie</strong> de sa communauté
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                    <span><strong>Bénévolat</strong> et action associative</span>
+                    <span>
+                      <strong>Bénévolat</strong> et action associative
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-blue-400 shrink-0 mt-0.5" />
-                    <span><strong>Comprendre les élections</strong> et le vote</span>
+                    <span>
+                      <strong>Comprendre les élections</strong> et le vote
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -238,4 +287,3 @@ function CitizenshipPage() {
     </div>
   );
 }
-

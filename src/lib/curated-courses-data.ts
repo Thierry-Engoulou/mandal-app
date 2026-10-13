@@ -1,11 +1,16 @@
-import type { ProgrammeDetailResponse, ProgrammeChapitre, ProgrammeConcept } from "./use-student-programmes";
+import type {
+  ProgrammeDetailResponse,
+  ProgrammeChapitre,
+  ProgrammeConcept,
+} from "./use-student-programmes";
 
 export const CURATED_COURSES_DETAILS: Record<string, ProgrammeDetailResponse> = {
   "curated-bac-maths": {
     programme: {
       id: "curated-bac-maths",
       titre: "Mathématiques Générales — Terminale C & D",
-      description: "Analyse réelle, limites & continuité, dérivabilité, primitives & intégrales, fonctions exponentielles et logarithmiques, suites numériques, nombres complexes, probabilités et géométrie spatiale.",
+      description:
+        "Analyse réelle, limites & continuité, dérivabilité, primitives & intégrales, fonctions exponentielles et logarithmiques, suites numériques, nombres complexes, probabilités et géométrie spatiale.",
       matiereNom: "Mathématiques",
       classeNom: "Baccalauréat (Séries C & D)",
     },
@@ -167,7 +172,8 @@ $$\\int_a^b u'(x) v(x) dx = [u(x)v(x)]_a^b - \\int_a^b u(x) v'(x) dx$$
     programme: {
       id: "curated-bac-physique",
       titre: "Physique Générale — Terminale C, D & TI",
-      description: "Cinématique et dynamique newtonienne, mouvement dans un champ uniforme, oscillateurs mécaniques, circuits RLC en régime sinusoïdal forcé, résonance, optique ondulatoire et interférences.",
+      description:
+        "Cinématique et dynamique newtonienne, mouvement dans un champ uniforme, oscillateurs mécaniques, circuits RLC en régime sinusoïdal forcé, résonance, optique ondulatoire et interférences.",
       matiereNom: "Physique-Chimie",
       classeNom: "Baccalauréat (Séries C & D)",
     },
@@ -254,7 +260,8 @@ $$\\omega_0 = \\frac{1}{\\sqrt{LC}} \\quad \\text{ou} \\quad f_0 = \\frac{1}{2\\
     programme: {
       id: "curated-prob-maths",
       titre: "Mathématiques Générales — Première C & D",
-      description: "Polynômes du second degré, barycentres, produit scalaire, trigonométrie, dérivation et études de fonctions rationnelles.",
+      description:
+        "Polynômes du second degré, barycentres, produit scalaire, trigonométrie, dérivation et études de fonctions rationnelles.",
       matiereNom: "Mathématiques",
       classeNom: "Probatoire (Séries C & D)",
     },
@@ -292,7 +299,8 @@ Le discriminant est donné par : $\\Delta = b^2 - 4ac$.
     programme: {
       id: "curated-bepc-maths",
       titre: "Mathématiques — Classe de 3ème / BEPC",
-      description: "Calcul numérique, théorème de Thalès, trigonométrie dans le triangle rectangle, équations et inéquations du premier degré, géométrie dans l'espace.",
+      description:
+        "Calcul numérique, théorème de Thalès, trigonométrie dans le triangle rectangle, équations et inéquations du premier degré, géométrie dans l'espace.",
       matiereNom: "Mathématiques",
       classeNom: "BEPC (3ème)",
     },
@@ -331,7 +339,8 @@ Si les points A, M, B d'une part, et A, N, C d'autre part, sont alignés dans le
     programme: {
       id: "curated-enspd-maths",
       titre: "Algèbre Linéaire & Analyse Avancée (Concours ENSPD)",
-      description: "Espaces vectoriels, matrices et déterminants, diagonalisation, développements limités, équations différentielles linéaires d'ordre 2.",
+      description:
+        "Espaces vectoriels, matrices et déterminants, diagonalisation, développements limités, équations différentielles linéaires d'ordre 2.",
       matiereNom: "Mathématiques",
       classeNom: "Concours ENSPD (Polytechnique)",
     },

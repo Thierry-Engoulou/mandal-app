@@ -22,7 +22,12 @@ function computeLock(
   doneSet: Set<string>,
 ): LockInfo {
   if (deverrouilleSi !== "tous_concepts_termines" || !chapitre) {
-    return { isLocked: false, chapitreTitre: chapitre?.titre ?? null, totalConcepts: 0, conceptsTermines: 0 };
+    return {
+      isLocked: false,
+      chapitreTitre: chapitre?.titre ?? null,
+      totalConcepts: 0,
+      conceptsTermines: 0,
+    };
   }
   const total = chapitre.conceptIds.length;
   const done = chapitre.conceptIds.filter((id) => doneSet.has(id)).length;
@@ -59,7 +64,9 @@ export function useStudentExamensWithLock() {
       const passed = new Map((resultatsRes.data ?? []).map((r) => [r.examen_id, Number(r.score)]));
 
       const chapitreByExam = rows.map((raw) => {
-        const rawChapitre = Array.isArray(raw["chapitres"]) ? raw["chapitres"][0] : raw["chapitres"];
+        const rawChapitre = Array.isArray(raw["chapitres"])
+          ? raw["chapitres"][0]
+          : raw["chapitres"];
         if (!rawChapitre) return null;
         const c = rawChapitre as Record<string, unknown>;
         const conceptIds = ((c["concepts"] as { id: string }[]) ?? []).map((k) => k.id);
@@ -80,7 +87,11 @@ export function useStudentExamensWithLock() {
       }
 
       return rows.map((raw, i) => {
-        const lock = computeLock((raw["deverrouille_si"] as string) ?? "toujours", chapitreByExam[i] ?? null, doneSet);
+        const lock = computeLock(
+          (raw["deverrouille_si"] as string) ?? "toujours",
+          chapitreByExam[i] ?? null,
+          doneSet,
+        );
         return {
           id: raw["id"] as string,
           titre: raw["titre"] as string,
@@ -109,16 +120,17 @@ export function useExamenLock(examenId: string) {
         .eq("id", examenId)
         .maybeSingle();
       if (error) throw new Error(error.message);
-      if (!data) return { isLocked: false, chapitreTitre: null, totalConcepts: 0, conceptsTermines: 0 };
+      if (!data)
+        return { isLocked: false, chapitreTitre: null, totalConcepts: 0, conceptsTermines: 0 };
 
       const raw = data as unknown as Record<string, unknown>;
       const rawChapitre = Array.isArray(raw["chapitres"]) ? raw["chapitres"][0] : raw["chapitres"];
       const chapitre = rawChapitre
         ? {
             titre: (rawChapitre as Record<string, unknown>)["titre"] as string,
-            conceptIds: (((rawChapitre as Record<string, unknown>)["concepts"] as { id: string }[]) ?? []).map(
-              (k) => k.id,
-            ),
+            conceptIds: (
+              ((rawChapitre as Record<string, unknown>)["concepts"] as { id: string }[]) ?? []
+            ).map((k) => k.id),
           }
         : null;
 

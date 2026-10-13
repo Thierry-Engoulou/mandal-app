@@ -36,7 +36,7 @@ function AuthCallback() {
         if (code) {
           setStatusText("Validation de votre jeton sécurisé…");
           const { data, error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-          
+
           if (!exchangeError && data?.session) {
             processedRef.current = true;
             await syncProfileAndRedirect(data.session);
@@ -48,7 +48,9 @@ function AuthCallback() {
         }
 
         // 2. Vérifier si des tokens sont dans le hash (#access_token=...)
-        const hash = window.location.hash.startsWith("#") ? window.location.hash.substring(1) : window.location.hash;
+        const hash = window.location.hash.startsWith("#")
+          ? window.location.hash.substring(1)
+          : window.location.hash;
         if (hash) {
           const hashParams = new URLSearchParams(hash);
           const accessToken = hashParams.get("access_token");
@@ -70,7 +72,9 @@ function AuthCallback() {
         }
 
         // 3. Vérifier si une session Supabase active est déjà présente
-        const { data: { session } } = await supabase.auth.getSession();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
         if (session) {
           processedRef.current = true;
           await syncProfileAndRedirect(session);
@@ -78,7 +82,9 @@ function AuthCallback() {
         }
 
         // 4. Écouter l'événement auth state change pendant 4 secondes max
-        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, currentSession) => {
+        const {
+          data: { subscription },
+        } = supabase.auth.onAuthStateChange(async (event, currentSession) => {
           if (currentSession && !processedRef.current) {
             processedRef.current = true;
             subscription.unsubscribe();
@@ -89,7 +95,9 @@ function AuthCallback() {
         // 5. Fallback après 3.5 secondes
         setTimeout(async () => {
           if (!isMounted || processedRef.current) return;
-          const { data: { session: fallbackSession } } = await supabase.auth.getSession();
+          const {
+            data: { session: fallbackSession },
+          } = await supabase.auth.getSession();
           if (fallbackSession) {
             processedRef.current = true;
             await syncProfileAndRedirect(fallbackSession);
@@ -98,7 +106,6 @@ function AuthCallback() {
             navigate({ to: "/auth", replace: true });
           }
         }, 3500);
-
       } catch (err) {
         console.error("Auth callback error:", err);
         if (isMounted) {
@@ -130,23 +137,27 @@ function AuthCallback() {
         const role = existingProfile?.role || "student";
 
         if (!existingProfile) {
-          const fullName = meta["full_name"] || meta["name"] || user.email?.split("@")[0] || "Étudiant";
+          const fullName =
+            meta["full_name"] || meta["name"] || user.email?.split("@")[0] || "Étudiant";
           const givenName = meta["given_name"] || meta["first_name"] || null;
           const familyName = meta["family_name"] || meta["last_name"] || null;
           const avatar = meta["avatar_url"] || meta["picture"] || null;
 
           // Upsert sécurisé avec les champs par défaut
-          await supabase.from("profiles").upsert({
-            id: user.id,
-            role: "student",
-            full_name: fullName,
-            nom: familyName,
-            prenom: givenName,
-            avatar_url: avatar,
-            niveau: "Terminale",
-            statut_validation: "approuve",
-            xp_total: 0,
-          }, { onConflict: "id" });
+          await supabase.from("profiles").upsert(
+            {
+              id: user.id,
+              role: "student",
+              full_name: fullName,
+              nom: familyName,
+              prenom: givenName,
+              avatar_url: avatar,
+              niveau: "Terminale",
+              statut_validation: "approuve",
+              xp_total: 0,
+            },
+            { onConflict: "id" },
+          );
         }
 
         // Redirection selon le rôle
@@ -179,7 +190,9 @@ function AuthCallback() {
             <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-red-500/10 text-red-400">
               ⚠️
             </div>
-            <h2 className="mt-4 font-display text-lg font-bold text-white">Connexion interrompue</h2>
+            <h2 className="mt-4 font-display text-lg font-bold text-white">
+              Connexion interrompue
+            </h2>
             <p className="mt-2 text-xs text-red-400/90 leading-relaxed">{errorMsg}</p>
             <button
               onClick={() => navigate({ to: "/auth", replace: true })}
@@ -191,14 +204,13 @@ function AuthCallback() {
         ) : (
           <div>
             <div className="mx-auto size-12 animate-spin rounded-full border-3 border-emerald-400 border-t-transparent shadow-lg shadow-emerald-500/20" />
-            <h2 className="mt-5 font-display text-lg font-bold text-white">Connexion avec Google</h2>
-            <p className="mt-2 text-xs text-slate-400">
-              {statusText}
-            </p>
+            <h2 className="mt-5 font-display text-lg font-bold text-white">
+              Connexion avec Google
+            </h2>
+            <p className="mt-2 text-xs text-slate-400">{statusText}</p>
           </div>
         )}
       </div>
     </div>
   );
 }
-

@@ -6,7 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { toast } from "sonner";
 
 const PILLARS = [
@@ -35,7 +41,8 @@ export const Route = createFileRoute("/demande-inscription")({
       { property: "og:title", content: "Demande d'inscription étudiants — M'Andal" },
       {
         property: "og:description",
-        content: "Rejoignez la communauté M'Andal : envoyez votre demande d'inscription à l'équipe.",
+        content:
+          "Rejoignez la communauté M'Andal : envoyez votre demande d'inscription à l'équipe.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -141,7 +148,11 @@ function StudentApplicationPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="phone">Téléphone (optionnel)</Label>
-                <Input id="phone" value={form.phone} onChange={(e) => set("phone")(e.target.value)} />
+                <Input
+                  id="phone"
+                  value={form.phone}
+                  onChange={(e) => set("phone")(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="country">Pays</Label>
@@ -158,7 +169,11 @@ function StudentApplicationPage() {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="school">Établissement (optionnel)</Label>
-                <Input id="school" value={form.school} onChange={(e) => set("school")(e.target.value)} />
+                <Input
+                  id="school"
+                  value={form.school}
+                  onChange={(e) => set("school")(e.target.value)}
+                />
               </div>
               <div className="space-y-2">
                 <Label>Niveau scolaire</Label>

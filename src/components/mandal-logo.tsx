@@ -1,6 +1,12 @@
 import { cn } from "@/lib/utils";
 
-export function MandalLogo({ className, compact = false }: { className?: string; compact?: boolean }) {
+export function MandalLogo({
+  className,
+  compact = false,
+}: {
+  className?: string;
+  compact?: boolean;
+}) {
   return (
     <div className={cn("flex items-center", className)} aria-label="M'Andal">
       <img

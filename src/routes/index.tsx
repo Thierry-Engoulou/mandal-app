@@ -88,7 +88,10 @@ function Header() {
           <Button asChild variant="ghost">
             <Link to="/auth">Connexion</Link>
           </Button>
-          <Button asChild className="rounded-full bg-emerald-600 px-6 font-semibold text-white hover:bg-emerald-500">
+          <Button
+            asChild
+            className="rounded-full bg-emerald-600 px-6 font-semibold text-white hover:bg-emerald-500"
+          >
             <Link to="/inscription">Inscription</Link>
           </Button>
         </div>
@@ -153,7 +156,8 @@ function Hero() {
           Apprendre avec <span className="text-emerald-400">sourire</span> et rigueur.
         </h1>
         <p className="mt-6 max-w-3xl text-lg leading-relaxed text-white/90 sm:text-xl">
-          Démocratiser le soutien scolaire et la réussite aux examens et grands concours nationaux face aux défis socio-économiques actuels.
+          Démocratiser le soutien scolaire et la réussite aux examens et grands concours nationaux
+          face aux défis socio-économiques actuels.
         </p>
 
         {/* Boutons d'accès créatifs aux 3 Volets avec logos distincts */}
@@ -286,7 +290,9 @@ function PillarsPreviewSection() {
                       {p.num}
                     </span>
                   </div>
-                  <span className={cn("rounded-full border px-3 py-1 text-xs font-bold", p.badgeBg)}>
+                  <span
+                    className={cn("rounded-full border px-3 py-1 text-xs font-bold", p.badgeBg)}
+                  >
                     {p.tag}
                   </span>
                 </div>
@@ -301,7 +307,13 @@ function PillarsPreviewSection() {
               </div>
 
               <div className="mt-8 pt-4 border-t border-white/10">
-                <Button asChild className={cn("w-full rounded-xl font-bold py-6 text-sm transition-all group-hover:scale-[1.02]", p.btnBg)}>
+                <Button
+                  asChild
+                  className={cn(
+                    "w-full rounded-xl font-bold py-6 text-sm transition-all group-hover:scale-[1.02]",
+                    p.btnBg,
+                  )}
+                >
                   <Link to={p.to} className="flex items-center justify-center gap-2">
                     <span>Consulter le volet {p.title}</span>
                     <span>{p.icon}</span>
@@ -335,13 +347,16 @@ function Footer() {
               « Apprendre avec sourire et rigueur »
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Démocratiser le soutien scolaire et l'excellence académique pour tous les élèves du Cameroun.
+              Démocratiser le soutien scolaire et l'excellence académique pour tous les élèves du
+              Cameroun.
             </p>
           </div>
 
           {/* Contact Details from Slide 13 */}
           <div className="space-y-3">
-            <h3 className="font-display text-base font-bold text-foreground">Contact &amp; Informations</h3>
+            <h3 className="font-display text-base font-bold text-foreground">
+              Contact &amp; Informations
+            </h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
                 <Phone className="size-4 text-emerald-500 shrink-0" />
@@ -358,14 +373,20 @@ function Footer() {
 
           {/* Partenaires */}
           <div className="space-y-3">
-            <h3 className="font-display text-base font-bold text-foreground">Partenaires institutionnels</h3>
+            <h3 className="font-display text-base font-bold text-foreground">
+              Partenaires institutionnels
+            </h3>
             <div className="grid grid-cols-3 gap-3">
               {partners.map((partner) => (
                 <div
                   key={partner.src}
                   className="flex h-16 items-center justify-center rounded-lg border border-border bg-background p-2"
                 >
-                  <img src={partner.src} alt={partner.alt} className="h-12 max-w-full object-contain" />
+                  <img
+                    src={partner.src}
+                    alt={partner.alt}
+                    className="h-12 max-w-full object-contain"
+                  />
                 </div>
               ))}
             </div>
@@ -378,12 +399,25 @@ function Footer() {
           © 2026 M'ANDAL (Mahol Andal) · Tous droits réservés.
         </p>
         <div className="flex flex-wrap items-center gap-5 text-sm font-semibold text-muted-foreground">
-          <Link to="/" className="hover:text-emerald-500">🏠 Accueil</Link>
-          <Link to="/education" className="hover:text-emerald-500">📚 Éducation</Link>
-          <Link to="/citoyennete" className="hover:text-orange-500">⚖️ Citoyenneté</Link>
-          <Link to="/culture" className="hover:text-amber-500">🌍 Culture</Link>
-          <a href="#parrainage" className="hover:text-foreground">🤝 Parrainage</a>
-          <Link to="/admin" className="text-xs text-slate-400 hover:text-emerald-400 flex items-center gap-1 border border-slate-700/60 rounded-full px-2.5 py-0.5">
+          <Link to="/" className="hover:text-emerald-500">
+            🏠 Accueil
+          </Link>
+          <Link to="/education" className="hover:text-emerald-500">
+            📚 Éducation
+          </Link>
+          <Link to="/citoyennete" className="hover:text-orange-500">
+            ⚖️ Citoyenneté
+          </Link>
+          <Link to="/culture" className="hover:text-amber-500">
+            🌍 Culture
+          </Link>
+          <a href="#parrainage" className="hover:text-foreground">
+            🤝 Parrainage
+          </a>
+          <Link
+            to="/admin"
+            className="text-xs text-slate-400 hover:text-emerald-400 flex items-center gap-1 border border-slate-700/60 rounded-full px-2.5 py-0.5"
+          >
             🛡️ Admin
           </Link>
         </div>
@@ -409,8 +443,12 @@ function HomePage() {
       {/* 2. Les Annonces positionnées à la fin de la page d'accueil */}
       <div className="py-8 bg-slate-950/90 border-t border-slate-800">
         <div className="mx-auto max-w-7xl px-5 lg:px-8 mb-4">
-          <p className="text-xs font-bold uppercase tracking-wider text-emerald-400">Actualités &amp; Événements</p>
-          <h2 className="font-display text-xl font-bold text-white">Les dernières annonces M'Andal</h2>
+          <p className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+            Actualités &amp; Événements
+          </p>
+          <h2 className="font-display text-xl font-bold text-white">
+            Les dernières annonces M'Andal
+          </h2>
         </div>
         <AnnouncementsCarousel />
       </div>

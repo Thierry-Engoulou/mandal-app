@@ -12,11 +12,14 @@ export function FunctionGraph({ spec }: { spec: string }) {
     try {
       const data = JSON.parse(spec) as GraphSpec;
       if (!data.functions || data.functions.length === 0) {
-        throw new Error("Aucune fonction à tracer (champ \"functions\" manquant ou vide).");
+        throw new Error('Aucune fonction à tracer (champ "functions" manquant ou vide).');
       }
       return { ok: true as const, data };
     } catch (e) {
-      return { ok: false as const, error: e instanceof Error ? e.message : "Spec de graphique invalide" };
+      return {
+        ok: false as const,
+        error: e instanceof Error ? e.message : "Spec de graphique invalide",
+      };
     }
   }, [spec]);
 
@@ -41,9 +44,19 @@ function FunctionGraphPlot({ data }: { data: GraphSpec }) {
     return functions.map((f, i) => {
       try {
         const fn = compileExpression(f.expr);
-        return { ...f, color: f.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length], data: sample(fn, domain), error: null as string | null };
+        return {
+          ...f,
+          color: f.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length],
+          data: sample(fn, domain),
+          error: null as string | null,
+        };
       } catch (e) {
-        return { ...f, color: f.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length], data: [], error: e instanceof Error ? e.message : "Expression invalide" };
+        return {
+          ...f,
+          color: f.color ?? DEFAULT_COLORS[i % DEFAULT_COLORS.length],
+          data: [],
+          error: e instanceof Error ? e.message : "Expression invalide",
+        };
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,7 +81,12 @@ function FunctionGraphPlot({ data }: { data: GraphSpec }) {
 
   return (
     <div className="overflow-x-auto rounded-xl border border-border bg-white p-2">
-      <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="w-full" role="img" aria-label="Graphique de fonction">
+      <svg
+        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
+        className="w-full"
+        role="img"
+        aria-label="Graphique de fonction"
+      >
         {/* grille */}
         {Array.from({ length: 11 }).map((_, i) => {
           const gx = xMin + ((xMax - xMin) * i) / 10;
@@ -82,10 +100,24 @@ function FunctionGraphPlot({ data }: { data: GraphSpec }) {
         })}
         {/* axes */}
         {yMin <= 0 && yMax >= 0 && (
-          <line x1={PAD} y1={sy(0)} x2={WIDTH - PAD} y2={sy(0)} stroke="#111827" strokeWidth={1.5} />
+          <line
+            x1={PAD}
+            y1={sy(0)}
+            x2={WIDTH - PAD}
+            y2={sy(0)}
+            stroke="#111827"
+            strokeWidth={1.5}
+          />
         )}
         {xMin <= 0 && xMax >= 0 && (
-          <line x1={sx(0)} y1={PAD} x2={sx(0)} y2={HEIGHT - PAD} stroke="#111827" strokeWidth={1.5} />
+          <line
+            x1={sx(0)}
+            y1={PAD}
+            x2={sx(0)}
+            y2={HEIGHT - PAD}
+            stroke="#111827"
+            strokeWidth={1.5}
+          />
         )}
         {/* courbes, coupées aux discontinuités (NaN) */}
         {series.map((s, i) => {
@@ -119,7 +151,10 @@ function FunctionGraphPlot({ data }: { data: GraphSpec }) {
       <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 px-2 pb-1">
         {series.map((s, i) => (
           <span key={i} className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
-            <span className="inline-block size-2.5 rounded-full" style={{ backgroundColor: s.color }} />
+            <span
+              className="inline-block size-2.5 rounded-full"
+              style={{ backgroundColor: s.color }}
+            />
             {s.label ?? s.expr}
           </span>
         ))}

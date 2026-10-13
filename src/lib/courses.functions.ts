@@ -12,7 +12,8 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
     if (init?.headers) {
       new Headers(init.headers).forEach((value, key) => headers.set(key, value));
     }
-    const isNewKey = supabaseKey.startsWith("sb_publishable_") || supabaseKey.startsWith("sb_secret_");
+    const isNewKey =
+      supabaseKey.startsWith("sb_publishable_") || supabaseKey.startsWith("sb_secret_");
     if (isNewKey && headers.get("Authorization") === `Bearer ${supabaseKey}`) {
       headers.delete("Authorization");
     }

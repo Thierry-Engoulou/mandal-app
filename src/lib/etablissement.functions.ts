@@ -64,12 +64,10 @@ export const approveResource = createServerFn({ method: "POST" })
       .download(sourcePath);
 
     if (!dlError && file) {
-      const { error: upError } = await db.storage
-        .from(target)
-        .upload(sourcePath, file, {
-          upsert: true,
-          contentType: file.type || "application/octet-stream",
-        });
+      const { error: upError } = await db.storage.from(target).upload(sourcePath, file, {
+        upsert: true,
+        contentType: file.type || "application/octet-stream",
+      });
       if (upError) throw new Error(upError.message);
       await db.storage.from(PENDING_BUCKET).remove([sourcePath]);
       newPath = `${target}/${sourcePath}`;
@@ -116,9 +114,7 @@ export type ChefTeacherContact = { id: string; email: string | null };
 /** Emails des enseignants de l'établissement (Auth Admin API). */
 export const listSchoolEmails = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) =>
-    z.object({ etablissementId: z.string().uuid() }).parse(data),
-  )
+  .inputValidator((data: unknown) => z.object({ etablissementId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }): Promise<ChefTeacherContact[]> => {
     await assertChefOf(context, data.etablissementId);
     const db = await admin();

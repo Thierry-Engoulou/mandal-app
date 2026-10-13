@@ -35,7 +35,11 @@ type ResourceType = "video" | "audio" | "document";
 
 const TYPE_ICON = { video: Film, audio: FileAudio, document: FileText } as const;
 const TYPE_LABEL = { video: "Vidéo", audio: "Audio", document: "Document" } as const;
-const ACCEPT = { video: "video/*", audio: "audio/*", document: ".pdf,.doc,.docx,.txt,.md,.ppt,.pptx" };
+const ACCEPT = {
+  video: "video/*",
+  audio: "audio/*",
+  document: ".pdf,.doc,.docx,.txt,.md,.ppt,.pptx",
+};
 
 function TeacherMediaPage() {
   const { data: profile } = useProfile();
@@ -133,8 +137,7 @@ function TeacherMediaPage() {
           Médiathèque
         </h1>
         <p className="text-sm text-muted-foreground">
-          Déposez une ressource : elle sera visible après validation par votre chef
-          d'établissement.
+          Déposez une ressource : elle sera visible après validation par votre chef d'établissement.
         </p>
       </header>
 

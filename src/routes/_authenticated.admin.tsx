@@ -51,7 +51,8 @@ function AdminLayout() {
           </h1>
 
           <p className="mt-2 text-sm text-slate-300 leading-relaxed">
-            Ce tableau de bord et les statistiques de la plateforme M'ANDAL sont strictement réservés à la direction et aux comptes administrateurs certifiés.
+            Ce tableau de bord et les statistiques de la plateforme M'ANDAL sont strictement
+            réservés à la direction et aux comptes administrateurs certifiés.
           </p>
 
           <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-950 p-4 text-left text-xs space-y-1.5 text-slate-400">

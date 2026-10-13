@@ -33,7 +33,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-bac-maths",
       titre: "Mathématiques Générales — Terminale C & D",
-      description: "Analyse réelle, limites & continuité, dérivabilité, primitives & intégrales, fonctions exponentielles et logarithmiques, suites numériques, nombres complexes, probabilités et dénombrement.",
+      description:
+        "Analyse réelle, limites & continuité, dérivabilité, primitives & intégrales, fonctions exponentielles et logarithmiques, suites numériques, nombres complexes, probabilités et dénombrement.",
       matiereNom: "Mathématiques",
       classeNom: "Baccalauréat (Séries C & D)",
       totalConcepts: 24,
@@ -42,7 +43,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-bac-physique",
       titre: "Physique Générale — Terminale C, D & TI",
-      description: "Cinématique et dynamique newtonienne, mouvement dans un champ uniforme, oscillateurs mécaniques, circuits RLC en régime sinusoïdal forcé, résonance, optique ondulatoire et interférences.",
+      description:
+        "Cinématique et dynamique newtonienne, mouvement dans un champ uniforme, oscillateurs mécaniques, circuits RLC en régime sinusoïdal forcé, résonance, optique ondulatoire et interférences.",
       matiereNom: "Physique-Chimie",
       classeNom: "Baccalauréat (Séries C & D)",
       totalConcepts: 18,
@@ -51,7 +53,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-bac-chimie",
       titre: "Chimie des Solutions & Synthèse Organique",
-      description: "Acides et bases en solution aqueuse, pH-métrie, cinétique chimique, estérification, composés aromatiques et alcools.",
+      description:
+        "Acides et bases en solution aqueuse, pH-métrie, cinétique chimique, estérification, composés aromatiques et alcools.",
       matiereNom: "Physique-Chimie",
       classeNom: "Baccalauréat (Séries C & D)",
       totalConcepts: 12,
@@ -60,7 +63,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-bac-svt",
       titre: "Sciences de la Vie et de la Terre — Terminale D",
-      description: "Génétique mendélienne, transmission des caractères héréditaires, régulation de la glycémie, système immunitaire et neurophysiologie.",
+      description:
+        "Génétique mendélienne, transmission des caractères héréditaires, régulation de la glycémie, système immunitaire et neurophysiologie.",
       matiereNom: "SVT",
       classeNom: "Baccalauréat Série D",
       totalConcepts: 14,
@@ -71,7 +75,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-prob-maths",
       titre: "Mathématiques Générales — Première C & D",
-      description: "Polynômes du second degré, barycentres, produit scalaire, trigonométrie, dérivation et études de fonctions rationnelles.",
+      description:
+        "Polynômes du second degré, barycentres, produit scalaire, trigonométrie, dérivation et études de fonctions rationnelles.",
       matiereNom: "Mathématiques",
       classeNom: "Probatoire (Séries C & D)",
       totalConcepts: 16,
@@ -80,7 +85,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-prob-physique",
       titre: "Physique Appliquée — Première C & D",
-      description: "Travail et puissance mécanique, énergie cinétique et potentielle, calorimétrie, champ électrostatique et loi d'Ohm.",
+      description:
+        "Travail et puissance mécanique, énergie cinétique et potentielle, calorimétrie, champ électrostatique et loi d'Ohm.",
       matiereNom: "Physique-Chimie",
       classeNom: "Probatoire (Séries C & D)",
       totalConcepts: 14,
@@ -91,7 +97,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-bepc-maths",
       titre: "Mathématiques — Classe de 3ème / BEPC",
-      description: "Calcul numérique, théorème de Thalès, trigonométrie dans le triangle rectangle, équations et inéquations du premier degré, géométrie dans l'espace.",
+      description:
+        "Calcul numérique, théorème de Thalès, trigonométrie dans le triangle rectangle, équations et inéquations du premier degré, géométrie dans l'espace.",
       matiereNom: "Mathématiques",
       classeNom: "BEPC (3ème)",
       totalConcepts: 12,
@@ -100,7 +107,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-bepc-pc",
       titre: "Sciences Physiques & Chimie — 3ème",
-      description: "Le courant électrique continu, la masse volumique, les solutions acides et basiques, la combustion des métaux et des hydrocarbures.",
+      description:
+        "Le courant électrique continu, la masse volumique, les solutions acides et basiques, la combustion des métaux et des hydrocarbures.",
       matiereNom: "Physique-Chimie",
       classeNom: "BEPC (3ème)",
       totalConcepts: 10,
@@ -111,7 +119,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-enspd-meca",
       titre: "Mécanique du Point & Systèmes Matériels (Concours ENSPD)",
-      description: "Cinématique en coordonnées cylindriques et sphériques, théorèmes de l'énergie cinétique, oscillateur harmonique amorti, moments cinétiques et forces centrales.",
+      description:
+        "Cinématique en coordonnées cylindriques et sphériques, théorèmes de l'énergie cinétique, oscillateur harmonique amorti, moments cinétiques et forces centrales.",
       matiereNom: "Physique-Chimie",
       classeNom: "Concours ENSPD (Polytechnique)",
       totalConcepts: 15,
@@ -120,7 +129,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-enspd-maths",
       titre: "Algèbre Linéaire & Analyse Avancée (Concours ENSPD)",
-      description: "Espaces vectoriels, matrices et déterminants, diagonalisation, développements limités, équations différentielles linéaires d'ordre 2.",
+      description:
+        "Espaces vectoriels, matrices et déterminants, diagonalisation, développements limités, équations différentielles linéaires d'ordre 2.",
       matiereNom: "Mathématiques",
       classeNom: "Concours ENSPD (Polytechnique)",
       totalConcepts: 16,
@@ -131,7 +141,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-iut-elec",
       titre: "Électrotechnique, RLC & Circuits Diode (Concours IUT)",
-      description: "Régimes transitoires du premier et second ordre, quadripôles, filtrage passif, diodes et redressement, puissances active et réactive en alternatif.",
+      description:
+        "Régimes transitoires du premier et second ordre, quadripôles, filtrage passif, diodes et redressement, puissances active et réactive en alternatif.",
       matiereNom: "Physique-Chimie",
       classeNom: "Concours IUT Douala & Bandjoun",
       totalConcepts: 14,
@@ -140,7 +151,8 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
     {
       id: "curated-iut-maths",
       titre: "Mathématiques Appliquées & Calcul Matriciel (IUT)",
-      description: "Calcul intégral et différentiel appliqué aux sciences de l'ingénieur, calcul matriciel et systèmes linéaires.",
+      description:
+        "Calcul intégral et différentiel appliqué aux sciences de l'ingénieur, calcul matriciel et systèmes linéaires.",
       matiereNom: "Mathématiques",
       classeNom: "Concours IUT",
       totalConcepts: 12,
@@ -152,9 +164,11 @@ const DEFAULT_COURSES_BY_LEVEL: Record<string, ProgrammeSummary[]> = {
 export function StudentCoursesIndexPage() {
   const [selectedClassId, setSelectedClassId] = useState<string>("all");
   const { data: dbClasses = [] } = useAllClasses();
-  const { data: rawProgrammes = [], isLoading, isError } = useStudentProgrammes(
-    selectedClassId === "all" ? null : selectedClassId,
-  );
+  const {
+    data: rawProgrammes = [],
+    isLoading,
+    isError,
+  } = useStudentProgrammes(selectedClassId === "all" ? null : selectedClassId);
   const joinClassMutation = useJoinClass();
   const [search, setSearch] = useState("");
 
@@ -167,14 +181,14 @@ export function StudentCoursesIndexPage() {
       selectedClassId === "all"
         ? "bac"
         : selectedClassId.includes("bepc")
-        ? "bepc"
-        : selectedClassId.includes("prob")
-        ? "probatoire"
-        : selectedClassId.includes("enspd")
-        ? "enspd"
-        : selectedClassId.includes("iut")
-        ? "iut"
-        : "bac";
+          ? "bepc"
+          : selectedClassId.includes("prob")
+            ? "probatoire"
+            : selectedClassId.includes("enspd")
+              ? "enspd"
+              : selectedClassId.includes("iut")
+                ? "iut"
+                : "bac";
 
     return DEFAULT_COURSES_BY_LEVEL[levelKey] ?? DEFAULT_COURSES_BY_LEVEL["bac"] ?? [];
   }, [rawProgrammes, selectedClassId]);
@@ -207,12 +221,15 @@ export function StudentCoursesIndexPage() {
       <header className="gradient-welcome rounded-2xl p-6 text-primary-foreground shadow-sm md:p-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <p className="text-xs font-bold uppercase tracking-wide opacity-80">Espace Pédagogique M'Andal</p>
+            <p className="text-xs font-bold uppercase tracking-wide opacity-80">
+              Espace Pédagogique M'Andal
+            </p>
             <h1 className="mt-1 font-display text-2xl font-bold md:text-3xl">
               📚 Vos cours &amp; Programmes de classe
             </h1>
             <p className="mt-2 max-w-2xl text-sm opacity-90">
-              Tous les cours, fiches de synthèse, exercices et simulations enregistrés dans la base de données pour votre classe.
+              Tous les cours, fiches de synthèse, exercices et simulations enregistrés dans la base
+              de données pour votre classe.
             </p>
           </div>
 
@@ -352,7 +369,8 @@ export function StudentCoursesIndexPage() {
 
           <ul className="space-y-3">
             {filtered.map((p) => {
-              const pct = p.totalConcepts > 0 ? Math.round((p.conceptsTermines / p.totalConcepts) * 100) : 0;
+              const pct =
+                p.totalConcepts > 0 ? Math.round((p.conceptsTermines / p.totalConcepts) * 100) : 0;
               const isCurated = p.id.startsWith("curated-");
 
               return (
@@ -368,7 +386,9 @@ export function StudentCoursesIndexPage() {
                       </span>
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <p className="font-display text-base sm:text-lg font-bold text-foreground">{p.titre}</p>
+                          <p className="font-display text-base sm:text-lg font-bold text-foreground">
+                            {p.titre}
+                          </p>
                         </div>
                         {p.description && (
                           <p className="mt-1 text-xs sm:text-sm text-muted-foreground line-clamp-2 leading-relaxed">
@@ -395,7 +415,9 @@ export function StudentCoursesIndexPage() {
 
                     <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0 sm:border-l sm:border-border sm:pl-5">
                       <div className="text-left sm:text-right">
-                        <span className="text-xs font-semibold text-muted-foreground block">Progression</span>
+                        <span className="text-xs font-semibold text-muted-foreground block">
+                          Progression
+                        </span>
                         <div className="mt-1 flex items-center gap-2">
                           <Progress value={pct} className="h-2 w-24" />
                           <span className="text-xs font-bold text-foreground">{pct}%</span>
@@ -417,4 +439,3 @@ export function StudentCoursesIndexPage() {
     </div>
   );
 }
-

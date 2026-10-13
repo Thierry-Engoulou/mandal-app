@@ -3,7 +3,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
-import { listAdminUsers, updateAdminUser, listEtablissements, type UpdateAdminUserInput } from "@/lib/admin.functions";
+import {
+  listAdminUsers,
+  updateAdminUser,
+  listEtablissements,
+  type UpdateAdminUserInput,
+} from "@/lib/admin.functions";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -46,7 +51,10 @@ function AdminUsersPage() {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
 
-  const { data: users, isLoading } = useQuery({ queryKey: ["admin-users"], queryFn: () => fetchUsers() });
+  const { data: users, isLoading } = useQuery({
+    queryKey: ["admin-users"],
+    queryFn: () => fetchUsers(),
+  });
   const { data: etablissements = [] } = useQuery({
     queryKey: ["admin-etablissements"],
     queryFn: () => fetchEtabs(),
@@ -65,15 +73,15 @@ function AdminUsersPage() {
   const term = search.trim().toLowerCase();
   const filtered = (users ?? []).filter(
     (u) =>
-      !term ||
-      (u.email ?? "").toLowerCase().includes(term) ||
-      u.nom.toLowerCase().includes(term),
+      !term || (u.email ?? "").toLowerCase().includes(term) || u.nom.toLowerCase().includes(term),
   );
 
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="font-display text-2xl font-bold tracking-tight text-foreground">Utilisateurs</h1>
+        <h1 className="font-display text-2xl font-bold tracking-tight text-foreground">
+          Utilisateurs
+        </h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Attribuez les rôles, rattachez un établissement et validez les enseignants.
         </p>
@@ -116,7 +124,10 @@ function AdminUsersPage() {
                       <Select
                         value={u.role}
                         onValueChange={(role) =>
-                          mutation.mutate({ userId: u.id, role: role as (typeof ROLES)[number]["value"] })
+                          mutation.mutate({
+                            userId: u.id,
+                            role: role as (typeof ROLES)[number]["value"],
+                          })
                         }
                       >
                         <SelectTrigger className="w-[190px] rounded-xl">

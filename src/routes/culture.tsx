@@ -69,22 +69,37 @@ function CulturePage() {
             <MandalLogo />
           </Link>
           <nav className="hidden items-center gap-6 md:flex">
-            <Link to="/" className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-amber-400">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-amber-400"
+            >
               <span>🏠</span> Accueil
             </Link>
-            <Link to="/education" className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-emerald-400">
+            <Link
+              to="/education"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-emerald-400"
+            >
               <span>📚</span> Éducation
             </Link>
-            <Link to="/citoyennete" className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-blue-400">
+            <Link
+              to="/citoyennete"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-blue-400"
+            >
               <span>⚖️</span> Citoyenneté
             </Link>
-            <Link to="/culture" className="inline-flex items-center gap-1.5 text-sm font-bold text-amber-400">
+            <Link
+              to="/culture"
+              className="inline-flex items-center gap-1.5 text-sm font-bold text-amber-400"
+            >
               <span>🌍</span> Culture
             </Link>
           </nav>
           <div className="flex items-center gap-3">
             {userSession ? (
-              <Button asChild className="rounded-full bg-amber-600 font-semibold text-white hover:bg-amber-500">
+              <Button
+                asChild
+                className="rounded-full bg-amber-600 font-semibold text-white hover:bg-amber-500"
+              >
                 <Link to="/etudiant">Mon Tableau de bord</Link>
               </Button>
             ) : (
@@ -92,7 +107,10 @@ function CulturePage() {
                 <Button asChild variant="ghost" className="text-slate-200 hover:bg-slate-800">
                   <Link to="/auth">Connexion</Link>
                 </Button>
-                <Button asChild className="rounded-full bg-amber-600 font-semibold text-white hover:bg-amber-500">
+                <Button
+                  asChild
+                  className="rounded-full bg-amber-600 font-semibold text-white hover:bg-amber-500"
+                >
                   <Link to="/inscription">Inscription</Link>
                 </Button>
               </>
@@ -119,10 +137,12 @@ function CulturePage() {
               Culture
             </h1>
             <p className="mt-3 text-xl font-medium text-amber-300 sm:text-2xl">
-              Valoriser le patrimoine africain plus précisément Camerounais et son histoire millénaire
+              Valoriser le patrimoine africain plus précisément Camerounais et son histoire
+              millénaire
             </p>
             <p className="mt-4 max-w-3xl text-sm text-slate-300 sm:text-base leading-relaxed">
-              Valorisation du patrimoine national, ouverture intellectuelle et construction d'une identité africaine positive et ambitieuse.
+              Valorisation du patrimoine national, ouverture intellectuelle et construction d'une
+              identité africaine positive et ambitieuse.
             </p>
           </div>
 
@@ -134,21 +154,31 @@ function CulturePage() {
                 <div className="flex size-12 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-400">
                   <History className="size-6" />
                 </div>
-                <h2 className="mt-6 font-display text-xl font-bold text-white">Histoire du continent</h2>
-                <p className="mt-1 text-xs text-slate-400">La trajectoire de nos civilisations millénaires</p>
+                <h2 className="mt-6 font-display text-xl font-bold text-white">
+                  Histoire du continent
+                </h2>
+                <p className="mt-1 text-xs text-slate-400">
+                  La trajectoire de nos civilisations millénaires
+                </p>
 
                 <ul className="mt-6 space-y-4 text-sm text-slate-300">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>Grands royaumes</strong> et empires africains</span>
+                    <span>
+                      <strong>Grands royaumes</strong> et empires africains
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>La période précoloniale</strong></span>
+                    <span>
+                      <strong>La période précoloniale</strong>
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-amber-400 shrink-0 mt-0.5" />
-                    <span><strong>Colonisation</strong> et indépendances</span>
+                    <span>
+                      <strong>Colonisation</strong> et indépendances
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -169,21 +199,31 @@ function CulturePage() {
                 <div className="flex size-12 items-center justify-center rounded-2xl bg-emerald-500/20 text-emerald-400">
                   <Palette className="size-6" />
                 </div>
-                <h2 className="mt-6 font-display text-xl font-bold text-white">Patrimoine culturel</h2>
-                <p className="mt-1 text-xs text-slate-400">L'expression vivante des arts et savoirs camerounais</p>
+                <h2 className="mt-6 font-display text-xl font-bold text-white">
+                  Patrimoine culturel
+                </h2>
+                <p className="mt-1 text-xs text-slate-400">
+                  L'expression vivante des arts et savoirs camerounais
+                </p>
 
                 <ul className="mt-6 space-y-4 text-sm text-slate-300">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Langues</strong> et traditions orales</span>
+                    <span>
+                      <strong>Langues</strong> et traditions orales
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Arts et artisanat</strong> africains</span>
+                    <span>
+                      <strong>Arts et artisanat</strong> africains
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span><strong>Musique</strong> et danses traditionnelles</span>
+                    <span>
+                      <strong>Musique</strong> et danses traditionnelles
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -204,21 +244,31 @@ function CulturePage() {
                 <div className="flex size-12 items-center justify-center rounded-2xl bg-orange-500/20 text-orange-400">
                   <Flame className="size-6" />
                 </div>
-                <h2 className="mt-6 font-display text-xl font-bold text-white">Figures et fierté africaine</h2>
-                <p className="mt-1 text-xs text-slate-400">Inspirer la jeunesse par des modèles d'excellence</p>
+                <h2 className="mt-6 font-display text-xl font-bold text-white">
+                  Figures et fierté africaine
+                </h2>
+                <p className="mt-1 text-xs text-slate-400">
+                  Inspirer la jeunesse par des modèles d'excellence
+                </p>
 
                 <ul className="mt-6 space-y-4 text-sm text-slate-300">
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-orange-400 shrink-0 mt-0.5" />
-                    <span><strong>Grandes figures</strong> historiques africaines</span>
+                    <span>
+                      <strong>Grandes figures</strong> historiques africaines
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-orange-400 shrink-0 mt-0.5" />
-                    <span><strong>Innovations africaines</strong> au monde</span>
+                    <span>
+                      <strong>Innovations africaines</strong> au monde
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <CheckCircle2 className="size-4 text-orange-400 shrink-0 mt-0.5" />
-                    <span><strong>Construire une identité</strong> africaine positive</span>
+                    <span>
+                      <strong>Construire une identité</strong> africaine positive
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -238,4 +288,3 @@ function CulturePage() {
     </div>
   );
 }
-

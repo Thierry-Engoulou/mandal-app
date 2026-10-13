@@ -61,7 +61,8 @@ export const askOrientationAdvisor = createServerFn({ method: "POST" })
 
     if (!res.ok) {
       const detail = await res.text();
-      if (res.status === 429) throw new Error("Trop de demandes au conseiller, réessayez dans un instant.");
+      if (res.status === 429)
+        throw new Error("Trop de demandes au conseiller, réessayez dans un instant.");
       if (res.status === 402) throw new Error("Crédits IA épuisés pour cet espace.");
       throw new Error(`Le conseiller IA est indisponible (${res.status}). ${detail.slice(0, 200)}`);
     }

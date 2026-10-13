@@ -141,7 +141,9 @@ function TeacherSyllabusPage() {
     queryFn: async (): Promise<Concept[]> => {
       const { data, error } = await supabase
         .from("concepts")
-        .select("id, chapitre_id, titre, ordre, type_contenu, contenu_texte, media_url, duree_minutes")
+        .select(
+          "id, chapitre_id, titre, ordre, type_contenu, contenu_texte, media_url, duree_minutes",
+        )
         .in("chapitre_id", chapitreIds)
         .order("ordre");
       if (error) throw new Error(error.message);
@@ -357,9 +359,7 @@ function TeacherSyllabusPage() {
           {!programme ? (
             <div className="py-10 text-center">
               <ListChecks className="mx-auto size-6 text-muted-foreground" />
-              <p className="mt-3 text-sm text-muted-foreground">
-                Créez un cours pour commencer.
-              </p>
+              <p className="mt-3 text-sm text-muted-foreground">Créez un cours pour commencer.</p>
             </div>
           ) : (
             <>
@@ -672,8 +672,8 @@ function TeacherSyllabusPage() {
                   </label>
                 ) : (
                   <p className="text-xs text-muted-foreground">
-                    Créez d'abord l'appliquette sur geogebra.org, puis collez ici le lien de son matériel
-                    (bouton « Partager » → lien).
+                    Créez d'abord l'appliquette sur geogebra.org, puis collez ici le lien de son
+                    matériel (bouton « Partager » → lien).
                   </p>
                 )}
               </div>
@@ -685,14 +685,17 @@ function TeacherSyllabusPage() {
                 <Textarea
                   id="c-graph-spec"
                   value={conceptForm.contenu_texte}
-                  onChange={(e) => setConceptForm({ ...conceptForm, contenu_texte: e.target.value })}
+                  onChange={(e) =>
+                    setConceptForm({ ...conceptForm, contenu_texte: e.target.value })
+                  }
                   placeholder={GRAPHIQUE_SPEC_PLACEHOLDER}
                   rows={8}
                   className="rounded-xl font-mono text-xs"
                 />
                 <p className="text-xs text-muted-foreground">
-                  Une ou plusieurs fonctions de x (ex. <code>x^2 - 2*x - 1</code>, <code>sin(x)</code>), un domaine,
-                  et des points optionnels à marquer. Le tracé ci-dessous se met à jour en direct.
+                  Une ou plusieurs fonctions de x (ex. <code>x^2 - 2*x - 1</code>,{" "}
+                  <code>sin(x)</code>), un domaine, et des points optionnels à marquer. Le tracé
+                  ci-dessous se met à jour en direct.
                 </p>
                 <div className="pt-1">
                   <FunctionGraph spec={conceptForm.contenu_texte || "{}"} />
@@ -708,7 +711,9 @@ function TeacherSyllabusPage() {
                 <Textarea
                   id="c-texte"
                   value={conceptForm.contenu_texte}
-                  onChange={(e) => setConceptForm({ ...conceptForm, contenu_texte: e.target.value })}
+                  onChange={(e) =>
+                    setConceptForm({ ...conceptForm, contenu_texte: e.target.value })
+                  }
                   rows={6}
                   className="rounded-xl"
                 />

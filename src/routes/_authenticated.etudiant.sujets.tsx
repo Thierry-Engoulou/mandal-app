@@ -66,7 +66,8 @@ const SAMPLE_EXAMS: Record<string, GeneratedExam> = {
       {
         titre: "Partie A : Évaluation des Ressources & QCM (5 Points)",
         points: "5 pts",
-        description: "Contrôle des connaissances fondamentales sur les limites, continuité et nombres complexes.",
+        description:
+          "Contrôle des connaissances fondamentales sur les limites, continuité et nombres complexes.",
         questions: [
           "1. Soit f une fonction continue sur [0, 2] telle que f(0) = -3 et f(2) = 5. Justifier que l'équation f(x) = 0 admet au moins une solution c dans [0, 2].",
           "2. Calculer la limite en +∞ de la fonction : g(x) = (2x² - ln(x)) / (x² + 3).",
@@ -87,7 +88,8 @@ const SAMPLE_EXAMS: Record<string, GeneratedExam> = {
       {
         titre: "Partie C : Problème de Synthèse & Situation Réelle (8 Points)",
         points: "8 pts",
-        description: "Modélisation de l'évolution d'une population bactérienne et optimisation d'un traitement.",
+        description:
+          "Modélisation de l'évolution d'une population bactérienne et optimisation d'un traitement.",
         questions: [
           "Une colonie bactérienne croît selon la loi N(t) = 5000 / (1 + 4e^(-0.5t)) où t est en heures.",
           "1. Déterminer la population initiale au temps t = 0.",
@@ -116,7 +118,8 @@ const SAMPLE_EXAMS: Record<string, GeneratedExam> = {
       {
         titre: "Partie 2 : Application des Acquis (8 Points)",
         points: "8 pts",
-        description: "Mouvement d'un mobile sur un plan incliné et résistance des forces de frottement.",
+        description:
+          "Mouvement d'un mobile sur un plan incliné et résistance des forces de frottement.",
         questions: [
           "Un solide de masse m = 200g glisse le long d'un plan incliné d'un angle α = 30° sur une distance AB = 2m.",
           "1. Calculer le travail du poids entre A et B.",
@@ -154,7 +157,9 @@ function StudentSubjectsPage() {
     setTimeout(() => {
       setGenerating(false);
       setCurrentExam(SAMPLE_EXAMS[selectedLevel] ?? SAMPLE_EXAMS["bac"] ?? null);
-      toast.success("Épreuve blanche générée avec succès suivant la structure officielle de la banque d'annales !");
+      toast.success(
+        "Épreuve blanche générée avec succès suivant la structure officielle de la banque d'annales !",
+      );
     }, 1200);
   };
 
@@ -191,9 +196,12 @@ function StudentSubjectsPage() {
           "N'oubliez jamais de vérifier que le dénominateur est non nul pour les limites.",
           "Entraînez-vous à rédiger la conclusion avec unités lors des problèmes de synthèse.",
         ],
-        coursAReviser: "Mathématiques Générales — Terminale C & D (Chapitre 3 : Primitives et Intégrales)",
+        coursAReviser:
+          "Mathématiques Générales — Terminale C & D (Chapitre 3 : Primitives et Intégrales)",
       });
-      toast.success("Correction détaillée de Mandal IA terminée ! Vos points d'amélioration sont affichés.");
+      toast.success(
+        "Correction détaillée de Mandal IA terminée ! Vos points d'amélioration sont affichés.",
+      );
     }, 2000);
   };
 
@@ -208,7 +216,9 @@ function StudentSubjectsPage() {
           Générateur & Correcteur d'Épreuves Mandal IA
         </h1>
         <p className="mt-2 text-sm sm:text-base opacity-90 max-w-2xl leading-relaxed">
-          Mandal IA structure des sujets conformes aux examens officiels (BAC, Probatoire, BEPC, ENSPD, IUT) à partir des cours que vous avez appris, et corrige vos copies manuscrites scannées en détectant vos erreurs.
+          Mandal IA structure des sujets conformes aux examens officiels (BAC, Probatoire, BEPC,
+          ENSPD, IUT) à partir des cours que vous avez appris, et corrige vos copies manuscrites
+          scannées en détectant vos erreurs.
         </p>
       </div>
 
@@ -220,7 +230,8 @@ function StudentSubjectsPage() {
               <BookOpen className="size-5 text-primary" /> 1. Générer une Épreuve sur Mesure
             </h2>
             <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-              Structure rigoureuse : QCM/Ressources, Exercices d'application, et Problème de synthèse.
+              Structure rigoureuse : QCM/Ressources, Exercices d'application, et Problème de
+              synthèse.
             </p>
           </div>
 
@@ -270,7 +281,10 @@ function StudentSubjectsPage() {
 
             <div className="space-y-6">
               {currentExam.parties.map((partie, idx) => (
-                <div key={idx} className="rounded-xl bg-card p-5 border border-border shadow-xs space-y-3">
+                <div
+                  key={idx}
+                  className="rounded-xl bg-card p-5 border border-border shadow-xs space-y-3"
+                >
                   <div className="flex items-center justify-between border-b border-border/60 pb-2">
                     <h4 className="font-display font-bold text-sm sm:text-base text-foreground">
                       {partie.titre}
@@ -282,7 +296,10 @@ function StudentSubjectsPage() {
                   <p className="text-xs text-muted-foreground italic">{partie.description}</p>
                   <ul className="space-y-2 pt-1 text-xs sm:text-sm text-foreground">
                     {partie.questions.map((q, qIdx) => (
-                      <li key={qIdx} className="leading-relaxed bg-muted/20 p-2.5 rounded-lg border border-border/40">
+                      <li
+                        key={qIdx}
+                        className="leading-relaxed bg-muted/20 p-2.5 rounded-lg border border-border/40"
+                      >
                         {q}
                       </li>
                     ))}
@@ -294,7 +311,10 @@ function StudentSubjectsPage() {
             <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 p-4 text-xs text-amber-900 dark:text-amber-200 flex items-start gap-3">
               <span className="text-lg">💡</span>
               <p>
-                <strong>Conseil de composition :</strong> Traitez les questions sur vos feuilles de format standard. Lorsque vous avez fini ou que le chronomètre touche à sa fin, utilisez la section ci-dessous pour numériser votre copie et obtenir votre correction immédiate par Mandal IA.
+                <strong>Conseil de composition :</strong> Traitez les questions sur vos feuilles de
+                format standard. Lorsque vous avez fini ou que le chronomètre touche à sa fin,
+                utilisez la section ci-dessous pour numériser votre copie et obtenir votre
+                correction immédiate par Mandal IA.
               </p>
             </div>
           </div>
@@ -305,10 +325,12 @@ function StudentSubjectsPage() {
       <div className="rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-sm space-y-6">
         <div>
           <h2 className="font-display text-xl font-bold text-foreground flex items-center gap-2">
-            <Camera className="size-5 text-emerald-600 dark:text-emerald-400" /> 2. Filmer / Scanner Ma Copie pour Correction par Mandal IA
+            <Camera className="size-5 text-emerald-600 dark:text-emerald-400" /> 2. Filmer / Scanner
+            Ma Copie pour Correction par Mandal IA
           </h2>
           <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-            Prenez en photo vos feuilles rédigées. Mandal IA évalue votre raisonnement, calcule votre note et liste vos erreurs précises.
+            Prenez en photo vos feuilles rédigées. Mandal IA évalue votre raisonnement, calcule
+            votre note et liste vos erreurs précises.
           </p>
         </div>
 
@@ -340,7 +362,8 @@ function StudentSubjectsPage() {
 
           {uploadedFiles.length > 0 && (
             <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-4 py-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-              <CheckCircle2 className="size-4" /> {uploadedFiles.length} fichier(s) de copie prêt(s) pour l'analyse
+              <CheckCircle2 className="size-4" /> {uploadedFiles.length} fichier(s) de copie prêt(s)
+              pour l'analyse
             </div>
           )}
         </div>
@@ -354,7 +377,8 @@ function StudentSubjectsPage() {
           >
             {analyzingCopy ? (
               <>
-                <LoaderCircle className="mr-2 size-4 animate-spin" /> Analyse & Correction par Mandal IA…
+                <LoaderCircle className="mr-2 size-4 animate-spin" /> Analyse & Correction par
+                Mandal IA…
               </>
             ) : (
               <>
@@ -377,7 +401,9 @@ function StudentSubjectsPage() {
                 </h3>
               </div>
               <div className="rounded-2xl bg-card border border-emerald-500/30 px-5 py-2.5 text-center shadow-xs">
-                <span className="text-xs text-muted-foreground block font-medium">Note estimée</span>
+                <span className="text-xs text-muted-foreground block font-medium">
+                  Note estimée
+                </span>
                 <span className="font-display text-2xl font-black text-emerald-600 dark:text-emerald-400">
                   {correction.note}
                 </span>
@@ -429,10 +455,18 @@ function StudentSubjectsPage() {
 
               <div className="border-t border-border pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <span className="text-xs text-muted-foreground block">Chapitre recommandé pour éliminer ces lacunes :</span>
-                  <span className="font-bold text-sm text-foreground">{correction.coursAReviser}</span>
+                  <span className="text-xs text-muted-foreground block">
+                    Chapitre recommandé pour éliminer ces lacunes :
+                  </span>
+                  <span className="font-bold text-sm text-foreground">
+                    {correction.coursAReviser}
+                  </span>
                 </div>
-                <Button asChild size="sm" className="rounded-xl font-bold bg-primary text-primary-foreground shrink-0">
+                <Button
+                  asChild
+                  size="sm"
+                  className="rounded-xl font-bold bg-primary text-primary-foreground shrink-0"
+                >
                   <Link to="/etudiant/cours">
                     Ouvrir ce cours <ArrowRight className="ml-1 size-3.5" />
                   </Link>

@@ -6,7 +6,10 @@ export const Route = createFileRoute("/_authenticated/etudiant/cours/")({
   head: () => ({
     meta: [
       { title: "Mes cours — MANDAL" },
-      { name: "description", content: "Retrouvez tous vos programmes et suivez votre progression." },
+      {
+        name: "description",
+        content: "Retrouvez tous vos programmes et suivez votre progression.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),

@@ -64,7 +64,12 @@ function StudentMessagesPage() {
       .channel(`messages-${activeId}`)
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "messages", filter: `conversation_id=eq.${activeId}` },
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "messages",
+          filter: `conversation_id=eq.${activeId}`,
+        },
         () => queryClient.invalidateQueries({ queryKey: ["messages", activeId] }),
       )
       .subscribe();
@@ -81,7 +86,12 @@ function StudentMessagesPage() {
     if (!profile || !newSubject.trim()) return;
     const { data, error } = await supabase
       .from("conversations")
-      .insert({ eleve_id: profile.id, sujet: newSubject.trim(), type: "question", statut: "ouverte" })
+      .insert({
+        eleve_id: profile.id,
+        sujet: newSubject.trim(),
+        type: "question",
+        statut: "ouverte",
+      })
       .select("id")
       .single();
     if (error) {
@@ -105,7 +115,10 @@ function StudentMessagesPage() {
       toast.error(error.message);
       return;
     }
-    await supabase.from("conversations").update({ updated_at: new Date().toISOString() }).eq("id", activeId);
+    await supabase
+      .from("conversations")
+      .update({ updated_at: new Date().toISOString() })
+      .eq("id", activeId);
     await queryClient.invalidateQueries({ queryKey: ["messages", activeId] });
 
     // Si l'enseignant est indisponible, Mandal IA prend le relais de façon autonome
@@ -150,7 +163,11 @@ function StudentMessagesPage() {
               placeholder="Nouveau sujet"
               className="rounded-xl"
             />
-            <Button size="icon" className="size-10 shrink-0 rounded-xl" onClick={createConversation}>
+            <Button
+              size="icon"
+              className="size-10 shrink-0 rounded-xl"
+              onClick={createConversation}
+            >
               <MessageSquarePlus className="size-4" />
             </Button>
           </div>
@@ -189,7 +206,9 @@ function StudentMessagesPage() {
                   messages.map((m) => (
                     <div
                       key={m.id}
-                      className={m.sender_id === profile?.id ? "flex justify-end" : "flex justify-start"}
+                      className={
+                        m.sender_id === profile?.id ? "flex justify-end" : "flex justify-start"
+                      }
                     >
                       <p
                         className={`max-w-[75%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm ${

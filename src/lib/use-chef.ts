@@ -222,8 +222,12 @@ export function useChefStats(etabId: string | null) {
       for (const c of classes ?? []) {
         const filiere = c.filiere?.trim() || "Non renseignée";
         byClassFiliere.set(c.id, filiere);
-        const entry =
-          rows.get(filiere) ?? { filiere, classes: 0, eleves: 0, scores: [] as number[] };
+        const entry = rows.get(filiere) ?? {
+          filiere,
+          classes: 0,
+          eleves: 0,
+          scores: [] as number[],
+        };
         entry.classes += 1;
         entry.eleves += (c.class_membres as unknown as unknown[] | null)?.length ?? 0;
         rows.set(filiere, entry);
@@ -283,9 +287,7 @@ export function useTeacherDecision(etabId: string | null) {
       if (pErr) throw new Error(pErr.message);
     },
     onSuccess: (_d, input) => {
-      toast.success(
-        input.decision === "approuve" ? "Enseignant approuvé." : "Demande rejetée.",
-      );
+      toast.success(input.decision === "approuve" ? "Enseignant approuvé." : "Demande rejetée.");
       queryClient.invalidateQueries({ queryKey: ["chef-validations", etabId] });
       queryClient.invalidateQueries({ queryKey: ["chef-membres", etabId] });
     },
@@ -332,7 +334,9 @@ export function useClassMutations(etabId: string | null) {
       enseignant_id: string | null;
     }) => {
       if (!etabId) throw new Error("Aucun établissement rattaché.");
-      const { error } = await supabase.from("classes").insert({ ...input, etablissement_id: etabId });
+      const { error } = await supabase
+        .from("classes")
+        .insert({ ...input, etablissement_id: etabId });
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {

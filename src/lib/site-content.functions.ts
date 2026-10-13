@@ -35,7 +35,9 @@ export const listOlympiads = createServerFn({ method: "GET" }).handler(async () 
   const supabase = createPublicClient();
   const { data, error } = await supabase
     .from("olympiads")
-    .select("id, slug, title, edition, year, description, location, starts_on, ends_on, is_featured")
+    .select(
+      "id, slug, title, edition, year, description, location, starts_on, ends_on, is_featured",
+    )
     .order("sort_order", { ascending: true });
   if (error) throw error;
   return data ?? [];

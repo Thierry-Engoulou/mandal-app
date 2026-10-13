@@ -90,9 +90,7 @@ export const updateAdminUser = createServerFn({ method: "POST" })
     const db = await admin();
     const patch = {
       ...(data.role ? { role: data.role } : {}),
-      ...(data.etablissementId !== undefined
-        ? { etablissement_id: data.etablissementId }
-        : {}),
+      ...(data.etablissementId !== undefined ? { etablissement_id: data.etablissementId } : {}),
       ...(data.statutValidation ? { statut_validation: data.statutValidation } : {}),
     };
     if (Object.keys(patch).length === 0) return { ok: true };
@@ -142,7 +140,9 @@ export const listAdminInvitations = createServerFn({ method: "GET" })
     const db = await admin();
     const { data, error } = await db
       .from("invitations_admin")
-      .select("id, email, statut, token, expire_le, created_at, etablissement_id, etablissements(nom)")
+      .select(
+        "id, email, statut, token, expire_le, created_at, etablissement_id, etablissements(nom)",
+      )
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
     return (data ?? []).map((i) => ({
