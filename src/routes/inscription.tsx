@@ -1,9 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { createProfile } from "@/lib/profiles.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,7 +34,6 @@ export const Route = createFileRoute("/inscription")({
 function SignupPage() {
   const navigate = useNavigate();
   const searchParams = Route.useSearch();
-  const createProfileFn = useServerFn(createProfile);
   const [fullName, setFullName] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -96,20 +93,8 @@ function SignupPage() {
       return;
     }
 
-    if (data.user) {
-      try {
-        await createProfileFn({ data: { userId: data.user.id, fullName, role } });
-        // Si c'est une classe de Supabase (UUID), inscrire l'élève dans class_membres
-        if (role === "student" && selectedClassId.length > 10) {
-          await supabase.from("class_membres").insert({
-            eleve_id: data.user.id,
-            class_id: selectedClassId,
-          });
-        }
-      } catch (profileError) {
-        console.error("Profile creation error:", profileError);
-      }
-    }
+    // Le profil (rôle limité à élève/enseignant) et l'inscription dans la classe
+    // choisie sont créés côté base par le trigger handle_new_user.
 
     setLoading(false);
     toast.success("Compte créé avec succès ! Vos cours sont prêts.");

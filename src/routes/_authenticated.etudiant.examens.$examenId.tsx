@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Clock, ArrowLeft, Trophy } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -55,13 +55,11 @@ function ExamRunnerPage() {
           .select("id, titre, description, duree_minutes, nb_questions")
           .eq("id", examenId)
           .maybeSingle(),
-        supabase
-          .from("questions")
-          .select("id, enonce, type, options, points, ordre")
-          .eq("examen_id", examenId)
-          .order("ordre"),
+        // Les réponses correctes ne sont jamais envoyées au navigateur de l'élève.
+        supabase.rpc("questions_examen", { p_examen_id: examenId }),
       ]);
       if (examen.error) throw new Error(examen.error.message);
+      if (questions.error) throw new Error(questions.error.message);
       return { examen: examen.data, questions: (questions.data ?? []) as Question[] };
     },
   });
@@ -89,54 +87,22 @@ function ExamRunnerPage() {
     return () => clearTimeout(timer);
   }, [started, remaining]);
 
-  const totalPoints = useMemo(
-    () => (data?.questions ?? []).reduce((sum, q) => sum + (q.points || 1), 0),
-    [data],
-  );
-
   const submit = async (auto = false) => {
     if (!profile || !data?.examen || submitting) return;
     setSubmitting(true);
-    const { data: correction, error: corrError } = await supabase
-      .from("questions")
-      .select("id, reponse_correcte, points")
-      .eq("examen_id", examenId);
-    if (corrError) {
+    // Correction, résultat et XP calculés côté serveur (fonction soumettre_examen).
+    const { data: rows, error } = await supabase.rpc("soumettre_examen", {
+      p_examen_id: examenId,
+      p_reponses: answers,
+    });
+    const correction = rows?.[0];
+    if (error || !correction) {
       setSubmitting(false);
-      toast.error("Impossible d'enregistrer votre copie.");
+      toast.error(error?.message ?? "Impossible d'enregistrer votre copie.");
       return;
     }
-    let obtained = 0;
-    for (const q of correction ?? []) {
-      const given = answers[q.id];
-      if (given && q.reponse_correcte && given.trim() === q.reponse_correcte.trim()) {
-        obtained += q.points || 1;
-      }
-    }
-    const note = totalPoints > 0 ? Math.round((obtained / totalPoints) * 20 * 100) / 100 : 0;
-    const xpGagne = Math.round(note * 5);
-
-    const { error } = await supabase.from("resultats_examens").insert({
-      examen_id: examenId,
-      eleve_id: profile.id,
-      score: note,
-      reponses: answers,
-    });
-    if (error) {
-      setSubmitting(false);
-      toast.error(error.message);
-      return;
-    }
-    await supabase.from("xp_transactions").insert({
-      profile_id: profile.id,
-      montant: xpGagne,
-      source: "examen",
-      description: data.examen.titre,
-    });
-    await supabase
-      .from("profiles")
-      .update({ xp_total: (profile.xp_total ?? 0) + xpGagne })
-      .eq("id", profile.id);
+    const note = Number(correction.score);
+    const xpGagne = correction.xp;
 
     await queryClient.invalidateQueries({ queryKey: ["mon-profil"] });
     setSubmitting(false);

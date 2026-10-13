@@ -44,10 +44,9 @@ function UtilisateursPage() {
 
   const detach = useMutation({
     mutationFn: async (userId: string) => {
-      const { error } = await supabase
-        .from("profiles")
-        .update({ etablissement_id: null, statut_validation: "rejete" })
-        .eq("id", userId);
+      const { error } = await supabase.rpc("retirer_membre_etablissement", {
+        p_profile_id: userId,
+      });
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {

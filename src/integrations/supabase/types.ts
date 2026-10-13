@@ -1254,7 +1254,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      questions_examen: {
+        Args: { p_examen_id: string }
+        Returns: {
+          enonce: string
+          id: string
+          options: Json
+          ordre: number
+          points: number
+          type: string
+        }[]
+      }
+      retirer_membre_etablissement: {
+        Args: { p_profile_id: string }
+        Returns: undefined
+      }
+      soumettre_examen: {
+        Args: { p_examen_id: string; p_reponses: Json }
+        Returns: {
+          score: number
+          xp: number
+        }[]
+      }
     }
     Enums: {
       app_role:
