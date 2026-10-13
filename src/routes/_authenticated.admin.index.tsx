@@ -107,11 +107,11 @@ function AdminDashboardPage() {
   // Calcul du nombre de personnes par classe / niveau
   const classStats = useMemo(() => {
     const profiles = data?.profiles ?? [];
-    const students = profiles.filter((p: any) => p.role === "student" || !p.role);
+    const students = profiles.filter((p) => p.role === "student" || !p.role);
 
     const counts: Record<string, number> = {};
 
-    students.forEach((s: any) => {
+    students.forEach((s) => {
       const niv = (s.niveau || "").toLowerCase().trim();
       let matched = false;
 
@@ -152,8 +152,8 @@ function AdminDashboardPage() {
     });
   }, [data?.profiles]);
 
-  const totalRegisteredStudents = data?.profiles.filter((p: any) => p.role === "student").length || data?.users.filter((u: any) => u.role === "student").length || 0;
-  const totalRegisteredTeachers = data?.profiles.filter((p: any) => p.role === "teacher").length || data?.users.filter((u: any) => u.role === "teacher").length || 0;
+  const totalRegisteredStudents = data?.profiles.filter((p) => p.role === "student").length || data?.users.filter((u) => u.role === "student").length || 0;
+  const totalRegisteredTeachers = data?.profiles.filter((p) => p.role === "teacher").length || data?.users.filter((u) => u.role === "teacher").length || 0;
 
   // Export des statistiques en fichier CSV
   const handleExportStats = () => {

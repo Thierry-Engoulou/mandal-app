@@ -146,7 +146,9 @@ export function getAnalyticsMetrics(): AnalyticsSummary {
     const downloadsToday = downloadsData.daily?.[today] || Math.floor(Math.random() * 8 + 22);
 
     // Extraction des épreuves les plus téléchargées
-    const items = Object.entries(downloadsData.items || {}).map(([title, val]: any) => ({
+    const items = Object.entries(
+      (downloadsData.items || {}) as Record<string, { count?: number; category?: string }>,
+    ).map(([title, val]) => ({
       title,
       count: val.count || 1,
       category: val.category || "Épreuve",
@@ -163,7 +165,7 @@ export function getAnalyticsMetrics(): AnalyticsSummary {
     const topDownloadedExams = items.length > 0 ? items.sort((a, b) => b.count - a.count).slice(0, 5) : defaultTop;
 
     // Pages visitées
-    const pages = Object.entries(visitsData.pages || {}).map(([page, count]: any) => ({ page, count }));
+    const pages = Object.entries(visitsData.pages || {}).map(([page, count]) => ({ page, count: Number(count) }));
     const defaultPages = [
       { page: "Volet 01 : Éducation & Programmes", count: 680 },
       { page: "Accueil M'ANDAL", count: 420 },

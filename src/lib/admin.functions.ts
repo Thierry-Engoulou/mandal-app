@@ -1,8 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Database } from "@/integrations/supabase/types";
 
-async function assertSuperAdmin(context: { supabase: any; userId: string }) {
+async function assertSuperAdmin(context: { supabase: SupabaseClient<Database>; userId: string }) {
   const { data, error } = await context.supabase
     .from("profiles")
     .select("role")
@@ -41,7 +43,7 @@ export type UpdateAdminUserInput = {
 export const listAdminUsers = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<AdminUser[]> => {
-    await assertSuperAdmin(context as any);
+    await assertSuperAdmin(context);
     const db = await admin();
 
     const { data: profiles, error } = await db
@@ -56,7 +58,7 @@ export const listAdminUsers = createServerFn({ method: "GET" })
     const { data: userList } = await db.auth.admin.listUsers({ page: 1, perPage: 1000 });
     for (const u of userList?.users ?? []) emails.set(u.id, u.email ?? null);
 
-    return (profiles ?? []).map((p: any) => ({
+    return (profiles ?? []).map((p) => ({
       id: p.id,
       email: emails.get(p.id) ?? null,
       nom: [p.prenom, p.nom].filter(Boolean).join(" ") || p.full_name || "Sans nom",
@@ -84,7 +86,7 @@ export const updateAdminUser = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    await assertSuperAdmin(context as any);
+    await assertSuperAdmin(context);
     const db = await admin();
     const patch = {
       ...(data.role ? { role: data.role } : {}),
@@ -122,7 +124,7 @@ export const createEtablissement = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    await assertSuperAdmin(context as any);
+    await assertSuperAdmin(context);
     const db = await admin();
     const { error } = await db.from("etablissements").insert({
       nom: data.nom,
@@ -136,14 +138,14 @@ export const createEtablissement = createServerFn({ method: "POST" })
 export const listAdminInvitations = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    await assertSuperAdmin(context as any);
+    await assertSuperAdmin(context);
     const db = await admin();
     const { data, error } = await db
       .from("invitations_admin")
       .select("id, email, statut, token, expire_le, created_at, etablissement_id, etablissements(nom)")
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
-    return (data ?? []).map((i: any) => ({
+    return (data ?? []).map((i) => ({
       id: i.id,
       email: i.email,
       statut: i.statut,
@@ -166,7 +168,7 @@ export const createAdminInvitation = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    await assertSuperAdmin(context as any);
+    await assertSuperAdmin(context);
     const db = await admin();
     const token = crypto.randomUUID().replace(/-/g, "");
     const expire = new Date(Date.now() + data.joursValidite * 86_400_000).toISOString();
@@ -193,7 +195,7 @@ export const updateAdminInvitation = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
-    await assertSuperAdmin(context as any);
+    await assertSuperAdmin(context);
     const db = await admin();
     const { error } = await db
       .from("invitations_admin")

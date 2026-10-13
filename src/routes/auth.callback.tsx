@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
+import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/auth/callback")({
@@ -98,15 +99,17 @@ function AuthCallback() {
           }
         }, 3500);
 
-      } catch (err: any) {
+      } catch (err) {
         console.error("Auth callback error:", err);
         if (isMounted) {
-          setErrorMsg(err.message || "Impossible de finaliser la connexion Google.");
+          setErrorMsg(
+            (err instanceof Error && err.message) || "Impossible de finaliser la connexion Google.",
+          );
         }
       }
     }
 
-    async function syncProfileAndRedirect(session: any) {
+    async function syncProfileAndRedirect(session: Session | null) {
       if (!session?.user) {
         navigate({ to: "/auth", replace: true });
         return;
@@ -124,13 +127,13 @@ function AuthCallback() {
           .eq("id", user.id)
           .maybeSingle();
 
-        let role = existingProfile?.role || "student";
+        const role = existingProfile?.role || "student";
 
         if (!existingProfile) {
-          const fullName = meta.full_name || meta.name || user.email?.split("@")[0] || "Étudiant";
-          const givenName = meta.given_name || meta.first_name || null;
-          const familyName = meta.family_name || meta.last_name || null;
-          const avatar = meta.avatar_url || meta.picture || null;
+          const fullName = meta["full_name"] || meta["name"] || user.email?.split("@")[0] || "Étudiant";
+          const givenName = meta["given_name"] || meta["first_name"] || null;
+          const familyName = meta["family_name"] || meta["last_name"] || null;
+          const avatar = meta["avatar_url"] || meta["picture"] || null;
 
           // Upsert sécurisé avec les champs par défaut
           await supabase.from("profiles").upsert({

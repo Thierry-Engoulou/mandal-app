@@ -78,7 +78,7 @@ function ConceptContent({ concept }: { concept: ProgrammeConcept }) {
 function StudentProgrammePage() {
   const { programmeId } = Route.useParams();
   const { data, isLoading, isError } = useProgrammeDetail(programmeId);
-  const chapitres = data?.chapitres ?? [];
+  const chapitres = useMemo(() => data?.chapitres ?? [], [data]);
   const allConceptIds = useMemo(
     () => chapitres.flatMap((c) => c.concepts.map((k) => k.id)),
     [chapitres],

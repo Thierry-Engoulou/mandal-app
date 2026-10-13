@@ -71,9 +71,9 @@ function AuthPage() {
         setGoogleLoading(false);
         toast.error(error.message);
       }
-    } catch (err: any) {
+    } catch (err) {
       setGoogleLoading(false);
-      toast.error(err.message || "Erreur lors de la connexion Google");
+      toast.error((err instanceof Error && err.message) || "Erreur lors de la connexion Google");
     }
   };
 
