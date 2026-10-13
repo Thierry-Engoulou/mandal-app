@@ -45,6 +45,7 @@ export type ProgrammeInfo = {
 export type ProgrammeSummary = ProgrammeInfo & {
   totalConcepts: number;
   conceptsTermines: number;
+  totalChapitres?: number;
 };
 
 export type ProgrammeDetailResponse = {
@@ -101,60 +102,123 @@ function normalizeProgrammeInfo(raw: unknown): ProgrammeInfo {
   };
 }
 
-/** Programmes visibles pour l'élève connecté, avec sa progression déjà calculée. */
-export function useStudentProgrammes(selectedClasseId?: string | null) {
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Niveaux du sélecteur qui ne sont pas des classes de la base : on les retrouve
+ *  dans le nom / niveau de la classe ou le titre du programme. */
+const LEVEL_PATTERNS: Record<string, RegExp> = {
+  probatoire: /\b(1ere|1re|premiere|probatoire)\b/,
+  bac: /\b(tle|terminale|bac|baccalaureat)\b/,
+  bepc: /\b(3eme|3e|troisieme|bepc)\b/,
+  enspd: /\b(enspd|polytechnique)\b/,
+  iut: /\biut\b/,
+};
+
+function normalize(text: string) {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function matchesLevel(raw: Record<string, unknown>, pattern: RegExp) {
+  const cls = firstOrNull(
+    raw["classes"] as
+      { nom: string; niveau: string | null } | { nom: string; niveau: string | null }[] | null,
+  );
+  return pattern.test(normalize([raw["titre"], cls?.nom, cls?.niveau].filter(Boolean).join(" ")));
+}
+
+/** Programmes visibles pour l'élève connecté, avec sa progression déjà calculée.
+ *  `selection` : null/"all" (classes de l'élève, sinon tout), un id de classe,
+ *  ou un niveau du sélecteur ("probatoire", "bac", "bepc"…). */
+export function useStudentProgrammes(selection?: string | null) {
   const { data: profile } = useProfile();
 
   return useQuery({
-    queryKey: ["etudiant-programmes", profile?.id, selectedClasseId],
+    queryKey: ["etudiant-programmes", profile?.id, selection],
     queryFn: async (): Promise<ProgrammeSummary[]> => {
       try {
-        let classeIds: string[] = [];
+        const runQuery = (classeIds: string[]) => {
+          let query = supabase
+            .from("programmes")
+            .select(
+              "id, titre, description, classe_id, matiere_id, matieres(nom), classes(nom, niveau), chapitres(id, concepts(id))",
+            )
+            .order("titre");
+          if (classeIds.length > 0) query = query.in("classe_id", classeIds);
+          return query;
+        };
 
-        if (selectedClasseId && selectedClasseId !== "all") {
-          classeIds = [selectedClasseId];
-        } else if (profile?.id) {
-          const { data: membres, error: membresError } = await supabase
-            .from("class_membres")
-            .select("class_id")
-            .eq("eleve_id", profile.id);
-          if (membresError) console.warn("Error fetching student classes:", membresError.message);
-          classeIds = (membres ?? []).map((m) => m.class_id);
+        let result;
+        if (selection && UUID_PATTERN.test(selection)) {
+          // Une classe précise de la base.
+          result = await runQuery([selection]);
+        } else if (selection && selection !== "all") {
+          // Un niveau (Probatoire, Bac…) : tous les programmes visibles, filtrés ensuite.
+          result = await runQuery([]);
+        } else {
+          // Par défaut : les programmes des classes de l'élève, ou tous s'il n'en a pas.
+          let classeIds: string[] = [];
+          if (profile?.id) {
+            const { data: membres, error: membresError } = await supabase
+              .from("class_membres")
+              .select("class_id")
+              .eq("eleve_id", profile.id);
+            if (membresError) console.warn("Error fetching student classes:", membresError.message);
+            classeIds = (membres ?? []).map((m) => m.class_id);
+          }
+          result = await runQuery(classeIds);
+          if (!result.error && (result.data ?? []).length === 0 && classeIds.length > 0) {
+            result = await runQuery([]);
+          }
         }
 
-        let query = supabase
-          .from("programmes")
-          .select(
-            "id, titre, description, classe_id, matiere_id, matieres(nom), classes(nom, niveau), chapitres(id, titre, ordre)",
-          )
-          .order("titre");
-
-        if (classeIds.length > 0 && selectedClasseId !== "all") {
-          query = query.in("classe_id", classeIds);
-        }
-
-        const { data, error } = await query;
+        const { error } = result;
+        let data = result.data;
         if (error) {
           console.warn("Programmes query warning:", error.message);
           return [];
         }
 
+        const levelPattern = selection ? LEVEL_PATTERNS[selection] : undefined;
+        if (levelPattern) {
+          data = (data ?? []).filter((raw) =>
+            matchesLevel(raw as unknown as Record<string, unknown>, levelPattern),
+          );
+        }
+
         const rows = (data ?? []) as unknown[];
         if (rows.length === 0) return [];
 
+        // Leçons déjà terminées par l'élève (toutes, l'ensemble reste petit).
+        let doneSet = new Set<string>();
+        if (profile?.id) {
+          const { data: progression, error: progressionError } = await supabase
+            .from("progression_concepts")
+            .select("concept_id")
+            .eq("eleve_id", profile.id)
+            .eq("termine", true);
+          if (progressionError)
+            console.warn("Progression query warning:", progressionError.message);
+          doneSet = new Set((progression ?? []).map((r) => r.concept_id));
+        }
+
         return rows.map((raw) => {
           const p = raw as Record<string, unknown>;
-          const mat = p["matieres"] as { nom: string } | null;
-          const cls = p["classes"] as { nom: string } | null;
-          const chaps = (p["chapitres"] as unknown[]) ?? [];
+          const mat = firstOrNull(p["matieres"] as { nom: string } | { nom: string }[] | null);
+          const cls = firstOrNull(p["classes"] as { nom: string } | { nom: string }[] | null);
+          const chaps = (p["chapitres"] as { concepts?: { id: string }[] | null }[] | null) ?? [];
+          const conceptIds = chaps.flatMap((c) => (c.concepts ?? []).map((k) => k.id));
           return {
             id: p["id"] as string,
             titre: p["titre"] as string,
             description: (p["description"] as string) ?? null,
             matiereNom: mat?.nom ?? null,
             classeNom: cls?.nom ?? null,
-            totalConcepts: chaps.length,
-            conceptsTermines: 0,
+            totalConcepts: conceptIds.length,
+            conceptsTermines: conceptIds.filter((id) => doneSet.has(id)).length,
+            totalChapitres: chaps.length,
           };
         });
       } catch (err) {
