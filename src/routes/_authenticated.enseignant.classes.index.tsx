@@ -128,7 +128,10 @@ function TeacherClassesPage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {classes.map((c) => (
-            <div key={c.id} className="rounded-2xl bg-card p-6 shadow-sm transition-shadow hover:shadow-md">
+            <div
+              key={c.id}
+              className="rounded-2xl bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+            >
               <div className="flex items-start justify-between gap-3">
                 <Link
                   to="/enseignant/classes/$classId"

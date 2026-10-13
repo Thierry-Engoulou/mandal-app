@@ -43,11 +43,17 @@ function StudentExamsPage() {
           {data.map((examen) => (
             <div key={examen.id} className="flex flex-col rounded-2xl bg-card p-5 shadow-sm">
               <div className="flex items-start justify-between gap-2">
-                <h2 className="font-display text-lg font-semibold text-foreground">{examen.titre}</h2>
-                {examen.lock.isLocked ? <Lock className="size-5 shrink-0 text-muted-foreground" /> : null}
+                <h2 className="font-display text-lg font-semibold text-foreground">
+                  {examen.titre}
+                </h2>
+                {examen.lock.isLocked ? (
+                  <Lock className="size-5 shrink-0 text-muted-foreground" />
+                ) : null}
               </div>
               {examen.description ? (
-                <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{examen.description}</p>
+                <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
+                  {examen.description}
+                </p>
               ) : null}
               <div className="mt-3 flex flex-wrap gap-3 text-sm text-muted-foreground">
                 <span className="inline-flex items-center gap-1.5">
@@ -60,8 +66,9 @@ function StudentExamsPage() {
 
               {examen.lock.isLocked ? (
                 <p className="mt-3 rounded-xl bg-warning/10 px-3 py-2 text-xs font-medium text-warning">
-                  Complétez les {examen.lock.totalConcepts} leçons du chapitre « {examen.lock.chapitreTitre} »
-                  pour déverrouiller ce quiz ({examen.lock.conceptsTermines}/{examen.lock.totalConcepts} faites).
+                  Complétez les {examen.lock.totalConcepts} leçons du chapitre «{" "}
+                  {examen.lock.chapitreTitre} » pour déverrouiller ce quiz (
+                  {examen.lock.conceptsTermines}/{examen.lock.totalConcepts} faites).
                 </p>
               ) : null}
 

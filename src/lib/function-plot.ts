@@ -22,21 +22,21 @@ function tokenize(src: string): Token[] {
   const tokens: Token[] = [];
   let i = 0;
   while (i < src.length) {
-    const c = src[i];
+    const c = src.charAt(i);
     if (/\s/.test(c)) {
       i++;
       continue;
     }
     if (/[0-9.]/.test(c)) {
       let j = i;
-      while (j < src.length && /[0-9.]/.test(src[j])) j++;
+      while (j < src.length && /[0-9.]/.test(src.charAt(j))) j++;
       tokens.push({ type: "num", value: src.slice(i, j) });
       i = j;
       continue;
     }
     if (/[a-zA-Z]/.test(c)) {
       let j = i;
-      while (j < src.length && /[a-zA-Z]/.test(src[j])) j++;
+      while (j < src.length && /[a-zA-Z]/.test(src.charAt(j))) j++;
       tokens.push({ type: "ident", value: src.slice(i, j) });
       i = j;
       continue;
@@ -69,6 +69,11 @@ class Parser {
   private next() {
     return this.tokens[this.pos++];
   }
+  /** Renvoie l'opérateur suivant s'il fait partie de `ops`, sans le consommer. */
+  private peekOp<T extends string>(...ops: T[]): T | null {
+    const t = this.peek();
+    return t && t.type === "op" && (ops as string[]).includes(t.value) ? (t.value as T) : null;
+  }
   private expectOp(op: string) {
     const t = this.next();
     if (!t || t.type !== "op" || t.value !== op) {
@@ -84,8 +89,9 @@ class Parser {
 
   private parseExpr(): Node {
     let left = this.parseTerm();
-    while (this.peek() && this.peek().type === "op" && (this.peek().value === "+" || this.peek().value === "-")) {
-      const op = this.next().value as "+" | "-";
+    let op: "+" | "-" | null;
+    while ((op = this.peekOp("+", "-"))) {
+      this.next();
       left = { kind: "bin", op, left, right: this.parseTerm() };
     }
     return left;
@@ -93,15 +99,16 @@ class Parser {
 
   private parseTerm(): Node {
     let left = this.parseUnary();
-    while (this.peek() && this.peek().type === "op" && (this.peek().value === "*" || this.peek().value === "/")) {
-      const op = this.next().value as "*" | "/";
+    let op: "*" | "/" | null;
+    while ((op = this.peekOp("*", "/"))) {
+      this.next();
       left = { kind: "bin", op, left, right: this.parseUnary() };
     }
     return left;
   }
 
   private parseUnary(): Node {
-    if (this.peek() && this.peek().type === "op" && this.peek().value === "-") {
+    if (this.peekOp("-")) {
       this.next();
       return { kind: "unary", arg: this.parseUnary() };
     }
@@ -110,7 +117,7 @@ class Parser {
 
   private parsePower(): Node {
     const base = this.parsePrimary();
-    if (this.peek() && this.peek().type === "op" && this.peek().value === "^") {
+    if (this.peekOp("^")) {
       this.next();
       const exponent = this.parseUnary();
       return { kind: "bin", op: "^", left: base, right: exponent };
@@ -130,8 +137,9 @@ class Parser {
     if (t.type === "ident") {
       const name = t.value.toLowerCase();
       if (name === "x") return { kind: "var" };
-      if (name in CONSTS) return { kind: "const", value: CONSTS[name] };
-      if (this.peek() && this.peek().type === "op" && this.peek().value === "(") {
+      const constant = CONSTS[name];
+      if (constant !== undefined) return { kind: "const", value: constant };
+      if (this.peekOp("(")) {
         this.next();
         const arg = this.parseExpr();
         this.expectOp(")");
@@ -154,8 +162,11 @@ function evalNode(node: Node, x: number): number {
       return node.value;
     case "unary":
       return -evalNode(node.arg, x);
-    case "call":
-      return FUNCS[node.name](evalNode(node.arg, x));
+    case "call": {
+      const fn = FUNCS[node.name];
+      if (!fn) throw new Error(`Fonction inconnue : "${node.name}"`);
+      return fn(evalNode(node.arg, x));
+    }
     case "bin": {
       const l = evalNode(node.left, x);
       const r = evalNode(node.right, x);

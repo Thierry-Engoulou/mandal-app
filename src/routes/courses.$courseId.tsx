@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { getCourse } from "@/lib/courses.functions";
+import { MathText } from "@/components/math-text";
 import { Button } from "@/components/ui/button";
 import { MandalLogo } from "@/components/mandal-logo";
 import { ArrowLeft, BookOpen, CalendarDays, GraduationCap } from "lucide-react";
@@ -12,14 +13,28 @@ const courseQueryOptions = (id: string) =>
   });
 
 export const Route = createFileRoute("/courses/$courseId")({
-  loader: ({ context, params }) => context.queryClient.ensureQueryData(courseQueryOptions(params.courseId)),
+  loader: ({ context, params }) =>
+    context.queryClient.ensureQueryData(courseQueryOptions(params.courseId)),
   component: CourseDetailPage,
   head: ({ loaderData }) => ({
     meta: [
       { title: loaderData ? `${loaderData.title} — MANDAL` : "Module — MANDAL" },
-      { name: "description", content: loaderData ? `Module ${loaderData.title} sur ${loaderData.pillarLabel}.` : "Module de cours MANDAL." },
-      { property: "og:title", content: loaderData ? `${loaderData.title} — MANDAL` : "Module — MANDAL" },
-      { property: "og:description", content: loaderData ? `Module ${loaderData.title} sur ${loaderData.pillarLabel}.` : "Module de cours MANDAL." },
+      {
+        name: "description",
+        content: loaderData
+          ? `Module ${loaderData.title} sur ${loaderData.pillarLabel}.`
+          : "Module de cours MANDAL.",
+      },
+      {
+        property: "og:title",
+        content: loaderData ? `${loaderData.title} — MANDAL` : "Module — MANDAL",
+      },
+      {
+        property: "og:description",
+        content: loaderData
+          ? `Module ${loaderData.title} sur ${loaderData.pillarLabel}.`
+          : "Module de cours MANDAL.",
+      },
       { property: "og:type", content: "article" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -52,10 +67,16 @@ function CourseDetailPage() {
             <GraduationCap className="size-14" aria-hidden="true" />
           </div>
           <p className="text-xs font-bold uppercase tracking-wide opacity-80">Module de cours</p>
-          <h1 className="mt-2 max-w-2xl font-display text-2xl font-bold md:text-3xl">{course.title}</h1>
+          <h1 className="mt-2 max-w-2xl font-display text-2xl font-bold md:text-3xl">
+            {course.title}
+          </h1>
           <div className="mt-4 flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold">{course.pillarLabel}</span>
-            <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold">{course.levelLabel}</span>
+            <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold">
+              {course.pillarLabel}
+            </span>
+            <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-semibold">
+              {course.levelLabel}
+            </span>
             <span className="flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold">
               <CalendarDays className="size-3.5" aria-hidden="true" />
               Publié le {new Date(course.created_at).toLocaleDateString("fr-FR")}
@@ -68,9 +89,7 @@ function CourseDetailPage() {
             <BookOpen className="size-5" aria-hidden="true" />
             <h2 className="font-display text-lg font-bold">Contenu du module</h2>
           </div>
-          <div className="whitespace-pre-wrap leading-relaxed text-foreground">
-            {course.content}
-          </div>
+          <MathText text={course.content} className="leading-relaxed text-foreground" />
         </article>
       </main>
     </div>

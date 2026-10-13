@@ -16,7 +16,12 @@ export interface AnalyticsSummary {
   downloadsToday: number;
   topDownloadedExams: { title: string; count: number; category: string }[];
   pageVisitsBreakdown: { page: string; count: number }[];
-  recentSecurityAudits: { timestamp: string; action: string; status: "success" | "blocked" | "warning"; ip?: string }[];
+  recentSecurityAudits: {
+    timestamp: string;
+    action: string;
+    status: "success" | "blocked" | "warning";
+    ip?: string;
+  }[];
 }
 
 /** Enregistre une visite de page (anonyme et sécurisée) */
@@ -26,7 +31,7 @@ export function trackPageView(pageName: string): void {
     const raw = localStorage.getItem(STORAGE_KEY_VISITS);
     const data = raw ? JSON.parse(raw) : { total: 1420, daily: {}, pages: {} };
 
-    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+    const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
     // Incrémente total
     data.total = (data.total || 0) + 1;
@@ -52,7 +57,7 @@ export function trackExamDownload(title: string, category: string = "Épreuve"):
     const raw = localStorage.getItem(STORAGE_KEY_DOWNLOADS);
     const data = raw ? JSON.parse(raw) : { total: 684, daily: {}, items: {} };
 
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().slice(0, 10);
 
     data.total = (data.total || 0) + 1;
     data.daily = data.daily || {};
@@ -71,7 +76,10 @@ export function trackExamDownload(title: string, category: string = "Épreuve"):
 }
 
 /** Enregistre un événement de sécurité (tentative d'accès, etc.) */
-export function recordSecurityAudit(action: string, status: "success" | "blocked" | "warning"): void {
+export function recordSecurityAudit(
+  action: string,
+  status: "success" | "blocked" | "warning",
+): void {
   if (typeof window === "undefined") return;
   try {
     const raw = localStorage.getItem(STORAGE_KEY_LOGS);
@@ -102,11 +110,31 @@ export function getAnalyticsMetrics(): AnalyticsSummary {
       totalDownloads: 684,
       downloadsToday: 38,
       topDownloadedExams: [
-        { title: "Probatoire Maths 1ère C & D — Session 2025 (Corrigé complet)", count: 215, category: "Probatoire" },
-        { title: "Concours ENSPD Polytechnique Douala — Épreuve Maths & Physique 2024", count: 184, category: "Concours ENSPD" },
-        { title: "Baccalauréat C & D — Mathématiques & Sciences Physiques", count: 142, category: "Baccalauréat" },
-        { title: "Concours IUT Douala/Bandjoun — Physique Appliquée & Mécanique", count: 87, category: "Concours IUT" },
-        { title: "BEPC — Sciences Physiques & Chimie (Annales officielles)", count: 56, category: "BEPC" },
+        {
+          title: "Probatoire Maths 1ère C & D — Session 2025 (Corrigé complet)",
+          count: 215,
+          category: "Probatoire",
+        },
+        {
+          title: "Concours ENSPD Polytechnique Douala — Épreuve Maths & Physique 2024",
+          count: 184,
+          category: "Concours ENSPD",
+        },
+        {
+          title: "Baccalauréat C & D — Mathématiques & Sciences Physiques",
+          count: 142,
+          category: "Baccalauréat",
+        },
+        {
+          title: "Concours IUT Douala/Bandjoun — Physique Appliquée & Mécanique",
+          count: 87,
+          category: "Concours IUT",
+        },
+        {
+          title: "BEPC — Sciences Physiques & Chimie (Annales officielles)",
+          count: 56,
+          category: "BEPC",
+        },
       ],
       pageVisitsBreakdown: [
         { page: "Volet 01 : Éducation & Cours", count: 680 },
@@ -116,9 +144,21 @@ export function getAnalyticsMetrics(): AnalyticsSummary {
         { page: "Page Inscription Élèves", count: 95 },
       ],
       recentSecurityAudits: [
-        { timestamp: new Date().toISOString(), action: "Connexion Session Administrateur validée (RBAC)", status: "success" },
-        { timestamp: new Date(Date.now() - 3600000).toISOString(), action: "Vérification jeton JWT Supabase chiffré", status: "success" },
-        { timestamp: new Date(Date.now() - 7200000).toISOString(), action: "Filtrage tentative requête non autorisée RLS", status: "blocked" },
+        {
+          timestamp: new Date().toISOString(),
+          action: "Connexion Session Administrateur validée (RBAC)",
+          status: "success",
+        },
+        {
+          timestamp: new Date(Date.now() - 3600000).toISOString(),
+          action: "Vérification jeton JWT Supabase chiffré",
+          status: "success",
+        },
+        {
+          timestamp: new Date(Date.now() - 7200000).toISOString(),
+          action: "Filtrage tentative requête non autorisée RLS",
+          status: "blocked",
+        },
       ],
     };
   }
@@ -129,16 +169,18 @@ export function getAnalyticsMetrics(): AnalyticsSummary {
     const rawLogs = localStorage.getItem(STORAGE_KEY_LOGS);
 
     const visitsData = rawVisits ? JSON.parse(rawVisits) : { total: 1480, daily: {}, pages: {} };
-    const downloadsData = rawDownloads ? JSON.parse(rawDownloads) : { total: 684, daily: {}, items: {} };
+    const downloadsData = rawDownloads
+      ? JSON.parse(rawDownloads)
+      : { total: 684, daily: {}, items: {} };
     const logsData = rawLogs ? JSON.parse(rawLogs) : [];
 
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().slice(0, 10);
 
     // Calcul des visites de la semaine
     let visitsWeek = 0;
     const now = new Date();
     for (let i = 0; i < 7; i++) {
-      const d = new Date(now.getTime() - i * 86400000).toISOString().split("T")[0];
+      const d = new Date(now.getTime() - i * 86400000).toISOString().slice(0, 10);
       visitsWeek += visitsData.daily?.[d] || Math.floor(Math.random() * 25 + 35);
     }
 
@@ -146,24 +188,50 @@ export function getAnalyticsMetrics(): AnalyticsSummary {
     const downloadsToday = downloadsData.daily?.[today] || Math.floor(Math.random() * 8 + 22);
 
     // Extraction des épreuves les plus téléchargées
-    const items = Object.entries(downloadsData.items || {}).map(([title, val]: any) => ({
+    const items = Object.entries(
+      (downloadsData.items || {}) as Record<string, { count?: number; category?: string }>,
+    ).map(([title, val]) => ({
       title,
       count: val.count || 1,
       category: val.category || "Épreuve",
     }));
 
     const defaultTop = [
-      { title: "Probatoire Maths 1ère C & D — Session 2025 (Corrigé officiel pas à pas)", count: 215, category: "Probatoire" },
-      { title: "Concours ENSPD Polytechnique Douala — Épreuve Maths & Physique 2024", count: 184, category: "Concours ENSPD" },
-      { title: "Baccalauréat C & D — Mathématiques & Sciences Physiques", count: 142, category: "Baccalauréat" },
-      { title: "Concours IUT Douala/Bandjoun — Physique Appliquée & Mécanique", count: 87, category: "Concours IUT" },
-      { title: "BEPC — Sciences Physiques & Chimie (Annales officielles)", count: 56, category: "BEPC" },
+      {
+        title: "Probatoire Maths 1ère C & D — Session 2025 (Corrigé officiel pas à pas)",
+        count: 215,
+        category: "Probatoire",
+      },
+      {
+        title: "Concours ENSPD Polytechnique Douala — Épreuve Maths & Physique 2024",
+        count: 184,
+        category: "Concours ENSPD",
+      },
+      {
+        title: "Baccalauréat C & D — Mathématiques & Sciences Physiques",
+        count: 142,
+        category: "Baccalauréat",
+      },
+      {
+        title: "Concours IUT Douala/Bandjoun — Physique Appliquée & Mécanique",
+        count: 87,
+        category: "Concours IUT",
+      },
+      {
+        title: "BEPC — Sciences Physiques & Chimie (Annales officielles)",
+        count: 56,
+        category: "BEPC",
+      },
     ];
 
-    const topDownloadedExams = items.length > 0 ? items.sort((a, b) => b.count - a.count).slice(0, 5) : defaultTop;
+    const topDownloadedExams =
+      items.length > 0 ? items.sort((a, b) => b.count - a.count).slice(0, 5) : defaultTop;
 
     // Pages visitées
-    const pages = Object.entries(visitsData.pages || {}).map(([page, count]: any) => ({ page, count }));
+    const pages = Object.entries(visitsData.pages || {}).map(([page, count]) => ({
+      page,
+      count: Number(count),
+    }));
     const defaultPages = [
       { page: "Volet 01 : Éducation & Programmes", count: 680 },
       { page: "Accueil M'ANDAL", count: 420 },
@@ -179,12 +247,28 @@ export function getAnalyticsMetrics(): AnalyticsSummary {
       totalDownloads: (downloadsData.total || 0) + 684,
       downloadsToday,
       topDownloadedExams,
-      pageVisitsBreakdown: pages.length > 0 ? pages.sort((a, b) => b.count - a.count).slice(0, 5) : defaultPages,
-      recentSecurityAudits: logsData.length > 0 ? logsData : [
-        { timestamp: new Date().toISOString(), action: "Session Administrateur validée (Rôle Admin RBAC)", status: "success" },
-        { timestamp: new Date(Date.now() - 3600000).toISOString(), action: "Vérification jeton JWT Supabase chiffré", status: "success" },
-        { timestamp: new Date(Date.now() - 7200000).toISOString(), action: "Filtrage tentative d'accès non autorisé", status: "blocked" },
-      ],
+      pageVisitsBreakdown:
+        pages.length > 0 ? pages.sort((a, b) => b.count - a.count).slice(0, 5) : defaultPages,
+      recentSecurityAudits:
+        logsData.length > 0
+          ? logsData
+          : [
+              {
+                timestamp: new Date().toISOString(),
+                action: "Session Administrateur validée (Rôle Admin RBAC)",
+                status: "success",
+              },
+              {
+                timestamp: new Date(Date.now() - 3600000).toISOString(),
+                action: "Vérification jeton JWT Supabase chiffré",
+                status: "success",
+              },
+              {
+                timestamp: new Date(Date.now() - 7200000).toISOString(),
+                action: "Filtrage tentative d'accès non autorisé",
+                status: "blocked",
+              },
+            ],
     };
   } catch {
     return {
@@ -195,7 +279,11 @@ export function getAnalyticsMetrics(): AnalyticsSummary {
       downloadsToday: 38,
       topDownloadedExams: [
         { title: "Probatoire Maths 1ère C & D — Session 2025", count: 215, category: "Probatoire" },
-        { title: "Concours ENSPD Polytechnique Douala — Épreuve 2024", count: 184, category: "Concours ENSPD" },
+        {
+          title: "Concours ENSPD Polytechnique Douala — Épreuve 2024",
+          count: 184,
+          category: "Concours ENSPD",
+        },
         { title: "Baccalauréat C & D — Épreuves corrigées", count: 142, category: "Baccalauréat" },
       ],
       pageVisitsBreakdown: [
@@ -203,7 +291,11 @@ export function getAnalyticsMetrics(): AnalyticsSummary {
         { page: "Accueil M'ANDAL", count: 420 },
       ],
       recentSecurityAudits: [
-        { timestamp: new Date().toISOString(), action: "Accès Dashboard sécurisé", status: "success" },
+        {
+          timestamp: new Date().toISOString(),
+          action: "Accès Dashboard sécurisé",
+          status: "success",
+        },
       ],
     };
   }

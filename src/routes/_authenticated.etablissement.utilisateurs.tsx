@@ -44,10 +44,9 @@ function UtilisateursPage() {
 
   const detach = useMutation({
     mutationFn: async (userId: string) => {
-      const { error } = await supabase
-        .from("profiles")
-        .update({ etablissement_id: null, statut_validation: "rejete" })
-        .eq("id", userId);
+      const { error } = await supabase.rpc("retirer_membre_etablissement", {
+        p_profile_id: userId,
+      });
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {
@@ -60,9 +59,9 @@ function UtilisateursPage() {
   if (isLoading) return <Skeleton className="h-40 rounded-2xl" />;
   if (!etabId) return <ChefNoSchool />;
 
-  const rows = members.filter(
-    (m) => m.role === "teacher" || m.role === "student",
-  ).filter((m) => (filter === "all" ? true : m.role === filter));
+  const rows = members
+    .filter((m) => m.role === "teacher" || m.role === "student")
+    .filter((m) => (filter === "all" ? true : m.role === filter));
 
   return (
     <div className="space-y-6">

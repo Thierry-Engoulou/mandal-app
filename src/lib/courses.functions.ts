@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
@@ -11,7 +12,8 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
     if (init?.headers) {
       new Headers(init.headers).forEach((value, key) => headers.set(key, value));
     }
-    const isNewKey = supabaseKey.startsWith("sb_publishable_") || supabaseKey.startsWith("sb_secret_");
+    const isNewKey =
+      supabaseKey.startsWith("sb_publishable_") || supabaseKey.startsWith("sb_secret_");
     if (isNewKey && headers.get("Authorization") === `Bearer ${supabaseKey}`) {
       headers.delete("Authorization");
     }
@@ -64,7 +66,7 @@ export const listCourses = createServerFn({ method: "GET" }).handler(async () =>
 });
 
 export const getCourse = createServerFn({ method: "GET" })
-  .validator((input: { id: string }) => input)
+  .inputValidator((data: unknown) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data }) => {
     const supabase = createPublicClient();
     const { data: course, error } = await supabase
@@ -84,17 +86,34 @@ export const getCourse = createServerFn({ method: "GET" })
     };
   });
 
+const courseInputSchema = z.object({
+  title: z.string().trim().min(1).max(200),
+  content: z.string().max(100_000),
+  pillar: z.enum([
+    "education",
+    "citoyennete",
+    "identite_culture",
+    "orientation",
+    "developpement",
+    "entrepreneuriat",
+    "sante_bien_etre",
+    "culture_generale",
+  ]),
+  level: z.enum(["debutant", "intermediaire", "avance"]),
+  is_published: z.boolean(),
+});
+
 export const createCourse = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .validator((input: { title: string; content: string; pillar: string; level: string; is_published: boolean }) => input)
+  .inputValidator((data: unknown) => courseInputSchema.parse(data))
   .handler(async ({ data, context }) => {
     const { data: course, error } = await context.supabase
       .from("courses")
       .insert({
         title: data.title,
         content: data.content,
-        pillar: data.pillar as any,
-        level: data.level as any,
+        pillar: data.pillar,
+        level: data.level,
         is_published: data.is_published,
         author_id: context.userId,
       })
@@ -107,15 +126,17 @@ export const createCourse = createServerFn({ method: "POST" })
 
 export const updateCourse = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .validator((input: { id: string; title: string; content: string; pillar: string; level: string; is_published: boolean }) => input)
+  .inputValidator((data: unknown) =>
+    courseInputSchema.extend({ id: z.string().uuid() }).parse(data),
+  )
   .handler(async ({ data, context }) => {
     const { error } = await context.supabase
       .from("courses")
       .update({
         title: data.title,
         content: data.content,
-        pillar: data.pillar as any,
-        level: data.level as any,
+        pillar: data.pillar,
+        level: data.level,
         is_published: data.is_published,
       })
       .eq("id", data.id)
@@ -127,7 +148,7 @@ export const updateCourse = createServerFn({ method: "POST" })
 
 export const deleteCourse = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .validator((input: { id: string }) => input)
+  .inputValidator((data: unknown) => z.object({ id: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }) => {
     const { error } = await context.supabase
       .from("courses")

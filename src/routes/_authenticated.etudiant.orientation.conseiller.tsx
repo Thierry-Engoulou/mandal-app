@@ -111,7 +111,10 @@ function OrientationAdvisorPage() {
                 </p>
               </div>
             ) : (
-              <p key={m.id} className="max-w-[90%] whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+              <p
+                key={m.id}
+                className="max-w-[90%] whitespace-pre-wrap text-sm leading-relaxed text-foreground"
+              >
                 {m.contenu}
               </p>
             ),

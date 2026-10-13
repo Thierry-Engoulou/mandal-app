@@ -80,7 +80,9 @@ function MediathequePage() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="rounded-2xl bg-card p-10 text-center shadow-sm">
-          <p className="text-sm text-muted-foreground">Aucune ressource disponible pour l'instant.</p>
+          <p className="text-sm text-muted-foreground">
+            Aucune ressource disponible pour l'instant.
+          </p>
         </div>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -91,12 +93,15 @@ function MediathequePage() {
                 <span className="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   <Icon className="size-5" />
                 </span>
-                <h2 className="mt-4 font-display text-base font-semibold text-foreground">{r.titre}</h2>
+                <h2 className="mt-4 font-display text-base font-semibold text-foreground">
+                  {r.titre}
+                </h2>
                 {r.description ? (
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{r.description}</p>
                 ) : null}
                 <p className="mt-2 text-xs text-muted-foreground">
-                  {(r as { matieres?: { nom?: string } }).matieres?.nom ?? "Général"} · +{r.xp_valeur} XP
+                  {(r as { matieres?: { nom?: string } }).matieres?.nom ?? "Général"} · +
+                  {r.xp_valeur} XP
                 </p>
                 <button
                   onClick={() => open(r.type, r.url_storage)}

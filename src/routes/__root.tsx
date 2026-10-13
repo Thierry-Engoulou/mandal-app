@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
@@ -35,7 +36,7 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: ErrorComponentProps) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
@@ -79,10 +80,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "M'Andal App" },
-      { name: "description", content: "Apprends, entraîne-toi, progresse et transforme ton niveau en opportunités avec M'Andal." },
+      {
+        name: "description",
+        content:
+          "Apprends, entraîne-toi, progresse et transforme ton niveau en opportunités avec M'Andal.",
+      },
       { name: "author", content: "M'Andal" },
       { property: "og:title", content: "M'Andal App" },
-      { property: "og:description", content: "Apprends, entraîne-toi, progresse et transforme ton niveau en opportunités avec M'Andal." },
+      {
+        property: "og:description",
+        content:
+          "Apprends, entraîne-toi, progresse et transforme ton niveau en opportunités avec M'Andal.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#2563eb" },

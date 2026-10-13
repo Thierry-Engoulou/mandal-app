@@ -115,8 +115,8 @@ function CompositionPage() {
                         {c.nom}
                       </span>
                       <span className="text-xs text-muted-foreground">
-                        {c.niveau ?? "Niveau non renseigné"} · {c.filiere ?? "Filière non renseignée"}{" "}
-                        · {c.effectif} élève(s)
+                        {c.niveau ?? "Niveau non renseigné"} ·{" "}
+                        {c.filiere ?? "Filière non renseignée"} · {c.effectif} élève(s)
                       </span>
                     </label>
                   </li>

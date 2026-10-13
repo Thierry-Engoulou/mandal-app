@@ -98,29 +98,61 @@ export function StudentShell({ children }: { children: ReactNode }) {
         <MandalLogo />
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" aria-label="Ouvrir la navigation"><Menu /></Button>
+            <Button variant="ghost" size="icon" aria-label="Ouvrir la navigation">
+              <Menu />
+            </Button>
           </SheetTrigger>
           <SheetContent side="left" className="flex w-[280px] flex-col p-3">
-            <SheetTitle className="px-2 py-3"><MandalLogo /></SheetTitle>
+            <SheetTitle className="px-2 py-3">
+              <MandalLogo />
+            </SheetTitle>
             <nav className="mt-3 flex-1 space-y-1 overflow-y-auto">
               {navItems.map((item) => (
                 <SheetClose asChild key={item.to}>
                   <Link to={item.to} className={itemClass(isActive(item.to, item.exact))}>
-                    <item.icon className="h-4 w-4 shrink-0" /><span>{item.label}</span>
+                    <item.icon className="h-4 w-4 shrink-0" />
+                    <span>{item.label}</span>
                   </Link>
                 </SheetClose>
               ))}
-              <p className="px-3 pt-4 text-[11px] font-bold uppercase text-muted-foreground">Orientation</p>
+              <p className="px-3 pt-4 text-[11px] font-bold uppercase text-muted-foreground">
+                Orientation
+              </p>
               {orientationChildren.map((child) => (
                 <SheetClose asChild key={child.to}>
-                  <Link to={child.to} className={itemClass(pathname === child.to)}><Compass className="h-4 w-4" /><span>{child.label}</span></Link>
+                  <Link to={child.to} className={itemClass(pathname === child.to)}>
+                    <Compass className="h-4 w-4" />
+                    <span>{child.label}</span>
+                  </Link>
                 </SheetClose>
               ))}
-              <SheetClose asChild><Link to="/etudiant/parametres" className={itemClass(pathname === "/etudiant/parametres")}><Settings className="h-4 w-4" /><span>Paramètres</span></Link></SheetClose>
+              <SheetClose asChild>
+                <Link
+                  to="/etudiant/parametres"
+                  className={itemClass(pathname === "/etudiant/parametres")}
+                >
+                  <Settings className="h-4 w-4" />
+                  <span>Paramètres</span>
+                </Link>
+              </SheetClose>
             </nav>
             <div className="border-t border-border p-3">
-              <div className="flex items-center gap-3"><div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">{initialsOf(name)}</div><div className="min-w-0"><p className="truncate text-sm font-semibold">{name}</p><p className="text-[11px] text-muted-foreground">ÉTUDIANT</p></div></div>
-              <Button variant="ghost" className="mt-2 justify-start px-0 text-destructive hover:text-destructive" onClick={handleSignOut}>Se déconnecter</Button>
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
+                  {initialsOf(name)}
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold">{name}</p>
+                  <p className="text-[11px] text-muted-foreground">ÉTUDIANT</p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                className="mt-2 justify-start px-0 text-destructive hover:text-destructive"
+                onClick={handleSignOut}
+              >
+                Se déconnecter
+              </Button>
             </div>
           </SheetContent>
         </Sheet>
@@ -160,7 +192,10 @@ export function StudentShell({ children }: { children: ReactNode }) {
             </div>
           )}
 
-          <Link to="/etudiant/parametres" className={itemClass(pathname === "/etudiant/parametres")}>
+          <Link
+            to="/etudiant/parametres"
+            className={itemClass(pathname === "/etudiant/parametres")}
+          >
             <Settings className="h-4 w-4 shrink-0" />
             <span>Paramètres</span>
           </Link>
@@ -173,7 +208,9 @@ export function StudentShell({ children }: { children: ReactNode }) {
             </div>
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-foreground">{name}</p>
-              <p className="text-[11px] font-medium tracking-wide text-muted-foreground">ÉTUDIANT</p>
+              <p className="text-[11px] font-medium tracking-wide text-muted-foreground">
+                ÉTUDIANT
+              </p>
             </div>
           </div>
           <Button
@@ -187,7 +224,9 @@ export function StudentShell({ children }: { children: ReactNode }) {
         </div>
       </aside>
 
-      <main className="flex-1 overflow-y-auto px-4 pb-6 pt-22 md:ml-[220px] md:p-8">{children}</main>
+      <main className="flex-1 overflow-y-auto px-4 pb-6 pt-22 md:ml-[220px] md:p-8">
+        {children}
+      </main>
     </div>
   );
 }

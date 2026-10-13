@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import type { Database } from "@/integrations/supabase/types";
 
 const BUCKETS: Record<string, string> = {
   video: "mediatheque-videos",
@@ -12,7 +14,7 @@ const PENDING_BUCKET = "contenus-en-attente";
 
 /** Vérifie que l'appelant est chef de l'établissement de la ressource. */
 async function assertChefOf(
-  context: { supabase: any; userId: string },
+  context: { supabase: SupabaseClient<Database>; userId: string },
   etablissementId: string | null,
 ) {
   const { data, error } = await context.supabase
@@ -49,7 +51,7 @@ export const approveResource = createServerFn({ method: "POST" })
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!resource) throw new Error("Ressource introuvable.");
-    await assertChefOf(context as any, resource.etablissement_id);
+    await assertChefOf(context, resource.etablissement_id);
 
     const target = BUCKETS[resource.type];
     if (!target) throw new Error("Type de ressource inconnu.");
@@ -62,12 +64,10 @@ export const approveResource = createServerFn({ method: "POST" })
       .download(sourcePath);
 
     if (!dlError && file) {
-      const { error: upError } = await db.storage
-        .from(target)
-        .upload(sourcePath, file, {
-          upsert: true,
-          contentType: file.type || "application/octet-stream",
-        });
+      const { error: upError } = await db.storage.from(target).upload(sourcePath, file, {
+        upsert: true,
+        contentType: file.type || "application/octet-stream",
+      });
       if (upError) throw new Error(upError.message);
       await db.storage.from(PENDING_BUCKET).remove([sourcePath]);
       newPath = `${target}/${sourcePath}`;
@@ -95,7 +95,7 @@ export const rejectResource = createServerFn({ method: "POST" })
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!resource) throw new Error("Ressource introuvable.");
-    await assertChefOf(context as any, resource.etablissement_id);
+    await assertChefOf(context, resource.etablissement_id);
 
     const sourcePath = resource.url_storage.replace(new RegExp(`^${PENDING_BUCKET}/`), "");
     await db.storage.from(PENDING_BUCKET).remove([sourcePath]);
@@ -114,11 +114,9 @@ export type ChefTeacherContact = { id: string; email: string | null };
 /** Emails des enseignants de l'établissement (Auth Admin API). */
 export const listSchoolEmails = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) =>
-    z.object({ etablissementId: z.string().uuid() }).parse(data),
-  )
+  .inputValidator((data: unknown) => z.object({ etablissementId: z.string().uuid() }).parse(data))
   .handler(async ({ data, context }): Promise<ChefTeacherContact[]> => {
-    await assertChefOf(context as any, data.etablissementId);
+    await assertChefOf(context, data.etablissementId);
     const db = await admin();
     const { data: profiles, error } = await db
       .from("profiles")

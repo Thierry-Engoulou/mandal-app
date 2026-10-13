@@ -33,7 +33,9 @@ function TeacherMessagesPage() {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("conversations")
-        .select("id, sujet, type, statut, updated_at, eleve_id, profiles!conversations_eleve_id_fkey(full_name, nom, prenom)")
+        .select(
+          "id, sujet, type, statut, updated_at, eleve_id, profiles!conversations_eleve_id_fkey(full_name, nom, prenom)",
+        )
         .eq("enseignant_id", profile!.id)
         .order("updated_at", { ascending: false });
       if (error) throw new Error(error.message);

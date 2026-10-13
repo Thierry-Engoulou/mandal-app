@@ -1,5 +1,5 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "mandal-app",
   "private": true,
   "sideEffects": false,
   "type": "module",
@@ -9,6 +9,7 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -41,7 +42,7 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@supabase/realtime-js": "^2.117.2",
-    "@supabase/supabase-js": "^2.49.1",
+    "@supabase/supabase-js": "^2.117.0",
     "@tailwindcss/vite": "^4.2.1",
     "@tanstack/react-query": "^5.101.1",
     "@tanstack/react-router": "^1.170.41",
@@ -54,6 +55,7 @@
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "^1.4.2",
+    "katex": "^0.19.0",
     "lucide-react": "^0.475.0",
     "mammoth": "^1.12.3",
     "pdfjs-dist": "^6.3.289",

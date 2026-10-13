@@ -81,7 +81,12 @@ function StatistiquesPage() {
                     <XAxis dataKey="filiere" fontSize={12} stroke="var(--muted-foreground)" />
                     <YAxis allowDecimals={false} fontSize={12} stroke="var(--muted-foreground)" />
                     <Tooltip />
-                    <Bar dataKey="eleves" name="Élèves" fill="var(--violet)" radius={[8, 8, 0, 0]} />
+                    <Bar
+                      dataKey="eleves"
+                      name="Élèves"
+                      fill="var(--violet)"
+                      radius={[8, 8, 0, 0]}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>

@@ -71,9 +71,9 @@ function AuthPage() {
         setGoogleLoading(false);
         toast.error(error.message);
       }
-    } catch (err: any) {
+    } catch (err) {
       setGoogleLoading(false);
-      toast.error(err.message || "Erreur lors de la connexion Google");
+      toast.error((err instanceof Error && err.message) || "Erreur lors de la connexion Google");
     }
   };
 
@@ -109,25 +109,25 @@ function AuthPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-10">
       <div className="w-full max-w-[420px]">
-        <Link to="/" className="mb-7 flex justify-center"><MandalLogo /></Link>
+        <Link to="/" className="mb-7 flex justify-center">
+          <MandalLogo />
+        </Link>
         <div className="rounded-2xl border border-border bg-card p-8 shadow-lg">
           <div className="mb-6 flex flex-col items-center text-center">
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
               <Lock className="h-6 w-6 text-primary" />
             </div>
-            <h1 className="font-display mt-5 text-2xl font-bold text-foreground">
-              Bon retour !
-            </h1>
+            <h1 className="font-display mt-5 text-2xl font-bold text-foreground">Bon retour !</h1>
             <p className="mt-2 text-sm text-muted-foreground">
               Connectez-vous pour accéder à votre espace
             </p>
           </div>
 
-          <Button 
-            type="button" 
-            variant="outline" 
-            className="h-12 w-full rounded-xl border-border bg-card text-foreground font-semibold hover:bg-secondary transition flex items-center justify-center gap-2" 
-            onClick={handleGoogleLogin} 
+          <Button
+            type="button"
+            variant="outline"
+            className="h-12 w-full rounded-xl border-border bg-card text-foreground font-semibold hover:bg-secondary transition flex items-center justify-center gap-2"
+            onClick={handleGoogleLogin}
             disabled={googleLoading || loading}
           >
             {googleLoading ? (
@@ -155,7 +155,13 @@ function AuthPage() {
             Continuer avec Google
           </Button>
 
-          <div className="my-5 flex items-center gap-3"><span className="h-px flex-1 bg-border" /><span className="text-xs text-muted-foreground">Ou continuez avec email / téléphone</span><span className="h-px flex-1 bg-border" /></div>
+          <div className="my-5 flex items-center gap-3">
+            <span className="h-px flex-1 bg-border" />
+            <span className="text-xs text-muted-foreground">
+              Ou continuez avec email / téléphone
+            </span>
+            <span className="h-px flex-1 bg-border" />
+          </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
@@ -195,10 +201,7 @@ function AuthPage() {
             </div>
 
             <div className="flex justify-end">
-              <Link
-                to="/"
-                className="text-sm font-medium text-primary hover:underline"
-              >
+              <Link to="/" className="text-sm font-medium text-primary hover:underline">
                 Mot de passe oublié ?
               </Link>
             </div>
@@ -208,7 +211,13 @@ function AuthPage() {
               className="w-full rounded-xl py-5 text-base font-semibold"
               disabled={loading}
             >
-               {loading ? <><LoaderCircle className="animate-spin" /> Connexion…</> : "Se connecter"}
+              {loading ? (
+                <>
+                  <LoaderCircle className="animate-spin" /> Connexion…
+                </>
+              ) : (
+                "Se connecter"
+              )}
             </Button>
           </form>
 

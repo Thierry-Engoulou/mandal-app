@@ -70,9 +70,24 @@ function StudentDashboardPage() {
   const progression = Math.min(100, Math.round(((xp % PALIER) / PALIER) * 100));
 
   const cards = [
-    { label: "Examens passés", value: String(stats?.resultats.length ?? 0), icon: BookOpen, tone: "text-primary bg-primary/10" },
-    { label: "Badges obtenus", value: String(stats?.badges ?? 0), icon: Flame, tone: "text-warning bg-warning/10" },
-    { label: "XP cumulés", value: xp.toLocaleString("fr-FR"), icon: Trophy, tone: "text-success bg-success/10" },
+    {
+      label: "Examens passés",
+      value: String(stats?.resultats.length ?? 0),
+      icon: BookOpen,
+      tone: "text-primary bg-primary/10",
+    },
+    {
+      label: "Badges obtenus",
+      value: String(stats?.badges ?? 0),
+      icon: Flame,
+      tone: "text-warning bg-warning/10",
+    },
+    {
+      label: "XP cumulés",
+      value: xp.toLocaleString("fr-FR"),
+      icon: Trophy,
+      tone: "text-success bg-success/10",
+    },
   ];
 
   return (
@@ -89,7 +104,9 @@ function StudentDashboardPage() {
       <div className="grid gap-4 sm:grid-cols-3">
         {cards.map((stat) => (
           <div key={stat.label} className="rounded-2xl bg-card p-5 shadow-sm">
-            <div className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl ${stat.tone}`}>
+            <div
+              className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl ${stat.tone}`}
+            >
               <stat.icon className="h-5 w-5" />
             </div>
             <p className="font-display text-2xl font-bold text-foreground">{stat.value}</p>
@@ -102,8 +119,12 @@ function StudentDashboardPage() {
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
-            <h2 className="font-display text-lg font-bold text-foreground">Les 3 Volets Pédagogiques M'Andal</h2>
-            <p className="text-xs text-muted-foreground">Accédez aux modules académiques, civiques et culturels</p>
+            <h2 className="font-display text-lg font-bold text-foreground">
+              Les 3 Volets Pédagogiques M'Andal
+            </h2>
+            <p className="text-xs text-muted-foreground">
+              Accédez aux modules académiques, civiques et culturels
+            </p>
           </div>
           <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full w-fit">
             Programme Complet
@@ -118,7 +139,9 @@ function StudentDashboardPage() {
           >
             <div>
               <div className="flex items-center justify-between">
-                <span className="text-xs font-black text-emerald-600 dark:text-emerald-400">01</span>
+                <span className="text-xs font-black text-emerald-600 dark:text-emerald-400">
+                  01
+                </span>
                 <GraduationCap className="size-5 text-emerald-600 dark:text-emerald-400" />
               </div>
               <h3 className="mt-2 font-display text-sm font-bold text-foreground group-hover:text-emerald-600">
@@ -177,7 +200,8 @@ function StudentDashboardPage() {
           <div className="flex items-center gap-2.5">
             <HeartHandshake className="size-5 text-amber-600 dark:text-amber-400 shrink-0" />
             <p className="text-xs text-foreground font-medium">
-              <strong>Programme Parrainage M'Andal :</strong> « Un élève brillant ne devrait jamais renoncer à un concours faute de moyens. »
+              <strong>Programme Parrainage M'Andal :</strong> « Un élève brillant ne devrait jamais
+              renoncer à un concours faute de moyens. »
             </p>
           </div>
           <Link
@@ -219,7 +243,9 @@ function StudentDashboardPage() {
                     className="flex items-center justify-between rounded-xl border border-border p-4 transition-colors hover:border-primary/50"
                   >
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-foreground">{examen.titre}</p>
+                      <p className="truncate text-sm font-semibold text-foreground">
+                        {examen.titre}
+                      </p>
                       <p className="text-xs text-muted-foreground">
                         {examen.duree_minutes} min · {examen.nb_questions} questions
                       </p>
@@ -232,7 +258,9 @@ function StudentDashboardPage() {
           )}
 
           <div className="mt-6">
-            <h3 className="mb-3 font-display text-sm font-bold text-foreground">Derniers résultats</h3>
+            <h3 className="mb-3 font-display text-sm font-bold text-foreground">
+              Derniers résultats
+            </h3>
             {stats?.resultats.length ? (
               <ul className="divide-y rounded-xl border border-border">
                 {stats.resultats.map((r) => (
@@ -240,7 +268,9 @@ function StudentDashboardPage() {
                     <span className="truncate text-sm text-foreground">
                       {(r as { examens?: { titre?: string } }).examens?.titre ?? "Examen"}
                     </span>
-                    <span className="text-sm font-semibold text-primary">{Number(r.score)} / 20</span>
+                    <span className="text-sm font-semibold text-primary">
+                      {Number(r.score)} / 20
+                    </span>
                   </li>
                 ))}
               </ul>

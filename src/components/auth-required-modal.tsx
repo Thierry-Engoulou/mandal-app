@@ -58,7 +58,9 @@ export function AuthRequiredModal({
             <Lock className="size-7" />
           </div>
 
-          <div className={`mx-auto inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold ${theme.color}`}>
+          <div
+            className={`mx-auto inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold ${theme.color}`}
+          >
             {theme.badge}
           </div>
 
@@ -67,7 +69,9 @@ export function AuthRequiredModal({
           </DialogTitle>
 
           <DialogDescription className="mt-2 text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Pour accéder à <strong className="text-white font-semibold">« {title} »</strong>, consulter les leçons complètes, les simulations interactives et les quiz d'évaluation, créez votre compte gratuit ou connectez-vous.
+            Pour accéder à <strong className="text-white font-semibold">« {title} »</strong>,
+            consulter les leçons complètes, les simulations interactives et les quiz d'évaluation,
+            créez votre compte gratuit ou connectez-vous.
           </DialogDescription>
         </DialogHeader>
 
@@ -96,11 +100,7 @@ export function AuthRequiredModal({
             asChild
             className={`w-full rounded-xl py-5 font-display text-sm font-bold shadow-lg ${theme.btnColor}`}
           >
-            <Link
-              to="/inscription"
-              search={levelId ? { level: levelId } : undefined}
-              onClick={onClose}
-            >
+            <Link to="/inscription" search={levelId ? { level: levelId } : {}} onClick={onClose}>
               <UserPlus className="mr-2 size-4" />
               Créer mon compte (Gratuit)
             </Link>

@@ -14,57 +14,49 @@ function AuthenticatedLayout() {
 
   useEffect(() => {
     let mounted = true;
+    let timer: ReturnType<typeof setTimeout> | undefined;
 
-    async function checkAuth() {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
+    const accept = () => {
+      if (!mounted) return;
+      setIsAuthenticated(true);
+      setChecking(false);
+    };
+
+    // Écoute onAuthStateChange au cas où les tokens sont encore en cours de chargement
+    // (retour OAuth, synchronisation entre onglets…).
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, currentSession) => {
+      if (currentSession) accept();
+    });
+
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } }) => {
         if (!mounted) return;
-
         if (session) {
-          setIsAuthenticated(true);
-          setChecking(false);
+          accept();
           return;
         }
-
-        // Si pas de session immédiate, écouter onAuthStateChange (au cas où les tokens sont en cours de chargement)
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, currentSession) => {
-          if (!mounted) return;
-          if (currentSession) {
-            setIsAuthenticated(true);
-            setChecking(false);
-          }
-        });
-
         // Délai de grâce avant de rediriger si vraiment aucune session n'est présente
-        const timer = setTimeout(() => {
-          if (mounted) {
-            supabase.auth.getSession().then(({ data: { session: finalSession } }) => {
-              if (mounted) {
-                if (finalSession) {
-                  setIsAuthenticated(true);
-                  setChecking(false);
-                } else {
-                  navigate({ to: "/auth", replace: true });
-                }
-              }
-            });
-          }
+        timer = setTimeout(async () => {
+          const {
+            data: { session: finalSession },
+          } = await supabase.auth.getSession();
+          if (!mounted) return;
+          if (finalSession) accept();
+          else navigate({ to: "/auth", replace: true });
         }, 1200);
-
-        return () => {
-          subscription.unsubscribe();
-          clearTimeout(timer);
-        };
-      } catch (err) {
+      })
+      .catch((err: unknown) => {
         console.error("Auth check error:", err);
         if (mounted) navigate({ to: "/auth", replace: true });
-      }
-    }
-
-    checkAuth();
+      });
 
     return () => {
       mounted = false;
+      clearTimeout(timer);
+      subscription.unsubscribe();
     };
   }, [navigate]);
 
@@ -85,4 +77,3 @@ function AuthenticatedLayout() {
 
   return <Outlet />;
 }
-

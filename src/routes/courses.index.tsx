@@ -13,9 +13,15 @@ export const Route = createFileRoute("/courses/")({
   head: () => ({
     meta: [
       { title: "Modules de cours — MANDAL" },
-      { name: "description", content: "Découvrez les modules de cours MANDAL par pilier et niveau." },
+      {
+        name: "description",
+        content: "Découvrez les modules de cours MANDAL par pilier et niveau.",
+      },
       { property: "og:title", content: "Modules de cours — MANDAL" },
-      { property: "og:description", content: "Découvrez les modules de cours MANDAL par pilier et niveau." },
+      {
+        property: "og:description",
+        content: "Découvrez les modules de cours MANDAL par pilier et niveau.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],

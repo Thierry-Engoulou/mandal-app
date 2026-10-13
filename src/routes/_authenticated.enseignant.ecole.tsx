@@ -65,11 +65,7 @@ function TeacherSchoolPage() {
     <div className="space-y-6">
       <section className="flex flex-wrap items-center gap-5 rounded-2xl bg-card p-6 shadow-sm">
         {logoUrl ? (
-          <img
-            src={logoUrl}
-            alt={school.nom}
-            className="size-20 rounded-2xl object-cover"
-          />
+          <img src={logoUrl} alt={school.nom} className="size-20 rounded-2xl object-cover" />
         ) : (
           <div className="flex size-20 items-center justify-center rounded-2xl bg-success/10 text-success">
             <Building2 className="size-8" />
@@ -92,7 +88,9 @@ function TeacherSchoolPage() {
       <section className="rounded-2xl bg-card p-6 shadow-sm">
         <h2 className="font-display text-lg font-bold text-foreground">Mes classes ici</h2>
         {classes.length === 0 ? (
-          <p className="mt-2 text-sm text-muted-foreground">Aucune classe dans cet établissement.</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Aucune classe dans cet établissement.
+          </p>
         ) : (
           <ul className="mt-4 divide-y">
             {classes.map((c) => (

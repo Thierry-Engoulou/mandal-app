@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Clock, ArrowLeft, Trophy } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -55,13 +55,11 @@ function ExamRunnerPage() {
           .select("id, titre, description, duree_minutes, nb_questions")
           .eq("id", examenId)
           .maybeSingle(),
-        supabase
-          .from("questions")
-          .select("id, enonce, type, options, points, ordre")
-          .eq("examen_id", examenId)
-          .order("ordre"),
+        // Les réponses correctes ne sont jamais envoyées au navigateur de l'élève.
+        supabase.rpc("questions_examen", { p_examen_id: examenId }),
       ]);
       if (examen.error) throw new Error(examen.error.message);
+      if (questions.error) throw new Error(questions.error.message);
       return { examen: examen.data, questions: (questions.data ?? []) as Question[] };
     },
   });
@@ -89,54 +87,22 @@ function ExamRunnerPage() {
     return () => clearTimeout(timer);
   }, [started, remaining]);
 
-  const totalPoints = useMemo(
-    () => (data?.questions ?? []).reduce((sum, q) => sum + (q.points || 1), 0),
-    [data],
-  );
-
   const submit = async (auto = false) => {
     if (!profile || !data?.examen || submitting) return;
     setSubmitting(true);
-    const { data: correction, error: corrError } = await supabase
-      .from("questions")
-      .select("id, reponse_correcte, points")
-      .eq("examen_id", examenId);
-    if (corrError) {
+    // Correction, résultat et XP calculés côté serveur (fonction soumettre_examen).
+    const { data: rows, error } = await supabase.rpc("soumettre_examen", {
+      p_examen_id: examenId,
+      p_reponses: answers,
+    });
+    const correction = rows?.[0];
+    if (error || !correction) {
       setSubmitting(false);
-      toast.error("Impossible d'enregistrer votre copie.");
+      toast.error(error?.message ?? "Impossible d'enregistrer votre copie.");
       return;
     }
-    let obtained = 0;
-    for (const q of correction ?? []) {
-      const given = answers[q.id];
-      if (given && q.reponse_correcte && given.trim() === q.reponse_correcte.trim()) {
-        obtained += q.points || 1;
-      }
-    }
-    const note = totalPoints > 0 ? Math.round((obtained / totalPoints) * 20 * 100) / 100 : 0;
-    const xpGagne = Math.round(note * 5);
-
-    const { error } = await supabase.from("resultats_examens").insert({
-      examen_id: examenId,
-      eleve_id: profile.id,
-      score: note,
-      reponses: answers,
-    });
-    if (error) {
-      setSubmitting(false);
-      toast.error(error.message);
-      return;
-    }
-    await supabase.from("xp_transactions").insert({
-      profile_id: profile.id,
-      montant: xpGagne,
-      source: "examen",
-      description: data.examen.titre,
-    });
-    await supabase
-      .from("profiles")
-      .update({ xp_total: (profile.xp_total ?? 0) + xpGagne })
-      .eq("id", profile.id);
+    const note = Number(correction.score);
+    const xpGagne = correction.xp;
 
     await queryClient.invalidateQueries({ queryKey: ["mon-profil"] });
     setSubmitting(false);
@@ -156,10 +122,12 @@ function ExamRunnerPage() {
     return (
       <div className="rounded-2xl bg-card p-10 text-center shadow-sm">
         <Lock className="mx-auto size-8 text-muted-foreground" />
-        <p className="mt-3 font-display text-lg font-bold text-foreground">Ce quiz est verrouillé</p>
+        <p className="mt-3 font-display text-lg font-bold text-foreground">
+          Ce quiz est verrouillé
+        </p>
         <p className="mt-2 text-sm text-muted-foreground">
-          Complétez les {lock.totalConcepts} leçons du chapitre « {lock.chapitreTitre} » pour y accéder
-          ({lock.conceptsTermines}/{lock.totalConcepts} faites).
+          Complétez les {lock.totalConcepts} leçons du chapitre « {lock.chapitreTitre} » pour y
+          accéder ({lock.conceptsTermines}/{lock.totalConcepts} faites).
         </p>
         <Link to="/etudiant/examens" className="mt-6 inline-block text-sm font-medium text-primary">
           Retour aux examens
@@ -201,8 +169,12 @@ function ExamRunnerPage() {
       {result ? (
         <div className="rounded-2xl bg-card p-8 text-center shadow-sm">
           <Trophy className="mx-auto size-8 text-success" />
-          <p className="mt-3 font-display text-3xl font-bold text-foreground">{result.score} / 20</p>
-          <p className="mt-1 text-sm text-muted-foreground">+{result.xp} XP ajoutés à votre compte</p>
+          <p className="mt-3 font-display text-3xl font-bold text-foreground">
+            {result.score} / 20
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            +{result.xp} XP ajoutés à votre compte
+          </p>
           <Link
             to="/etudiant/examens"
             className="mt-6 inline-block rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
@@ -236,7 +208,9 @@ function ExamRunnerPage() {
         <>
           <div className="sticky top-16 z-10 flex flex-col gap-2 rounded-2xl bg-card p-4 shadow-md md:top-4 border border-border">
             <div className="flex items-center justify-between">
-              <span className={`inline-flex items-center gap-2 font-display text-xl font-black ${remaining !== null && remaining <= 1800 ? "text-amber-600 dark:text-amber-400 animate-pulse" : "text-primary"}`}>
+              <span
+                className={`inline-flex items-center gap-2 font-display text-xl font-black ${remaining !== null && remaining <= 1800 ? "text-amber-600 dark:text-amber-400 animate-pulse" : "text-primary"}`}
+              >
                 <Clock className="size-6" />
                 {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
               </span>
@@ -253,7 +227,9 @@ function ExamRunnerPage() {
                   <strong className="font-bold uppercase tracking-wider block text-amber-800 dark:text-amber-300">
                     Rappel obligatoire : Il reste moins de {minutes} minutes !
                   </strong>
-                  Pour une bonne pratique d'examen, préparez dès maintenant vos formats rédigés à la main. Vous devez impérativement <strong>scanner ou photographier</strong> vos feuilles d'épreuve ci-dessous avant l'envoi automatique.
+                  Pour une bonne pratique d'examen, préparez dès maintenant vos formats rédigés à la
+                  main. Vous devez impérativement <strong>scanner ou photographier</strong> vos
+                  feuilles d'épreuve ci-dessous avant l'envoi automatique.
                 </div>
               </div>
             )}
@@ -263,15 +239,26 @@ function ExamRunnerPage() {
           <div className="rounded-2xl border-2 border-dashed border-primary/40 bg-primary/5 p-6 text-center space-y-3">
             <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
               <svg className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                />
               </svg>
             </div>
             <h3 className="font-display text-base font-bold text-foreground">
               Scanner ou Photographier vos feuilles de composition
             </h3>
             <p className="text-xs text-muted-foreground max-w-md mx-auto">
-              Si vous composez sur feuilles ou format d'examen, photographiez vos pages rédigées. Elles seront transmises à votre enseignant et analysées pour la correction.
+              Si vous composez sur feuilles ou format d'examen, photographiez vos pages rédigées.
+              Elles seront transmises à votre enseignant et analysées pour la correction.
             </p>
             <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition">
               <span>📷 Photographier / Charger mes copies (Format, PDF ou Scan)</span>
@@ -282,7 +269,9 @@ function ExamRunnerPage() {
                 className="hidden"
                 onChange={(e) => {
                   if (e.target.files && e.target.files.length > 0) {
-                    toast.success(`${e.target.files.length} fichier(s) de copie prêt(s) pour la transmission à l'enseignant.`);
+                    toast.success(
+                      `${e.target.files.length} fichier(s) de copie prêt(s) pour la transmission à l'enseignant.`,
+                    );
                   }
                 }}
               />

@@ -63,7 +63,9 @@ function StudentRepresentationsPage() {
             <div
               key={badge.label}
               className={`flex items-center gap-3 rounded-2xl border p-4 ${
-                badge.earned ? "border-success/30 bg-success/5" : "border-border bg-muted/40 opacity-70"
+                badge.earned
+                  ? "border-success/30 bg-success/5"
+                  : "border-border bg-muted/40 opacity-70"
               }`}
             >
               <span

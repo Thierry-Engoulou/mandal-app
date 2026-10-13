@@ -50,7 +50,9 @@ export async function extractTextFromFile(file: File): Promise<string> {
     return cleanup(await file.text());
   }
   if (name.endsWith(".doc")) {
-    throw new Error("Le format .doc n'est pas géré. Enregistrez le fichier en .docx puis réessayez.");
+    throw new Error(
+      "Le format .doc n'est pas géré. Enregistrez le fichier en .docx puis réessayez.",
+    );
   }
 
   throw new Error("Format non pris en charge. Utilisez un fichier .txt, .md, .docx ou .pdf.");

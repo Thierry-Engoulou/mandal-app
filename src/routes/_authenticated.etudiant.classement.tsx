@@ -10,7 +10,10 @@ export const Route = createFileRoute("/_authenticated/etudiant/classement")({
   head: () => ({
     meta: [
       { title: "Classement — MANDAL" },
-      { name: "description", content: "Votre position et celle de votre établissement sur MANDAL." },
+      {
+        name: "description",
+        content: "Votre position et celle de votre établissement sur MANDAL.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -67,7 +70,11 @@ function StudentRankingPage() {
       <div className="grid gap-4 sm:grid-cols-3">
         {[
           { icon: Crown, label: "Votre rang", value: myRank ? `${myRank}e` : "—" },
-          { icon: TrendingUp, label: "Vos XP", value: (profile?.xp_total ?? 0).toLocaleString("fr-FR") },
+          {
+            icon: TrendingUp,
+            label: "Vos XP",
+            value: (profile?.xp_total ?? 0).toLocaleString("fr-FR"),
+          },
           { icon: Medal, label: "Badges obtenus", value: String(data?.badges ?? 0) },
         ].map((stat) => (
           <div key={stat.label} className="rounded-2xl bg-card p-5 shadow-sm">
@@ -99,7 +106,10 @@ function StudentRankingPage() {
             {data.rows.map((row) => {
               const me = row.id === profile?.id;
               return (
-                <li key={row.id} className={`flex items-center gap-4 px-5 py-4 ${me ? "bg-success/5" : ""}`}>
+                <li
+                  key={row.id}
+                  className={`flex items-center gap-4 px-5 py-4 ${me ? "bg-success/5" : ""}`}
+                >
                   <span
                     className={`flex size-9 shrink-0 items-center justify-center rounded-full text-sm font-bold ${rankStyle(row.rank)}`}
                   >

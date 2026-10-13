@@ -48,16 +48,25 @@ export function AnnouncementsCarousel() {
   };
 
   return (
-    <section id="evenements" aria-labelledby="announcements-title" className="bg-background px-5 py-10 lg:px-8 lg:py-14">
+    <section
+      id="evenements"
+      aria-labelledby="announcements-title"
+      className="bg-background px-5 py-10 lg:px-8 lg:py-14"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
             <p className="text-sm font-bold uppercase text-primary">À la une</p>
-            <h2 id="announcements-title" className="mt-2 font-display text-3xl font-bold sm:text-4xl">
+            <h2
+              id="announcements-title"
+              className="mt-2 font-display text-3xl font-bold sm:text-4xl"
+            >
               Annonces
             </h2>
           </div>
-          <p className="hidden text-sm text-muted-foreground sm:block">Touchez une annonce pour l’agrandir</p>
+          <p className="hidden text-sm text-muted-foreground sm:block">
+            Touchez une annonce pour l’agrandir
+          </p>
         </div>
 
         <div

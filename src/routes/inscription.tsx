@@ -1,9 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { useServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { createProfile } from "@/lib/profiles.functions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,14 +34,17 @@ export const Route = createFileRoute("/inscription")({
 function SignupPage() {
   const navigate = useNavigate();
   const searchParams = Route.useSearch();
-  const createProfileFn = useServerFn(createProfile);
   const [fullName, setFullName] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [role, setRole] = useState<"student" | "teacher">("student");
-  const [selectedClassId, setSelectedClassId] = useState<string>(searchParams.level || "probatoire");
-  const [dbClasses, setDbClasses] = useState<Array<{ id: string; nom: string; niveau?: string | null }>>([]);
+  const [selectedClassId, setSelectedClassId] = useState<string>(
+    searchParams.level || "probatoire",
+  );
+  const [dbClasses, setDbClasses] = useState<
+    Array<{ id: string; nom: string; niveau?: string | null }>
+  >([]);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -51,11 +52,14 @@ function SignupPage() {
 
   // Charger les classes depuis la base Supabase
   useEffect(() => {
-    supabase.from("classes").select("id, nom, niveau, filiere").then(({ data }) => {
-      if (data && data.length > 0) {
-        setDbClasses(data);
-      }
-    });
+    supabase
+      .from("classes")
+      .select("id, nom, niveau, filiere")
+      .then(({ data }) => {
+        if (data && data.length > 0) {
+          setDbClasses(data);
+        }
+      });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -96,20 +100,8 @@ function SignupPage() {
       return;
     }
 
-    if (data.user) {
-      try {
-        await createProfileFn({ data: { userId: data.user.id, fullName, role } });
-        // Si c'est une classe de Supabase (UUID), inscrire l'élève dans class_membres
-        if (role === "student" && selectedClassId.length > 10) {
-          await supabase.from("class_membres").insert({
-            eleve_id: data.user.id,
-            class_id: selectedClassId,
-          });
-        }
-      } catch (profileError) {
-        console.error("Profile creation error:", profileError);
-      }
-    }
+    // Le profil (rôle limité à élève/enseignant) et l'inscription dans la classe
+    // choisie sont créés côté base par le trigger handle_new_user.
 
     setLoading(false);
     toast.success("Compte créé avec succès ! Vos cours sont prêts.");
@@ -144,7 +136,8 @@ function SignupPage() {
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
                 Un e-mail de confirmation a été envoyé à <strong>{identifier}</strong>. Activez
-                votre compte puis connectez-vous pour retrouver l'intégralité des cours de votre classe.
+                votre compte puis connectez-vous pour retrouver l'intégralité des cours de votre
+                classe.
               </p>
               <Button asChild className="mt-6 w-full rounded-xl">
                 <Link to="/auth">Se connecter</Link>
@@ -192,7 +185,9 @@ function SignupPage() {
                     type="button"
                     onClick={() => setShowPassword((v) => !v)}
                     className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
-                    aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                    aria-label={
+                      showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"
+                    }
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -215,7 +210,9 @@ function SignupPage() {
                     type="button"
                     onClick={() => setShowConfirm((v) => !v)}
                     className="absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground hover:text-foreground"
-                    aria-label={showConfirm ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                    aria-label={
+                      showConfirm ? "Masquer le mot de passe" : "Afficher le mot de passe"
+                    }
                   >
                     {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -259,7 +256,10 @@ function SignupPage() {
               {/* Sélecteur de Classe / Niveau pour l'élève */}
               {role === "student" && (
                 <div className="space-y-2 rounded-xl border border-primary/20 bg-primary/5 p-4">
-                  <Label htmlFor="classeSelect" className="text-xs font-bold uppercase tracking-wider text-primary">
+                  <Label
+                    htmlFor="classeSelect"
+                    className="text-xs font-bold uppercase tracking-wider text-primary"
+                  >
                     🎓 Choisissez votre Classe ou Concours
                   </Label>
                   <select

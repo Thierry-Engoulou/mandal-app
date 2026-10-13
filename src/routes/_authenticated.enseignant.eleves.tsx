@@ -51,19 +51,22 @@ function TeacherStudentsPage() {
         .in("class_id", classIds);
       if (error) throw new Error(error.message);
 
-      const { data: exams } = await supabase.from("examens").select("id, titre").in("classe_id", classIds);
+      const { data: exams } = await supabase
+        .from("examens")
+        .select("id, titre")
+        .in("classe_id", classIds);
       const examTitles = new Map((exams ?? []).map((e) => [e.id, e.titre]));
       const examIds = [...examTitles.keys()];
 
       const results =
         examIds.length > 0
-          ? (
+          ? ((
               await supabase
                 .from("resultats_examens")
                 .select("examen_id, eleve_id, score, date_passage")
                 .in("examen_id", examIds)
                 .order("date_passage", { ascending: false })
-            ).data ?? []
+            ).data ?? [])
           : [];
 
       const byStudent = new Map<string, { scores: number[]; last: string | null }>();
@@ -91,8 +94,7 @@ function TeacherStudentsPage() {
         return {
           id: m.eleve_id,
           classId: m.class_id,
-          name:
-            [p?.prenom, p?.nom].filter(Boolean).join(" ").trim() || p?.full_name || "Élève",
+          name: [p?.prenom, p?.nom].filter(Boolean).join(" ").trim() || p?.full_name || "Élève",
           xp: p?.xp_total ?? 0,
           niveau: p?.niveau ?? "—",
           lastExam: stats?.last ?? null,
