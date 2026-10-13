@@ -17,6 +17,7 @@ import {
 } from "@/lib/use-student-programmes";
 import { conceptTypeLabel, geogebraEmbedUrl, youtubeEmbedUrl } from "@/lib/concept-content";
 import { FunctionGraph } from "@/components/function-graph";
+import { MathText } from "@/components/math-text";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -77,9 +78,10 @@ function ConceptContent({ concept }: { concept: ProgrammeConcept }) {
     );
   }
   return (
-    <p className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
-      {concept.contenu_texte || "Aucun contenu pour cette leçon."}
-    </p>
+    <MathText
+      text={concept.contenu_texte || "Aucun contenu pour cette leçon."}
+      className="text-sm leading-relaxed text-foreground"
+    />
   );
 }
 

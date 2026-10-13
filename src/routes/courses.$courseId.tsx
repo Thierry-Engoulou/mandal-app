@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { getCourse } from "@/lib/courses.functions";
+import { MathText } from "@/components/math-text";
 import { Button } from "@/components/ui/button";
 import { MandalLogo } from "@/components/mandal-logo";
 import { ArrowLeft, BookOpen, CalendarDays, GraduationCap } from "lucide-react";
@@ -88,9 +89,7 @@ function CourseDetailPage() {
             <BookOpen className="size-5" aria-hidden="true" />
             <h2 className="font-display text-lg font-bold">Contenu du module</h2>
           </div>
-          <div className="whitespace-pre-wrap leading-relaxed text-foreground">
-            {course.content}
-          </div>
+          <MathText text={course.content} className="leading-relaxed text-foreground" />
         </article>
       </main>
     </div>

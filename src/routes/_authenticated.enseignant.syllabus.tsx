@@ -14,6 +14,7 @@ import {
   GRAPHIQUE_SPEC_PLACEHOLDER,
 } from "@/lib/concept-content";
 import { FunctionGraph } from "@/components/function-graph";
+import { MathText } from "@/components/math-text";
 import { TeacherPendingBanner } from "@/components/teacher-pending-banner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -717,6 +718,19 @@ function TeacherSyllabusPage() {
                   rows={6}
                   className="rounded-xl"
                 />
+                <p className="text-xs text-muted-foreground">
+                  Formules LaTeX : <code>$x^2$</code> dans la ligne,{" "}
+                  <code>{"$$\\frac{a}{b}$$"}</code> centrée.
+                </p>
+                {/\$|\\[([]/.test(conceptForm.contenu_texte) && (
+                  <div className="rounded-xl border border-border bg-secondary/30 p-3">
+                    <p className="mb-1 text-xs font-medium text-muted-foreground">Aperçu</p>
+                    <MathText
+                      text={conceptForm.contenu_texte}
+                      className="text-sm leading-relaxed text-foreground"
+                    />
+                  </div>
+                )}
               </div>
             )}
 
