@@ -407,7 +407,9 @@ export function StudentCoursesIndexPage() {
                             </span>
                           ) : null}
                           <span className="rounded-full bg-secondary px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-                            {p.totalConcepts} leçons / chapitres
+                            {p.totalChapitres !== undefined
+                              ? `${p.totalChapitres} chapitres · ${p.totalConcepts} leçons`
+                              : `${p.totalConcepts} leçons`}
                           </span>
                         </div>
                       </div>

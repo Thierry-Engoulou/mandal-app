@@ -45,6 +45,7 @@ export type ProgrammeInfo = {
 export type ProgrammeSummary = ProgrammeInfo & {
   totalConcepts: number;
   conceptsTermines: number;
+  totalChapitres?: number;
 };
 
 export type ProgrammeDetailResponse = {
@@ -125,7 +126,7 @@ export function useStudentProgrammes(selectedClasseId?: string | null) {
         let query = supabase
           .from("programmes")
           .select(
-            "id, titre, description, classe_id, matiere_id, matieres(nom), classes(nom, niveau), chapitres(id, titre, ordre)",
+            "id, titre, description, classe_id, matiere_id, matieres(nom), classes(nom, niveau), chapitres(id, concepts(id))",
           )
           .order("titre");
 
@@ -142,19 +143,34 @@ export function useStudentProgrammes(selectedClasseId?: string | null) {
         const rows = (data ?? []) as unknown[];
         if (rows.length === 0) return [];
 
+        // Leçons déjà terminées par l'élève (toutes, l'ensemble reste petit).
+        let doneSet = new Set<string>();
+        if (profile?.id) {
+          const { data: progression, error: progressionError } = await supabase
+            .from("progression_concepts")
+            .select("concept_id")
+            .eq("eleve_id", profile.id)
+            .eq("termine", true);
+          if (progressionError)
+            console.warn("Progression query warning:", progressionError.message);
+          doneSet = new Set((progression ?? []).map((r) => r.concept_id));
+        }
+
         return rows.map((raw) => {
           const p = raw as Record<string, unknown>;
-          const mat = p["matieres"] as { nom: string } | null;
-          const cls = p["classes"] as { nom: string } | null;
-          const chaps = (p["chapitres"] as unknown[]) ?? [];
+          const mat = firstOrNull(p["matieres"] as { nom: string } | { nom: string }[] | null);
+          const cls = firstOrNull(p["classes"] as { nom: string } | { nom: string }[] | null);
+          const chaps = (p["chapitres"] as { concepts?: { id: string }[] | null }[] | null) ?? [];
+          const conceptIds = chaps.flatMap((c) => (c.concepts ?? []).map((k) => k.id));
           return {
             id: p["id"] as string,
             titre: p["titre"] as string,
             description: (p["description"] as string) ?? null,
             matiereNom: mat?.nom ?? null,
             classeNom: cls?.nom ?? null,
-            totalConcepts: chaps.length,
-            conceptsTermines: 0,
+            totalConcepts: conceptIds.length,
+            conceptsTermines: conceptIds.filter((id) => doneSet.has(id)).length,
+            totalChapitres: chaps.length,
           };
         });
       } catch (err) {
