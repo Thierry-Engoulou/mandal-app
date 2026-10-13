@@ -26,7 +26,7 @@ export function trackPageView(pageName: string): void {
     const raw = localStorage.getItem(STORAGE_KEY_VISITS);
     const data = raw ? JSON.parse(raw) : { total: 1420, daily: {}, pages: {} };
 
-    const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+    const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
     // Incrémente total
     data.total = (data.total || 0) + 1;
@@ -52,7 +52,7 @@ export function trackExamDownload(title: string, category: string = "Épreuve"):
     const raw = localStorage.getItem(STORAGE_KEY_DOWNLOADS);
     const data = raw ? JSON.parse(raw) : { total: 684, daily: {}, items: {} };
 
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().slice(0, 10);
 
     data.total = (data.total || 0) + 1;
     data.daily = data.daily || {};
@@ -132,13 +132,13 @@ export function getAnalyticsMetrics(): AnalyticsSummary {
     const downloadsData = rawDownloads ? JSON.parse(rawDownloads) : { total: 684, daily: {}, items: {} };
     const logsData = rawLogs ? JSON.parse(rawLogs) : [];
 
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().slice(0, 10);
 
     // Calcul des visites de la semaine
     let visitsWeek = 0;
     const now = new Date();
     for (let i = 0; i < 7; i++) {
-      const d = new Date(now.getTime() - i * 86400000).toISOString().split("T")[0];
+      const d = new Date(now.getTime() - i * 86400000).toISOString().slice(0, 10);
       visitsWeek += visitsData.daily?.[d] || Math.floor(Math.random() * 25 + 35);
     }
 

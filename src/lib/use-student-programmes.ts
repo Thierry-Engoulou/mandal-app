@@ -63,39 +63,39 @@ function firstOrNull<T>(value: T | T[] | null | undefined): T | null {
 function normalizeConcept(raw: unknown): ProgrammeConcept {
   const k = raw as Record<string, unknown>;
   return {
-    id: k.id as string,
-    chapitre_id: k.chapitre_id as string,
-    titre: k.titre as string,
-    ordre: (k.ordre as number) ?? 0,
-    type_contenu: (k.type_contenu as string) ?? "texte",
-    contenu_texte: (k.contenu_texte as string) ?? null,
-    media_url: (k.media_url as string) ?? null,
-    duree_minutes: (k.duree_minutes as number) ?? null,
+    id: k["id"] as string,
+    chapitre_id: k["chapitre_id"] as string,
+    titre: k["titre"] as string,
+    ordre: (k["ordre"] as number) ?? 0,
+    type_contenu: (k["type_contenu"] as string) ?? "texte",
+    contenu_texte: (k["contenu_texte"] as string) ?? null,
+    media_url: (k["media_url"] as string) ?? null,
+    duree_minutes: (k["duree_minutes"] as number) ?? null,
   };
 }
 
 function normalizeChapitre(raw: unknown): ProgrammeChapitre {
   const ch = raw as Record<string, unknown>;
-  const concepts = ((ch.concepts as unknown[]) ?? []).map(normalizeConcept);
+  const concepts = ((ch["concepts"] as unknown[]) ?? []).map(normalizeConcept);
   concepts.sort((a, b) => a.ordre - b.ordre);
   return {
-    id: ch.id as string,
-    programme_id: ch.programme_id as string,
-    titre: ch.titre as string,
-    ordre: (ch.ordre as number) ?? 0,
-    niveau: (ch.niveau as string) ?? null,
+    id: ch["id"] as string,
+    programme_id: ch["programme_id"] as string,
+    titre: ch["titre"] as string,
+    ordre: (ch["ordre"] as number) ?? 0,
+    niveau: (ch["niveau"] as string) ?? null,
     concepts,
   };
 }
 
 function normalizeProgrammeInfo(raw: unknown): ProgrammeInfo {
   const p = raw as Record<string, unknown>;
-  const matiere = firstOrNull(p.matieres as { nom: string } | { nom: string }[] | null);
-  const classe = firstOrNull(p.classes as { nom: string } | { nom: string }[] | null);
+  const matiere = firstOrNull(p["matieres"] as { nom: string } | { nom: string }[] | null);
+  const classe = firstOrNull(p["classes"] as { nom: string } | { nom: string }[] | null);
   return {
-    id: p.id as string,
-    titre: p.titre as string,
-    description: (p.description as string) ?? null,
+    id: p["id"] as string,
+    titre: p["titre"] as string,
+    description: (p["description"] as string) ?? null,
     matiereNom: matiere?.nom ?? null,
     classeNom: classe?.nom ?? null,
   };
@@ -144,13 +144,13 @@ export function useStudentProgrammes(selectedClasseId?: string | null) {
 
         return rows.map((raw) => {
           const p = raw as Record<string, unknown>;
-          const mat = p.matieres as { nom: string } | null;
-          const cls = p.classes as { nom: string } | null;
-          const chaps = (p.chapitres as unknown[]) ?? [];
+          const mat = p["matieres"] as { nom: string } | null;
+          const cls = p["classes"] as { nom: string } | null;
+          const chaps = (p["chapitres"] as unknown[]) ?? [];
           return {
-            id: p.id as string,
-            titre: p.titre as string,
-            description: (p.description as string) ?? null,
+            id: p["id"] as string,
+            titre: p["titre"] as string,
+            description: (p["description"] as string) ?? null,
             matiereNom: mat?.nom ?? null,
             classeNom: cls?.nom ?? null,
             totalConcepts: chaps.length,
@@ -274,7 +274,7 @@ export function useProgrammeDetail(programmeId: string) {
 
       const raw = data as unknown as Record<string, unknown>;
       const programme = normalizeProgrammeInfo(raw);
-      const chapitres = ((raw.chapitres as unknown[]) ?? []).map(normalizeChapitre);
+      const chapitres = ((raw["chapitres"] as unknown[]) ?? []).map(normalizeChapitre);
       chapitres.sort((a, b) => a.ordre - b.ordre);
 
       return { programme, chapitres };

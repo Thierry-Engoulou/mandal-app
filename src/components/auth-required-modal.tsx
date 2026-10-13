@@ -98,7 +98,7 @@ export function AuthRequiredModal({
           >
             <Link
               to="/inscription"
-              search={levelId ? { level: levelId } : undefined}
+              search={levelId ? { level: levelId } : {}}
               onClick={onClose}
             >
               <UserPlus className="mr-2 size-4" />

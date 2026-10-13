@@ -153,7 +153,7 @@ function StudentSubjectsPage() {
     setCorrection(null);
     setTimeout(() => {
       setGenerating(false);
-      setCurrentExam(SAMPLE_EXAMS[selectedLevel] || SAMPLE_EXAMS.bac);
+      setCurrentExam(SAMPLE_EXAMS[selectedLevel] ?? SAMPLE_EXAMS["bac"] ?? null);
       toast.success("Épreuve blanche générée avec succès suivant la structure officielle de la banque d'annales !");
     }, 1200);
   };

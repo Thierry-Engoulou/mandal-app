@@ -28,8 +28,14 @@ export function FunctionGraph({ spec }: { spec: string }) {
     );
   }
 
-  const { functions, points = [] } = parsed.data;
-  const domain = parsed.data.domain ?? [-10, 10];
+  return <FunctionGraphPlot data={parsed.data} />;
+}
+
+/** Rendu du graphique une fois le spec validé (composant séparé pour que les hooks
+ *  ne soient jamais appelés après un retour anticipé). */
+function FunctionGraphPlot({ data }: { data: GraphSpec }) {
+  const { functions, points = [] } = data;
+  const domain = data.domain ?? [-10, 10];
 
   const series = useMemo(() => {
     return functions.map((f, i) => {
@@ -41,17 +47,17 @@ export function FunctionGraph({ spec }: { spec: string }) {
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [spec]);
+  }, [data]);
 
   const yRange = useMemo<[number, number]>(() => {
-    if (parsed.data.range) return parsed.data.range;
+    if (data.range) return data.range;
     const finite = series.flatMap((s) => s.data.map((p) => p.y)).filter((y) => Number.isFinite(y));
     if (finite.length === 0) return [-10, 10];
     const min = Math.min(...finite);
     const max = Math.max(...finite);
     const margin = Math.max((max - min) * 0.15, 1);
     return [min - margin, max + margin];
-  }, [series, parsed.data.range]);
+  }, [series, data.range]);
 
   const [xMin, xMax] = domain;
   const [yMin, yMax] = yRange;

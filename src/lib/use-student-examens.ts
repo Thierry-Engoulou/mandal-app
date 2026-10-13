@@ -59,11 +59,11 @@ export function useStudentExamensWithLock() {
       const passed = new Map((resultatsRes.data ?? []).map((r) => [r.examen_id, Number(r.score)]));
 
       const chapitreByExam = rows.map((raw) => {
-        const rawChapitre = Array.isArray(raw.chapitres) ? raw.chapitres[0] : raw.chapitres;
+        const rawChapitre = Array.isArray(raw["chapitres"]) ? raw["chapitres"][0] : raw["chapitres"];
         if (!rawChapitre) return null;
         const c = rawChapitre as Record<string, unknown>;
-        const conceptIds = ((c.concepts as { id: string }[]) ?? []).map((k) => k.id);
-        return { titre: c.titre as string, conceptIds };
+        const conceptIds = ((c["concepts"] as { id: string }[]) ?? []).map((k) => k.id);
+        return { titre: c["titre"] as string, conceptIds };
       });
       const allConceptIds = chapitreByExam.flatMap((c) => c?.conceptIds ?? []);
 
@@ -80,14 +80,14 @@ export function useStudentExamensWithLock() {
       }
 
       return rows.map((raw, i) => {
-        const lock = computeLock((raw.deverrouille_si as string) ?? "toujours", chapitreByExam[i], doneSet);
+        const lock = computeLock((raw["deverrouille_si"] as string) ?? "toujours", chapitreByExam[i] ?? null, doneSet);
         return {
-          id: raw.id as string,
-          titre: raw.titre as string,
-          description: (raw.description as string) ?? null,
-          duree_minutes: raw.duree_minutes as number,
-          nb_questions: raw.nb_questions as number,
-          score: passed.get(raw.id as string) ?? null,
+          id: raw["id"] as string,
+          titre: raw["titre"] as string,
+          description: (raw["description"] as string) ?? null,
+          duree_minutes: raw["duree_minutes"] as number,
+          nb_questions: raw["nb_questions"] as number,
+          score: passed.get(raw["id"] as string) ?? null,
           lock,
         };
       });
@@ -112,11 +112,11 @@ export function useExamenLock(examenId: string) {
       if (!data) return { isLocked: false, chapitreTitre: null, totalConcepts: 0, conceptsTermines: 0 };
 
       const raw = data as unknown as Record<string, unknown>;
-      const rawChapitre = Array.isArray(raw.chapitres) ? raw.chapitres[0] : raw.chapitres;
+      const rawChapitre = Array.isArray(raw["chapitres"]) ? raw["chapitres"][0] : raw["chapitres"];
       const chapitre = rawChapitre
         ? {
-            titre: (rawChapitre as Record<string, unknown>).titre as string,
-            conceptIds: (((rawChapitre as Record<string, unknown>).concepts as { id: string }[]) ?? []).map(
+            titre: (rawChapitre as Record<string, unknown>)["titre"] as string,
+            conceptIds: (((rawChapitre as Record<string, unknown>)["concepts"] as { id: string }[]) ?? []).map(
               (k) => k.id,
             ),
           }
@@ -134,7 +134,7 @@ export function useExamenLock(examenId: string) {
         doneSet = new Set((progression ?? []).map((r) => r.concept_id));
       }
 
-      return computeLock((raw.deverrouille_si as string) ?? "toujours", chapitre, doneSet);
+      return computeLock((raw["deverrouille_si"] as string) ?? "toujours", chapitre, doneSet);
     },
   });
 }

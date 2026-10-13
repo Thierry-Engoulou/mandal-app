@@ -176,7 +176,7 @@ export function StudentCoursesIndexPage() {
         ? "iut"
         : "bac";
 
-    return DEFAULT_COURSES_BY_LEVEL[levelKey] || DEFAULT_COURSES_BY_LEVEL.bac;
+    return DEFAULT_COURSES_BY_LEVEL[levelKey] ?? DEFAULT_COURSES_BY_LEVEL["bac"] ?? [];
   }, [rawProgrammes, selectedClassId]);
 
   const filtered = useMemo(() => {

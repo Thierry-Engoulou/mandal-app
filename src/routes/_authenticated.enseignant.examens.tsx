@@ -234,7 +234,7 @@ function TeacherExamsPage() {
         programme_id: examForm.programme_id || null,
         chapitre_id: examForm.chapitre_id || null,
         etablissement_id: schoolId,
-        created_by: profile?.id,
+        ...(profile ? { created_by: profile.id } : {}),
       };
 
       if (editingExam) {
@@ -292,7 +292,8 @@ function TeacherExamsPage() {
     setSavingQuestion(true);
     try {
       const nextOrdre = questions.length + 1;
-      const selectedOptionText = questionForm.options[parseInt(questionForm.reponse_correcte, 10)] || cleanOptions[0];
+      const selectedOptionText =
+        questionForm.options[parseInt(questionForm.reponse_correcte, 10)]?.trim() || cleanOptions[0] || null;
 
       const { error } = await supabase.from("questions").insert({
         examen_id: questionsDialog.id,
