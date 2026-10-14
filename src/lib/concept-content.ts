@@ -5,7 +5,8 @@ export const CONCEPT_TYPES = [
   { value: "pdf", label: "PDF téléchargeable" },
   { value: "quiz", label: "Quiz" },
   { value: "graphique", label: "Graphique de fonction (tracé auto)" },
-  { value: "simulation", label: "Simulation interactive (GeoGebra)" },
+  { value: "simulation", label: "Simulation interactive (GeoGebra, PhET)" },
+  { value: "figure", label: "Figure / schéma (SVG)" },
 ] as const;
 
 export type ConceptType = (typeof CONCEPT_TYPES)[number]["value"];
@@ -54,6 +55,27 @@ export function geogebraEmbedUrl(url: string): string | null {
   }
 
   return null;
+}
+
+/**
+ * Lien d'une simulation PhET (phet.colorado.edu) en URL d'intégration iframe.
+ * Renvoie null si ce n'est pas un lien PhET https.
+ */
+export function phetEmbedUrl(url: string): string | null {
+  if (!url) return null;
+  const trimmed = url.trim();
+  return /^https:\/\/phet\.colorado\.edu\/sims\//i.test(trimmed) ? trimmed : null;
+}
+
+/**
+ * Transforme le code SVG d'une leçon "figure" en URL de données utilisable dans <img>.
+ * Dans une <img>, les scripts d'un SVG ne s'exécutent jamais (sécurité), mais les
+ * animations SMIL fonctionnent. Renvoie null si le contenu n'est pas un SVG.
+ */
+export function svgDataUrl(svg: string | null | undefined): string | null {
+  const t = (svg ?? "").trim();
+  if (!t.startsWith("<svg") || !t.endsWith("</svg>")) return null;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(t)}`;
 }
 
 /** Exemple de spec pour une leçon "graphique", à titre de placeholder dans l'éditeur. */

@@ -15,7 +15,13 @@ import {
   useSetConceptDone,
   type ProgrammeConcept,
 } from "@/lib/use-student-programmes";
-import { conceptTypeLabel, geogebraEmbedUrl, youtubeEmbedUrl } from "@/lib/concept-content";
+import {
+  conceptTypeLabel,
+  geogebraEmbedUrl,
+  phetEmbedUrl,
+  svgDataUrl,
+  youtubeEmbedUrl,
+} from "@/lib/concept-content";
 import { FunctionGraph } from "@/components/function-graph";
 import { MathText } from "@/components/math-text";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -38,21 +44,48 @@ function ConceptContent({ concept }: { concept: ProgrammeConcept }) {
   if (concept.type_contenu === "graphique") {
     return <FunctionGraph spec={concept.contenu_texte ?? "{}"} />;
   }
-  if (concept.type_contenu === "simulation" && concept.media_url) {
-    const embed = geogebraEmbedUrl(concept.media_url);
-    return embed ? (
-      <div className="overflow-hidden rounded-xl border border-border">
-        <iframe src={embed} className="h-[500px] w-full" title={concept.titre} allowFullScreen />
-      </div>
+  if (concept.type_contenu === "figure") {
+    const src = svgDataUrl(concept.contenu_texte);
+    return src ? (
+      <figure className="overflow-hidden rounded-xl border border-border bg-white p-2 shadow-sm">
+        <img src={src} alt={concept.titre} className="mx-auto h-auto w-full max-w-3xl" />
+      </figure>
     ) : (
-      <a
-        href={concept.media_url}
-        target="_blank"
-        rel="noreferrer"
-        className="flex items-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-medium text-primary hover:bg-secondary/60"
-      >
-        Ouvrir la simulation GeoGebra
-      </a>
+      <p className="rounded-xl border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
+        Cette figure est illisible.
+      </p>
+    );
+  }
+  if (concept.type_contenu === "simulation" && concept.media_url) {
+    const embed = geogebraEmbedUrl(concept.media_url) ?? phetEmbedUrl(concept.media_url);
+    return (
+      <div className="space-y-3">
+        {concept.contenu_texte ? (
+          <MathText
+            text={concept.contenu_texte}
+            className="text-sm leading-relaxed text-foreground"
+          />
+        ) : null}
+        {embed ? (
+          <div className="overflow-hidden rounded-xl border border-border">
+            <iframe
+              src={embed}
+              className="h-[500px] w-full"
+              title={concept.titre}
+              allowFullScreen
+              sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+            />
+          </div>
+        ) : null}
+        <a
+          href={concept.media_url}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-medium text-primary hover:bg-secondary/60"
+        >
+          Ouvrir la simulation dans un nouvel onglet
+        </a>
+      </div>
     );
   }
   if (concept.type_contenu === "video" && concept.media_url) {
