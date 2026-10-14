@@ -6,6 +6,7 @@ export const CONCEPT_TYPES = [
   { value: "quiz", label: "Quiz" },
   { value: "graphique", label: "Graphique de fonction (tracé auto)" },
   { value: "simulation", label: "Simulation interactive (GeoGebra, PhET)" },
+  { value: "interactif", label: "Simulation intégrée (maths)" },
   { value: "figure", label: "Figure / schéma (SVG)" },
 ] as const;
 
