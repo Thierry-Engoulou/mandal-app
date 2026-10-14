@@ -14,6 +14,7 @@ import {
   GRAPHIQUE_SPEC_PLACEHOLDER,
 } from "@/lib/concept-content";
 import { FunctionGraph } from "@/components/function-graph";
+import { InteractiveLesson, INTERACTIFS } from "@/components/interactive-lesson";
 import { MathText } from "@/components/math-text";
 import { TeacherPendingBanner } from "@/components/teacher-pending-banner";
 import { Button } from "@/components/ui/button";
@@ -306,6 +307,23 @@ function TeacherSyllabusPage() {
     conceptForm.type_contenu === "pdf" ||
     conceptForm.type_contenu === "simulation";
   const isGraphique = conceptForm.type_contenu === "graphique";
+  const isInteractif = conceptForm.type_contenu === "interactif";
+  const interactifSpec = (() => {
+    try {
+      const parsed = JSON.parse(conceptForm.contenu_texte || "{}") as {
+        widget?: string;
+        consigne?: string;
+      };
+      return { widget: parsed.widget ?? "", consigne: parsed.consigne ?? "" };
+    } catch {
+      return { widget: "", consigne: "" };
+    }
+  })();
+  const setInteractif = (widget: string, consigne: string) =>
+    setConceptForm({
+      ...conceptForm,
+      contenu_texte: JSON.stringify({ widget, consigne }, null, 2),
+    });
 
   return (
     <div className="space-y-6">
@@ -680,7 +698,49 @@ function TeacherSyllabusPage() {
               </div>
             )}
 
-            {isGraphique ? (
+            {isInteractif ? (
+              <div className="space-y-3">
+                <div className="space-y-2">
+                  <Label>Simulation à utiliser</Label>
+                  <Select
+                    value={interactifSpec.widget}
+                    onValueChange={(v) => setInteractif(v, interactifSpec.consigne)}
+                  >
+                    <SelectTrigger className="rounded-xl">
+                      <SelectValue placeholder="Choisir une simulation" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {INTERACTIFS.map((i) => (
+                        <SelectItem key={i.value} value={i.value}>
+                          {i.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">
+                    {INTERACTIFS.find((i) => i.value === interactifSpec.widget)?.description ??
+                      "Ces simulations sont intégrées au site : elles fonctionnent même avec une connexion lente."}
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="c-consigne">Consigne donnée à l'élève</Label>
+                  <Textarea
+                    id="c-consigne"
+                    value={interactifSpec.consigne}
+                    onChange={(e) => setInteractif(interactifSpec.widget, e.target.value)}
+                    rows={3}
+                    className="rounded-xl"
+                    placeholder="Place le point M à 60°, puis vérifie que cos x = 1/2."
+                  />
+                </div>
+                {interactifSpec.widget ? (
+                  <div className="rounded-xl border border-border bg-secondary/30 p-3">
+                    <p className="mb-2 text-xs font-medium text-muted-foreground">Aperçu</p>
+                    <InteractiveLesson spec={conceptForm.contenu_texte} />
+                  </div>
+                ) : null}
+              </div>
+            ) : isGraphique ? (
               <div className="space-y-2">
                 <Label htmlFor="c-graph-spec">Spécification du graphique (JSON)</Label>
                 <Textarea
