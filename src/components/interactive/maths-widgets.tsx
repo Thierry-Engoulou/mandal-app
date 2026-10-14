@@ -193,6 +193,8 @@ export function CercleTrigo() {
           y={my}
           color={PALETTE.purple}
           label="M"
+          labelDx={-24}
+          labelDy={-14}
           onDrag={(p) => {
             const a = Math.atan2(cy - p.y, p.x - cx);
             const nd = ((a * 180) / Math.PI + 360) % 360;
@@ -870,10 +872,12 @@ export function Suites() {
   const W = 460;
   const H = 300;
   const pad = 30;
-  const maxAbs = Math.max(1, ...termes.map((t) => Math.abs(t)));
-  const base = H - pad;
-  const scaleY = (H - 2 * pad) / (2 * maxAbs);
-  const zero = pad + (H - 2 * pad) / 2;
+  const bas = H - pad - 16;
+  const vMax = Math.max(0, ...termes);
+  const vMin = Math.min(0, ...termes);
+  const etendue = Math.max(vMax - vMin, 1e-6);
+  const yOf = (v: number) => bas - ((v - vMin) / etendue) * (bas - pad);
+  const zero = yOf(0);
   const bw = (W - 2 * pad) / Math.max(1, n);
 
   const somme = termes.reduce((acc, t) => acc + t, 0);
@@ -892,24 +896,25 @@ export function Suites() {
           strokeWidth={1.5}
         />
         {termes.map((t, i) => {
-          const h = t * scaleY;
+          const yt = yOf(t);
           const x = pad + i * bw + bw * 0.15;
           const w = bw * 0.7;
-          const y = h >= 0 ? zero - h : zero;
+          const y = Math.min(zero, yt);
+          const h = Math.abs(yt - zero);
           return (
             <g key={i}>
               <rect
                 x={x}
                 y={y}
                 width={w}
-                height={Math.max(1, Math.abs(h))}
+                height={Math.max(1, h)}
                 fill={type === "arith" ? PALETTE.blue : PALETTE.purple}
                 opacity={0.85}
                 rx={2}
               />
               <text
                 x={x + w / 2}
-                y={h >= 0 ? y - 5 : y + Math.abs(h) + 13}
+                y={t >= 0 ? y - 5 : zero - 5}
                 fontSize={9}
                 fill={PALETTE.slate}
                 textAnchor="middle"
@@ -918,7 +923,7 @@ export function Suites() {
               </text>
               <text
                 x={x + w / 2}
-                y={base + 18}
+                y={bas + 14}
                 fontSize={9}
                 fill={PALETTE.slate}
                 textAnchor="middle"

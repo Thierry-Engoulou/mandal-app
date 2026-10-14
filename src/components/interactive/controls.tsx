@@ -411,11 +411,11 @@ export function fmt(v: number, digits = 2): string {
   if (!Number.isFinite(v)) return "—";
   const r = Number(v.toFixed(digits));
   if (Object.is(r, -0)) return "0";
-  return String(r).replace(".", ",");
+  return String(r).replace(".", ",").replace("-", "−");
 }
 
 /** Chemin SVG d'une courbe échantillonnée, coupé aux asymptotes et hors-cadre. */
-export function curvePath(f: (x: number) => number, s: Scales, steps = 420, margin = 2): string {
+export function curvePath(f: (x: number) => number, s: Scales, steps = 420, margin = 0): string {
   let d = "";
   let pen = false;
   for (let i = 0; i <= steps; i++) {
@@ -433,9 +433,25 @@ export function curvePath(f: (x: number) => number, s: Scales, steps = 420, marg
   return d.trim();
 }
 
-/** Droite d'équation y = m x + p, tracée d'un bord à l'autre du cadre. */
+/** Droite d'équation y = m x + p, limitée au cadre (elle ne déborde jamais). */
 export function linePath(m: number, p: number, s: Scales): string {
-  const y1 = m * s.xMin + p;
-  const y2 = m * s.xMax + p;
-  return `M${s.sx(s.xMin)},${s.sy(y1)} L${s.sx(s.xMax)},${s.sy(y2)}`;
+  const pts: Array<[number, number]> = [];
+  const eps = 1e-6;
+  const push = (x: number, y: number) => {
+    if (x >= s.xMin - eps && x <= s.xMax + eps && y >= s.yMin - eps && y <= s.yMax + eps) {
+      pts.push([x, y]);
+    }
+  };
+  push(s.xMin, m * s.xMin + p);
+  push(s.xMax, m * s.xMax + p);
+  if (Math.abs(m) > eps) {
+    push((s.yMin - p) / m, s.yMin);
+    push((s.yMax - p) / m, s.yMax);
+  }
+  if (pts.length < 2) return "";
+  pts.sort((a, b) => a[0] - b[0]);
+  const a = pts[0];
+  const b = pts[pts.length - 1];
+  if (!a || !b) return "";
+  return `M${s.sx(a[0])},${s.sy(a[1])} L${s.sx(b[0])},${s.sy(b[1])}`;
 }
