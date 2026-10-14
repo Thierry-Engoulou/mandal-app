@@ -289,10 +289,7 @@ export function Arrow({
         strokeWidth={width}
         strokeDasharray={dashed ? "6 5" : undefined}
       />
-      <polygon
-        points={`${x2},${y2} ${bx + px},${by + py} ${bx - px},${by - py}`}
-        fill={color}
-      />
+      <polygon points={`${x2},${y2} ${bx + px},${by + py} ${bx - px},${by - py}`} fill={color} />
     </g>
   );
 }
@@ -402,9 +399,7 @@ export function Verdict({ tone, children }: { tone: "ok" | "warn" | "bad"; child
       : tone === "warn"
         ? "border-amber-500/30 bg-amber-500/10 text-amber-700"
         : "border-rose-500/30 bg-rose-500/10 text-rose-700";
-  return (
-    <p className={`rounded-lg border px-3 py-2 text-xs font-medium ${cls}`}>{children}</p>
-  );
+  return <p className={`rounded-lg border px-3 py-2 text-xs font-medium ${cls}`}>{children}</p>;
 }
 
 export function Panel({ children }: { children: ReactNode }) {
@@ -420,12 +415,7 @@ export function fmt(v: number, digits = 2): string {
 }
 
 /** Chemin SVG d'une courbe échantillonnée, coupé aux asymptotes et hors-cadre. */
-export function curvePath(
-  f: (x: number) => number,
-  s: Scales,
-  steps = 420,
-  margin = 2,
-): string {
+export function curvePath(f: (x: number) => number, s: Scales, steps = 420, margin = 2): string {
   let d = "";
   let pen = false;
   for (let i = 0; i <= steps; i++) {

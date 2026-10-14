@@ -236,19 +236,13 @@ export function CercleTrigo() {
         />
         <Stat
           label="tan x"
-          value={
-            showExact && exact
-              ? exact.tan
-              : Number.isFinite(ta)
-                ? fmt(ta, 3)
-                : "non définie"
-          }
+          value={showExact && exact ? exact.tan : Number.isFinite(ta) ? fmt(ta, 3) : "non définie"}
           color={PALETTE.green}
         />
       </Panel>
       <Verdict tone="ok">
-        Quadrant {quadrant} : {signe}. Vérifie aussi que cos²x + sin²x ={" "}
-        {fmt(co * co + si * si, 3)}.
+        Quadrant {quadrant} : {signe}. Vérifie aussi que cos²x + sin²x = {fmt(co * co + si * si, 3)}
+        .
       </Verdict>
     </div>
   );
@@ -602,7 +596,10 @@ export function Vecteurs() {
   const det = u.x * v.y - u.y * v.x;
   const nu = Math.hypot(u.x, u.y);
   const nv = Math.hypot(v.x, v.y);
-  const ang = nu > 0 && nv > 0 ? (Math.acos(Math.max(-1, Math.min(1, dot / (nu * nv)))) * 180) / Math.PI : Number.NaN;
+  const ang =
+    nu > 0 && nv > 0
+      ? (Math.acos(Math.max(-1, Math.min(1, dot / (nu * nv)))) * 180) / Math.PI
+      : Number.NaN;
 
   const snap = (p: { x: number; y: number }) => ({
     x: clamp(Math.round(s.ux(p.x) * 2) / 2, s.xMin + 0.5, s.xMax - 0.5),
@@ -640,8 +637,22 @@ export function Vecteurs() {
           color={PALETTE.purple}
           width={3}
         />
-        <Arrow x1={s.sx(0)} y1={s.sy(0)} x2={s.sx(u.x)} y2={s.sy(u.y)} color={PALETTE.blue} width={3} />
-        <Arrow x1={s.sx(0)} y1={s.sy(0)} x2={s.sx(v.x)} y2={s.sy(v.y)} color={PALETTE.red} width={3} />
+        <Arrow
+          x1={s.sx(0)}
+          y1={s.sy(0)}
+          x2={s.sx(u.x)}
+          y2={s.sy(u.y)}
+          color={PALETTE.blue}
+          width={3}
+        />
+        <Arrow
+          x1={s.sx(0)}
+          y1={s.sy(0)}
+          x2={s.sx(v.x)}
+          y2={s.sy(v.y)}
+          color={PALETTE.red}
+          width={3}
+        />
         <Arrow
           x1={s.sx(v.x)}
           y1={s.sy(v.y)}
@@ -669,13 +680,29 @@ export function Vecteurs() {
         >
           u − v
         </text>
-        <Handle x={s.sx(u.x)} y={s.sy(u.y)} color={PALETTE.blue} label="u" onDrag={(p) => setU(snap(p))} />
-        <Handle x={s.sx(v.x)} y={s.sy(v.y)} color={PALETTE.red} label="v" onDrag={(p) => setV(snap(p))} />
+        <Handle
+          x={s.sx(u.x)}
+          y={s.sy(u.y)}
+          color={PALETTE.blue}
+          label="u"
+          onDrag={(p) => setU(snap(p))}
+        />
+        <Handle
+          x={s.sx(v.x)}
+          y={s.sy(v.y)}
+          color={PALETTE.red}
+          label="v"
+          onDrag={(p) => setV(snap(p))}
+        />
       </Board>
       <Panel>
         <Stat label="u" value={`(${fmt(u.x, 1)} ; ${fmt(u.y, 1)})`} color={PALETTE.blue} />
         <Stat label="v" value={`(${fmt(v.x, 1)} ; ${fmt(v.y, 1)})`} color={PALETTE.red} />
-        <Stat label="u + v" value={`(${fmt(sum.x, 1)} ; ${fmt(sum.y, 1)})`} color={PALETTE.purple} />
+        <Stat
+          label="u + v"
+          value={`(${fmt(sum.x, 1)} ; ${fmt(sum.y, 1)})`}
+          color={PALETTE.purple}
+        />
         <Stat label="u − v" value={`(${fmt(dif.x, 1)} ; ${fmt(dif.y, 1)})`} color={PALETTE.green} />
         <Stat label="‖u‖" value={fmt(nu, 2)} />
         <Stat label="‖v‖" value={fmt(nv, 2)} />
@@ -759,9 +786,27 @@ export function Barycentre() {
             </text>
           </g>
         ) : null}
-        <Handle x={s.sx(A.x)} y={s.sy(A.y)} color={PALETTE.blue} label="A" onDrag={(p) => setA(snap(p))} />
-        <Handle x={s.sx(B.x)} y={s.sy(B.y)} color={PALETTE.red} label="B" onDrag={(p) => setB(snap(p))} />
-        <Handle x={s.sx(C.x)} y={s.sy(C.y)} color={PALETTE.green} label="C" onDrag={(p) => setC(snap(p))} />
+        <Handle
+          x={s.sx(A.x)}
+          y={s.sy(A.y)}
+          color={PALETTE.blue}
+          label="A"
+          onDrag={(p) => setA(snap(p))}
+        />
+        <Handle
+          x={s.sx(B.x)}
+          y={s.sy(B.y)}
+          color={PALETTE.red}
+          label="B"
+          onDrag={(p) => setB(snap(p))}
+        />
+        <Handle
+          x={s.sx(C.x)}
+          y={s.sy(C.y)}
+          color={PALETTE.green}
+          label="C"
+          onDrag={(p) => setC(snap(p))}
+        />
       </Board>
       <div className="grid gap-3 sm:grid-cols-3">
         <Ctrl label="α (poids de A)" value={al} min={-3} max={4} step={0.5} onChange={setAl} />
@@ -838,7 +883,14 @@ export function Suites() {
     <div className="space-y-3">
       <Board width={W} height={H}>
         <rect width={W} height={H} fill="#ffffff" />
-        <line x1={pad - 6} y1={zero} x2={W - pad + 6} y2={zero} stroke={PALETTE.axis} strokeWidth={1.5} />
+        <line
+          x1={pad - 6}
+          y1={zero}
+          x2={W - pad + 6}
+          y2={zero}
+          stroke={PALETTE.axis}
+          strokeWidth={1.5}
+        />
         {termes.map((t, i) => {
           const h = t * scaleY;
           const x = pad + i * bw + bw * 0.15;
@@ -928,8 +980,16 @@ export function Suites() {
           }
           color={PALETTE.blue}
         />
-        <Stat label={`Dernier terme u${sub(n - 1)}`} value={fmt(dernier, 3)} color={PALETTE.purple} />
-        <Stat label={`Somme des ${n} premiers termes`} value={fmt(somme, 3)} color={PALETTE.green} />
+        <Stat
+          label={`Dernier terme u${sub(n - 1)}`}
+          value={fmt(dernier, 3)}
+          color={PALETTE.purple}
+        />
+        <Stat
+          label={`Somme des ${n} premiers termes`}
+          value={fmt(somme, 3)}
+          color={PALETTE.green}
+        />
         <Stat
           label="Sens de variation"
           value={
@@ -1013,15 +1073,37 @@ export function Statistiques() {
     <div className="space-y-3">
       <Board width={W} height={H}>
         <rect width={W} height={H} fill="#ffffff" />
-        <line x1={pad - 8} y1={base} x2={W - pad + 8} y2={base} stroke={PALETTE.axis} strokeWidth={1.5} />
-        <line x1={pad - 8} y1={base} x2={pad - 8} y2={pad - 8} stroke={PALETTE.axis} strokeWidth={1.5} />
+        <line
+          x1={pad - 8}
+          y1={base}
+          x2={W - pad + 8}
+          y2={base}
+          stroke={PALETTE.axis}
+          strokeWidth={1.5}
+        />
+        <line
+          x1={pad - 8}
+          y1={base}
+          x2={pad - 8}
+          y2={pad - 8}
+          stroke={PALETTE.axis}
+          strokeWidth={1.5}
+        />
         {eff.map((e, i) => {
           const x = pad + i * bw + bw * 0.12;
           const w = bw * 0.76;
           const h = hOf(e);
           return (
             <g key={i}>
-              <rect x={x} y={base - h} width={w} height={h} fill={PALETTE.blue} opacity={0.85} rx={3} />
+              <rect
+                x={x}
+                y={base - h}
+                width={w}
+                height={h}
+                fill={PALETTE.blue}
+                opacity={0.85}
+                rx={3}
+              />
               <text
                 x={x + w / 2}
                 y={base - h - 6}
@@ -1032,7 +1114,13 @@ export function Statistiques() {
               >
                 {e}
               </text>
-              <text x={x + w / 2} y={base + 16} fontSize={11} fill={PALETTE.slate} textAnchor="middle">
+              <text
+                x={x + w / 2}
+                y={base + 16}
+                fontSize={11}
+                fill={PALETTE.slate}
+                textAnchor="middle"
+              >
                 {NOTES[i]}
               </text>
               <Handle
@@ -1150,10 +1238,30 @@ export function Transformations() {
       <Board width={s.width} height={s.height}>
         <rect width={s.width} height={s.height} fill="#ffffff" />
         <Grid s={s} />
-        <polygon points={poly(src)} fill={PALETTE.slate} opacity={0.2} stroke={PALETTE.slate} strokeWidth={2} />
-        <polygon points={poly(dst)} fill={PALETTE.blue} opacity={0.22} stroke={PALETTE.blue} strokeWidth={2.5} />
+        <polygon
+          points={poly(src)}
+          fill={PALETTE.slate}
+          opacity={0.2}
+          stroke={PALETTE.slate}
+          strokeWidth={2}
+        />
+        <polygon
+          points={poly(dst)}
+          fill={PALETTE.blue}
+          opacity={0.22}
+          stroke={PALETTE.blue}
+          strokeWidth={2.5}
+        />
         {a0 && b0 ? (
-          <Arrow x1={s.sx(a0.x)} y1={s.sy(a0.y)} x2={s.sx(b0.x)} y2={s.sy(b0.y)} color={PALETTE.orange} width={2} dashed />
+          <Arrow
+            x1={s.sx(a0.x)}
+            y1={s.sy(a0.y)}
+            x2={s.sx(b0.x)}
+            y2={s.sy(b0.y)}
+            color={PALETTE.orange}
+            width={2}
+            dashed
+          />
         ) : null}
         {type !== "translation" ? (
           <Handle
@@ -1187,7 +1295,14 @@ export function Transformations() {
       />
       {type === "translation" ? (
         <div className="grid gap-3 sm:grid-cols-2">
-          <Ctrl label="Vecteur : abscisse a" value={tx} min={-5} max={5} step={0.5} onChange={setTx} />
+          <Ctrl
+            label="Vecteur : abscisse a"
+            value={tx}
+            min={-5}
+            max={5}
+            step={0.5}
+            onChange={setTx}
+          />
           <Ctrl
             label="Vecteur : ordonnée b"
             value={ty}
