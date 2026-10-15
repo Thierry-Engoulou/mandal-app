@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { GOOGLE_SIGNUP_ROLE_KEY, homeForRole } from "@/lib/role-home";
 
 export const Route = createFileRoute("/auth/callback")({
   ssr: false,
@@ -134,7 +135,7 @@ function AuthCallback() {
           .eq("id", user.id)
           .maybeSingle();
 
-        const role = existingProfile?.role || "student";
+        let role = existingProfile?.role || "student";
 
         if (!existingProfile) {
           const fullName =
@@ -160,14 +161,24 @@ function AuthCallback() {
           );
         }
 
-        // Redirection selon le rôle
-        if (role === "admin" || role === "super_admin") {
-          navigate({ to: "/admin", replace: true });
-        } else if (role === "teacher") {
-          navigate({ to: "/enseignant", replace: true });
-        } else {
-          navigate({ to: "/etudiant", replace: true });
+        // Inscription « enseignant » via Google : convertit le profil élève tout neuf.
+        let wantedRole: string | null = null;
+        try {
+          wantedRole = localStorage.getItem(GOOGLE_SIGNUP_ROLE_KEY);
+          localStorage.removeItem(GOOGLE_SIGNUP_ROLE_KEY);
+        } catch {
+          // stockage indisponible (navigation privée) : on garde le rôle actuel
         }
+        if (wantedRole === "teacher" && role === "student") {
+          const { error: roleError } = await supabase.rpc("devenir_enseignant");
+          if (roleError) {
+            setErrorMsg(roleError.message);
+            return;
+          }
+          role = "teacher";
+        }
+
+        navigate({ to: homeForRole(role), replace: true });
       } catch (e) {
         console.error("Profile sync exception:", e);
         // Même en cas d'erreur de profil, on dirige vers l'espace étudiant
