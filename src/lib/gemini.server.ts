@@ -9,24 +9,42 @@ export type AiMessage = { role: "user" | "assistant"; parts: AiPart[] };
 const API = "https://generativelanguage.googleapis.com/v1beta";
 const DEFAULT_MODEL = "gemini-flash-latest";
 
-// Modèle retenu après découverte automatique (mémorisé tant que le serveur tourne).
-let discoveredModel: string | null = null;
+// Codes pour lesquels on réessaie avec un autre modèle : surcharge (503),
+// erreur interne (500), délai (504) ou quota gratuit du modèle épuisé (429 :
+// chaque modèle a son propre quota).
+const RETRYABLE = new Set([429, 500, 503, 504]);
+const MAX_TENTATIVES = 5;
 
-/** Si le modèle demandé n'existe pas (les noms changent souvent chez Google),
- *  choisit le modèle « Flash » le plus récent proposé à cette clé. */
-async function discoverFlashModel(apiKey: string): Promise<string | null> {
-  const res = await fetch(`${API}/models?pageSize=200`, { headers: { "x-goog-api-key": apiKey } });
-  if (!res.ok) return null;
-  const { models = [] } = (await res.json()) as {
-    models?: Array<{ name: string; supportedGenerationMethods?: string[] }>;
-  };
-  const candidates = models
-    .filter((m) => m.supportedGenerationMethods?.includes("generateContent"))
-    .map((m) => m.name.replace(/^models\//, ""))
-    .filter((n) => /^gemini-[\d.]+-flash$/.test(n))
-    .sort((a, b) => parseFloat(b.slice(7)) - parseFloat(a.slice(7)));
-  return candidates[0] ?? null;
+// Modèles « Flash » proposés à cette clé (mémorisés tant que le serveur tourne).
+let discoveredModels: string[] | null = null;
+
+/** Modèles Flash disponibles pour cette clé, du plus récent au plus ancien,
+ *  puis les variantes « lite » (les noms changent souvent chez Google). */
+async function discoverFlashModels(apiKey: string): Promise<string[]> {
+  if (discoveredModels) return discoveredModels;
+  try {
+    const res = await fetch(`${API}/models?pageSize=200`, {
+      headers: { "x-goog-api-key": apiKey },
+    });
+    if (!res.ok) return [];
+    const { models = [] } = (await res.json()) as {
+      models?: Array<{ name: string; supportedGenerationMethods?: string[] }>;
+    };
+    const names = models
+      .filter((m) => m.supportedGenerationMethods?.includes("generateContent"))
+      .map((m) => m.name.replace(/^models\//, ""));
+    const version = (n: string) => parseFloat(n.slice("gemini-".length));
+    const byVersion = (a: string, b: string) => version(b) - version(a);
+    const flash = names.filter((n) => /^gemini-[\d.]+-flash$/.test(n)).sort(byVersion);
+    const lite = names.filter((n) => /^gemini-[\d.]+-flash-lite$/.test(n)).sort(byVersion);
+    discoveredModels = [...flash, ...lite];
+    return discoveredModels;
+  } catch {
+    return [];
+  }
 }
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 type GeminiResponse = {
   candidates?: Array<{
@@ -69,21 +87,47 @@ export async function generateWithGemini(options: {
       body,
     });
 
-  let res = await call(process.env["GEMINI_MODEL"] || discoveredModel || DEFAULT_MODEL);
-  if (res.status === 404) {
-    discoveredModel = await discoverFlashModel(apiKey);
-    if (discoveredModel) res = await call(discoveredModel);
+  // Modèle préféré d'abord ; en cas de surcharge ou de quota épuisé, on bascule
+  // sur les autres modèles Flash disponibles.
+  const tried = new Set<string>();
+  let queue = [process.env["GEMINI_MODEL"] || DEFAULT_MODEL];
+  let lastStatus = 0;
+  let payload: GeminiResponse | null = null;
+
+  for (let attempt = 0; attempt < MAX_TENTATIVES; attempt++) {
+    let model = queue.find((m) => !tried.has(m));
+    if (!model) {
+      queue = [...queue, ...(await discoverFlashModels(apiKey)), "gemini-flash-lite-latest"];
+      model = queue.find((m) => !tried.has(m));
+      if (!model) break;
+    }
+    tried.add(model);
+
+    const res = await call(model);
+    const data = (await res.json().catch(() => ({}))) as GeminiResponse;
+    if (res.ok) {
+      payload = data;
+      break;
+    }
+    lastStatus = res.status;
+    console.error("[Gemini]", model, res.status, data.error?.message);
+    if (res.status === 400 && data.error?.message?.includes("API key"))
+      throw new Error("La clé de Mandal IA est invalide. Vérifiez GEMINI_API_KEY dans Vercel.");
+    if (res.status !== 404 && !RETRYABLE.has(res.status)) {
+      throw new Error(`Mandal IA est momentanément indisponible (${res.status}).`);
+    }
+    // Surcharge passagère : courte pause avant le modèle suivant.
+    if (res.status === 503 || res.status === 500) await wait(800);
   }
 
-  const payload = (await res.json().catch(() => ({}))) as GeminiResponse;
-
-  if (!res.ok) {
-    console.error("[Gemini]", res.status, payload.error?.message);
-    if (res.status === 429)
-      throw new Error("Mandal IA est très sollicitée en ce moment. Réessayez dans une minute.");
-    if (res.status === 400 && payload.error?.message?.includes("API key"))
-      throw new Error("La clé de Mandal IA est invalide. Vérifiez GEMINI_API_KEY dans Vercel.");
-    throw new Error(`Mandal IA est momentanément indisponible (${res.status}).`);
+  if (!payload) {
+    if (lastStatus === 429)
+      throw new Error(
+        "Mandal IA a atteint sa limite gratuite pour le moment. Réessayez dans quelques minutes.",
+      );
+    throw new Error(
+      "Les serveurs de Mandal IA (Google Gemini) sont surchargés en ce moment. Réessayez dans une ou deux minutes.",
+    );
   }
 
   if (payload.promptFeedback?.blockReason) {
