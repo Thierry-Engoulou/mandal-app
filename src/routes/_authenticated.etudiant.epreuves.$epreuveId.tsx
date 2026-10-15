@@ -13,6 +13,7 @@ import {
   Play,
   Send,
   X,
+  MessageCircleQuestion,
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -326,6 +327,14 @@ function ComposerPage() {
         {epreuve.consignes ? (
           <p className="mt-2 whitespace-pre-wrap text-sm text-foreground">{epreuve.consignes}</p>
         ) : null}
+        <Link
+          to="/etudiant/messages"
+          search={{ onglet: "epreuves", epreuve: epreuve.id }}
+          className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
+        >
+          <MessageCircleQuestion className="size-4" /> Une question sur le sujet ? Une erreur ?
+          Écrire à l'enseignant
+        </Link>
       </header>
 
       {/* Avant de commencer */}

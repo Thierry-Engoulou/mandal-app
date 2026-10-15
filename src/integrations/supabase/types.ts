@@ -303,7 +303,9 @@ export type Database = {
         Row: {
           created_at: string
           eleve_id: string
+          eleve_nom: string | null
           enseignant_id: string | null
+          epreuve_id: string | null
           id: string
           statut: string
           sujet: string
@@ -313,7 +315,9 @@ export type Database = {
         Insert: {
           created_at?: string
           eleve_id: string
+          eleve_nom?: string | null
           enseignant_id?: string | null
+          epreuve_id?: string | null
           id?: string
           statut?: string
           sujet: string
@@ -323,7 +327,9 @@ export type Database = {
         Update: {
           created_at?: string
           eleve_id?: string
+          eleve_nom?: string | null
           enseignant_id?: string | null
+          epreuve_id?: string | null
           id?: string
           statut?: string
           sujet?: string
@@ -455,6 +461,35 @@ export type Database = {
             foreignKeyName: "eleve_badges_eleve_id_fkey"
             columns: ["eleve_id"]
             isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enseignant_disponibilite: {
+        Row: {
+          disponible: boolean
+          enseignant_id: string
+          message: string | null
+          updated_at: string
+        }
+        Insert: {
+          disponible?: boolean
+          enseignant_id: string
+          message?: string | null
+          updated_at?: string
+        }
+        Update: {
+          disponible?: boolean
+          enseignant_id?: string
+          message?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enseignant_disponibilite_enseignant_id_fkey"
+            columns: ["enseignant_id"]
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -796,25 +831,31 @@ export type Database = {
       }
       messages: {
         Row: {
+          auteur_ia: boolean
           contenu: string
           conversation_id: string
           created_at: string
           id: string
-          sender_id: string
+          sender_id: string | null
+          verification: string | null
         }
         Insert: {
+          auteur_ia?: boolean
           contenu: string
           conversation_id: string
           created_at?: string
           id?: string
-          sender_id: string
+          sender_id?: string | null
+          verification?: string | null
         }
         Update: {
+          auteur_ia?: boolean
           contenu?: string
           conversation_id?: string
           created_at?: string
           id?: string
-          sender_id?: string
+          sender_id?: string | null
+          verification?: string | null
         }
         Relationships: [
           {
@@ -1377,6 +1418,57 @@ export type Database = {
           },
         ]
       }
+      salon_messages: {
+        Row: {
+          auteur_id: string | null
+          auteur_nom: string
+          auteur_role: string
+          contenu: string
+          created_at: string
+          demande_par: string | null
+          id: string
+          matiere: string
+          niveau: string
+        }
+        Insert: {
+          auteur_id?: string | null
+          auteur_nom: string
+          auteur_role: string
+          contenu: string
+          created_at?: string
+          demande_par?: string | null
+          id?: string
+          matiere: string
+          niveau: string
+        }
+        Update: {
+          auteur_id?: string | null
+          auteur_nom?: string
+          auteur_role?: string
+          contenu?: string
+          created_at?: string
+          demande_par?: string | null
+          id?: string
+          matiere?: string
+          niveau?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "salon_messages_auteur_id_fkey"
+            columns: ["auteur_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "salon_messages_demande_par_fkey"
+            columns: ["demande_par"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       student_applications: {
         Row: {
           city: string | null
@@ -1566,6 +1658,10 @@ export type Database = {
         Args: { p_commentaire: string; p_composition_id: string; p_note: number | null }
         Returns: undefined
       }
+      ouvrir_fil_epreuve: {
+        Args: { p_epreuve_id: string }
+        Returns: string
+      }
       questions_examen: {
         Args: { p_examen_id: string }
         Returns: {
@@ -1607,6 +1703,10 @@ export type Database = {
           score: number
           xp: number
         }[]
+      }
+      verifier_message_ia: {
+        Args: { p_message_id: string; p_verification: string | null }
+        Returns: undefined
       }
     }
     Enums: {
