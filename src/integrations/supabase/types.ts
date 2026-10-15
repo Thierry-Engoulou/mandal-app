@@ -957,6 +957,58 @@ export type Database = {
         }
         Relationships: []
       }
+      orientation_fiches: {
+        Row: {
+          categorie: string
+          contenu: string
+          created_at: string
+          debouches: string[]
+          formations: string[]
+          id: string
+          mis_a_jour: string
+          mots_cles: string[]
+          niveau_acces: string | null
+          recherche: unknown
+          resume: string
+          slug: string
+          sources: Json
+          titre: string
+          type: string
+        }
+        Insert: {
+          categorie: string
+          contenu: string
+          created_at?: string
+          debouches?: string[]
+          formations?: string[]
+          id?: string
+          mis_a_jour?: string
+          mots_cles?: string[]
+          niveau_acces?: string | null
+          resume: string
+          slug: string
+          sources?: Json
+          titre: string
+          type: string
+        }
+        Update: {
+          categorie?: string
+          contenu?: string
+          created_at?: string
+          debouches?: string[]
+          formations?: string[]
+          id?: string
+          mis_a_jour?: string
+          mots_cles?: string[]
+          niveau_acces?: string | null
+          resume?: string
+          slug?: string
+          sources?: Json
+          titre?: string
+          type?: string
+        }
+        Relationships: []
+      }
       orientation_messages: {
         Row: {
           contenu: string
@@ -1670,6 +1722,26 @@ export type Database = {
           options: Json
           ordre: number
           points: number
+          type: string
+        }[]
+      }
+      rechercher_fiches_orientation: {
+        Args: { p_limite?: number; p_question: string; p_type?: string }
+        Returns: {
+          categorie: string
+          contenu: string
+          created_at: string
+          debouches: string[]
+          formations: string[]
+          id: string
+          mis_a_jour: string
+          mots_cles: string[]
+          niveau_acces: string | null
+          recherche: unknown
+          resume: string
+          slug: string
+          sources: Json
+          titre: string
           type: string
         }[]
       }
