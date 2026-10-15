@@ -66,8 +66,12 @@ import { Route as AuthenticatedEtudiantRepresentationsRouteImport } from './rout
 import { Route as AuthenticatedEtudiantSujetsRouteImport } from './routes/_authenticated.etudiant.sujets'
 import { Route as AuthenticatedEnseignantClassesIndexRouteImport } from './routes/_authenticated.enseignant.classes.index'
 import { Route as AuthenticatedEnseignantClassesClassIdRouteImport } from './routes/_authenticated.enseignant.classes.$classId'
+import { Route as AuthenticatedEnseignantEpreuvesIndexRouteImport } from './routes/_authenticated.enseignant.epreuves.index'
+import { Route as AuthenticatedEnseignantEpreuvesEpreuveIdRouteImport } from './routes/_authenticated.enseignant.epreuves.$epreuveId'
 import { Route as AuthenticatedEtudiantCoursIndexRouteImport } from './routes/_authenticated.etudiant.cours.index'
 import { Route as AuthenticatedEtudiantCoursProgrammeIdRouteImport } from './routes/_authenticated.etudiant.cours.$programmeId'
+import { Route as AuthenticatedEtudiantEpreuvesIndexRouteImport } from './routes/_authenticated.etudiant.epreuves.index'
+import { Route as AuthenticatedEtudiantEpreuvesEpreuveIdRouteImport } from './routes/_authenticated.etudiant.epreuves.$epreuveId'
 import { Route as AuthenticatedEtudiantExamensIndexRouteImport } from './routes/_authenticated.etudiant.examens.index'
 import { Route as AuthenticatedEtudiantExamensExamenIdRouteImport } from './routes/_authenticated.etudiant.examens.$examenId'
 import { Route as AuthenticatedEtudiantOrientationConseillerRouteImport } from './routes/_authenticated.etudiant.orientation.conseiller'
@@ -396,6 +400,18 @@ const AuthenticatedEnseignantClassesClassIdRoute =
     path: '/classes/$classId',
     getParentRoute: () => AuthenticatedEnseignantRoute,
   } as any)
+const AuthenticatedEnseignantEpreuvesIndexRoute =
+  AuthenticatedEnseignantEpreuvesIndexRouteImport.update({
+    id: '/epreuves/',
+    path: '/epreuves/',
+    getParentRoute: () => AuthenticatedEnseignantRoute,
+  } as any)
+const AuthenticatedEnseignantEpreuvesEpreuveIdRoute =
+  AuthenticatedEnseignantEpreuvesEpreuveIdRouteImport.update({
+    id: '/epreuves/$epreuveId',
+    path: '/epreuves/$epreuveId',
+    getParentRoute: () => AuthenticatedEnseignantRoute,
+  } as any)
 const AuthenticatedEtudiantCoursIndexRoute =
   AuthenticatedEtudiantCoursIndexRouteImport.update({
     id: '/',
@@ -407,6 +423,18 @@ const AuthenticatedEtudiantCoursProgrammeIdRoute =
     id: '/$programmeId',
     path: '/$programmeId',
     getParentRoute: () => AuthenticatedEtudiantCoursRoute,
+  } as any)
+const AuthenticatedEtudiantEpreuvesIndexRoute =
+  AuthenticatedEtudiantEpreuvesIndexRouteImport.update({
+    id: '/epreuves/',
+    path: '/epreuves/',
+    getParentRoute: () => AuthenticatedEtudiantRoute,
+  } as any)
+const AuthenticatedEtudiantEpreuvesEpreuveIdRoute =
+  AuthenticatedEtudiantEpreuvesEpreuveIdRouteImport.update({
+    id: '/epreuves/$epreuveId',
+    path: '/epreuves/$epreuveId',
+    getParentRoute: () => AuthenticatedEtudiantRoute,
   } as any)
 const AuthenticatedEtudiantExamensIndexRoute =
   AuthenticatedEtudiantExamensIndexRouteImport.update({
@@ -495,13 +523,17 @@ export interface FileRoutesByFullPath {
   '/etablissement/': typeof AuthenticatedEtablissementIndexRoute
   '/etudiant/': typeof AuthenticatedEtudiantIndexRoute
   '/enseignant/classes/$classId': typeof AuthenticatedEnseignantClassesClassIdRoute
+  '/enseignant/epreuves/$epreuveId': typeof AuthenticatedEnseignantEpreuvesEpreuveIdRoute
   '/etudiant/cours/$programmeId': typeof AuthenticatedEtudiantCoursProgrammeIdRoute
+  '/etudiant/epreuves/$epreuveId': typeof AuthenticatedEtudiantEpreuvesEpreuveIdRoute
   '/etudiant/examens/$examenId': typeof AuthenticatedEtudiantExamensExamenIdRoute
   '/etudiant/orientation/conseiller': typeof AuthenticatedEtudiantOrientationConseillerRoute
   '/etudiant/orientation/filieres': typeof AuthenticatedEtudiantOrientationFilieresRoute
   '/etudiant/orientation/metiers': typeof AuthenticatedEtudiantOrientationMetiersRoute
   '/enseignant/classes/': typeof AuthenticatedEnseignantClassesIndexRoute
+  '/enseignant/epreuves/': typeof AuthenticatedEnseignantEpreuvesIndexRoute
   '/etudiant/cours/': typeof AuthenticatedEtudiantCoursIndexRoute
+  '/etudiant/epreuves/': typeof AuthenticatedEtudiantEpreuvesIndexRoute
   '/etudiant/examens/': typeof AuthenticatedEtudiantExamensIndexRoute
 }
 export interface FileRoutesByTo {
@@ -553,13 +585,17 @@ export interface FileRoutesByTo {
   '/etablissement': typeof AuthenticatedEtablissementIndexRoute
   '/etudiant': typeof AuthenticatedEtudiantIndexRoute
   '/enseignant/classes/$classId': typeof AuthenticatedEnseignantClassesClassIdRoute
+  '/enseignant/epreuves/$epreuveId': typeof AuthenticatedEnseignantEpreuvesEpreuveIdRoute
   '/etudiant/cours/$programmeId': typeof AuthenticatedEtudiantCoursProgrammeIdRoute
+  '/etudiant/epreuves/$epreuveId': typeof AuthenticatedEtudiantEpreuvesEpreuveIdRoute
   '/etudiant/examens/$examenId': typeof AuthenticatedEtudiantExamensExamenIdRoute
   '/etudiant/orientation/conseiller': typeof AuthenticatedEtudiantOrientationConseillerRoute
   '/etudiant/orientation/filieres': typeof AuthenticatedEtudiantOrientationFilieresRoute
   '/etudiant/orientation/metiers': typeof AuthenticatedEtudiantOrientationMetiersRoute
   '/enseignant/classes': typeof AuthenticatedEnseignantClassesIndexRoute
+  '/enseignant/epreuves': typeof AuthenticatedEnseignantEpreuvesIndexRoute
   '/etudiant/cours': typeof AuthenticatedEtudiantCoursIndexRoute
+  '/etudiant/epreuves': typeof AuthenticatedEtudiantEpreuvesIndexRoute
   '/etudiant/examens': typeof AuthenticatedEtudiantExamensIndexRoute
 }
 export interface FileRoutesById {
@@ -620,13 +656,17 @@ export interface FileRoutesById {
   '/_authenticated/etablissement/': typeof AuthenticatedEtablissementIndexRoute
   '/_authenticated/etudiant/': typeof AuthenticatedEtudiantIndexRoute
   '/_authenticated/enseignant/classes/$classId': typeof AuthenticatedEnseignantClassesClassIdRoute
+  '/_authenticated/enseignant/epreuves/$epreuveId': typeof AuthenticatedEnseignantEpreuvesEpreuveIdRoute
   '/_authenticated/etudiant/cours/$programmeId': typeof AuthenticatedEtudiantCoursProgrammeIdRoute
+  '/_authenticated/etudiant/epreuves/$epreuveId': typeof AuthenticatedEtudiantEpreuvesEpreuveIdRoute
   '/_authenticated/etudiant/examens/$examenId': typeof AuthenticatedEtudiantExamensExamenIdRoute
   '/_authenticated/etudiant/orientation/conseiller': typeof AuthenticatedEtudiantOrientationConseillerRoute
   '/_authenticated/etudiant/orientation/filieres': typeof AuthenticatedEtudiantOrientationFilieresRoute
   '/_authenticated/etudiant/orientation/metiers': typeof AuthenticatedEtudiantOrientationMetiersRoute
   '/_authenticated/enseignant/classes/': typeof AuthenticatedEnseignantClassesIndexRoute
+  '/_authenticated/enseignant/epreuves/': typeof AuthenticatedEnseignantEpreuvesIndexRoute
   '/_authenticated/etudiant/cours/': typeof AuthenticatedEtudiantCoursIndexRoute
+  '/_authenticated/etudiant/epreuves/': typeof AuthenticatedEtudiantEpreuvesIndexRoute
   '/_authenticated/etudiant/examens/': typeof AuthenticatedEtudiantExamensIndexRoute
 }
 export interface FileRouteTypes {
@@ -687,13 +727,17 @@ export interface FileRouteTypes {
     | '/etablissement/'
     | '/etudiant/'
     | '/enseignant/classes/$classId'
+    | '/enseignant/epreuves/$epreuveId'
     | '/etudiant/cours/$programmeId'
+    | '/etudiant/epreuves/$epreuveId'
     | '/etudiant/examens/$examenId'
     | '/etudiant/orientation/conseiller'
     | '/etudiant/orientation/filieres'
     | '/etudiant/orientation/metiers'
     | '/enseignant/classes/'
+    | '/enseignant/epreuves/'
     | '/etudiant/cours/'
+    | '/etudiant/epreuves/'
     | '/etudiant/examens/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -745,13 +789,17 @@ export interface FileRouteTypes {
     | '/etablissement'
     | '/etudiant'
     | '/enseignant/classes/$classId'
+    | '/enseignant/epreuves/$epreuveId'
     | '/etudiant/cours/$programmeId'
+    | '/etudiant/epreuves/$epreuveId'
     | '/etudiant/examens/$examenId'
     | '/etudiant/orientation/conseiller'
     | '/etudiant/orientation/filieres'
     | '/etudiant/orientation/metiers'
     | '/enseignant/classes'
+    | '/enseignant/epreuves'
     | '/etudiant/cours'
+    | '/etudiant/epreuves'
     | '/etudiant/examens'
   id:
     | '__root__'
@@ -811,13 +859,17 @@ export interface FileRouteTypes {
     | '/_authenticated/etablissement/'
     | '/_authenticated/etudiant/'
     | '/_authenticated/enseignant/classes/$classId'
+    | '/_authenticated/enseignant/epreuves/$epreuveId'
     | '/_authenticated/etudiant/cours/$programmeId'
+    | '/_authenticated/etudiant/epreuves/$epreuveId'
     | '/_authenticated/etudiant/examens/$examenId'
     | '/_authenticated/etudiant/orientation/conseiller'
     | '/_authenticated/etudiant/orientation/filieres'
     | '/_authenticated/etudiant/orientation/metiers'
     | '/_authenticated/enseignant/classes/'
+    | '/_authenticated/enseignant/epreuves/'
     | '/_authenticated/etudiant/cours/'
+    | '/_authenticated/etudiant/epreuves/'
     | '/_authenticated/etudiant/examens/'
   fileRoutesById: FileRoutesById
 }
@@ -1235,6 +1287,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEnseignantClassesClassIdRouteImport
       parentRoute: typeof AuthenticatedEnseignantRoute
     }
+    '/_authenticated/enseignant/epreuves/': {
+      id: '/_authenticated/enseignant/epreuves/'
+      path: '/epreuves'
+      fullPath: '/enseignant/epreuves/'
+      preLoaderRoute: typeof AuthenticatedEnseignantEpreuvesIndexRouteImport
+      parentRoute: typeof AuthenticatedEnseignantRoute
+    }
+    '/_authenticated/enseignant/epreuves/$epreuveId': {
+      id: '/_authenticated/enseignant/epreuves/$epreuveId'
+      path: '/epreuves/$epreuveId'
+      fullPath: '/enseignant/epreuves/$epreuveId'
+      preLoaderRoute: typeof AuthenticatedEnseignantEpreuvesEpreuveIdRouteImport
+      parentRoute: typeof AuthenticatedEnseignantRoute
+    }
     '/_authenticated/etudiant/cours/': {
       id: '/_authenticated/etudiant/cours/'
       path: '/'
@@ -1248,6 +1314,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/etudiant/cours/$programmeId'
       preLoaderRoute: typeof AuthenticatedEtudiantCoursProgrammeIdRouteImport
       parentRoute: typeof AuthenticatedEtudiantCoursRoute
+    }
+    '/_authenticated/etudiant/epreuves/': {
+      id: '/_authenticated/etudiant/epreuves/'
+      path: '/epreuves'
+      fullPath: '/etudiant/epreuves/'
+      preLoaderRoute: typeof AuthenticatedEtudiantEpreuvesIndexRouteImport
+      parentRoute: typeof AuthenticatedEtudiantRoute
+    }
+    '/_authenticated/etudiant/epreuves/$epreuveId': {
+      id: '/_authenticated/etudiant/epreuves/$epreuveId'
+      path: '/epreuves/$epreuveId'
+      fullPath: '/etudiant/epreuves/$epreuveId'
+      preLoaderRoute: typeof AuthenticatedEtudiantEpreuvesEpreuveIdRouteImport
+      parentRoute: typeof AuthenticatedEtudiantRoute
     }
     '/_authenticated/etudiant/examens/': {
       id: '/_authenticated/etudiant/examens/'
@@ -1313,7 +1393,9 @@ interface AuthenticatedEnseignantRouteChildren {
   AuthenticatedEnseignantSyllabusRoute: typeof AuthenticatedEnseignantSyllabusRoute
   AuthenticatedEnseignantIndexRoute: typeof AuthenticatedEnseignantIndexRoute
   AuthenticatedEnseignantClassesClassIdRoute: typeof AuthenticatedEnseignantClassesClassIdRoute
+  AuthenticatedEnseignantEpreuvesEpreuveIdRoute: typeof AuthenticatedEnseignantEpreuvesEpreuveIdRoute
   AuthenticatedEnseignantClassesIndexRoute: typeof AuthenticatedEnseignantClassesIndexRoute
+  AuthenticatedEnseignantEpreuvesIndexRoute: typeof AuthenticatedEnseignantEpreuvesIndexRoute
 }
 
 const AuthenticatedEnseignantRouteChildren: AuthenticatedEnseignantRouteChildren =
@@ -1332,8 +1414,12 @@ const AuthenticatedEnseignantRouteChildren: AuthenticatedEnseignantRouteChildren
     AuthenticatedEnseignantIndexRoute: AuthenticatedEnseignantIndexRoute,
     AuthenticatedEnseignantClassesClassIdRoute:
       AuthenticatedEnseignantClassesClassIdRoute,
+    AuthenticatedEnseignantEpreuvesEpreuveIdRoute:
+      AuthenticatedEnseignantEpreuvesEpreuveIdRoute,
     AuthenticatedEnseignantClassesIndexRoute:
       AuthenticatedEnseignantClassesIndexRoute,
+    AuthenticatedEnseignantEpreuvesIndexRoute:
+      AuthenticatedEnseignantEpreuvesIndexRoute,
   }
 
 const AuthenticatedEnseignantRouteWithChildren =
@@ -1408,10 +1494,12 @@ interface AuthenticatedEtudiantRouteChildren {
   AuthenticatedEtudiantRepresentationsRoute: typeof AuthenticatedEtudiantRepresentationsRoute
   AuthenticatedEtudiantSujetsRoute: typeof AuthenticatedEtudiantSujetsRoute
   AuthenticatedEtudiantIndexRoute: typeof AuthenticatedEtudiantIndexRoute
+  AuthenticatedEtudiantEpreuvesEpreuveIdRoute: typeof AuthenticatedEtudiantEpreuvesEpreuveIdRoute
   AuthenticatedEtudiantExamensExamenIdRoute: typeof AuthenticatedEtudiantExamensExamenIdRoute
   AuthenticatedEtudiantOrientationConseillerRoute: typeof AuthenticatedEtudiantOrientationConseillerRoute
   AuthenticatedEtudiantOrientationFilieresRoute: typeof AuthenticatedEtudiantOrientationFilieresRoute
   AuthenticatedEtudiantOrientationMetiersRoute: typeof AuthenticatedEtudiantOrientationMetiersRoute
+  AuthenticatedEtudiantEpreuvesIndexRoute: typeof AuthenticatedEtudiantEpreuvesIndexRoute
   AuthenticatedEtudiantExamensIndexRoute: typeof AuthenticatedEtudiantExamensIndexRoute
 }
 
@@ -1432,6 +1520,8 @@ const AuthenticatedEtudiantRouteChildren: AuthenticatedEtudiantRouteChildren = {
     AuthenticatedEtudiantRepresentationsRoute,
   AuthenticatedEtudiantSujetsRoute: AuthenticatedEtudiantSujetsRoute,
   AuthenticatedEtudiantIndexRoute: AuthenticatedEtudiantIndexRoute,
+  AuthenticatedEtudiantEpreuvesEpreuveIdRoute:
+    AuthenticatedEtudiantEpreuvesEpreuveIdRoute,
   AuthenticatedEtudiantExamensExamenIdRoute:
     AuthenticatedEtudiantExamensExamenIdRoute,
   AuthenticatedEtudiantOrientationConseillerRoute:
@@ -1440,6 +1530,8 @@ const AuthenticatedEtudiantRouteChildren: AuthenticatedEtudiantRouteChildren = {
     AuthenticatedEtudiantOrientationFilieresRoute,
   AuthenticatedEtudiantOrientationMetiersRoute:
     AuthenticatedEtudiantOrientationMetiersRoute,
+  AuthenticatedEtudiantEpreuvesIndexRoute:
+    AuthenticatedEtudiantEpreuvesIndexRoute,
   AuthenticatedEtudiantExamensIndexRoute:
     AuthenticatedEtudiantExamensIndexRoute,
 }

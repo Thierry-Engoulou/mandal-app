@@ -172,6 +172,89 @@ export type Database = {
           },
         ]
       }
+      compositions: {
+        Row: {
+          commentaire: string | null
+          corrige_at: string | null
+          debut_at: string
+          eleve_id: string
+          epreuve_id: string
+          fichiers: string[]
+          fin_prevue_at: string
+          id: string
+          note: number | null
+          rendu_at: string | null
+          rendu_auto: boolean
+        }
+        Insert: {
+          commentaire?: string | null
+          corrige_at?: string | null
+          debut_at?: string
+          eleve_id: string
+          epreuve_id: string
+          fichiers?: string[]
+          fin_prevue_at: string
+          id?: string
+          note?: number | null
+          rendu_at?: string | null
+          rendu_auto?: boolean
+        }
+        Update: {
+          commentaire?: string | null
+          corrige_at?: string | null
+          debut_at?: string
+          eleve_id?: string
+          epreuve_id?: string
+          fichiers?: string[]
+          fin_prevue_at?: string
+          id?: string
+          note?: number | null
+          rendu_at?: string | null
+          rendu_auto?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compositions_eleve_id_fkey"
+            columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "compositions_epreuve_id_fkey"
+            columns: ["epreuve_id"]
+            isOneToOne: false
+            referencedRelation: "epreuves"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      compositions_correction_ia: {
+        Row: {
+          composition_id: string
+          created_at: string
+          texte: string
+        }
+        Insert: {
+          composition_id: string
+          created_at?: string
+          texte: string
+        }
+        Update: {
+          composition_id?: string
+          created_at?: string
+          texte?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "compositions_correction_ia_composition_id_fkey"
+            columns: ["composition_id"]
+            isOneToOne: true
+            referencedRelation: "compositions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       concepts: {
         Row: {
           chapitre_id: string
@@ -371,6 +454,72 @@ export type Database = {
           {
             foreignKeyName: "eleve_badges_eleve_id_fkey"
             columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      epreuves: {
+        Row: {
+          classe_id: string | null
+          consignes: string | null
+          created_at: string
+          date_debut: string | null
+          date_fin: string | null
+          duree_minutes: number
+          enseignant_id: string
+          fichier_path: string
+          id: string
+          matiere: string
+          niveau: string
+          statut: string
+          titre: string
+          updated_at: string
+        }
+        Insert: {
+          classe_id?: string | null
+          consignes?: string | null
+          created_at?: string
+          date_debut?: string | null
+          date_fin?: string | null
+          duree_minutes: number
+          enseignant_id: string
+          fichier_path: string
+          id?: string
+          matiere: string
+          niveau: string
+          statut?: string
+          titre: string
+          updated_at?: string
+        }
+        Update: {
+          classe_id?: string | null
+          consignes?: string | null
+          created_at?: string
+          date_debut?: string | null
+          date_fin?: string | null
+          duree_minutes?: number
+          enseignant_id?: string
+          fichier_path?: string
+          id?: string
+          matiere?: string
+          niveau?: string
+          statut?: string
+          titre?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "epreuves_classe_id_fkey"
+            columns: ["classe_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "epreuves_enseignant_id_fkey"
+            columns: ["enseignant_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
@@ -1327,8 +1476,53 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      ajouter_page_composition: {
+        Args: { p_composition_id: string; p_path: string }
+        Returns: string[]
+      }
+      commencer_composition: {
+        Args: { p_epreuve_id: string }
+        Returns: {
+          commentaire: string | null
+          corrige_at: string | null
+          debut_at: string
+          eleve_id: string
+          epreuve_id: string
+          fichiers: string[]
+          fin_prevue_at: string
+          id: string
+          note: number | null
+          rendu_at: string | null
+          rendu_auto: boolean
+        }
+      }
+      copies_epreuve: {
+        Args: { p_epreuve_id: string }
+        Returns: {
+          a_correction_ia: boolean
+          commentaire: string | null
+          corrige_at: string | null
+          debut_at: string
+          eleve_id: string
+          eleve_nom: string
+          fichiers: string[]
+          fin_prevue_at: string
+          id: string
+          note: number | null
+          rendu_at: string | null
+          rendu_auto: boolean
+        }[]
+      }
       devenir_enseignant: {
         Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
+      enregistrer_correction_ia: {
+        Args: { p_composition_id: string; p_texte: string }
+        Returns: undefined
+      }
+      noter_composition: {
+        Args: { p_commentaire: string; p_composition_id: string; p_note: number | null }
         Returns: undefined
       }
       questions_examen: {
@@ -1341,6 +1535,26 @@ export type Database = {
           points: number
           type: string
         }[]
+      }
+      rendre_composition: {
+        Args: { p_composition_id: string }
+        Returns: {
+          commentaire: string | null
+          corrige_at: string | null
+          debut_at: string
+          eleve_id: string
+          epreuve_id: string
+          fichiers: string[]
+          fin_prevue_at: string
+          id: string
+          note: number | null
+          rendu_at: string | null
+          rendu_auto: boolean
+        }
+      }
+      retirer_page_composition: {
+        Args: { p_composition_id: string; p_path: string }
+        Returns: string[]
       }
       retirer_membre_etablissement: {
         Args: { p_profile_id: string }
