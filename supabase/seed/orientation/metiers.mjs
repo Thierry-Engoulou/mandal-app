@@ -1,7 +1,7 @@
 // Fiches « Métiers » (réalité camerounaise). Aucun salaire ni nombre de postes :
 // ces chiffres varient et deviendraient vite faux.
 
-function metier({
+export function metier({
   slug,
   titre,
   categorie,
