@@ -13,6 +13,7 @@ import {
   Bell,
   Building2,
   Library,
+  FileUp,
   Menu,
   type LucideIcon,
 } from "lucide-react";
@@ -38,6 +39,7 @@ const navItems = [
   { to: "/enseignant/ecole", label: "My School", exact: false, icon: School },
   { to: "/enseignant/syllabus", label: "Syllabus", exact: false, icon: ListChecks },
   { to: "/enseignant/examens", label: "Exams", exact: false, icon: ClipboardList },
+  { to: "/enseignant/epreuves", label: "Épreuves PDF", exact: false, icon: FileUp },
   { to: "/enseignant/mediatheque", label: "Médiathèque", exact: false, icon: Library },
   { to: "/enseignant/messages", label: "Messages", exact: false, icon: MessageSquare },
   { to: "/enseignant/eleves", label: "All Students", exact: false, icon: GraduationCap },

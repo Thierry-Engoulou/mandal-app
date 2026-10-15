@@ -18,9 +18,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useProfile } from "@/lib/use-profile";
 import { COPIES_BUCKET, corrigerCopie } from "@/lib/correction.functions";
 import { compressImage } from "@/lib/compress-image";
+import { MATIERES } from "@/lib/epreuves";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { MathText } from "@/components/math-text";
+import { PickFileButton } from "@/components/pick-file-button";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/etudiant/correction")({
@@ -36,20 +38,6 @@ export const Route = createFileRoute("/_authenticated/etudiant/correction")({
     ],
   }),
 });
-
-const MATIERES = [
-  "Mathématiques",
-  "Physique",
-  "Chimie",
-  "PCT (Physique-Chimie-Technologie)",
-  "SVT",
-  "Français",
-  "Anglais",
-  "Histoire-Géographie",
-  "Philosophie",
-  "Informatique",
-  "Autre",
-];
 
 const MAX_COPIES = 8;
 const MAX_SUJETS = 4;
@@ -291,7 +279,7 @@ function FilePicker({
         <p className="text-xs text-muted-foreground">{hint}</p>
       </div>
       <div className="flex flex-wrap gap-2">
-        <PickButton
+        <PickFileButton
           icon={<Camera className="size-4" />}
           label="Prendre une photo"
           accept="image/*"
@@ -299,7 +287,7 @@ function FilePicker({
           onFiles={addFiles}
           disabled={disabled || files.length >= max}
         />
-        <PickButton
+        <PickFileButton
           icon={<ImagePlus className="size-4" />}
           label="Choisir photos / PDF"
           accept="image/*,application/pdf"
@@ -322,52 +310,6 @@ function FilePicker({
         </ul>
       ) : null}
     </div>
-  );
-}
-
-function PickButton({
-  icon,
-  label,
-  accept,
-  multiple,
-  capture,
-  onFiles,
-  disabled,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  accept: string;
-  multiple?: boolean | undefined;
-  capture?: boolean | undefined;
-  onFiles: (files: FileList | null) => void;
-  disabled?: boolean | undefined;
-}) {
-  const ref = useRef<HTMLInputElement>(null);
-  return (
-    <>
-      <Button
-        type="button"
-        variant="outline"
-        size="sm"
-        className="rounded-xl"
-        disabled={disabled}
-        onClick={() => ref.current?.click()}
-      >
-        {icon} {label}
-      </Button>
-      <input
-        ref={ref}
-        type="file"
-        hidden
-        accept={accept}
-        multiple={multiple}
-        {...(capture ? { capture: "environment" as const } : {})}
-        onChange={(e) => {
-          onFiles(e.target.files);
-          e.target.value = "";
-        }}
-      />
-    </>
   );
 }
 
