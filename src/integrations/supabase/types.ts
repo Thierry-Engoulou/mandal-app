@@ -264,6 +264,47 @@ export type Database = {
           },
         ]
       }
+      corrections_ia: {
+        Row: {
+          correction: string
+          created_at: string
+          eleve_id: string
+          fichiers_copie: string[]
+          fichiers_sujet: string[]
+          id: string
+          matiere: string | null
+          sujet_texte: string | null
+        }
+        Insert: {
+          correction: string
+          created_at?: string
+          eleve_id: string
+          fichiers_copie?: string[]
+          fichiers_sujet?: string[]
+          id?: string
+          matiere?: string | null
+          sujet_texte?: string | null
+        }
+        Update: {
+          correction?: string
+          created_at?: string
+          eleve_id?: string
+          fichiers_copie?: string[]
+          fichiers_sujet?: string[]
+          id?: string
+          matiere?: string | null
+          sujet_texte?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "corrections_ia_eleve_id_fkey"
+            columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       courses: {
         Row: {
           author_id: string
