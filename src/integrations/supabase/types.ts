@@ -462,6 +462,38 @@ export type Database = {
           },
         ]
       }
+      ia_messages: {
+        Row: {
+          contenu: string
+          created_at: string
+          eleve_id: string
+          id: string
+          role: string
+        }
+        Insert: {
+          contenu: string
+          created_at?: string
+          eleve_id: string
+          id?: string
+          role: string
+        }
+        Update: {
+          contenu?: string
+          created_at?: string
+          eleve_id?: string
+          id?: string
+          role?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ia_messages_eleve_id_fkey"
+            columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invitations_admin: {
         Row: {
           created_at: string
@@ -1254,6 +1286,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      devenir_enseignant: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       questions_examen: {
         Args: { p_examen_id: string }
         Returns: {

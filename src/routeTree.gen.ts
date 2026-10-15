@@ -56,6 +56,7 @@ import { Route as AuthenticatedEtudiantClassementRouteImport } from './routes/_a
 import { Route as AuthenticatedEtudiantCoursRouteImport } from './routes/_authenticated.etudiant.cours'
 import { Route as AuthenticatedEtudiantDefisRouteImport } from './routes/_authenticated.etudiant.defis'
 import { Route as AuthenticatedEtudiantHistoriqueRouteImport } from './routes/_authenticated.etudiant.historique'
+import { Route as AuthenticatedEtudiantMandalIaRouteImport } from './routes/_authenticated.etudiant.mandal-ia'
 import { Route as AuthenticatedEtudiantMediathequeRouteImport } from './routes/_authenticated.etudiant.mediatheque'
 import { Route as AuthenticatedEtudiantMessagesRouteImport } from './routes/_authenticated.etudiant.messages'
 import { Route as AuthenticatedEtudiantNotificationsRouteImport } from './routes/_authenticated.etudiant.notifications'
@@ -334,6 +335,12 @@ const AuthenticatedEtudiantHistoriqueRoute =
     path: '/historique',
     getParentRoute: () => AuthenticatedEtudiantRoute,
   } as any)
+const AuthenticatedEtudiantMandalIaRoute =
+  AuthenticatedEtudiantMandalIaRouteImport.update({
+    id: '/mandal-ia',
+    path: '/mandal-ia',
+    getParentRoute: () => AuthenticatedEtudiantRoute,
+  } as any)
 const AuthenticatedEtudiantMediathequeRoute =
   AuthenticatedEtudiantMediathequeRouteImport.update({
     id: '/mediatheque',
@@ -468,6 +475,7 @@ export interface FileRoutesByFullPath {
   '/etudiant/cours': typeof AuthenticatedEtudiantCoursRouteWithChildren
   '/etudiant/defis': typeof AuthenticatedEtudiantDefisRoute
   '/etudiant/historique': typeof AuthenticatedEtudiantHistoriqueRoute
+  '/etudiant/mandal-ia': typeof AuthenticatedEtudiantMandalIaRoute
   '/etudiant/mediatheque': typeof AuthenticatedEtudiantMediathequeRoute
   '/etudiant/messages': typeof AuthenticatedEtudiantMessagesRoute
   '/etudiant/notifications': typeof AuthenticatedEtudiantNotificationsRoute
@@ -524,6 +532,7 @@ export interface FileRoutesByTo {
   '/etudiant/classement': typeof AuthenticatedEtudiantClassementRoute
   '/etudiant/defis': typeof AuthenticatedEtudiantDefisRoute
   '/etudiant/historique': typeof AuthenticatedEtudiantHistoriqueRoute
+  '/etudiant/mandal-ia': typeof AuthenticatedEtudiantMandalIaRoute
   '/etudiant/mediatheque': typeof AuthenticatedEtudiantMediathequeRoute
   '/etudiant/messages': typeof AuthenticatedEtudiantMessagesRoute
   '/etudiant/notifications': typeof AuthenticatedEtudiantNotificationsRoute
@@ -589,6 +598,7 @@ export interface FileRoutesById {
   '/_authenticated/etudiant/cours': typeof AuthenticatedEtudiantCoursRouteWithChildren
   '/_authenticated/etudiant/defis': typeof AuthenticatedEtudiantDefisRoute
   '/_authenticated/etudiant/historique': typeof AuthenticatedEtudiantHistoriqueRoute
+  '/_authenticated/etudiant/mandal-ia': typeof AuthenticatedEtudiantMandalIaRoute
   '/_authenticated/etudiant/mediatheque': typeof AuthenticatedEtudiantMediathequeRoute
   '/_authenticated/etudiant/messages': typeof AuthenticatedEtudiantMessagesRoute
   '/_authenticated/etudiant/notifications': typeof AuthenticatedEtudiantNotificationsRoute
@@ -654,6 +664,7 @@ export interface FileRouteTypes {
     | '/etudiant/cours'
     | '/etudiant/defis'
     | '/etudiant/historique'
+    | '/etudiant/mandal-ia'
     | '/etudiant/mediatheque'
     | '/etudiant/messages'
     | '/etudiant/notifications'
@@ -710,6 +721,7 @@ export interface FileRouteTypes {
     | '/etudiant/classement'
     | '/etudiant/defis'
     | '/etudiant/historique'
+    | '/etudiant/mandal-ia'
     | '/etudiant/mediatheque'
     | '/etudiant/messages'
     | '/etudiant/notifications'
@@ -774,6 +786,7 @@ export interface FileRouteTypes {
     | '/_authenticated/etudiant/cours'
     | '/_authenticated/etudiant/defis'
     | '/_authenticated/etudiant/historique'
+    | '/_authenticated/etudiant/mandal-ia'
     | '/_authenticated/etudiant/mediatheque'
     | '/_authenticated/etudiant/messages'
     | '/_authenticated/etudiant/notifications'
@@ -1139,6 +1152,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEtudiantHistoriqueRouteImport
       parentRoute: typeof AuthenticatedEtudiantRoute
     }
+    '/_authenticated/etudiant/mandal-ia': {
+      id: '/_authenticated/etudiant/mandal-ia'
+      path: '/mandal-ia'
+      fullPath: '/etudiant/mandal-ia'
+      preLoaderRoute: typeof AuthenticatedEtudiantMandalIaRouteImport
+      parentRoute: typeof AuthenticatedEtudiantRoute
+    }
     '/_authenticated/etudiant/mediatheque': {
       id: '/_authenticated/etudiant/mediatheque'
       path: '/mediatheque'
@@ -1359,6 +1379,7 @@ interface AuthenticatedEtudiantRouteChildren {
   AuthenticatedEtudiantCoursRoute: typeof AuthenticatedEtudiantCoursRouteWithChildren
   AuthenticatedEtudiantDefisRoute: typeof AuthenticatedEtudiantDefisRoute
   AuthenticatedEtudiantHistoriqueRoute: typeof AuthenticatedEtudiantHistoriqueRoute
+  AuthenticatedEtudiantMandalIaRoute: typeof AuthenticatedEtudiantMandalIaRoute
   AuthenticatedEtudiantMediathequeRoute: typeof AuthenticatedEtudiantMediathequeRoute
   AuthenticatedEtudiantMessagesRoute: typeof AuthenticatedEtudiantMessagesRoute
   AuthenticatedEtudiantNotificationsRoute: typeof AuthenticatedEtudiantNotificationsRoute
@@ -1379,6 +1400,7 @@ const AuthenticatedEtudiantRouteChildren: AuthenticatedEtudiantRouteChildren = {
   AuthenticatedEtudiantCoursRoute: AuthenticatedEtudiantCoursRouteWithChildren,
   AuthenticatedEtudiantDefisRoute: AuthenticatedEtudiantDefisRoute,
   AuthenticatedEtudiantHistoriqueRoute: AuthenticatedEtudiantHistoriqueRoute,
+  AuthenticatedEtudiantMandalIaRoute: AuthenticatedEtudiantMandalIaRoute,
   AuthenticatedEtudiantMediathequeRoute: AuthenticatedEtudiantMediathequeRoute,
   AuthenticatedEtudiantMessagesRoute: AuthenticatedEtudiantMessagesRoute,
   AuthenticatedEtudiantNotificationsRoute:

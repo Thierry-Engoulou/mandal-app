@@ -2,11 +2,13 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { GOOGLE_SIGNUP_ROLE_KEY } from "@/lib/role-home";
+import { GoogleIcon } from "@/components/google-icon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { UserPlus, Eye, EyeOff, GraduationCap, BookOpen } from "lucide-react";
+import { UserPlus, Eye, EyeOff, GraduationCap, BookOpen, LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const signupSearchSchema = z.object({
@@ -48,6 +50,7 @@ function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [created, setCreated] = useState(false);
 
   // Charger les classes depuis la base Supabase
@@ -61,6 +64,25 @@ function SignupPage() {
         }
       });
   }, []);
+
+  // Inscription avec Google : le rôle choisi est mémorisé le temps de l'aller-retour
+  // chez Google, puis appliqué par /auth/callback.
+  const handleGoogleSignup = async () => {
+    setGoogleLoading(true);
+    try {
+      localStorage.setItem(GOOGLE_SIGNUP_ROLE_KEY, role);
+    } catch {
+      // stockage indisponible : le compte sera créé en élève
+    }
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    });
+    if (error) {
+      setGoogleLoading(false);
+      toast.error(error.message);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -296,9 +318,31 @@ function SignupPage() {
               <Button
                 type="submit"
                 className="w-full rounded-xl py-5 text-base font-semibold"
-                disabled={loading}
+                disabled={loading || googleLoading}
               >
                 {loading ? "Création en cours…" : "Créer mon compte & Accéder aux cours"}
+              </Button>
+
+              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                <span className="h-px flex-1 bg-border" /> ou{" "}
+                <span className="h-px flex-1 bg-border" />
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleGoogleSignup}
+                disabled={loading || googleLoading}
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-xl font-semibold"
+              >
+                {googleLoading ? (
+                  <LoaderCircle className="size-5 animate-spin text-primary" />
+                ) : (
+                  <GoogleIcon />
+                )}
+                {role === "teacher"
+                  ? "S'inscrire avec Google comme enseignant"
+                  : "S'inscrire avec Google comme élève"}
               </Button>
 
               <p className="text-center text-sm text-muted-foreground">
