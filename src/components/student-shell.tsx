@@ -16,6 +16,7 @@ import {
   Settings,
   ChevronDown,
   Sparkles,
+  Bot,
   Menu,
   type LucideIcon,
 } from "lucide-react";
@@ -30,6 +31,7 @@ const navItems = [
   { to: "/etudiant/examens", label: "Examens", exact: false, icon: FileText },
   { to: "/etudiant/sujets", label: "Sujets", exact: false, icon: FileText },
   { to: "/etudiant/cours", label: "Mes cours", exact: false, icon: BookOpen },
+  { to: "/etudiant/mandal-ia", label: "Mandal IA", exact: false, icon: Bot },
   { to: "/etudiant/mediatheque", label: "Médiathèque", exact: false, icon: Presentation },
   { to: "/etudiant/classement", label: "Classement", exact: false, icon: Trophy },
   { to: "/etudiant/defis", label: "Défis", exact: false, icon: Flame },
