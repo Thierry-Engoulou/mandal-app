@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { z } from "zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -25,7 +26,10 @@ import { MathText } from "@/components/math-text";
 import { PickFileButton } from "@/components/pick-file-button";
 import { cn } from "@/lib/utils";
 
+const searchSchema = z.object({ epreuve: z.string().uuid().optional() });
+
 export const Route = createFileRoute("/_authenticated/etudiant/correction")({
+  validateSearch: (search) => searchSchema.parse(search),
   component: CorrectionPage,
   head: () => ({
     meta: [
@@ -52,7 +56,28 @@ function CorrectionPage() {
   const { data: profile } = useProfile();
   const queryClient = useQueryClient();
   const corriger = useServerFn(corrigerCopie);
+  const { epreuve: epreuveGenereeId } = Route.useSearch();
   const [matiere, setMatiere] = useState("");
+
+  // Correction d'une épreuve blanche générée par Mandal IA : le sujet est déjà connu.
+  const { data: epreuveGeneree } = useQuery({
+    enabled: !!epreuveGenereeId,
+    queryKey: ["epreuve-generee", epreuveGenereeId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("epreuves_generees")
+        .select("id, matiere, niveau, created_at")
+        .eq("id", epreuveGenereeId!)
+        .maybeSingle();
+      if (error) throw new Error(error.message);
+      return data;
+    },
+  });
+  useEffect(() => {
+    if (epreuveGeneree && MATIERES.includes(epreuveGeneree.matiere)) {
+      setMatiere(epreuveGeneree.matiere);
+    }
+  }, [epreuveGeneree]);
   const [sujetTexte, setSujetTexte] = useState("");
   const [sujets, setSujets] = useState<File[]>([]);
   const [copies, setCopies] = useState<File[]>([]);
@@ -109,6 +134,7 @@ function CorrectionPage() {
           sujetTexte: sujetTexte.trim() || undefined,
           copies: copiePaths,
           sujets: sujetPaths,
+          ...(epreuveGeneree ? { epreuveGenereeId: epreuveGeneree.id } : {}),
         },
       });
       setResult(res.correction);
@@ -175,6 +201,15 @@ function CorrectionPage() {
             />
           </div>
         </div>
+
+        {epreuveGeneree ? (
+          <p className="rounded-xl bg-primary/10 p-3 text-sm text-foreground">
+            Sujet : ton épreuve blanche Mandal IA de {epreuveGeneree.matiere} (
+            {epreuveGeneree.niveau}) du{" "}
+            {new Date(epreuveGeneree.created_at).toLocaleDateString("fr-FR")}. Ajoute seulement les
+            photos de ta copie.
+          </p>
+        ) : null}
 
         <FilePicker
           title="Le sujet (facultatif)"
