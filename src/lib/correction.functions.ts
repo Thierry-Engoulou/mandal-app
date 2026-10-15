@@ -45,6 +45,7 @@ export const corrigerCopie = createServerFn({ method: "POST" })
         sujetTexte: z.string().trim().max(4000).optional(),
         copies: z.array(pathSchema).min(1).max(8),
         sujets: z.array(pathSchema).max(4).default([]),
+        epreuveGenereeId: z.string().uuid().optional(),
       })
       .parse(data),
   )
@@ -79,10 +80,26 @@ export const corrigerCopie = createServerFn({ method: "POST" })
     const copieParts: AiPart[] = [];
     for (const p of data.copies) copieParts.push(await download(p));
 
+    // Épreuve blanche générée par Mandal IA (la RLS ne renvoie que celles de l'élève).
+    let epreuveGeneree: string | null = null;
+    if (data.epreuveGenereeId) {
+      const { data: row } = await context.supabase
+        .from("epreuves_generees")
+        .select("contenu")
+        .eq("id", data.epreuveGenereeId)
+        .maybeSingle();
+      epreuveGeneree = row?.contenu ?? null;
+    }
+
     const intro = [
       data.matiere ? `Matière : ${data.matiere}.` : null,
+      epreuveGeneree ? `Sujet (épreuve blanche Mandal IA) :\n${epreuveGeneree}` : null,
       data.sujetTexte ? `Énoncé donné par l'élève :\n${data.sujetTexte}` : null,
-      sujetParts.length > 0 ? "Voici le sujet :" : "Le sujet n'est pas fourni en fichier.",
+      sujetParts.length > 0
+        ? "Voici le sujet :"
+        : epreuveGeneree
+          ? null
+          : "Le sujet n'est pas fourni en fichier.",
     ]
       .filter(Boolean)
       .join("\n");
@@ -110,7 +127,7 @@ export const corrigerCopie = createServerFn({ method: "POST" })
       .insert({
         eleve_id: context.userId,
         matiere: data.matiere || null,
-        sujet_texte: data.sujetTexte || null,
+        sujet_texte: data.sujetTexte || (epreuveGeneree ? "Épreuve blanche Mandal IA" : null),
         fichiers_copie: data.copies,
         fichiers_sujet: data.sujets,
         correction,

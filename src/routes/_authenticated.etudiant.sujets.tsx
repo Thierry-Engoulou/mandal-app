@@ -1,481 +1,386 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { useEffect, useRef, useState } from "react";
 import {
-  Sparkles,
-  Camera,
-  FileText,
-  UploadCloud,
-  CheckCircle2,
-  AlertTriangle,
-  Lightbulb,
-  BookOpen,
-  ArrowRight,
+  AlarmClock,
+  ChevronDown,
   LoaderCircle,
-  HelpCircle,
-  Clock,
+  Printer,
+  ScanLine,
+  Sparkles,
+  Square,
+  Timer,
+  Trash2,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { useProfile } from "@/lib/use-profile";
+import { genererEpreuveBlanche } from "@/lib/epreuves-blanches.functions";
+import { MATIERES, NIVEAUX, formatDuree } from "@/lib/epreuves";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { MathText } from "@/components/math-text";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/etudiant/sujets")({
-  component: StudentSubjectsPage,
+  component: EpreuvesBlanchesPage,
   head: () => ({
     meta: [
-      { title: "Génération & Correction d'Épreuves — MANDAL IA" },
+      { title: "Épreuves blanches Mandal IA — M'ANDAL" },
       {
         name: "description",
         content:
-          "Générez des épreuves officielles structurées avec Mandal IA et faites corriger vos copies manuscrites scannées.",
+          "Mandal IA rédige des épreuves blanches sur le modèle des épreuves de la banque M'ANDAL et de tes cours.",
       },
       { name: "robots", content: "noindex" },
     ],
   }),
 });
 
-type GeneratedExam = {
-  titre: string;
-  niveau: string;
+const DUREES = [60, 90, 120, 180, 240];
+const selectClass = "w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm";
+
+type Generated = {
+  id: string;
   matiere: string;
-  duree: string;
-  parties: {
-    titre: string;
-    points: string;
-    description: string;
-    questions: string[];
-  }[];
+  niveau: string;
+  duree_minutes: number;
+  contenu: string;
+  modeles_utilises: number;
+  created_at: string;
 };
 
-type CorrectionResult = {
-  note: string;
-  pointsForts: string[];
-  difficultes: string[];
-  conseilsPeda: string[];
-  coursAReviser: string;
-};
-
-const SAMPLE_EXAMS: Record<string, GeneratedExam> = {
-  bac: {
-    titre: "Épreuve Blanche d'Excellence : Mathématiques Générales",
-    niveau: "Terminale C & D",
-    matiere: "Mathématiques",
-    duree: "4 Heures · Coeff 6/7",
-    parties: [
-      {
-        titre: "Partie A : Évaluation des Ressources & QCM (5 Points)",
-        points: "5 pts",
-        description:
-          "Contrôle des connaissances fondamentales sur les limites, continuité et nombres complexes.",
-        questions: [
-          "1. Soit f une fonction continue sur [0, 2] telle que f(0) = -3 et f(2) = 5. Justifier que l'équation f(x) = 0 admet au moins une solution c dans [0, 2].",
-          "2. Calculer la limite en +∞ de la fonction : g(x) = (2x² - ln(x)) / (x² + 3).",
-          "3. Résoudre dans ℂ l'équation : z² - 2z√3 + 4 = 0 et mettre les solutions sous forme exponentielle.",
-        ],
-      },
-      {
-        titre: "Partie B : Exercices d'Application & Analyse (7 Points)",
-        points: "7 pts",
-        description: "Étude d'une fonction exponentielle avec branche infinie et calcul d'aire.",
-        questions: [
-          "1. Soit la fonction f(x) = (x - 1)e^x + 2. Déterminer l'ensemble de définition et les limites aux bornes.",
-          "2. Dresser le tableau de variation complet de f.",
-          "3. Démontrer que la droite (D) d'équation y = 2 est asymptote horizontale à la courbe en -∞.",
-          "4. À l'aide d'une intégration par parties, calculer l'aire du domaine délimité par Cf, l'asymptote et les droites x = 0 et x = 1.",
-        ],
-      },
-      {
-        titre: "Partie C : Problème de Synthèse & Situation Réelle (8 Points)",
-        points: "8 pts",
-        description:
-          "Modélisation de l'évolution d'une population bactérienne et optimisation d'un traitement.",
-        questions: [
-          "Une colonie bactérienne croît selon la loi N(t) = 5000 / (1 + 4e^(-0.5t)) où t est en heures.",
-          "1. Déterminer la population initiale au temps t = 0.",
-          "2. Étudier la limite de N(t) quand t tend vers +∞. Quelle est la capacité maximale du milieu ?",
-          "3. Déterminer le temps t auquel le rythme de croissance de la colonie est maximal.",
-        ],
-      },
-    ],
-  },
-  probatoire: {
-    titre: "Épreuve Blanche Régionale : Sciences Physiques",
-    niveau: "Première C & D",
-    matiere: "Physique-Chimie",
-    duree: "3 Heures · Coeff 4",
-    parties: [
-      {
-        titre: "Partie 1 : Évaluation des Savoirs Fondamentaux (6 Points)",
-        points: "6 pts",
-        description: "Travail, puissance et énergie mécanique.",
-        questions: [
-          "1. Énoncer le théorème de l'énergie cinétique pour un solide en translation.",
-          "2. Définir une force conservative et donner un exemple concret.",
-          "3. Écrire l'expression de l'énergie potentielle de pesanteur en précisant le niveau de référence.",
-        ],
-      },
-      {
-        titre: "Partie 2 : Application des Acquis (8 Points)",
-        points: "8 pts",
-        description:
-          "Mouvement d'un mobile sur un plan incliné et résistance des forces de frottement.",
-        questions: [
-          "Un solide de masse m = 200g glisse le long d'un plan incliné d'un angle α = 30° sur une distance AB = 2m.",
-          "1. Calculer le travail du poids entre A et B.",
-          "2. En supposant les frottements d'intensité f = 0.2 N, déterminer la vitesse du solide au point B.",
-        ],
-      },
-      {
-        titre: "Partie 3 : Chimie des Solutions & Dosage (6 Points)",
-        points: "6 pts",
-        description: "Dosage d'un acide fort par une base forte.",
-        questions: [
-          "1. Écrire l'équation-bilan de la réaction de neutralisation.",
-          "2. Déterminer le volume équivalent à partir de la courbe pH-métrique et calculer la concentration inconnue.",
-        ],
-      },
-    ],
-  },
-};
-
-function StudentSubjectsPage() {
+function EpreuvesBlanchesPage() {
   const { data: profile } = useProfile();
-  const [selectedLevel, setSelectedLevel] = useState<string>("bac");
-  const [generating, setGenerating] = useState(false);
-  const [currentExam, setCurrentExam] = useState<GeneratedExam | null>(null);
+  const queryClient = useQueryClient();
+  const generer = useServerFn(genererEpreuveBlanche);
+  const [matiere, setMatiere] = useState(MATIERES[0]!);
+  const [niveau, setNiveau] = useState<string>(NIVEAUX[5]);
+  const [duree, setDuree] = useState(120);
+  const [theme, setTheme] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [current, setCurrent] = useState<Generated | null>(null);
+  const currentRef = useRef<HTMLDivElement>(null);
 
-  // Scan & correction state
-  const [uploadingCopy, setUploadingCopy] = useState(false);
-  const [analyzingCopy, setAnalyzingCopy] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [correction, setCorrection] = useState<CorrectionResult | null>(null);
+  const { data: history = [] } = useQuery({
+    enabled: !!profile,
+    queryKey: ["epreuves-generees", profile?.id],
+    queryFn: async (): Promise<Generated[]> => {
+      const { data, error } = await supabase
+        .from("epreuves_generees")
+        .select("id, matiere, niveau, duree_minutes, contenu, modeles_utilises, created_at")
+        .eq("eleve_id", profile!.id)
+        .order("created_at", { ascending: false })
+        .limit(20);
+      if (error) throw new Error(error.message);
+      return data ?? [];
+    },
+  });
 
-  const handleGenerateExam = () => {
-    setGenerating(true);
-    setCorrection(null);
-    setTimeout(() => {
-      setGenerating(false);
-      setCurrentExam(SAMPLE_EXAMS[selectedLevel] ?? SAMPLE_EXAMS["bac"] ?? null);
-      toast.success(
-        "Épreuve blanche générée avec succès suivant la structure officielle de la banque d'annales !",
-      );
-    }, 1200);
-  };
+  useEffect(() => {
+    if (current) currentRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [current]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const files = Array.from(e.target.files);
-      setUploadedFiles(files);
-      toast.success(`${files.length} page(s) de votre copie manuscrite sélectionnée(s).`);
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (busy) return;
+    setBusy(true);
+    try {
+      const res = await generer({
+        data: {
+          matiere,
+          niveau,
+          dureeMinutes: duree,
+          ...(theme.trim() ? { theme: theme.trim() } : {}),
+        },
+      });
+      setCurrent({
+        id: res.id,
+        matiere,
+        niveau,
+        duree_minutes: duree,
+        contenu: res.contenu,
+        modeles_utilises: res.modelesUtilises,
+        created_at: new Date().toISOString(),
+      });
+      await queryClient.invalidateQueries({ queryKey: ["epreuves-generees"] });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "La génération a échoué.");
+    } finally {
+      setBusy(false);
     }
   };
 
-  const handleRequestCorrection = () => {
-    if (uploadedFiles.length === 0) {
-      toast.error("Veuillez d'abord photographier ou scanner vos feuilles d'examen.");
+  const remove = async (id: string) => {
+    if (!confirm("Supprimer cette épreuve blanche ?")) return;
+    const { error } = await supabase.from("epreuves_generees").delete().eq("id", id);
+    if (error) {
+      toast.error(error.message);
       return;
     }
-    setAnalyzingCopy(true);
-    setTimeout(() => {
-      setAnalyzingCopy(false);
-      setCorrection({
-        note: "14.5 / 20",
-        pointsForts: [
-          "Excellente maîtrise du Théorème des Valeurs Intermédiaires (TVI) et justifications rigoureuses.",
-          "Bonne factorisation des polynômes et calcul correct du discriminant.",
-          "Présentation propre des étapes de calcul.",
-        ],
-        difficultes: [
-          "Confusion lors de l'intégration par parties (erreur sur le signe du crochet uv).",
-          "Oubli de préciser l'ensemble de définition avant le calcul des limites en +∞.",
-          "Raisonnement incomplet sur la justification de l'asymptote horizontale.",
-        ],
-        conseilsPeda: [
-          "Révisez la formule ALPES pour bien choisir u(x) et v'(x) sans vous tromper de primitive.",
-          "N'oubliez jamais de vérifier que le dénominateur est non nul pour les limites.",
-          "Entraînez-vous à rédiger la conclusion avec unités lors des problèmes de synthèse.",
-        ],
-        coursAReviser:
-          "Mathématiques Générales — Terminale C & D (Chapitre 3 : Primitives et Intégrales)",
-      });
-      toast.success(
-        "Correction détaillée de Mandal IA terminée ! Vos points d'amélioration sont affichés.",
-      );
-    }, 2000);
+    if (current?.id === id) setCurrent(null);
+    await queryClient.invalidateQueries({ queryKey: ["epreuves-generees"] });
   };
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="gradient-welcome rounded-3xl p-6 sm:p-8 text-primary-foreground shadow-sm">
-        <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider opacity-80">
-          <Sparkles className="size-4" /> Banque d'Épreuves & Intelligence Artificielle
-        </div>
-        <h1 className="mt-2 font-display text-2xl sm:text-3xl font-black tracking-tight">
-          Générateur & Correcteur d'Épreuves Mandal IA
+    <div className="space-y-6">
+      <header className="gradient-progress rounded-2xl p-6 text-primary-foreground shadow-sm print:hidden">
+        <Sparkles className="mb-2 size-6" />
+        <h1 className="font-display text-2xl font-bold tracking-tight">
+          Épreuves blanches Mandal IA
         </h1>
-        <p className="mt-2 text-sm sm:text-base opacity-90 max-w-2xl leading-relaxed">
-          Mandal IA structure des sujets conformes aux examens officiels (BAC, Probatoire, BEPC,
-          ENSPD, IUT) à partir des cours que vous avez appris, et corrige vos copies manuscrites
-          scannées en détectant vos erreurs.
+        <p className="mt-1 max-w-2xl text-sm opacity-90">
+          Mandal IA rédige une épreuve inédite sur le modèle des épreuves déposées par les
+          enseignants dans la banque M'ANDAL et sur les chapitres que tu as étudiés. Compose sur
+          papier, chronomètre en main, puis fais corriger ta copie.
         </p>
-      </div>
+      </header>
 
-      {/* SECTION 1 : GÉNÉRATION D'ÉPREUVES */}
-      <div className="rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-sm space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h2 className="font-display text-xl font-bold text-foreground flex items-center gap-2">
-              <BookOpen className="size-5 text-primary" /> 1. Générer une Épreuve sur Mesure
-            </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-              Structure rigoureuse : QCM/Ressources, Exercices d'application, et Problème de
-              synthèse.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <select
-              value={selectedLevel}
-              onChange={(e) => setSelectedLevel(e.target.value)}
-              className="rounded-xl border border-border bg-background px-3 py-2 text-xs sm:text-sm font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-            >
-              <option value="bac">Baccalauréat (Terminale C & D)</option>
-              <option value="probatoire">Probatoire (Première C & D)</option>
-            </select>
-            <Button
-              onClick={handleGenerateExam}
-              disabled={generating}
-              className="rounded-xl font-bold bg-primary text-primary-foreground hover:bg-primary/90"
-            >
-              {generating ? (
-                <>
-                  <LoaderCircle className="mr-2 size-4 animate-spin" /> Structuration…
-                </>
-              ) : (
-                <>
-                  <Sparkles className="mr-2 size-4" /> Générer avec Mandal IA
-                </>
-              )}
-            </Button>
-          </div>
+      <form
+        onSubmit={submit}
+        className="grid gap-4 rounded-2xl bg-card p-5 shadow-sm md:grid-cols-2 print:hidden"
+      >
+        <div className="space-y-2">
+          <Label htmlFor="g-matiere">Matière</Label>
+          <select
+            id="g-matiere"
+            value={matiere}
+            onChange={(e) => setMatiere(e.target.value)}
+            className={selectClass}
+          >
+            {MATIERES.filter((m) => m !== "Autre").map((m) => (
+              <option key={m}>{m}</option>
+            ))}
+          </select>
         </div>
+        <div className="space-y-2">
+          <Label htmlFor="g-niveau">Niveau</Label>
+          <select
+            id="g-niveau"
+            value={niveau}
+            onChange={(e) => setNiveau(e.target.value)}
+            className={selectClass}
+          >
+            {NIVEAUX.map((n) => (
+              <option key={n}>{n}</option>
+            ))}
+          </select>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="g-duree">Durée</Label>
+          <select
+            id="g-duree"
+            value={duree}
+            onChange={(e) => setDuree(Number(e.target.value))}
+            className={selectClass}
+          >
+            {DUREES.map((d) => (
+              <option key={d} value={d}>
+                {formatDuree(d)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="g-theme">Insister sur (facultatif)</Label>
+          <input
+            id="g-theme"
+            value={theme}
+            onChange={(e) => setTheme(e.target.value)}
+            maxLength={500}
+            placeholder="Ex. : fonctions logarithmes, suites"
+            className={selectClass}
+          />
+        </div>
+        <Button type="submit" disabled={busy} className="h-12 rounded-xl text-base md:col-span-2">
+          {busy ? (
+            <>
+              <LoaderCircle className="animate-spin" /> Mandal IA rédige ton épreuve… (jusqu'à une
+              minute)
+            </>
+          ) : (
+            <>
+              <Sparkles className="size-4" /> Générer mon épreuve blanche
+            </>
+          )}
+        </Button>
+      </form>
 
-        {/* Épreuve générée */}
-        {currentExam && (
-          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 space-y-6 mt-4">
-            <div className="border-b border-primary/10 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-primary">
-                  {currentExam.niveau} · {currentExam.matiere}
-                </span>
-                <h3 className="font-display text-lg sm:text-xl font-black text-foreground mt-0.5">
-                  {currentExam.titre}
-                </h3>
-              </div>
-              <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary shrink-0 self-start sm:self-auto">
-                <Clock className="inline mr-1 size-3.5" /> {currentExam.duree}
-              </span>
-            </div>
+      {current ? (
+        <div ref={currentRef}>
+          <EpreuveView epreuve={current} />
+        </div>
+      ) : null}
 
-            <div className="space-y-6">
-              {currentExam.parties.map((partie, idx) => (
-                <div
-                  key={idx}
-                  className="rounded-xl bg-card p-5 border border-border shadow-xs space-y-3"
-                >
-                  <div className="flex items-center justify-between border-b border-border/60 pb-2">
-                    <h4 className="font-display font-bold text-sm sm:text-base text-foreground">
-                      {partie.titre}
-                    </h4>
-                    <span className="rounded bg-secondary px-2 py-0.5 text-xs font-bold text-muted-foreground">
-                      {partie.points}
-                    </span>
-                  </div>
-                  <p className="text-xs text-muted-foreground italic">{partie.description}</p>
-                  <ul className="space-y-2 pt-1 text-xs sm:text-sm text-foreground">
-                    {partie.questions.map((q, qIdx) => (
-                      <li
-                        key={qIdx}
-                        className="leading-relaxed bg-muted/20 p-2.5 rounded-lg border border-border/40"
-                      >
-                        {q}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
+      {history.length > 0 ? (
+        <section className="space-y-3 print:hidden">
+          <h2 className="font-display text-lg font-bold text-foreground">Mes épreuves blanches</h2>
+          {history.map((h) => (
+            <HistoryItem
+              key={h.id}
+              epreuve={h}
+              onOpen={() => setCurrent(h)}
+              onDelete={() => remove(h.id)}
+            />
+          ))}
+        </section>
+      ) : null}
+    </div>
+  );
+}
 
-            <div className="rounded-xl bg-amber-500/10 border border-amber-500/20 p-4 text-xs text-amber-900 dark:text-amber-200 flex items-start gap-3">
-              <span className="text-lg">💡</span>
-              <p>
-                <strong>Conseil de composition :</strong> Traitez les questions sur vos feuilles de
-                format standard. Lorsque vous avez fini ou que le chronomètre touche à sa fin,
-                utilisez la section ci-dessous pour numériser votre copie et obtenir votre
-                correction immédiate par Mandal IA.
-              </p>
-            </div>
-          </div>
-        )}
+function EpreuveView({ epreuve }: { epreuve: Generated }) {
+  return (
+    <section className="space-y-4 rounded-2xl border border-primary/30 bg-card p-5 shadow-sm print:border-0 print:shadow-none">
+      <div className="flex flex-wrap items-center justify-between gap-2 print:hidden">
+        <p className="text-xs text-muted-foreground">
+          {epreuve.modeles_utilises > 0
+            ? `Structure calquée sur ${epreuve.modeles_utilises} épreuve(s) de la banque M'ANDAL.`
+            : "Aucune épreuve de ce niveau dans la banque : structure officielle du niveau."}
+        </p>
+        <Button variant="outline" size="sm" className="rounded-xl" onClick={() => window.print()}>
+          <Printer className="size-4" /> Imprimer
+        </Button>
       </div>
+      <Chrono epreuveId={epreuve.id} dureeMinutes={epreuve.duree_minutes} />
+      <MathText text={epreuve.contenu} className="text-sm leading-relaxed text-foreground" />
+      <div className="rounded-xl bg-secondary/50 p-4 print:hidden">
+        <p className="text-sm text-foreground">
+          Tu as terminé ? Photographie ta copie : Mandal IA la corrige avec ce sujet, te donne une
+          note estimée et t'explique tes difficultés.
+        </p>
+        <Button asChild className="mt-3 rounded-xl">
+          <Link to="/etudiant/correction" search={{ epreuve: epreuve.id }}>
+            <ScanLine className="size-4" /> Faire corriger ma copie
+          </Link>
+        </Button>
+      </div>
+    </section>
+  );
+}
 
-      {/* SECTION 2 : SOUMISSION & CORRECTION PAR SCAN */}
-      <div className="rounded-3xl border border-border bg-card p-6 sm:p-8 shadow-sm space-y-6">
-        <div>
-          <h2 className="font-display text-xl font-bold text-foreground flex items-center gap-2">
-            <Camera className="size-5 text-emerald-600 dark:text-emerald-400" /> 2. Filmer / Scanner
-            Ma Copie pour Correction par Mandal IA
-          </h2>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-            Prenez en photo vos feuilles rédigées. Mandal IA évalue votre raisonnement, calcule
-            votre note et liste vos erreurs précises.
+/** Chronomètre facultatif (local au navigateur) pour composer dans les conditions de l'examen. */
+function Chrono({ epreuveId, dureeMinutes }: { epreuveId: string; dureeMinutes: number }) {
+  const key = `mandal.blanche.${epreuveId}`;
+  const [startedAt, setStartedAt] = useState<number | null>(() => {
+    try {
+      const v = localStorage.getItem(key);
+      return v ? Number(v) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [now, setNow] = useState(() => Date.now());
+  const alertsRef = useRef<Set<number>>(new Set());
+
+  useEffect(() => {
+    if (!startedAt) return;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [startedAt]);
+
+  const remaining = startedAt ? startedAt + dureeMinutes * 60000 - now : dureeMinutes * 60000;
+
+  useEffect(() => {
+    if (!startedAt) return;
+    for (const m of [30, 5, 0]) {
+      if (remaining <= m * 60000 && !alertsRef.current.has(m)) {
+        alertsRef.current.add(m);
+        if (remaining > (m - 1) * 60000) {
+          toast.warning(
+            m === 0
+              ? "Temps écoulé ! Pose ton stylo et fais corriger ta copie."
+              : `Il reste ${m} minutes.`,
+          );
+        }
+      }
+    }
+  }, [remaining, startedAt]);
+
+  const start = () => {
+    const t = Date.now();
+    alertsRef.current = new Set();
+    setStartedAt(t);
+    setNow(t);
+    try {
+      localStorage.setItem(key, String(t));
+    } catch {
+      // stockage indisponible : le chrono marche quand même pendant la session
+    }
+  };
+  const stop = () => {
+    setStartedAt(null);
+    try {
+      localStorage.removeItem(key);
+    } catch {
+      // rien à nettoyer
+    }
+  };
+
+  const total = Math.max(0, Math.floor(remaining / 1000));
+  const label = `${Math.floor(total / 3600)}:${String(Math.floor((total % 3600) / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
+
+  return (
+    <div
+      className={cn(
+        "flex flex-wrap items-center justify-between gap-3 rounded-xl p-3 print:hidden",
+        !startedAt
+          ? "bg-secondary/60"
+          : remaining <= 0
+            ? "bg-destructive text-white"
+            : remaining <= 30 * 60000
+              ? "bg-amber-500 text-white"
+              : "bg-primary text-primary-foreground",
+      )}
+    >
+      <span className="flex items-center gap-2 font-display text-xl font-bold tabular-nums">
+        <AlarmClock className="size-5" /> {remaining <= 0 && startedAt ? "Temps écoulé" : label}
+      </span>
+      {startedAt ? (
+        <Button size="sm" variant="secondary" className="rounded-xl" onClick={stop}>
+          <Square className="size-4" /> Arrêter
+        </Button>
+      ) : (
+        <Button size="sm" className="rounded-xl" onClick={start}>
+          <Timer className="size-4" /> Démarrer le chrono ({formatDuree(dureeMinutes)})
+        </Button>
+      )}
+    </div>
+  );
+}
+
+function HistoryItem({
+  epreuve,
+  onOpen,
+  onDelete,
+}: {
+  epreuve: Generated;
+  onOpen: () => void;
+  onDelete: () => void;
+}) {
+  const titre = /^##\s*(.+)$/m.exec(epreuve.contenu)?.[1]?.trim();
+  return (
+    <div className="flex items-center gap-3 rounded-2xl bg-card p-4 shadow-sm">
+      <button
+        type="button"
+        onClick={onOpen}
+        className="flex min-w-0 flex-1 items-center gap-3 text-left"
+      >
+        <ChevronDown className="size-4 shrink-0 -rotate-90" />
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold text-foreground">
+            {titre || `${epreuve.matiere} — ${epreuve.niveau}`}
+          </p>
+          <p className="truncate text-xs text-muted-foreground">
+            {epreuve.matiere} · {epreuve.niveau} · {formatDuree(epreuve.duree_minutes)} ·{" "}
+            {new Date(epreuve.created_at).toLocaleDateString("fr-FR")}
           </p>
         </div>
-
-        <div className="rounded-2xl border-2 border-dashed border-border p-8 text-center space-y-4 bg-muted/10">
-          <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-            <UploadCloud className="size-7" />
-          </div>
-          <div>
-            <p className="font-display text-base font-bold text-foreground">
-              Déposez vos photos ou scannez vos formats
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">
-              Formats acceptés : Photos (JPG, PNG) ou document PDF multipages
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <label className="cursor-pointer inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-emerald-500 transition shadow-sm">
-              <Camera className="size-4" /> Prendre en photo / Choisir les images
-              <input
-                type="file"
-                accept="image/*,application/pdf"
-                multiple
-                className="hidden"
-                onChange={handleFileChange}
-              />
-            </label>
-          </div>
-
-          {uploadedFiles.length > 0 && (
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-4 py-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-              <CheckCircle2 className="size-4" /> {uploadedFiles.length} fichier(s) de copie prêt(s)
-              pour l'analyse
-            </div>
-          )}
-        </div>
-
-        <div className="flex justify-end">
-          <Button
-            size="lg"
-            onClick={handleRequestCorrection}
-            disabled={analyzingCopy || uploadedFiles.length === 0}
-            className="rounded-xl font-bold bg-emerald-600 text-white hover:bg-emerald-500 px-6"
-          >
-            {analyzingCopy ? (
-              <>
-                <LoaderCircle className="mr-2 size-4 animate-spin" /> Analyse & Correction par
-                Mandal IA…
-              </>
-            ) : (
-              <>
-                <Sparkles className="mr-2 size-4" /> Demander la correction à Mandal IA
-              </>
-            )}
-          </Button>
-        </div>
-
-        {/* RÉSULTAT DE LA CORRECTION DÉTAILLÉE */}
-        {correction && (
-          <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6 sm:p-8 space-y-6 animate-in fade-in">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-emerald-500/20 pb-4">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-                  Rapport de Correction Personnalisé
-                </span>
-                <h3 className="font-display text-xl font-black text-foreground mt-1">
-                  Bilan de votre composition
-                </h3>
-              </div>
-              <div className="rounded-2xl bg-card border border-emerald-500/30 px-5 py-2.5 text-center shadow-xs">
-                <span className="text-xs text-muted-foreground block font-medium">
-                  Note estimée
-                </span>
-                <span className="font-display text-2xl font-black text-emerald-600 dark:text-emerald-400">
-                  {correction.note}
-                </span>
-              </div>
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              {/* Points forts */}
-              <div className="rounded-xl bg-card p-5 border border-border space-y-3">
-                <h4 className="font-bold text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-                  <CheckCircle2 className="size-4" /> Points Forts & Notions Maîtrisées
-                </h4>
-                <ul className="space-y-2 text-xs sm:text-sm text-foreground">
-                  {correction.pointsForts.map((pt, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-emerald-500">✓</span> {pt}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Difficultés rencontrées */}
-              <div className="rounded-xl bg-card p-5 border border-border space-y-3">
-                <h4 className="font-bold text-sm text-amber-600 dark:text-amber-400 flex items-center gap-2">
-                  <AlertTriangle className="size-4" /> Difficultés & Erreurs Détectées
-                </h4>
-                <ul className="space-y-2 text-xs sm:text-sm text-foreground">
-                  {correction.difficultes.map((diff, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-amber-500">•</span> {diff}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Conseils pédagogiques & Cours à réviser */}
-            <div className="rounded-xl bg-card p-5 border border-border space-y-4">
-              <h4 className="font-bold text-sm text-foreground flex items-center gap-2">
-                <Lightbulb className="size-4 text-amber-500" /> Conseils de Méthode pour Progresser
-              </h4>
-              <ul className="space-y-2 text-xs sm:text-sm text-muted-foreground">
-                {correction.conseilsPeda.map((conseil, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <span className="text-primary font-bold">→</span> {conseil}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="border-t border-border pt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <span className="text-xs text-muted-foreground block">
-                    Chapitre recommandé pour éliminer ces lacunes :
-                  </span>
-                  <span className="font-bold text-sm text-foreground">
-                    {correction.coursAReviser}
-                  </span>
-                </div>
-                <Button
-                  asChild
-                  size="sm"
-                  className="rounded-xl font-bold bg-primary text-primary-foreground shrink-0"
-                >
-                  <Link to="/etudiant/cours">
-                    Ouvrir ce cours <ArrowRight className="ml-1 size-3.5" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      </button>
+      <Button variant="ghost" size="icon" onClick={onDelete} aria-label="Supprimer">
+        <Trash2 className="size-4" />
+      </Button>
     </div>
   );
 }

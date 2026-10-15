@@ -526,6 +526,47 @@ export type Database = {
           },
         ]
       }
+      epreuves_generees: {
+        Row: {
+          contenu: string
+          created_at: string
+          duree_minutes: number
+          eleve_id: string
+          id: string
+          matiere: string
+          modeles_utilises: number
+          niveau: string
+        }
+        Insert: {
+          contenu: string
+          created_at?: string
+          duree_minutes: number
+          eleve_id: string
+          id?: string
+          matiere: string
+          modeles_utilises?: number
+          niveau: string
+        }
+        Update: {
+          contenu?: string
+          created_at?: string
+          duree_minutes?: number
+          eleve_id?: string
+          id?: string
+          matiere?: string
+          modeles_utilises?: number
+          niveau?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "epreuves_generees_eleve_id_fkey"
+            columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       etablissements: {
         Row: {
           created_at: string
