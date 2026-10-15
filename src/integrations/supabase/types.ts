@@ -264,6 +264,54 @@ export type Database = {
           },
         ]
       }
+      corrections_ia: {
+        Row: {
+          created_at: string
+          eleve_id: string
+          epreuve_id: string | null
+          id: string
+          nb_pages: number
+          note: number | null
+          rapport: Json
+          sur: number | null
+        }
+        Insert: {
+          created_at?: string
+          eleve_id: string
+          epreuve_id?: string | null
+          id?: string
+          nb_pages?: number
+          note?: number | null
+          rapport: Json
+          sur?: number | null
+        }
+        Update: {
+          created_at?: string
+          eleve_id?: string
+          epreuve_id?: string | null
+          id?: string
+          nb_pages?: number
+          note?: number | null
+          rapport?: Json
+          sur?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "corrections_ia_eleve_id_fkey"
+            columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "corrections_ia_epreuve_id_fkey"
+            columns: ["epreuve_id"]
+            isOneToOne: false
+            referencedRelation: "epreuves_ia"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       courses: {
         Row: {
           author_id: string
@@ -332,6 +380,51 @@ export type Database = {
             columns: ["eleve_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      epreuves_ia: {
+        Row: {
+          contenu: Json
+          corrige: Json
+          created_at: string
+          eleve_id: string
+          id: string
+          programme_id: string | null
+          titre: string
+        }
+        Insert: {
+          contenu: Json
+          corrige?: Json
+          created_at?: string
+          eleve_id: string
+          id?: string
+          programme_id?: string | null
+          titre: string
+        }
+        Update: {
+          contenu?: Json
+          corrige?: Json
+          created_at?: string
+          eleve_id?: string
+          id?: string
+          programme_id?: string | null
+          titre?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "epreuves_ia_eleve_id_fkey"
+            columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "epreuves_ia_programme_id_fkey"
+            columns: ["programme_id"]
+            isOneToOne: false
+            referencedRelation: "programmes"
             referencedColumns: ["id"]
           },
         ]
