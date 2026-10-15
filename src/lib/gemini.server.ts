@@ -42,6 +42,8 @@ export async function generateWithGemini(options: {
   messages: AiMessage[];
   maxOutputTokens?: number;
   temperature?: number;
+  /** "application/json" pour obtenir une réponse JSON brute (épreuves, corrections). */
+  responseMimeType?: string;
 }): Promise<string> {
   const apiKey = process.env["GEMINI_API_KEY"];
   if (!apiKey)
@@ -59,6 +61,7 @@ export async function generateWithGemini(options: {
     generationConfig: {
       temperature: options.temperature ?? 0.4,
       maxOutputTokens: options.maxOutputTokens ?? 4096,
+      ...(options.responseMimeType ? { responseMimeType: options.responseMimeType } : {}),
     },
   });
 
