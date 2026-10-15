@@ -53,6 +53,7 @@ import { Route as AuthenticatedEtablissementValidationEnseignantsRouteImport } f
 import { Route as AuthenticatedEtudiantIndexRouteImport } from './routes/_authenticated.etudiant.index'
 import { Route as AuthenticatedEtudiantAideRouteImport } from './routes/_authenticated.etudiant.aide'
 import { Route as AuthenticatedEtudiantClassementRouteImport } from './routes/_authenticated.etudiant.classement'
+import { Route as AuthenticatedEtudiantCorrectionRouteImport } from './routes/_authenticated.etudiant.correction'
 import { Route as AuthenticatedEtudiantCoursRouteImport } from './routes/_authenticated.etudiant.cours'
 import { Route as AuthenticatedEtudiantDefisRouteImport } from './routes/_authenticated.etudiant.defis'
 import { Route as AuthenticatedEtudiantHistoriqueRouteImport } from './routes/_authenticated.etudiant.historique'
@@ -317,6 +318,12 @@ const AuthenticatedEtudiantClassementRoute =
     path: '/classement',
     getParentRoute: () => AuthenticatedEtudiantRoute,
   } as any)
+const AuthenticatedEtudiantCorrectionRoute =
+  AuthenticatedEtudiantCorrectionRouteImport.update({
+    id: '/correction',
+    path: '/correction',
+    getParentRoute: () => AuthenticatedEtudiantRoute,
+  } as any)
 const AuthenticatedEtudiantCoursRoute =
   AuthenticatedEtudiantCoursRouteImport.update({
     id: '/cours',
@@ -472,6 +479,7 @@ export interface FileRoutesByFullPath {
   '/etablissement/validation-enseignants': typeof AuthenticatedEtablissementValidationEnseignantsRoute
   '/etudiant/aide': typeof AuthenticatedEtudiantAideRoute
   '/etudiant/classement': typeof AuthenticatedEtudiantClassementRoute
+  '/etudiant/correction': typeof AuthenticatedEtudiantCorrectionRoute
   '/etudiant/cours': typeof AuthenticatedEtudiantCoursRouteWithChildren
   '/etudiant/defis': typeof AuthenticatedEtudiantDefisRoute
   '/etudiant/historique': typeof AuthenticatedEtudiantHistoriqueRoute
@@ -530,6 +538,7 @@ export interface FileRoutesByTo {
   '/etablissement/validation-enseignants': typeof AuthenticatedEtablissementValidationEnseignantsRoute
   '/etudiant/aide': typeof AuthenticatedEtudiantAideRoute
   '/etudiant/classement': typeof AuthenticatedEtudiantClassementRoute
+  '/etudiant/correction': typeof AuthenticatedEtudiantCorrectionRoute
   '/etudiant/defis': typeof AuthenticatedEtudiantDefisRoute
   '/etudiant/historique': typeof AuthenticatedEtudiantHistoriqueRoute
   '/etudiant/mandal-ia': typeof AuthenticatedEtudiantMandalIaRoute
@@ -595,6 +604,7 @@ export interface FileRoutesById {
   '/_authenticated/etablissement/validation-enseignants': typeof AuthenticatedEtablissementValidationEnseignantsRoute
   '/_authenticated/etudiant/aide': typeof AuthenticatedEtudiantAideRoute
   '/_authenticated/etudiant/classement': typeof AuthenticatedEtudiantClassementRoute
+  '/_authenticated/etudiant/correction': typeof AuthenticatedEtudiantCorrectionRoute
   '/_authenticated/etudiant/cours': typeof AuthenticatedEtudiantCoursRouteWithChildren
   '/_authenticated/etudiant/defis': typeof AuthenticatedEtudiantDefisRoute
   '/_authenticated/etudiant/historique': typeof AuthenticatedEtudiantHistoriqueRoute
@@ -661,6 +671,7 @@ export interface FileRouteTypes {
     | '/etablissement/validation-enseignants'
     | '/etudiant/aide'
     | '/etudiant/classement'
+    | '/etudiant/correction'
     | '/etudiant/cours'
     | '/etudiant/defis'
     | '/etudiant/historique'
@@ -719,6 +730,7 @@ export interface FileRouteTypes {
     | '/etablissement/validation-enseignants'
     | '/etudiant/aide'
     | '/etudiant/classement'
+    | '/etudiant/correction'
     | '/etudiant/defis'
     | '/etudiant/historique'
     | '/etudiant/mandal-ia'
@@ -783,6 +795,7 @@ export interface FileRouteTypes {
     | '/_authenticated/etablissement/validation-enseignants'
     | '/_authenticated/etudiant/aide'
     | '/_authenticated/etudiant/classement'
+    | '/_authenticated/etudiant/correction'
     | '/_authenticated/etudiant/cours'
     | '/_authenticated/etudiant/defis'
     | '/_authenticated/etudiant/historique'
@@ -1131,6 +1144,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEtudiantClassementRouteImport
       parentRoute: typeof AuthenticatedEtudiantRoute
     }
+    '/_authenticated/etudiant/correction': {
+      id: '/_authenticated/etudiant/correction'
+      path: '/correction'
+      fullPath: '/etudiant/correction'
+      preLoaderRoute: typeof AuthenticatedEtudiantCorrectionRouteImport
+      parentRoute: typeof AuthenticatedEtudiantRoute
+    }
     '/_authenticated/etudiant/cours': {
       id: '/_authenticated/etudiant/cours'
       path: '/cours'
@@ -1376,6 +1396,7 @@ const AuthenticatedEtudiantCoursRouteWithChildren =
 interface AuthenticatedEtudiantRouteChildren {
   AuthenticatedEtudiantAideRoute: typeof AuthenticatedEtudiantAideRoute
   AuthenticatedEtudiantClassementRoute: typeof AuthenticatedEtudiantClassementRoute
+  AuthenticatedEtudiantCorrectionRoute: typeof AuthenticatedEtudiantCorrectionRoute
   AuthenticatedEtudiantCoursRoute: typeof AuthenticatedEtudiantCoursRouteWithChildren
   AuthenticatedEtudiantDefisRoute: typeof AuthenticatedEtudiantDefisRoute
   AuthenticatedEtudiantHistoriqueRoute: typeof AuthenticatedEtudiantHistoriqueRoute
@@ -1397,6 +1418,7 @@ interface AuthenticatedEtudiantRouteChildren {
 const AuthenticatedEtudiantRouteChildren: AuthenticatedEtudiantRouteChildren = {
   AuthenticatedEtudiantAideRoute: AuthenticatedEtudiantAideRoute,
   AuthenticatedEtudiantClassementRoute: AuthenticatedEtudiantClassementRoute,
+  AuthenticatedEtudiantCorrectionRoute: AuthenticatedEtudiantCorrectionRoute,
   AuthenticatedEtudiantCoursRoute: AuthenticatedEtudiantCoursRouteWithChildren,
   AuthenticatedEtudiantDefisRoute: AuthenticatedEtudiantDefisRoute,
   AuthenticatedEtudiantHistoriqueRoute: AuthenticatedEtudiantHistoriqueRoute,
