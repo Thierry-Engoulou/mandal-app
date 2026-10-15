@@ -1379,6 +1379,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      devenir_enseignant: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
       questions_examen: {
         Args: { p_examen_id: string }
         Returns: {
