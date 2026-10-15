@@ -6,6 +6,19 @@ export type AiPart = { text: string } | { file: { mimeType: string; base64: stri
 
 export type AiMessage = { role: "user" | "assistant"; parts: AiPart[] };
 
+/** Ligne ajoutée à la fin de chaque réponse de Mandal IA. */
+export const SIGNATURE = "Apprendre avec sourire et rigueur avec Mandal";
+const SIGNATURE_FIN = new RegExp(`\\s*(?:\\*\\*)?${SIGNATURE}(?:\\*\\*)?[.!]?\\s*$`);
+
+/** Retire la signature (pour ne pas la renvoyer au modèle dans l'historique). */
+export function sansSignature(text: string): string {
+  return text.replace(SIGNATURE_FIN, "").trimEnd();
+}
+
+function signer(text: string): string {
+  return `${sansSignature(text)}\n\n**${SIGNATURE}**`;
+}
+
 const API = "https://generativelanguage.googleapis.com/v1beta";
 const DEFAULT_MODEL = "gemini-flash-latest";
 
@@ -70,7 +83,7 @@ export async function generateWithGemini(options: {
       role: m.role === "assistant" ? "model" : "user",
       parts: m.parts.map((p) =>
         "text" in p
-          ? { text: p.text }
+          ? { text: m.role === "assistant" ? sansSignature(p.text) : p.text }
           : { inline_data: { mime_type: p.file.mimeType, data: p.file.base64 } },
       ),
     })),
@@ -131,7 +144,9 @@ export async function generateWithGemini(options: {
   }
 
   if (payload.promptFeedback?.blockReason) {
-    return "Je ne peux pas traiter cette demande. Reformulez votre question sur vos cours ou votre orientation.";
+    return signer(
+      "Je ne peux pas traiter cette demande. Reformulez votre question sur vos cours ou votre orientation.",
+    );
   }
 
   const text = (payload.candidates?.[0]?.content?.parts ?? [])
@@ -140,5 +155,5 @@ export async function generateWithGemini(options: {
     .join("")
     .trim();
 
-  return text || "Je n'ai pas pu formuler de réponse. Reformulez votre question.";
+  return signer(text || "Je n'ai pas pu formuler de réponse. Reformulez votre question.");
 }

@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useProfile } from "@/lib/use-profile";
 import { askOrientationAdvisor } from "@/lib/orientation.functions";
 import { Button } from "@/components/ui/button";
+import { MathText } from "@/components/math-text";
 
 export const Route = createFileRoute("/_authenticated/etudiant/orientation/conseiller")({
   component: OrientationAdvisorPage,
@@ -21,9 +22,11 @@ export const Route = createFileRoute("/_authenticated/etudiant/orientation/conse
 });
 
 const SUGGESTIONS = [
-  "Quelle série choisir si j'aime les sciences ?",
-  "Quels métiers après un bac littéraire ?",
-  "Comment préparer un concours d'ingénieur ?",
+  "Série C ou série D : laquelle choisir ?",
+  "Quels concours puis-je passer après le Bac ?",
+  "Comment devenir infirmier au Cameroun ?",
+  "Quels métiers après une série A ?",
+  "Which A Level subjects for medicine?",
 ];
 
 function OrientationAdvisorPage() {
@@ -78,7 +81,8 @@ function OrientationAdvisorPage() {
         <Compass className="mb-2 size-6" />
         <h1 className="font-display text-2xl font-bold tracking-tight">Conseiller d'orientation</h1>
         <p className="mt-1 text-sm opacity-90">
-          Posez vos questions sur les filières, les séries et les métiers.
+          Posez vos questions sur les filières, les séries, les concours et les métiers au Cameroun.
+          Chaque réponse cite ses références.
         </p>
       </header>
 
@@ -111,12 +115,11 @@ function OrientationAdvisorPage() {
                 </p>
               </div>
             ) : (
-              <p
+              <MathText
                 key={m.id}
-                className="max-w-[90%] whitespace-pre-wrap text-sm leading-relaxed text-foreground"
-              >
-                {m.contenu}
-              </p>
+                text={m.contenu}
+                className="max-w-[90%] text-sm leading-relaxed text-foreground"
+              />
             ),
           )}
 
