@@ -22,6 +22,17 @@ import {
   Thales,
   TrigoRectangle,
 } from "@/components/interactive/maths3-widgets";
+import {
+  EnergieElectrique,
+  EnergieMecanique,
+  IncertitudeMesure,
+  LentilleMince,
+  LoiHooke,
+  OeilReduit,
+  PointFonctionnement,
+  QuantiteChaleur,
+  TravailForce,
+} from "@/components/interactive/physique-widgets";
 
 /**
  * Leçons de type "interactif" : des simulations que l'élève manipule directement
@@ -125,6 +136,51 @@ export const INTERACTIFS = [
     label: "Section d'une pyramide ou d'un cône",
     description: "Coupe parallèle à la base : les rapports k, k² et k³.",
   },
+  {
+    value: "incertitude-mesure",
+    label: "Incertitude sur une mesure",
+    description: "Encadrement d'une mesure, incertitude absolue et relative.",
+  },
+  {
+    value: "loi-hooke",
+    label: "Loi de Hooke et limite élastique",
+    description: "Allongement d'un ressort, et ce qui se passe quand le modèle ne tient plus.",
+  },
+  {
+    value: "travail-force",
+    label: "Travail d'une force",
+    description: "W = F·d·cos α : force motrice, résistante ou de travail nul.",
+  },
+  {
+    value: "energie-mecanique",
+    label: "Énergie mécanique sur une piste",
+    description: "Conversion cinétique et potentielle, avec ou sans frottement.",
+  },
+  {
+    value: "quantite-chaleur",
+    label: "Chaleur et changements d'état",
+    description: "Courbe de chauffage de l'eau, de la glace à la vapeur.",
+  },
+  {
+    value: "lentille-mince",
+    label: "Lentille mince",
+    description: "Tracé des rayons, position et nature de l'image, grandissement.",
+  },
+  {
+    value: "oeil-reduit",
+    label: "L'œil réduit et l'accommodation",
+    description: "Œil normal, myope ou hypermétrope, et image sur la rétine.",
+  },
+  {
+    value: "point-fonctionnement",
+    label: "Générateur, récepteur, point de fonctionnement",
+    description: "Croisement des deux caractéristiques, rendement et pertes.",
+  },
+  {
+    value: "energie-electrique",
+    label: "Énergie consommée et facture",
+    description: "Du watt au kilowattheure, puis au coût en FCFA.",
+  },
 ] as const;
 
 export type InteractifKey = (typeof INTERACTIFS)[number]["value"];
@@ -154,6 +210,15 @@ const WIDGETS: Record<string, typeof CercleTrigo> = {
   "angles-inscrits": AnglesInscrits,
   "polygones-reguliers": PolygonesReguliers,
   "section-pyramide": SectionPyramide,
+  "incertitude-mesure": IncertitudeMesure,
+  "loi-hooke": LoiHooke,
+  "travail-force": TravailForce,
+  "energie-mecanique": EnergieMecanique,
+  "quantite-chaleur": QuantiteChaleur,
+  "lentille-mince": LentilleMince,
+  "oeil-reduit": OeilReduit,
+  "point-fonctionnement": PointFonctionnement,
+  "energie-electrique": EnergieElectrique,
 };
 
 type Spec = { widget?: string; consigne?: string };
