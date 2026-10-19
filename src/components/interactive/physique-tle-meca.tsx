@@ -160,16 +160,18 @@ type Formule = {
   note: string;
 };
 
+const FORMULE_PAR_DEFAUT: Formule = {
+  value: "ec",
+  label: "Ec = ½mv²",
+  expr: "E_c = ½ m v²",
+  gauche: "M L² T⁻²",
+  droite: "M × (L T⁻¹)² = M L² T⁻²",
+  ok: true,
+  note: "Homogène. Le facteur ½ est un nombre pur, il ne compte pas.",
+};
+
 const FORMULES: ReadonlyArray<Formule> = [
-  {
-    value: "ec",
-    label: "Ec = ½mv²",
-    expr: "E_c = ½ m v²",
-    gauche: "M L² T⁻²",
-    droite: "M × (L T⁻¹)² = M L² T⁻²",
-    ok: true,
-    note: "Homogène. Le facteur ½ est un nombre pur, il ne compte pas.",
-  },
+  FORMULE_PAR_DEFAUT,
   {
     value: "pendule",
     label: "T = 2π√(ℓ/g)",
@@ -219,8 +221,7 @@ const FORMULES: ReadonlyArray<Formule> = [
 
 export function EquationDimensions() {
   const [choix, setChoix] = useState("ec");
-  const f = FORMULES.find((x) => x.value === choix) ?? FORMULES[0];
-  if (!f) return null;
+  const f = FORMULES.find((x) => x.value === choix) ?? FORMULE_PAR_DEFAUT;
 
   return (
     <div className="space-y-3">

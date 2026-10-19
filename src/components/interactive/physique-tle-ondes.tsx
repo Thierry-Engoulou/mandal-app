@@ -453,17 +453,19 @@ type Capteur = {
   note: string;
 };
 
+const CAPTEUR_PAR_DEFAUT: Capteur = {
+  value: "ctn",
+  label: "Thermistance CTN",
+  unite: "°C",
+  min: 0,
+  max: 100,
+  loi: (t) => 10 * Math.exp(3500 * (1 / (t + 273) - 1 / 298)),
+  lineaire: false,
+  note: "La résistance chute quand la température monte. La loi est exponentielle, donc très sensible mais pas du tout linéaire.",
+};
+
 const CAPTEURS: ReadonlyArray<Capteur> = [
-  {
-    value: "ctn",
-    label: "Thermistance CTN",
-    unite: "°C",
-    min: 0,
-    max: 100,
-    loi: (t) => 10 * Math.exp(3500 * (1 / (t + 273) - 1 / 298)),
-    lineaire: false,
-    note: "La résistance chute quand la température monte. La loi est exponentielle, donc très sensible mais pas du tout linéaire.",
-  },
+  CAPTEUR_PAR_DEFAUT,
   {
     value: "ldr",
     label: "Photorésistance",
@@ -498,10 +500,8 @@ const CAPTEURS: ReadonlyArray<Capteur> = [
 
 export function CapteurCaracteristique() {
   const [choix, setChoix] = useState("ctn");
-  const c = CAPTEURS.find((x) => x.value === choix) ?? CAPTEURS[0];
+  const c = CAPTEURS.find((x) => x.value === choix) ?? CAPTEUR_PAR_DEFAUT;
   const [entree, setEntree] = useState(25);
-
-  if (!c) return null;
 
   const x = clamp(entree, c.min, c.max);
   const R = c.loi(x);
