@@ -47,6 +47,27 @@ import {
   QuantiteChaleur,
   TravailForce,
 } from "@/components/interactive/physique-widgets";
+import {
+  AcideAminePh,
+  ChiraliteCarbone,
+  ClasseAlcool,
+  EsterificationEquilibre,
+  OxydationAlcool,
+} from "@/components/interactive/chimie-tle-orga";
+import {
+  AcideFortFaible,
+  CinetiqueEsterification,
+  CourbeDosage,
+  DosageRedox,
+  EchellePh,
+  EchellePka,
+  FacteursCinetiques,
+  NombreOxydation,
+  PileDaniell,
+  RedoxMetal,
+  RegleGamma,
+  VitesseReaction,
+} from "@/components/interactive/chimie-tle-solutions";
 
 /**
  * Leçons de type "interactif" : des simulations que l'élève manipule directement
@@ -255,6 +276,92 @@ export const INTERACTIFS = [
     label: "Énergie consommée et facture",
     description: "Du watt au kilowattheure, puis au coût en FCFA.",
   },
+  {
+    value: "classe-alcool",
+    label: "Classe d'un alcool",
+    description: "Compter les voisins carbonés : primaire, secondaire ou tertiaire.",
+  },
+  {
+    value: "oxydation-alcool",
+    label: "Oxydation ménagée d'un alcool",
+    description: "Produit obtenu selon la classe, et tests 2,4-DNPH, Tollens, papier pH.",
+  },
+  {
+    value: "esterification-equilibre",
+    label: "Équilibre d'estérification",
+    description: "Rendements de 67, 60 et 5 %, et ce qui déplace vraiment l'équilibre.",
+  },
+  {
+    value: "acide-amine-ph",
+    label: "Les trois formes d'un acide α-aminé",
+    description: "Cation, zwitterion, anion, et le point isoélectrique.",
+  },
+  {
+    value: "chiralite-carbone",
+    label: "Chiralité d'un carbone",
+    description: "Quatre groupes différents, énantiomères et image dans un miroir.",
+  },
+  {
+    value: "echelle-pka",
+    label: "Échelle des pKa",
+    description: "Comparer la force des acides et des bases sur un même axe.",
+  },
+  {
+    value: "regle-gamma",
+    label: "Règle du gamma",
+    description: "Prévoir la réaction entre deux couples et calculer sa constante.",
+  },
+  {
+    value: "echelle-ph",
+    label: "Échelle des pH du quotidien",
+    description: "Du jus de citron à la soude, avec les concentrations correspondantes.",
+  },
+  {
+    value: "acide-fort-faible",
+    label: "Acide fort et acide faible",
+    description: "pH en fonction de la concentration, et taux d'ionisation.",
+  },
+  {
+    value: "courbe-dosage",
+    label: "Courbe de dosage acido-basique",
+    description: "Saut de pH, équivalence, demi-équivalence et choix de l'indicateur.",
+  },
+  {
+    value: "vitesse-reaction",
+    label: "Vitesse et méthode des tangentes",
+    description: "Lire une vitesse instantanée et placer le temps de demi-réaction.",
+  },
+  {
+    value: "facteurs-cinetiques",
+    label: "Les facteurs cinétiques",
+    description:
+      "Température, concentration, catalyseur, surface : la pente change, pas le palier.",
+  },
+  {
+    value: "cinetique-esterification",
+    label: "Cinétique de l'estérification",
+    description: "Estérification et hydrolyse aboutissent au même équilibre.",
+  },
+  {
+    value: "redox-metal",
+    label: "Réactivité des métaux",
+    description: "Quel métal déplace quel ion, et pourquoi, d'après les potentiels.",
+  },
+  {
+    value: "nombre-oxydation",
+    label: "Nombre d'oxydation",
+    description: "Calcul détaillé, puis oxydation ou réduction selon la variation.",
+  },
+  {
+    value: "pile-daniell",
+    label: "Pile et force électromotrice",
+    description: "Pôles, sens des électrons, f.é.m. et rôle du pont salin.",
+  },
+  {
+    value: "dosage-redox",
+    label: "Dosage d'oxydoréduction",
+    description: "Permanganate et fer II, avec le coefficient 5 à ne pas oublier.",
+  },
 ] as const;
 
 export type InteractifKey = (typeof INTERACTIFS)[number]["value"];
@@ -305,6 +412,23 @@ const WIDGETS: Record<string, typeof CercleTrigo> = {
   "oeil-reduit": OeilReduit,
   "point-fonctionnement": PointFonctionnement,
   "energie-electrique": EnergieElectrique,
+  "classe-alcool": ClasseAlcool,
+  "oxydation-alcool": OxydationAlcool,
+  "esterification-equilibre": EsterificationEquilibre,
+  "acide-amine-ph": AcideAminePh,
+  "chiralite-carbone": ChiraliteCarbone,
+  "echelle-pka": EchellePka,
+  "regle-gamma": RegleGamma,
+  "echelle-ph": EchellePh,
+  "acide-fort-faible": AcideFortFaible,
+  "courbe-dosage": CourbeDosage,
+  "vitesse-reaction": VitesseReaction,
+  "facteurs-cinetiques": FacteursCinetiques,
+  "cinetique-esterification": CinetiqueEsterification,
+  "redox-metal": RedoxMetal,
+  "nombre-oxydation": NombreOxydation,
+  "pile-daniell": PileDaniell,
+  "dosage-redox": DosageRedox,
 };
 
 type Spec = { widget?: string; consigne?: string };
