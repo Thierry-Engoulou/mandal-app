@@ -15,6 +15,7 @@ import {
 } from "@/lib/concept-content";
 import { FunctionGraph } from "@/components/function-graph";
 import { InteractiveLesson, INTERACTIFS } from "@/components/interactive-lesson";
+import { LessonQuiz, QUIZ_SPEC_PLACEHOLDER } from "@/components/lesson-quiz";
 import { MathText } from "@/components/math-text";
 import { TeacherPendingBanner } from "@/components/teacher-pending-banner";
 import { Button } from "@/components/ui/button";
@@ -308,6 +309,7 @@ function TeacherSyllabusPage() {
     conceptForm.type_contenu === "simulation";
   const isGraphique = conceptForm.type_contenu === "graphique";
   const isInteractif = conceptForm.type_contenu === "interactif";
+  const isQuiz = conceptForm.type_contenu === "quiz";
   const interactifSpec = (() => {
     try {
       const parsed = JSON.parse(conceptForm.contenu_texte || "{}") as {
@@ -698,7 +700,30 @@ function TeacherSyllabusPage() {
               </div>
             )}
 
-            {isInteractif ? (
+            {isQuiz ? (
+              <div className="space-y-2">
+                <Label htmlFor="c-quiz-spec">Questions du quiz (JSON)</Label>
+                <Textarea
+                  id="c-quiz-spec"
+                  value={conceptForm.contenu_texte}
+                  onChange={(e) =>
+                    setConceptForm({ ...conceptForm, contenu_texte: e.target.value })
+                  }
+                  placeholder={QUIZ_SPEC_PLACEHOLDER}
+                  rows={12}
+                  className="rounded-xl font-mono text-xs"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Une liste de questions. Pour chacune : le texte, les choix, le numéro de la bonne
+                  réponse (0 pour le premier choix) et l'explication. Les formules LaTeX entre{" "}
+                  <code>$…$</code> fonctionnent partout.
+                </p>
+                <div className="rounded-xl border border-border bg-secondary/30 p-3">
+                  <p className="mb-2 text-xs font-medium text-muted-foreground">Aperçu</p>
+                  <LessonQuiz spec={conceptForm.contenu_texte} />
+                </div>
+              </div>
+            ) : isInteractif ? (
               <div className="space-y-3">
                 <div className="space-y-2">
                   <Label>Simulation à utiliser</Label>

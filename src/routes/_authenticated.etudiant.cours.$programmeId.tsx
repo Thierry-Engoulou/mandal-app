@@ -24,6 +24,7 @@ import {
 } from "@/lib/concept-content";
 import { FunctionGraph } from "@/components/function-graph";
 import { InteractiveLesson } from "@/components/interactive-lesson";
+import { LessonQuiz } from "@/components/lesson-quiz";
 import { MathText } from "@/components/math-text";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
@@ -44,6 +45,9 @@ export const Route = createFileRoute("/_authenticated/etudiant/cours/$programmeI
 function ConceptContent({ concept }: { concept: ProgrammeConcept }) {
   if (concept.type_contenu === "graphique") {
     return <FunctionGraph spec={concept.contenu_texte ?? "{}"} />;
+  }
+  if (concept.type_contenu === "quiz") {
+    return <LessonQuiz spec={concept.contenu_texte ?? ""} />;
   }
   if (concept.type_contenu === "interactif") {
     return <InteractiveLesson spec={concept.contenu_texte ?? ""} />;
