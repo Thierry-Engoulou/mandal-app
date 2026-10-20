@@ -424,6 +424,8 @@ export const INTERACTIFS = [
     value: "decroissance-radioactive",
     label: "Décroissance radioactive",
     description: "Courbe exponentielle, demi-vie, et un échantillon de 100 noyaux.",
+  },
+  {
     value: "classe-alcool",
     label: "Classe d'un alcool",
     description: "Compter les voisins carbonés : primaire, secondaire ou tertiaire.",
