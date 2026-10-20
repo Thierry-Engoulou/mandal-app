@@ -1962,6 +1962,11 @@ export function CoordonneesVecteur() {
           value={String(det)}
           color={det === 0 ? PALETTE.green : PALETTE.slate}
         />
+        <Stat
+          label="Produit scalaire"
+          value={String(scal)}
+          color={scal === 0 ? PALETTE.green : PALETTE.slate}
+        />
       </div>
 
       <Verdict tone={det === 0 ? "ok" : scal === 0 ? "ok" : "warn"}>
