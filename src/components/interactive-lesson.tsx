@@ -54,6 +54,39 @@ import {
   TangentesCercle,
 } from "@/components/interactive/maths1c-widgets";
 import {
+  AcosBsin,
+  EquationIrrationnelle,
+  EquationTrigo,
+  InequationTrigo,
+  OperationsFonctions,
+  PivotGauss,
+  PolynomeDegre3,
+  SommeProduitRacines,
+} from "@/components/interactive/maths1c-plus-algebre";
+import {
+  AsymptoteOblique,
+  CourbesCumulatives,
+  FonctionDerivee,
+  LireCourbe,
+  PariteePeriodicite,
+  SuiteArithmetique,
+  SuiteGeometrique,
+  TrianglePascal,
+  VariationsDerivee,
+} from "@/components/interactive/maths1c-plus-analyse";
+import {
+  ApplicationLineaire,
+  Cocyclicite,
+  DroiteParametrique,
+  GrapheChaines,
+  LignesNiveau,
+  MatriceOperations,
+  PlanEquation,
+  ProjeteOrthogonal,
+  SymetrieOrthogonale,
+  TransformationAnalytique,
+} from "@/components/interactive/maths1c-plus-geometrie";
+import {
   EnergieElectrique,
   EnergieMecanique,
   IncertitudeMesure,
@@ -605,6 +638,142 @@ export const INTERACTIFS = [
     label: "Dosage d'oxydoréduction",
     description: "Permanganate et fer II, avec le coefficient 5 à ne pas oublier.",
   },
+  {
+    value: "somme-produit-racines",
+    label: "Somme, produit et factorisation",
+    description: "Deviner les racines d'un trinôme sans calculer le discriminant.",
+  },
+  {
+    value: "equation-irrationnelle",
+    label: "Équation irrationnelle et solutions parasites",
+    description: "Voir pourquoi élever au carré ajoute des solutions qu'il faut écarter.",
+  },
+  {
+    value: "polynome-degre3",
+    label: "Polynôme de degré 3",
+    description: "Racine évidente, factorisation, puis trinôme restant.",
+  },
+  {
+    value: "pivot-gauss",
+    label: "Le pivot de Gauss, étape par étape",
+    description: "Suivre l'élimination des inconnues sur un système de trois équations.",
+  },
+  {
+    value: "equation-trigo",
+    label: "Résoudre cos x = a, sin x = a, tan x = a",
+    description: "Lire les solutions directement sur le cercle trigonométrique.",
+  },
+  {
+    value: "acos-bsin",
+    label: "Réduire a cos x + b sin x",
+    description: "Transformer une somme de sinusoïdes en une seule, d'amplitude R.",
+  },
+  {
+    value: "inequation-trigo",
+    label: "Inéquation trigonométrique",
+    description: "L'arc solution, tracé sur le cercle, avec ses deux bornes.",
+  },
+  {
+    value: "operations-fonctions",
+    label: "Somme, produit, quotient et composée",
+    description:
+      "Construire une nouvelle fonction à partir de deux autres, et trouver son domaine.",
+  },
+  {
+    value: "lire-courbe",
+    label: "Lire une courbe",
+    description: "Image, antécédents, variations et extremums, à lire sur le graphique.",
+  },
+  {
+    value: "parite-periodicite",
+    label: "Parité, imparité, périodicité",
+    description: "Reconnaître les symétries qui permettent de réduire l'étude.",
+  },
+  {
+    value: "fonction-derivee",
+    label: "La fonction dérivée à côté de sa courbe",
+    description: "Voir la pente de la tangente devenir l'ordonnée de la dérivée.",
+  },
+  {
+    value: "variations-derivee",
+    label: "Signe de la dérivée et sens de variation",
+    description: "Les zones de croissance et de décroissance, et les extremums.",
+  },
+  {
+    value: "asymptote-oblique",
+    label: "L'asymptote oblique",
+    description: "Mesurer l'écart entre la courbe et sa droite asymptote.",
+  },
+  {
+    value: "suite-arithmetique",
+    label: "Suite arithmétique",
+    description: "Des points alignés, une raison constante et la somme des termes.",
+  },
+  {
+    value: "suite-geometrique",
+    label: "Suite géométrique",
+    description: "Multiplier par q à chaque rang : convergence ou explosion.",
+  },
+  {
+    value: "courbes-cumulatives",
+    label: "Courbes cumulatives et médiane",
+    description: "Lire la médiane d'une série groupée à l'intersection des deux courbes.",
+  },
+  {
+    value: "triangle-pascal",
+    label: "Triangle de Pascal et binôme",
+    description: "Chaque case, somme des deux du dessus, donne un coefficient du binôme.",
+  },
+  {
+    value: "graphe-chaines",
+    label: "Chaînes, cycles et connexité",
+    description: "Relier des villes et tester la connexité du graphe obtenu.",
+  },
+  {
+    value: "lignes-niveau",
+    label: "Les lignes de niveau",
+    description: "MA² + MB², MA/MB et le produit scalaire : trois familles de cercles.",
+  },
+  {
+    value: "cocyclicite",
+    label: "Cocyclicité et angle inscrit",
+    description: "Quatre points voient-ils le même segment sous le même angle ?",
+  },
+  {
+    value: "symetrie-orthogonale",
+    label: "La symétrie orthogonale",
+    description: "Le milieu sur l'axe, la perpendicularité, et l'orientation retournée.",
+  },
+  {
+    value: "transformation-analytique",
+    label: "Expressions analytiques des transformations",
+    description: "Translation, rotation et homothétie, lues sur les coordonnées.",
+  },
+  {
+    value: "matrice-operations",
+    label: "Somme, produit et déterminant de matrices",
+    description: "Vérifier que le produit de deux matrices n'est pas commutatif.",
+  },
+  {
+    value: "application-lineaire",
+    label: "Une application linéaire et sa matrice",
+    description: "Les colonnes sont les images des vecteurs de base, le déterminant est une aire.",
+  },
+  {
+    value: "droite-parametrique",
+    label: "Droite de l'espace, en paramétrique",
+    description: "Faire varier t et voir le point balayer la droite.",
+  },
+  {
+    value: "plan-equation",
+    label: "Équation cartésienne d'un plan",
+    description: "Le vecteur normal, le test d'appartenance et la distance d'un point.",
+  },
+  {
+    value: "projete-orthogonal",
+    label: "Le projeté orthogonal",
+    description: "Projeter un point sur un plan ou sur une droite de l'espace.",
+  },
 ] as const;
 
 export type InteractifKey = (typeof INTERACTIFS)[number]["value"];
@@ -615,6 +784,33 @@ export const INTERACTIF_SPEC_PLACEHOLDER = `{
 }`;
 
 const WIDGETS: Record<string, typeof CercleTrigo> = {
+  "somme-produit-racines": SommeProduitRacines,
+  "equation-irrationnelle": EquationIrrationnelle,
+  "polynome-degre3": PolynomeDegre3,
+  "pivot-gauss": PivotGauss,
+  "equation-trigo": EquationTrigo,
+  "acos-bsin": AcosBsin,
+  "inequation-trigo": InequationTrigo,
+  "operations-fonctions": OperationsFonctions,
+  "lire-courbe": LireCourbe,
+  "parite-periodicite": PariteePeriodicite,
+  "fonction-derivee": FonctionDerivee,
+  "variations-derivee": VariationsDerivee,
+  "asymptote-oblique": AsymptoteOblique,
+  "suite-arithmetique": SuiteArithmetique,
+  "suite-geometrique": SuiteGeometrique,
+  "courbes-cumulatives": CourbesCumulatives,
+  "triangle-pascal": TrianglePascal,
+  "graphe-chaines": GrapheChaines,
+  "lignes-niveau": LignesNiveau,
+  cocyclicite: Cocyclicite,
+  "symetrie-orthogonale": SymetrieOrthogonale,
+  "transformation-analytique": TransformationAnalytique,
+  "matrice-operations": MatriceOperations,
+  "application-lineaire": ApplicationLineaire,
+  "droite-parametrique": DroiteParametrique,
+  "plan-equation": PlanEquation,
+  "projete-orthogonal": ProjeteOrthogonal,
   "cercle-trigo": CercleTrigo,
   "second-degre": SecondDegre,
   "derivee-tangente": DeriveeTangente,
