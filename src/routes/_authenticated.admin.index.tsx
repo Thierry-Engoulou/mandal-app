@@ -1,35 +1,31 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
-  Users,
-  GraduationCap,
-  School,
-  Mail,
+  AlertTriangle,
+  ArrowUpRight,
+  CheckCircle2,
   Download,
   Eye,
-  TrendingUp,
-  ShieldCheck,
-  Lock,
-  ArrowUpRight,
-  Activity,
-  Layers,
-  FileText,
-  Calendar,
-  CheckCircle2,
-  RefreshCw,
   FileSpreadsheet,
-  AlertTriangle,
-  Sparkles,
+  GraduationCap,
+  Library,
+  Lock,
+  Mail,
+  RefreshCw,
+  School,
+  ShieldCheck,
+  TrendingUp,
+  UserCog,
+  Users,
 } from "lucide-react";
-import { listAdminUsers, listAdminInvitations, listEtablissements } from "@/lib/admin.functions";
+import { toast } from "sonner";
+import { listAdminInvitations, listEtablissements } from "@/lib/admin.functions";
 import { supabase } from "@/integrations/supabase/client";
-import { getAnalyticsMetrics, type AnalyticsSummary } from "@/lib/site-analytics";
+import { chargerStatistiques, libellePage, type StatistiquesSite } from "@/lib/site-analytics";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Progress } from "@/components/ui/progress";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
   component: AdminDashboardPage,
@@ -38,685 +34,534 @@ export const Route = createFileRoute("/_authenticated/admin/")({
       { title: "Tableau de Bord Administrateur — MANDAL" },
       {
         name: "description",
-        content: "Statistiques complètes et pilotage sécurisé de la plateforme M'ANDAL.",
+        content: "Statistiques réelles et pilotage sécurisé de la plateforme M'ANDAL.",
       },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
 });
 
-// Liste officielle des niveaux et classes suivies
-const CURRICULUM_CLASSES = [
-  {
-    id: "tle_c",
-    label: "Terminale C",
-    sub: "Mathématiques & Sciences Physiques",
-    category: "Baccalauréat",
-    color: "bg-emerald-500",
-  },
-  {
-    id: "tle_d",
-    label: "Terminale D",
-    sub: "Sciences de la Vie et de la Terre",
-    category: "Baccalauréat",
-    color: "bg-emerald-600",
-  },
-  {
-    id: "tle_a_ti",
-    label: "Terminale A & TI",
-    sub: "Littéraire, Arts & Informatique",
-    category: "Baccalauréat",
-    color: "bg-teal-500",
-  },
-  {
-    id: "1ere_d",
-    label: "Première D",
-    sub: "Probatoire Scientifique (15 chapitres Maths)",
-    category: "Probatoire",
-    color: "bg-blue-500",
-  },
-  {
-    id: "1ere_c",
-    label: "Première C",
-    sub: "Probatoire Mathématiques & Physiques",
-    category: "Probatoire",
-    color: "bg-blue-600",
-  },
-  {
-    id: "1ere_a_ti",
-    label: "Première A & TI",
-    sub: "Probatoire Général & Numérique",
-    category: "Probatoire",
-    color: "bg-indigo-500",
-  },
-  {
-    id: "3eme",
-    label: "3ème / BEPC",
-    sub: "Premier Cycle & Brevet d'Études",
-    category: "BEPC",
-    color: "bg-amber-500",
-  },
-  {
-    id: "enspd",
-    label: "Prépa ENSPD",
-    sub: "Polytechnique Douala (Grandes Écoles)",
-    category: "Concours",
-    color: "bg-purple-500",
-  },
-  {
-    id: "iut",
-    label: "Prépa IUT",
-    sub: "Filières Technologiques & Industrielles",
-    category: "Concours",
-    color: "bg-rose-500",
-  },
-  {
-    id: "alevel",
-    label: "Advanced Level",
-    sub: "Cameroon GCE Board (Lower/Upper Sixth)",
-    category: "GCE A-Level",
-    color: "bg-cyan-500",
-  },
-];
+const ROLES: Record<string, string> = {
+  student: "Élève",
+  teacher: "Enseignant",
+  chef_etablissement: "Chef d'établissement",
+  admin: "Administrateur",
+  super_admin: "Super admin",
+};
+const STATUTS: Record<string, string> = {
+  en_attente: "En attente",
+  approuve: "Approuvé",
+  rejete: "Rejeté",
+};
+
+function decrireAction(action: string, details: Record<string, unknown>): string {
+  const ancien = String(details["ancien"] ?? "");
+  const nouveau = String(details["nouveau"] ?? "");
+  switch (action) {
+    case "role":
+      return `Rôle : ${ROLES[ancien] ?? ancien} → ${ROLES[nouveau] ?? nouveau}`;
+    case "statut":
+      return `Statut du compte : ${STATUTS[ancien] ?? ancien} → ${STATUTS[nouveau] ?? nouveau}`;
+    case "acces_refuse":
+      return `Accès à l'administration refusé (${String(details["page"] ?? "")})`;
+    case "epreuve_publiee":
+      return "Épreuve publiée";
+    case "epreuve_rejetee":
+      return `Épreuve refusée${details["motif"] ? ` : ${String(details["motif"])}` : ""}`;
+    case "epreuve_en_attente":
+      return "Épreuve remise en validation";
+    case "epreuve_supprimee":
+      return "Épreuve supprimée";
+    default:
+      return action;
+  }
+}
+
+const fmt = (n: number | undefined) => (n ?? 0).toLocaleString("fr-FR");
+const dateCourte = (iso: string) =>
+  new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
 
 function AdminDashboardPage() {
-  const usersFn = useServerFn(listAdminUsers);
   const invitationsFn = useServerFn(listAdminInvitations);
   const etabsFn = useServerFn(listEtablissements);
-
-  const [period, setPeriod] = useState<"all" | "month" | "week">("all");
   const [lastRefreshed, setLastRefreshed] = useState<Date>(new Date());
 
-  // Récupération des données du serveur et de Supabase
   const { data, isLoading, refetch, isFetching } = useQuery({
     queryKey: ["admin-dashboard-stats"],
     queryFn: async () => {
-      // 1. Récupération des profils directement depuis Supabase
-      const { data: rawProfiles, error: profilesError } = await supabase
-        .from("profiles")
-        .select("id, role, niveau, full_name, created_at, statut_validation");
-
-      if (profilesError) {
-        console.warn("Erreur lecture profils:", profilesError.message);
-      }
-
-      // 2. Fonctions serveur administratives
-      const [u, i, e] = await Promise.all([
-        usersFn().catch(() => []),
+      const [profils, invitations, etablissements, stats, journal] = await Promise.all([
+        supabase.from("profiles").select("id, role, niveau, statut_validation, created_at"),
         invitationsFn().catch(() => []),
         etabsFn().catch(() => []),
+        chargerStatistiques(),
+        supabase.rpc("journal_admin_recent", { p_limite: 20 }),
       ]);
-
-      // 3. Récupération des métriques de visites et téléchargements
-      const analytics = getAnalyticsMetrics();
-
+      if (profils.error) console.warn("Lecture des profils :", profils.error.message);
       return {
-        profiles: rawProfiles ?? [],
-        users: u,
-        invitations: i,
-        etablissements: e,
-        analytics,
+        profils: profils.data ?? [],
+        invitations,
+        etablissements,
+        stats,
+        journal: journal.data ?? [],
       };
     },
-    refetchInterval: 30000, // Actualisation automatique toutes les 30 secondes
+    refetchInterval: 60000,
   });
+
+  const s: StatistiquesSite | null = data?.stats ?? null;
+  const profils = useMemo(() => data?.profils ?? [], [data?.profils]);
+  const eleves = profils.filter((p) => p.role === "student");
+  const enseignants = profils.filter((p) => p.role === "teacher");
+  const enseignantsEnAttente = enseignants.filter((p) => p.statut_validation === "en_attente");
+  const inscritsSemaine = eleves.filter(
+    (p) => Date.now() - new Date(p.created_at).getTime() < 7 * 86400000,
+  ).length;
+
+  // Répartition réelle par niveau déclaré (« Débutant » = valeur par défaut).
+  const parNiveau = useMemo(() => {
+    const compte = new Map<string, number>();
+    for (const p of profils.filter((x) => x.role === "student")) {
+      const n = (p.niveau ?? "").trim();
+      const cle = !n || n === "Débutant" ? "Non renseigné" : n;
+      compte.set(cle, (compte.get(cle) ?? 0) + 1);
+    }
+    return [...compte.entries()].sort((a, b) => b[1] - a[1]);
+  }, [profils]);
+
+  const maxJour = Math.max(1, ...(s?.par_jour ?? []).map((j) => j.visiteurs));
 
   const handleRefresh = async () => {
     await refetch();
     setLastRefreshed(new Date());
-    toast.success("Statistiques actualisées en direct !");
+    toast.success("Statistiques actualisées.");
   };
 
-  // Calcul du nombre de personnes par classe / niveau
-  const classStats = useMemo(() => {
-    const profiles = data?.profiles ?? [];
-    const students = profiles.filter((p) => p.role === "student" || !p.role);
-
-    const counts: Record<string, number> = {};
-
-    students.forEach((s) => {
-      const niv = (s.niveau || "").toLowerCase().trim();
-      let matched = false;
-
-      for (const c of CURRICULUM_CLASSES) {
-        if (
-          niv.includes(c.id) ||
-          niv.includes(c.label.toLowerCase()) ||
-          (c.id === "1ere_d" && (niv.includes("1ere d") || niv.includes("premiere d"))) ||
-          (c.id === "1ere_c" && (niv.includes("1ere c") || niv.includes("premiere c"))) ||
-          (c.id === "tle_c" && (niv.includes("tle c") || niv.includes("terminale c"))) ||
-          (c.id === "tle_d" && (niv.includes("tle d") || niv.includes("terminale d"))) ||
-          (c.id === "3eme" &&
-            (niv.includes("3eme") || niv.includes("troisieme") || niv.includes("bepc"))) ||
-          (c.id === "enspd" && (niv.includes("enspd") || niv.includes("polytechnique"))) ||
-          (c.id === "iut" && niv.includes("iut"))
-        ) {
-          counts[c.id] = (counts[c.id] || 0) + 1;
-          matched = true;
-          break;
-        }
-      }
-
-      if (!matched) {
-        // Répartition par défaut intelligente
-        counts["1ere_d"] = (counts["1ere_d"] || 0) + 1;
-      }
-    });
-
-    const totalStudents = Math.max(students.length, 1);
-
-    return CURRICULUM_CLASSES.map((cls) => {
-      const count = counts[cls.id] || 0;
-      const percentage = Math.round((count / totalStudents) * 100);
-      return {
-        ...cls,
-        count,
-        percentage,
-      };
-    });
-  }, [data?.profiles]);
-
-  const totalRegisteredStudents =
-    data?.profiles.filter((p) => p.role === "student").length ||
-    data?.users.filter((u) => u.role === "student").length ||
-    0;
-  const totalRegisteredTeachers =
-    data?.profiles.filter((p) => p.role === "teacher").length ||
-    data?.users.filter((u) => u.role === "teacher").length ||
-    0;
-
-  // Export des statistiques en fichier CSV
   const handleExportStats = () => {
     if (!data) return;
-    const analytics = data.analytics;
-
-    let csv = "CATEGORIE,INDICATEUR,VALEUR\n";
-    csv += `Visites,Total visites du site,${analytics.totalVisits}\n`;
-    csv += `Visites,Visites aujourd'hui,${analytics.visitsToday}\n`;
-    csv += `Visites,Visites cette semaine,${analytics.visitsThisWeek}\n`;
-    csv += `Telechargements,Total epreuves telechargees,${analytics.totalDownloads}\n`;
-    csv += `Telechargements,Telechargements aujourd'hui,${analytics.downloadsToday}\n`;
-    csv += `Utilisateurs,Total eleves inscrits,${totalRegisteredStudents}\n`;
-    csv += `Utilisateurs,Total enseignants,${totalRegisteredTeachers}\n`;
-    csv += `Utilisateurs,Etablissements partenaires,${data.etablissements.length}\n`;
-
-    classStats.forEach((c) => {
-      csv += `Effectif Classe,${c.label} (${c.sub}),${c.count} eleves (${c.percentage}%)\n`;
-    });
-
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
+    const lignes = [
+      ["CATEGORIE", "INDICATEUR", "VALEUR"],
+      ["Fréquentation", "Visiteurs uniques (total)", s?.visiteurs_total ?? 0],
+      ["Fréquentation", "Visiteurs aujourd'hui", s?.visiteurs_aujourdhui ?? 0],
+      ["Fréquentation", "Visiteurs sur 7 jours", s?.visiteurs_semaine ?? 0],
+      ["Fréquentation", "Pages vues (uniques par jour)", s?.pages_vues ?? 0],
+      ["Banque", "Téléchargements (total)", s?.telechargements_total ?? 0],
+      ["Banque", "Épreuves publiées", s?.epreuves_publiees ?? 0],
+      ["Utilisateurs", "Élèves inscrits", eleves.length],
+      ["Utilisateurs", "Enseignants", enseignants.length],
+      ["Utilisateurs", "Établissements", data.etablissements.length],
+      ...parNiveau.map(([n, c]) => ["Élèves par niveau", n, c]),
+      ...(s?.par_jour ?? []).map((j) => ["Visiteurs par jour", j.jour, j.visiteurs]),
+    ];
+    const csv = lignes
+      .map((l) => l.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+    const url = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" }));
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute(
-      "download",
-      `mandal_statistiques_${new Date().toISOString().split("T")[0]}.csv`,
-    );
-    document.body.appendChild(link);
+    link.download = `mandal_statistiques_${new Date().toISOString().slice(0, 10)}.csv`;
     link.click();
-    document.body.removeChild(link);
-    toast.success("Rapport statistique téléchargé avec succès !");
+    URL.revokeObjectURL(url);
   };
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {/* ========================================================= */}
-      {/* 1. BANNIÈRE DE SÉCURITÉ ET TITRE PRINCIPAL                */}
-      {/* ========================================================= */}
+      {/* En-tête */}
       <div className="rounded-3xl border border-slate-800 bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 p-6 sm:p-8 shadow-xl">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-400">
-                <ShieldCheck className="size-3.5" /> Espace Administrateur Sécurisé (RBAC)
-              </span>
-              <span className="rounded-full border border-slate-700 bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-300">
-                Chiffrement TLS 256 bits · RLS Supabase
-              </span>
-            </div>
-
-            <h1 className="mt-3 font-display text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
-              Tableau de Bord &amp; Statistiques M'ANDAL
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/15 px-3 py-1 text-xs font-bold text-emerald-400">
+              <ShieldCheck className="size-3.5" /> Espace administrateur
+            </span>
+            <h1 className="mt-3 font-display text-2xl font-black tracking-tight text-white sm:text-3xl lg:text-4xl">
+              Tableau de bord M'ANDAL
             </h1>
-            <p className="mt-1 text-sm text-slate-300 max-w-2xl">
-              Suivi en temps réel du trafic, des téléchargements d'épreuves, et de la répartition
-              des élèves par classe.
+            <p className="mt-1 max-w-2xl text-sm text-slate-300">
+              Chiffres réels issus de la base Supabase : fréquentation anonyme, téléchargements de
+              la banque d'épreuves, inscriptions.
             </p>
           </div>
-
-          {/* Boutons d'Action Rapide */}
           <div className="flex flex-wrap items-center gap-3">
             <Button
               variant="outline"
               size="sm"
-              onClick={handleRefresh}
+              onClick={() => void handleRefresh()}
               disabled={isFetching}
-              className="rounded-xl border-slate-700 bg-slate-900/80 text-xs font-bold text-slate-200 hover:bg-slate-800 cursor-pointer shadow-sm"
+              className="rounded-xl border-slate-700 bg-slate-900/80 text-xs font-bold text-slate-200 hover:bg-slate-800"
             >
               <RefreshCw
                 className={`mr-2 size-3.5 ${isFetching ? "animate-spin text-emerald-400" : ""}`}
               />
-              Actualiser en direct
+              Actualiser
             </Button>
-
             <Button
               size="sm"
               onClick={handleExportStats}
-              className="rounded-xl bg-emerald-600 text-xs font-bold text-white hover:bg-emerald-500 shadow-md shadow-emerald-950 cursor-pointer"
+              className="rounded-xl bg-emerald-600 text-xs font-bold text-white hover:bg-emerald-500"
             >
-              <FileSpreadsheet className="mr-2 size-4" /> Exporter le rapport (CSV)
+              <FileSpreadsheet className="mr-2 size-4" /> Exporter (CSV)
             </Button>
           </div>
         </div>
-
-        {/* Barre d'état de synchronisation */}
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-slate-800/80 pt-4 text-xs text-slate-400">
-          <div className="flex items-center gap-2">
-            <span className="flex size-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Connecté à la base Supabase M'Andal (ID: bbxzlloaeksmnlwcwzil)</span>
-          </div>
-          <span>Dernière actualisation : {lastRefreshed.toLocaleTimeString()}</span>
+          <span>
+            {s?.depuis
+              ? `Mesure de la fréquentation depuis le ${new Date(s.depuis).toLocaleDateString("fr-FR")}`
+              : "La mesure de fréquentation démarre avec les premières visites."}
+          </span>
+          <span>Dernière actualisation : {lastRefreshed.toLocaleTimeString("fr-FR")}</span>
         </div>
+        {!isLoading && !s ? (
+          <p className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs text-amber-300">
+            Statistiques indisponibles : exécutez la migration « statistiques_roles_journal » dans
+            Supabase.
+          </p>
+        ) : null}
       </div>
 
-      {/* ========================================================= */}
-      {/* 2. LES 4 GRANDS COMPTEURS PRINCIPAUX (KPIS)               */}
-      {/* ========================================================= */}
+      {/* Indicateurs */}
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {/* Compteur 1 : Visites du site */}
-        <div className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl transition hover:border-emerald-500/50">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Trafic Global
-            </span>
-            <div className="flex size-10 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-400">
-              <Eye className="size-5" />
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="font-display text-3xl sm:text-4xl font-black text-white">
-              {isLoading ? (
-                <Skeleton className="h-10 w-24" />
-              ) : (
-                data?.analytics.totalVisits.toLocaleString()
-              )}
-            </div>
-            <p className="mt-1 text-xs text-slate-400 font-medium">
-              Visiteurs &amp; Visites uniques
-            </p>
-          </div>
-          <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span className="text-emerald-400 font-bold">
-              +{data?.analytics.visitsToday} aujourd'hui
-            </span>
-            <span className="text-slate-400">{data?.analytics.visitsThisWeek} cette semaine</span>
-          </div>
-        </div>
-
-        {/* Compteur 2 : Téléchargements d'Épreuves */}
-        <div className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl transition hover:border-blue-500/50">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Téléchargements
-            </span>
-            <div className="flex size-10 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-400">
-              <Download className="size-5" />
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="font-display text-3xl sm:text-4xl font-black text-white">
-              {isLoading ? (
-                <Skeleton className="h-10 w-24" />
-              ) : (
-                data?.analytics.totalDownloads.toLocaleString()
-              )}
-            </div>
-            <p className="mt-1 text-xs text-slate-400 font-medium">
-              Épreuves &amp; Corrigés officiels
-            </p>
-          </div>
-          <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span className="text-blue-400 font-bold">
-              +{data?.analytics.downloadsToday} aujourd'hui
-            </span>
-            <span className="text-slate-400">Taux conversion 46%</span>
-          </div>
-        </div>
-
-        {/* Compteur 3 : Élèves Inscrits */}
-        <div className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl transition hover:border-amber-500/50">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Élèves Inscrits
-            </span>
-            <div className="flex size-10 items-center justify-center rounded-2xl bg-amber-500/15 text-amber-400">
-              <GraduationCap className="size-5" />
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="font-display text-3xl sm:text-4xl font-black text-white">
-              {isLoading ? <Skeleton className="h-10 w-20" /> : totalRegisteredStudents}
-            </div>
-            <p className="mt-1 text-xs text-slate-400 font-medium">
-              Apprenants actifs sur la plateforme
-            </p>
-          </div>
-          <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span className="text-amber-400 font-bold">10 Niveaux scolaires</span>
-            <span className="text-slate-400">100% vérifiés</span>
-          </div>
-        </div>
-
-        {/* Compteur 4 : Enseignants & Partenaires */}
-        <div className="group relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl transition hover:border-purple-500/50">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Réseau Éducatif
-            </span>
-            <div className="flex size-10 items-center justify-center rounded-2xl bg-purple-500/15 text-purple-400">
-              <School className="size-5" />
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className="font-display text-3xl sm:text-4xl font-black text-white">
-              {isLoading ? (
-                <Skeleton className="h-10 w-20" />
-              ) : (
-                `${totalRegisteredTeachers} / ${data?.etablissements.length || 0}`
-              )}
-            </div>
-            <p className="mt-1 text-xs text-slate-400 font-medium">Enseignants / Établissements</p>
-          </div>
-          <div className="mt-4 pt-4 border-t border-slate-800 flex items-center justify-between text-xs">
-            <span className="text-purple-400 font-bold">
-              {data?.invitations.length || 0} invitations
-            </span>
-            <Link
-              to="/admin/utilisateurs"
-              className="text-slate-300 hover:text-white flex items-center gap-0.5"
-            >
-              Gérer <ArrowUpRight className="size-3" />
-            </Link>
-          </div>
-        </div>
+        <Kpi
+          titre="Visiteurs uniques"
+          icone={<Eye className="size-5" />}
+          couleur="emerald"
+          valeur={isLoading ? null : fmt(s?.visiteurs_total)}
+          sousTitre="Navigateurs distincts (anonymes)"
+          gauche={`${fmt(s?.visiteurs_aujourdhui)} aujourd'hui`}
+          droite={`${fmt(s?.visiteurs_semaine)} sur 7 jours`}
+        />
+        <Kpi
+          titre="Téléchargements"
+          icone={<Download className="size-5" />}
+          couleur="blue"
+          valeur={isLoading ? null : fmt(s?.telechargements_total)}
+          sousTitre="Épreuves et corrigés de la banque"
+          gauche={`${fmt(s?.telechargements_aujourdhui)} aujourd'hui`}
+          droite={`${fmt(s?.epreuves_publiees)} épreuves publiées`}
+        />
+        <Kpi
+          titre="Élèves inscrits"
+          icone={<GraduationCap className="size-5" />}
+          couleur="amber"
+          valeur={isLoading ? null : fmt(eleves.length)}
+          sousTitre="Comptes élèves dans la base"
+          gauche={`+${inscritsSemaine} sur 7 jours`}
+          droite={`${fmt(profils.length)} comptes au total`}
+        />
+        <Kpi
+          titre="Réseau éducatif"
+          icone={<School className="size-5" />}
+          couleur="purple"
+          valeur={isLoading ? null : `${enseignants.length} / ${data?.etablissements.length ?? 0}`}
+          sousTitre="Enseignants / Établissements"
+          gauche={`${enseignantsEnAttente.length} enseignant(s) à valider`}
+          droite={`${data?.invitations.length ?? 0} invitation(s)`}
+        />
       </div>
 
-      {/* ========================================================= */}
-      {/* 3. RÉPARTITION DES ÉLÈVES PAR CLASSE & NIVEAU (DEMANDÉ)    */}
-      {/* ========================================================= */}
-      <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 sm:p-8 shadow-xl">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-800 pb-5">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="flex size-6 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400">
-                <Users className="size-3.5" />
-              </span>
-              <h2 className="font-display text-xl sm:text-2xl font-bold text-white">
-                Nombre d'Élèves par Classe &amp; Niveau
-              </h2>
-            </div>
-            <p className="mt-1 text-xs text-slate-400">
-              Répartition des effectifs d'apprenants enregistrés dans la base de données pour chaque
-              promotion.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="rounded-full bg-slate-800 px-3 py-1 text-xs font-bold text-slate-300">
-              Total : {totalRegisteredStudents} Élèves
-            </span>
-          </div>
-        </div>
-
-        {/* Grille des Classes avec Barres de Progression */}
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-          {classStats.map((item) => (
-            <div
-              key={item.id}
-              className="flex flex-col justify-between rounded-2xl border border-slate-800/80 bg-slate-950/70 p-5 transition hover:border-slate-700 hover:bg-slate-950"
-            >
-              <div>
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-display text-base font-bold text-white">
-                        {item.label}
-                      </span>
-                      <span className="rounded-md bg-slate-800 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                        {item.category}
-                      </span>
-                    </div>
-                    <p className="mt-1 text-xs text-slate-400">{item.sub}</p>
-                  </div>
-
-                  <div className="text-right">
-                    <span className="font-display text-xl font-black text-emerald-400">
-                      {item.count}
-                    </span>
-                    <span className="text-xs text-slate-400 ml-1">élèves</span>
-                  </div>
-                </div>
-
-                {/* Barre de Progression */}
-                <div className="mt-4">
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5">
-                    <span>Part de la promotion</span>
-                    <span className="font-bold text-white">{item.percentage}%</span>
-                  </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-slate-800">
-                    <div
-                      className={`h-full rounded-full transition-all duration-500 ${item.color}`}
-                      style={{ width: `${Math.max(item.percentage, item.count > 0 ? 8 : 2)}%` }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400">
-                <span>Programmes associés : 100% complets</span>
-                <Link
-                  to="/education"
-                  search={{
-                    niveau:
-                      item.id === "1ere_d" || item.id === "1ere_c"
-                        ? "probatoire"
-                        : item.id === "tle_c" || item.id === "tle_d"
-                          ? "bac"
-                          : item.id,
-                  }}
-                  className="font-semibold text-emerald-400 hover:underline flex items-center gap-0.5"
-                >
-                  Voir cours <ArrowUpRight className="size-3" />
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ========================================================= */}
-      {/* 4. TÉLÉCHARGEMENTS D'ÉPREUVES ET TRAFIC PAR PAGE           */}
-      {/* ========================================================= */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        {/* Épreuves les plus téléchargées */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 sm:p-8 shadow-xl">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-            <div className="flex items-center gap-2">
-              <Download className="size-5 text-blue-400" />
-              <h3 className="font-display text-lg font-bold text-white">
-                Épreuves &amp; Annales les plus Téléchargées
-              </h3>
-            </div>
-            <span className="text-xs font-semibold text-slate-400">Top 5</span>
-          </div>
-
-          <div className="mt-6 space-y-3.5">
-            {data?.analytics.topDownloadedExams.map((exam, idx) => (
+      {/* Fréquentation sur 14 jours */}
+      <Bloc
+        titre="Visiteurs par jour (14 derniers jours)"
+        icone={<TrendingUp className="size-5 text-emerald-400" />}
+      >
+        {s && s.par_jour.some((j) => j.visiteurs > 0) ? (
+          <div className="flex h-40 items-end gap-1.5">
+            {s.par_jour.map((j) => (
               <div
-                key={idx}
-                className="flex items-center justify-between gap-3 rounded-2xl border border-slate-800/80 bg-slate-950 p-4 transition hover:border-blue-500/40"
+                key={j.jour}
+                className="flex flex-1 flex-col items-center gap-1"
+                title={`${dateCourte(j.jour)} : ${j.visiteurs} visiteur(s), ${j.telechargements} téléchargement(s)`}
               >
-                <div className="flex items-center gap-3 min-w-0">
-                  <span className="flex size-7 shrink-0 items-center justify-center rounded-xl bg-blue-500/15 text-xs font-bold text-blue-400">
-                    #{idx + 1}
-                  </span>
-                  <div className="min-w-0">
-                    <h4 className="text-xs font-bold text-white truncate">{exam.title}</h4>
-                    <span className="rounded bg-slate-800 px-2 py-0.5 text-[10px] font-semibold text-slate-300">
-                      {exam.category}
-                    </span>
-                  </div>
-                </div>
-                <div className="text-right shrink-0">
-                  <span className="font-display text-sm font-black text-blue-400">
-                    {exam.count}
-                  </span>
-                  <span className="text-[10px] text-slate-400 block">téléchargements</span>
-                </div>
+                <span className="text-[10px] font-bold text-slate-300">{j.visiteurs || ""}</span>
+                <div
+                  className="w-full rounded-t-md bg-gradient-to-t from-emerald-600 to-teal-400"
+                  style={{
+                    height: `${Math.max((j.visiteurs / maxJour) * 100, j.visiteurs ? 6 : 1)}%`,
+                  }}
+                />
+                <span className="text-[9px] text-slate-500">{dateCourte(j.jour)}</span>
               </div>
             ))}
           </div>
-        </div>
+        ) : (
+          <Vide>
+            Pas encore de visites enregistrées : les chiffres apparaîtront au fil des visites.
+          </Vide>
+        )}
+      </Bloc>
 
-        {/* Visites par Volet & Page */}
-        <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 sm:p-8 shadow-xl">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="size-5 text-emerald-400" />
-              <h3 className="font-display text-lg font-bold text-white">
-                Fréquentation par Volet &amp; Rubrique
-              </h3>
-            </div>
-            <span className="text-xs font-semibold text-slate-400">Audience en temps réel</span>
-          </div>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <Bloc
+          titre="Épreuves les plus téléchargées"
+          icone={<Download className="size-5 text-blue-400" />}
+        >
+          {s?.top_epreuves.length ? (
+            <ol className="space-y-3">
+              {s.top_epreuves.map((e, i) => (
+                <li
+                  key={e.titre}
+                  className="flex items-center justify-between gap-3 rounded-2xl border border-slate-800/80 bg-slate-950 p-4"
+                >
+                  <div className="flex min-w-0 items-center gap-3">
+                    <span className="flex size-7 shrink-0 items-center justify-center rounded-xl bg-blue-500/15 text-xs font-bold text-blue-400">
+                      #{i + 1}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="truncate text-xs font-bold text-white">{e.titre}</p>
+                      <span className="text-[10px] text-slate-400">{e.type_examen}</span>
+                    </div>
+                  </div>
+                  <span className="shrink-0 font-display text-sm font-black text-blue-400">
+                    {fmt(e.telechargements)}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <Vide>
+              Aucun téléchargement pour le moment.{" "}
+              <Link to="/admin/banque" className="text-emerald-400 hover:underline">
+                Ajouter des épreuves
+              </Link>
+            </Vide>
+          )}
+        </Bloc>
 
-          <div className="mt-6 space-y-4">
-            {data?.analytics.pageVisitsBreakdown.map((page, idx) => (
-              <div key={idx} className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-medium text-slate-300">{page.page}</span>
-                  <span className="font-bold text-emerald-400">{page.count} visites</span>
+        <Bloc titre="Pages les plus visitées" icone={<Eye className="size-5 text-emerald-400" />}>
+          {s?.top_pages.length ? (
+            <div className="space-y-4">
+              {s.top_pages.map((p) => (
+                <div key={p.page} className="space-y-1.5">
+                  <div className="flex items-center justify-between gap-2 text-xs">
+                    <span className="truncate font-medium text-slate-300">
+                      {libellePage(p.page)}
+                    </span>
+                    <span className="shrink-0 font-bold text-emerald-400">
+                      {fmt(p.visiteurs)} visiteurs
+                    </span>
+                  </div>
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-slate-800">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400"
+                      style={{
+                        width: `${Math.round((p.visiteurs / Math.max(s.top_pages[0]!.visiteurs, 1)) * 100)}%`,
+                      }}
+                    />
+                  </div>
                 </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-slate-800">
+              ))}
+            </div>
+          ) : (
+            <Vide>Pas encore de visites enregistrées.</Vide>
+          )}
+        </Bloc>
+      </div>
+
+      <Bloc
+        titre="Élèves par niveau déclaré"
+        icone={<Users className="size-5 text-amber-400" />}
+        droite={
+          <span className="rounded-full bg-slate-800 px-3 py-1 text-xs font-bold text-slate-300">
+            Total : {eleves.length}
+          </span>
+        }
+      >
+        {parNiveau.length ? (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {parNiveau.map(([niveau, nb]) => (
+              <div
+                key={niveau}
+                className="rounded-2xl border border-slate-800/80 bg-slate-950/70 p-4"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-white">{niveau}</span>
+                  <span className="font-display text-lg font-black text-amber-400">{nb}</span>
+                </div>
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-800">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-emerald-500 to-teal-400"
-                    style={{
-                      width: `${Math.round((page.count / Math.max(data.analytics.totalVisits, 1)) * 100 * 2.2)}%`,
-                    }}
+                    className="h-full rounded-full bg-amber-500"
+                    style={{ width: `${Math.round((nb / eleves.length) * 100)}%` }}
                   />
                 </div>
               </div>
             ))}
-
-            <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-950/20 p-4 text-xs text-slate-300">
-              <span className="font-bold text-emerald-400">⚡ Synthèse d'audience :</span> Le volet{" "}
-              <strong>Éducation</strong> concentre 62% des consultations, suivi par l'accueil et les
-              fiches de citoyenneté.
-            </div>
           </div>
-        </div>
-      </div>
+        ) : (
+          <Vide>Aucun élève inscrit pour le moment.</Vide>
+        )}
+        <p className="mt-4 text-[11px] text-slate-500">
+          « Non renseigné » : l'élève n'a pas encore indiqué sa classe dans son profil.
+        </p>
+      </Bloc>
 
-      {/* ========================================================= */}
-      {/* 5. JOURNAL D'AUDIT DE SÉCURITÉ EN TEMPS RÉEL (LOGS)        */}
-      {/* ========================================================= */}
-      <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 sm:p-8 shadow-xl">
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-          <div className="flex items-center gap-2.5">
-            <Lock className="size-5 text-amber-400" />
-            <div>
-              <h3 className="font-display text-lg font-bold text-white">
-                Journal d'Audit de Sécurité &amp; Contrôle d'Accès
-              </h3>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Historique inviolable des connexions administratives et des événements de protection
-                RLS.
-              </p>
-            </div>
-          </div>
-          <span className="rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 text-xs font-bold text-emerald-400">
-            Bouclier Actif
-          </span>
-        </div>
-
-        <div className="mt-6 space-y-2.5">
-          {data?.analytics.recentSecurityAudits.map((log, idx) => (
-            <div
-              key={idx}
-              className="flex items-center justify-between gap-3 rounded-2xl border border-slate-800/80 bg-slate-950 px-4 py-3 text-xs"
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                {log.status === "success" ? (
-                  <CheckCircle2 className="size-4 text-emerald-400 shrink-0" />
-                ) : log.status === "blocked" ? (
-                  <AlertTriangle className="size-4 text-red-400 shrink-0" />
-                ) : (
-                  <ShieldCheck className="size-4 text-amber-400 shrink-0" />
-                )}
-                <span className="text-slate-300 truncate">{log.action}</span>
-              </div>
-
-              <div className="flex items-center gap-3 shrink-0">
-                <span className="text-[11px] text-slate-500">
-                  {new Date(log.timestamp).toLocaleTimeString()}
-                </span>
-                <span
-                  className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase ${
-                    log.status === "success"
-                      ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30"
-                      : "bg-red-500/15 text-red-400 border border-red-500/30"
-                  }`}
+      <Bloc titre="Journal d'administration" icone={<Lock className="size-5 text-amber-400" />}>
+        {data?.journal.length ? (
+          <ul className="space-y-2.5">
+            {data.journal.map((j, i) => {
+              const details = (j.details ?? {}) as Record<string, unknown>;
+              const refus = j.action === "acces_refuse" || j.action === "epreuve_rejetee";
+              return (
+                <li
+                  key={`${j.created_at}-${i}`}
+                  className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-800/80 bg-slate-950 px-4 py-3 text-xs"
                 >
-                  {log.status === "success" ? "Autorisé" : "Bloqué"}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+                  <div className="flex min-w-0 items-center gap-3">
+                    {refus ? (
+                      <AlertTriangle className="size-4 shrink-0 text-red-400" />
+                    ) : (
+                      <CheckCircle2 className="size-4 shrink-0 text-emerald-400" />
+                    )}
+                    <span className="text-slate-300">
+                      <strong className="text-white">{j.acteur_nom}</strong> —{" "}
+                      {decrireAction(j.action, details)}
+                      {j.cible_nom ? (
+                        <span className="text-slate-400"> · {j.cible_nom}</span>
+                      ) : null}
+                    </span>
+                  </div>
+                  <span className="shrink-0 text-[11px] text-slate-500">
+                    {new Date(j.created_at).toLocaleString("fr-FR", {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <Vide>
+            Aucun événement pour le moment. Les changements de rôle, les validations d'épreuves et
+            les accès refusés apparaîtront ici.
+          </Vide>
+        )}
+      </Bloc>
 
-      {/* ========================================================= */}
-      {/* 6. RACCOURCIS DE GESTION ADMINISTRATIVE                   */}
-      {/* ========================================================= */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Link
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <Raccourci
           to="/admin/utilisateurs"
-          className="group rounded-3xl border border-slate-800 bg-slate-900/90 p-6 sm:p-8 shadow-xl transition hover:border-emerald-500/50 hover:bg-slate-900"
+          icone={<UserCog className="size-6" />}
+          titre="Utilisateurs & rôles"
         >
-          <div className="flex items-center justify-between">
-            <div className="flex size-12 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-400">
-              <Users className="size-6" />
-            </div>
-            <ArrowUpRight className="size-5 text-slate-500 group-hover:text-emerald-400 transition-colors" />
-          </div>
-          <h3 className="mt-4 font-display text-xl font-bold text-white group-hover:text-emerald-300 transition-colors">
-            Gestion des Utilisateurs &amp; Rôles
-          </h3>
-          <p className="mt-2 text-xs leading-relaxed text-slate-300">
-            Valider les enseignants, modifier les droits d'accès, rattacher des comptes aux
-            établissements scolaires.
-          </p>
-        </Link>
-
-        <Link
+          Valider les enseignants, nommer les administrateurs, rattacher aux établissements.
+        </Raccourci>
+        <Raccourci
+          to="/admin/banque"
+          icone={<Library className="size-6" />}
+          titre="Banque d'épreuves"
+        >
+          {s?.epreuves_en_attente ? `${s.epreuves_en_attente} épreuve(s) à valider. ` : ""}
+          Ajouter, importer et valider les épreuves.
+        </Raccourci>
+        <Raccourci
           to="/admin/demandes"
-          className="group rounded-3xl border border-slate-800 bg-slate-900/90 p-6 sm:p-8 shadow-xl transition hover:border-blue-500/50 hover:bg-slate-900"
+          icone={<Mail className="size-6" />}
+          titre="Demandes d'inscription"
         >
-          <div className="flex items-center justify-between">
-            <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-500/15 text-blue-400">
-              <Mail className="size-6" />
-            </div>
-            <ArrowUpRight className="size-5 text-slate-500 group-hover:text-blue-400 transition-colors" />
-          </div>
-          <h3 className="mt-4 font-display text-xl font-bold text-white group-hover:text-blue-300 transition-colors">
-            Demandes d'Inscription &amp; Parrainage
-          </h3>
-          <p className="mt-2 text-xs leading-relaxed text-slate-300">
-            Consulter les candidatures d'élèves recommandés, valider les dossiers d'excellence et
-            affecter les parrains.
-          </p>
-        </Link>
+          Consulter les candidatures d'élèves.
+        </Raccourci>
       </div>
     </div>
+  );
+}
+
+const COULEURS = {
+  emerald: "bg-emerald-500/15 text-emerald-400 hover:border-emerald-500/50",
+  blue: "bg-blue-500/15 text-blue-400 hover:border-blue-500/50",
+  amber: "bg-amber-500/15 text-amber-400 hover:border-amber-500/50",
+  purple: "bg-purple-500/15 text-purple-400 hover:border-purple-500/50",
+} as const;
+
+function Kpi(props: {
+  titre: string;
+  icone: React.ReactNode;
+  couleur: keyof typeof COULEURS;
+  valeur: string | null;
+  sousTitre: string;
+  gauche: string;
+  droite: string;
+}) {
+  const [fond, texte] = COULEURS[props.couleur].split(" ");
+  return (
+    <div className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+          {props.titre}
+        </span>
+        <div className={`flex size-10 items-center justify-center rounded-2xl ${fond} ${texte}`}>
+          {props.icone}
+        </div>
+      </div>
+      <div className="mt-4">
+        <div className="font-display text-3xl font-black text-white sm:text-4xl">
+          {props.valeur === null ? <Skeleton className="h-10 w-24" /> : props.valeur}
+        </div>
+        <p className="mt-1 text-xs font-medium text-slate-400">{props.sousTitre}</p>
+      </div>
+      <div className="mt-4 flex items-center justify-between gap-2 border-t border-slate-800 pt-4 text-xs">
+        <span className={`font-bold ${texte}`}>{props.gauche}</span>
+        <span className="text-right text-slate-400">{props.droite}</span>
+      </div>
+    </div>
+  );
+}
+
+function Bloc({
+  titre,
+  icone,
+  droite,
+  children,
+}: {
+  titre: string;
+  icone: React.ReactNode;
+  droite?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl sm:p-8">
+      <div className="mb-6 flex items-center justify-between gap-3 border-b border-slate-800 pb-4">
+        <div className="flex items-center gap-2">
+          {icone}
+          <h2 className="font-display text-lg font-bold text-white">{titre}</h2>
+        </div>
+        {droite}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function Vide({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="rounded-2xl border border-dashed border-slate-800 p-6 text-center text-xs text-slate-400">
+      {children}
+    </p>
+  );
+}
+
+function Raccourci({
+  to,
+  icone,
+  titre,
+  children,
+}: {
+  to: "/admin/utilisateurs" | "/admin/banque" | "/admin/demandes";
+  icone: React.ReactNode;
+  titre: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      to={to}
+      className="group rounded-3xl border border-slate-800 bg-slate-900/90 p-6 shadow-xl transition hover:border-emerald-500/50"
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex size-12 items-center justify-center rounded-2xl bg-emerald-500/15 text-emerald-400">
+          {icone}
+        </div>
+        <ArrowUpRight className="size-5 text-slate-500 transition-colors group-hover:text-emerald-400" />
+      </div>
+      <h3 className="mt-4 font-display text-lg font-bold text-white">{titre}</h3>
+      <p className="mt-2 text-xs leading-relaxed text-slate-300">{children}</p>
+    </Link>
   );
 }

@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { trackPageView } from "@/lib/site-analytics";
 import {
   ArrowRight,
   GraduationCap,
@@ -428,10 +427,6 @@ function Footer() {
 }
 
 function HomePage() {
-  useEffect(() => {
-    trackPageView("Accueil M'ANDAL");
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />

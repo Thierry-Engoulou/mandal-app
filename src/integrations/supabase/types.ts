@@ -1752,7 +1752,7 @@ export type Database = {
         }
       }
       compter_telechargement_epreuve: {
-        Args: { p_id: string }
+        Args: { p_id: string; p_visiteur?: string }
         Returns: undefined
       }
       copies_epreuve: {
@@ -1779,6 +1779,20 @@ export type Database = {
       enregistrer_correction_ia: {
         Args: { p_composition_id: string; p_texte: string }
         Returns: undefined
+      }
+      enregistrer_visite: {
+        Args: { p_page: string; p_visiteur: string }
+        Returns: undefined
+      }
+      journal_admin_recent: {
+        Args: { p_limite?: number }
+        Returns: {
+          action: string
+          acteur_nom: string
+          cible_nom: string
+          created_at: string
+          details: Json
+        }[]
       }
       noter_composition: {
         Args: { p_commentaire: string; p_composition_id: string; p_note: number | null }
@@ -1878,12 +1892,20 @@ export type Database = {
         Args: { p_profile_id: string }
         Returns: undefined
       }
+      signaler_acces_refuse: {
+        Args: { p_page: string }
+        Returns: undefined
+      }
       soumettre_examen: {
         Args: { p_examen_id: string; p_reponses: Json }
         Returns: {
           score: number
           xp: number
         }[]
+      }
+      statistiques_site: {
+        Args: never
+        Returns: Json
       }
       verifier_message_ia: {
         Args: { p_message_id: string; p_verification: string | null }

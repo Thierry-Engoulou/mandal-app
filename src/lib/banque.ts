@@ -1,6 +1,7 @@
 // Banque d'épreuves : constantes, dépôt (photos regroupées en PDF dans le
 // navigateur) et liens de téléchargement.
 import { supabase } from "@/integrations/supabase/client";
+import { identifiantVisiteur } from "@/lib/site-analytics";
 import type { Tables } from "@/integrations/supabase/types";
 import {
   BANQUE_BUCKET,
@@ -163,7 +164,11 @@ export async function ouvrirFichier(
     throw new Error(error?.message ?? "Lien indisponible.");
   }
   if (options.telecharger) {
-    if (e.statut === "publiee") void supabase.rpc("compter_telechargement_epreuve", { p_id: e.id });
+    if (e.statut === "publiee")
+      void supabase.rpc("compter_telechargement_epreuve", {
+        p_id: e.id,
+        p_visiteur: identifiantVisiteur(),
+      });
     window.location.assign(data.signedUrl);
   } else if (fenetre) {
     fenetre.location.href = data.signedUrl;
