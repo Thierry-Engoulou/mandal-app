@@ -5,7 +5,7 @@ import { AdminShell } from "@/components/admin-shell";
 import { useProfile } from "@/lib/use-profile";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { recordSecurityAudit } from "@/lib/site-analytics";
+import { signalerAccesRefuse } from "@/lib/site-analytics";
 
 export const Route = createFileRoute("/_authenticated/admin")({
   component: AdminLayout,
@@ -17,20 +17,9 @@ function AdminLayout() {
 
   const isAuthorized = profile && (profile.role === "super_admin" || profile.role === "admin");
 
+  // Tentative d'accès sans les droits : tracée dans le journal d'administration.
   useEffect(() => {
-    if (!isLoading && profile) {
-      if (!isAuthorized) {
-        recordSecurityAudit(
-          `Tentative d'accès non autorisé refusée (Utilisateur: ${profile.full_name || profile.id}, Rôle: ${profile.role})`,
-          "blocked",
-        );
-      } else {
-        recordSecurityAudit(
-          `Accès session Administrateur autorisé (Utilisateur: ${profile.full_name || profile.id})`,
-          "success",
-        );
-      }
-    }
+    if (!isLoading && profile && !isAuthorized) signalerAccesRefuse(window.location.pathname);
   }, [isLoading, profile, isAuthorized]);
 
   // Si le profil est chargé et n'a pas les droits administrateur

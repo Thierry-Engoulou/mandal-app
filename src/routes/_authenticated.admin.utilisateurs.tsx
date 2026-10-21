@@ -9,6 +9,7 @@ import {
   listEtablissements,
   type UpdateAdminUserInput,
 } from "@/lib/admin.functions";
+import { useProfile } from "@/lib/use-profile";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -50,6 +51,9 @@ function AdminUsersPage() {
   const saveUser = useServerFn(updateAdminUser);
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
+  const { data: moi } = useProfile();
+  const jeSuisSuperAdmin = moi?.role === "super_admin";
+  const ROLES_ADMIN = ["admin", "super_admin"];
 
   const { data: users, isLoading } = useQuery({
     queryKey: ["admin-users"],
@@ -85,6 +89,10 @@ function AdminUsersPage() {
         <p className="mt-1 text-sm text-muted-foreground">
           Attribuez les rôles, rattachez un établissement et validez les enseignants.
         </p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Seul un super admin peut nommer ou retirer un administrateur. Personne ne peut modifier
+          son propre rôle, et la plateforme garde toujours au moins un super admin.
+        </p>
       </header>
 
       <Input
@@ -119,10 +127,16 @@ function AdminUsersPage() {
                     <td className="px-5 py-3">
                       <p className="font-medium text-foreground">{u.nom}</p>
                       <p className="text-xs text-muted-foreground">{u.email ?? "—"}</p>
+                      {u.id === moi?.id ? (
+                        <p className="text-[11px] font-semibold text-primary">C'est vous</p>
+                      ) : null}
                     </td>
                     <td className="px-5 py-3">
                       <Select
                         value={u.role}
+                        disabled={
+                          u.id === moi?.id || (!jeSuisSuperAdmin && ROLES_ADMIN.includes(u.role))
+                        }
                         onValueChange={(role) =>
                           mutation.mutate({
                             userId: u.id,
@@ -134,7 +148,12 @@ function AdminUsersPage() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {ROLES.map((r) => (
+                          {ROLES.filter(
+                            (r) =>
+                              jeSuisSuperAdmin ||
+                              !ROLES_ADMIN.includes(r.value) ||
+                              r.value === u.role,
+                          ).map((r) => (
                             <SelectItem key={r.value} value={r.value}>
                               {r.label}
                             </SelectItem>

@@ -87,15 +87,23 @@ export const updateAdminUser = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
-    const db = await admin();
     const patch = {
       ...(data.role ? { role: data.role } : {}),
       ...(data.etablissementId !== undefined ? { etablissement_id: data.etablissementId } : {}),
       ...(data.statutValidation ? { statut_validation: data.statutValidation } : {}),
     };
     if (Object.keys(patch).length === 0) return { ok: true };
-    const { error } = await db.from("profiles").update(patch).eq("id", data.userId);
+    // Avec le compte de l'administrateur (et non la clé de service) : la base
+    // applique les règles sur les rôles (seul un super admin nomme un
+    // administrateur, pas de changement de son propre rôle, toujours un super
+    // admin) et le journal d'administration enregistre l'auteur.
+    const { data: lignes, error } = await context.supabase
+      .from("profiles")
+      .update(patch)
+      .eq("id", data.userId)
+      .select("id");
     if (error) throw new Error(error.message);
+    if (!lignes?.length) throw new Error("Modification refusée pour ce compte.");
     return { ok: true };
   });
 
