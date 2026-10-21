@@ -45,20 +45,39 @@ export const genererEpreuveBlanche = createServerFn({ method: "POST" })
     const { buildStudentContext } = await import("./student-context.server");
     const db = context.supabase;
 
-    // Épreuves de la banque (publiées et visibles par l'élève) servant de modèles.
-    const { data: modeles } = await db
-      .from("epreuves")
-      .select("titre, fichier_path")
-      .eq("statut", "publiee")
-      .eq("niveau", data.niveau)
-      .eq("matiere", data.matiere)
-      .order("created_at", { ascending: false })
-      .limit(MAX_MODELES);
+    // Modèles : épreuves de la banque d'épreuves (annales publiées) et épreuves
+    // déposées par les enseignants, de la même matière et du même niveau.
+    const { CLASSES_PAR_NIVEAU, BANQUE_BUCKET } = await import("./banque-constantes");
+    const classes = CLASSES_PAR_NIVEAU[data.niveau] ?? [];
+    const [{ data: annales }, { data: deposees }] = await Promise.all([
+      classes.length
+        ? db
+            .from("banque_epreuves")
+            .select("titre, fichier_path")
+            .eq("statut", "publiee")
+            .eq("matiere", data.matiere)
+            .in("classe", classes)
+            .order("annee", { ascending: false, nullsFirst: false })
+            .limit(MAX_MODELES)
+        : Promise.resolve({ data: [] as { titre: string; fichier_path: string }[] }),
+      db
+        .from("epreuves")
+        .select("titre, fichier_path")
+        .eq("statut", "publiee")
+        .eq("niveau", data.niveau)
+        .eq("matiere", data.matiere)
+        .order("created_at", { ascending: false })
+        .limit(MAX_MODELES),
+    ]);
+    const modeles = [
+      ...(annales ?? []).map((m) => ({ ...m, bucket: BANQUE_BUCKET })),
+      ...(deposees ?? []).map((m) => ({ ...m, bucket: "epreuves" })),
+    ].slice(0, MAX_MODELES);
 
     const parts: AiPart[] = [];
     let total = 0;
-    for (const m of modeles ?? []) {
-      const { data: blob } = await db.storage.from("epreuves").download(m.fichier_path);
+    for (const m of modeles) {
+      const { data: blob } = await db.storage.from(m.bucket).download(m.fichier_path);
       if (!blob || total + blob.size > MAX_MODELES_BYTES) continue;
       total += blob.size;
       const mimeType =

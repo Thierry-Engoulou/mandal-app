@@ -2,6 +2,7 @@ import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState, type ReactNode } from "react";
 import {
+  Library,
   LayoutDashboard,
   FileText,
   BookOpen,
@@ -32,6 +33,7 @@ const navItems = [
   { to: "/etudiant", label: "Tableau de bord", icon: LayoutDashboard, exact: true },
   { to: "/etudiant/examens", label: "Examens", exact: false, icon: FileText },
   { to: "/etudiant/epreuves", label: "Épreuves à composer", exact: false, icon: ClipboardCheck },
+  { to: "/etudiant/banque", label: "Banque d'épreuves", exact: false, icon: Library },
   { to: "/etudiant/sujets", label: "Épreuves blanches IA", exact: false, icon: FileText },
   { to: "/etudiant/cours", label: "Mes cours", exact: false, icon: BookOpen },
   { to: "/etudiant/mandal-ia", label: "Mandal IA", exact: false, icon: Bot },

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BanqueEpreuvesRouteImport } from './routes/banque-epreuves'
 import { Route as CitoyenneteRouteImport } from './routes/citoyennete'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as CultureRouteImport } from './routes/culture'
@@ -30,10 +31,12 @@ import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as CoursesIndexRouteImport } from './routes/courses.index'
 import { Route as CoursesCourseIdRouteImport } from './routes/courses.$courseId'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
+import { Route as AuthenticatedAdminBanqueRouteImport } from './routes/_authenticated.admin.banque'
 import { Route as AuthenticatedAdminDemandesRouteImport } from './routes/_authenticated.admin.demandes'
 import { Route as AuthenticatedAdminUtilisateursRouteImport } from './routes/_authenticated.admin.utilisateurs'
 import { Route as AuthenticatedCoursesNewRouteImport } from './routes/_authenticated.courses.new'
 import { Route as AuthenticatedEnseignantIndexRouteImport } from './routes/_authenticated.enseignant.index'
+import { Route as AuthenticatedEnseignantBanqueRouteImport } from './routes/_authenticated.enseignant.banque'
 import { Route as AuthenticatedEnseignantEcoleRouteImport } from './routes/_authenticated.enseignant.ecole'
 import { Route as AuthenticatedEnseignantElevesRouteImport } from './routes/_authenticated.enseignant.eleves'
 import { Route as AuthenticatedEnseignantExamensRouteImport } from './routes/_authenticated.enseignant.examens'
@@ -52,6 +55,7 @@ import { Route as AuthenticatedEtablissementValidationContenusRouteImport } from
 import { Route as AuthenticatedEtablissementValidationEnseignantsRouteImport } from './routes/_authenticated.etablissement.validation-enseignants'
 import { Route as AuthenticatedEtudiantIndexRouteImport } from './routes/_authenticated.etudiant.index'
 import { Route as AuthenticatedEtudiantAideRouteImport } from './routes/_authenticated.etudiant.aide'
+import { Route as AuthenticatedEtudiantBanqueRouteImport } from './routes/_authenticated.etudiant.banque'
 import { Route as AuthenticatedEtudiantClassementRouteImport } from './routes/_authenticated.etudiant.classement'
 import { Route as AuthenticatedEtudiantCorrectionRouteImport } from './routes/_authenticated.etudiant.correction'
 import { Route as AuthenticatedEtudiantCoursRouteImport } from './routes/_authenticated.etudiant.cours'
@@ -95,6 +99,11 @@ const AProposRoute = AProposRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BanqueEpreuvesRoute = BanqueEpreuvesRouteImport.update({
+  id: '/banque-epreuves',
+  path: '/banque-epreuves',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CitoyenneteRoute = CitoyenneteRouteImport.update({
@@ -185,6 +194,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminBanqueRoute =
+  AuthenticatedAdminBanqueRouteImport.update({
+    id: '/banque',
+    path: '/banque',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminDemandesRoute =
   AuthenticatedAdminDemandesRouteImport.update({
     id: '/demandes',
@@ -206,6 +221,12 @@ const AuthenticatedEnseignantIndexRoute =
   AuthenticatedEnseignantIndexRouteImport.update({
     id: '/',
     path: '/',
+    getParentRoute: () => AuthenticatedEnseignantRoute,
+  } as any)
+const AuthenticatedEnseignantBanqueRoute =
+  AuthenticatedEnseignantBanqueRouteImport.update({
+    id: '/banque',
+    path: '/banque',
     getParentRoute: () => AuthenticatedEnseignantRoute,
   } as any)
 const AuthenticatedEnseignantEcoleRoute =
@@ -314,6 +335,12 @@ const AuthenticatedEtudiantAideRoute =
   AuthenticatedEtudiantAideRouteImport.update({
     id: '/aide',
     path: '/aide',
+    getParentRoute: () => AuthenticatedEtudiantRoute,
+  } as any)
+const AuthenticatedEtudiantBanqueRoute =
+  AuthenticatedEtudiantBanqueRouteImport.update({
+    id: '/banque',
+    path: '/banque',
     getParentRoute: () => AuthenticatedEtudiantRoute,
   } as any)
 const AuthenticatedEtudiantClassementRoute =
@@ -471,6 +498,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
   '/auth': typeof AuthRouteWithChildren
+  '/banque-epreuves': typeof BanqueEpreuvesRoute
   '/citoyennete': typeof CitoyenneteRoute
   '/courses': typeof CoursesRouteWithChildren
   '/culture': typeof CultureRoute
@@ -487,9 +515,11 @@ export interface FileRoutesByFullPath {
   '/courses/$courseId': typeof CoursesCourseIdRoute
   '/auth/': typeof AuthIndexRoute
   '/courses/': typeof CoursesIndexRoute
+  '/admin/banque': typeof AuthenticatedAdminBanqueRoute
   '/admin/demandes': typeof AuthenticatedAdminDemandesRoute
   '/admin/utilisateurs': typeof AuthenticatedAdminUtilisateursRoute
   '/courses/new': typeof AuthenticatedCoursesNewRoute
+  '/enseignant/banque': typeof AuthenticatedEnseignantBanqueRoute
   '/enseignant/ecole': typeof AuthenticatedEnseignantEcoleRoute
   '/enseignant/eleves': typeof AuthenticatedEnseignantElevesRoute
   '/enseignant/examens': typeof AuthenticatedEnseignantExamensRoute
@@ -506,6 +536,7 @@ export interface FileRoutesByFullPath {
   '/etablissement/validation-contenus': typeof AuthenticatedEtablissementValidationContenusRoute
   '/etablissement/validation-enseignants': typeof AuthenticatedEtablissementValidationEnseignantsRoute
   '/etudiant/aide': typeof AuthenticatedEtudiantAideRoute
+  '/etudiant/banque': typeof AuthenticatedEtudiantBanqueRoute
   '/etudiant/classement': typeof AuthenticatedEtudiantClassementRoute
   '/etudiant/correction': typeof AuthenticatedEtudiantCorrectionRoute
   '/etudiant/cours': typeof AuthenticatedEtudiantCoursRouteWithChildren
@@ -539,6 +570,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/a-propos': typeof AProposRoute
+  '/banque-epreuves': typeof BanqueEpreuvesRoute
   '/citoyennete': typeof CitoyenneteRoute
   '/culture': typeof CultureRoute
   '/demande-inscription': typeof DemandeInscriptionRoute
@@ -550,9 +582,11 @@ export interface FileRoutesByTo {
   '/courses/$courseId': typeof CoursesCourseIdRoute
   '/auth': typeof AuthIndexRoute
   '/courses': typeof CoursesIndexRoute
+  '/admin/banque': typeof AuthenticatedAdminBanqueRoute
   '/admin/demandes': typeof AuthenticatedAdminDemandesRoute
   '/admin/utilisateurs': typeof AuthenticatedAdminUtilisateursRoute
   '/courses/new': typeof AuthenticatedCoursesNewRoute
+  '/enseignant/banque': typeof AuthenticatedEnseignantBanqueRoute
   '/enseignant/ecole': typeof AuthenticatedEnseignantEcoleRoute
   '/enseignant/eleves': typeof AuthenticatedEnseignantElevesRoute
   '/enseignant/examens': typeof AuthenticatedEnseignantExamensRoute
@@ -569,6 +603,7 @@ export interface FileRoutesByTo {
   '/etablissement/validation-contenus': typeof AuthenticatedEtablissementValidationContenusRoute
   '/etablissement/validation-enseignants': typeof AuthenticatedEtablissementValidationEnseignantsRoute
   '/etudiant/aide': typeof AuthenticatedEtudiantAideRoute
+  '/etudiant/banque': typeof AuthenticatedEtudiantBanqueRoute
   '/etudiant/classement': typeof AuthenticatedEtudiantClassementRoute
   '/etudiant/correction': typeof AuthenticatedEtudiantCorrectionRoute
   '/etudiant/defis': typeof AuthenticatedEtudiantDefisRoute
@@ -604,6 +639,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/a-propos': typeof AProposRoute
   '/auth': typeof AuthRouteWithChildren
+  '/banque-epreuves': typeof BanqueEpreuvesRoute
   '/citoyennete': typeof CitoyenneteRoute
   '/courses': typeof CoursesRouteWithChildren
   '/culture': typeof CultureRoute
@@ -620,9 +656,11 @@ export interface FileRoutesById {
   '/courses/$courseId': typeof CoursesCourseIdRoute
   '/auth/': typeof AuthIndexRoute
   '/courses/': typeof CoursesIndexRoute
+  '/_authenticated/admin/banque': typeof AuthenticatedAdminBanqueRoute
   '/_authenticated/admin/demandes': typeof AuthenticatedAdminDemandesRoute
   '/_authenticated/admin/utilisateurs': typeof AuthenticatedAdminUtilisateursRoute
   '/_authenticated/courses/new': typeof AuthenticatedCoursesNewRoute
+  '/_authenticated/enseignant/banque': typeof AuthenticatedEnseignantBanqueRoute
   '/_authenticated/enseignant/ecole': typeof AuthenticatedEnseignantEcoleRoute
   '/_authenticated/enseignant/eleves': typeof AuthenticatedEnseignantElevesRoute
   '/_authenticated/enseignant/examens': typeof AuthenticatedEnseignantExamensRoute
@@ -639,6 +677,7 @@ export interface FileRoutesById {
   '/_authenticated/etablissement/validation-contenus': typeof AuthenticatedEtablissementValidationContenusRoute
   '/_authenticated/etablissement/validation-enseignants': typeof AuthenticatedEtablissementValidationEnseignantsRoute
   '/_authenticated/etudiant/aide': typeof AuthenticatedEtudiantAideRoute
+  '/_authenticated/etudiant/banque': typeof AuthenticatedEtudiantBanqueRoute
   '/_authenticated/etudiant/classement': typeof AuthenticatedEtudiantClassementRoute
   '/_authenticated/etudiant/correction': typeof AuthenticatedEtudiantCorrectionRoute
   '/_authenticated/etudiant/cours': typeof AuthenticatedEtudiantCoursRouteWithChildren
@@ -675,6 +714,7 @@ export interface FileRouteTypes {
     | '/'
     | '/a-propos'
     | '/auth'
+    | '/banque-epreuves'
     | '/citoyennete'
     | '/courses'
     | '/culture'
@@ -691,9 +731,11 @@ export interface FileRouteTypes {
     | '/courses/$courseId'
     | '/auth/'
     | '/courses/'
+    | '/admin/banque'
     | '/admin/demandes'
     | '/admin/utilisateurs'
     | '/courses/new'
+    | '/enseignant/banque'
     | '/enseignant/ecole'
     | '/enseignant/eleves'
     | '/enseignant/examens'
@@ -710,6 +752,7 @@ export interface FileRouteTypes {
     | '/etablissement/validation-contenus'
     | '/etablissement/validation-enseignants'
     | '/etudiant/aide'
+    | '/etudiant/banque'
     | '/etudiant/classement'
     | '/etudiant/correction'
     | '/etudiant/cours'
@@ -743,6 +786,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/a-propos'
+    | '/banque-epreuves'
     | '/citoyennete'
     | '/culture'
     | '/demande-inscription'
@@ -754,9 +798,11 @@ export interface FileRouteTypes {
     | '/courses/$courseId'
     | '/auth'
     | '/courses'
+    | '/admin/banque'
     | '/admin/demandes'
     | '/admin/utilisateurs'
     | '/courses/new'
+    | '/enseignant/banque'
     | '/enseignant/ecole'
     | '/enseignant/eleves'
     | '/enseignant/examens'
@@ -773,6 +819,7 @@ export interface FileRouteTypes {
     | '/etablissement/validation-contenus'
     | '/etablissement/validation-enseignants'
     | '/etudiant/aide'
+    | '/etudiant/banque'
     | '/etudiant/classement'
     | '/etudiant/correction'
     | '/etudiant/defis'
@@ -807,6 +854,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/a-propos'
     | '/auth'
+    | '/banque-epreuves'
     | '/citoyennete'
     | '/courses'
     | '/culture'
@@ -823,9 +871,11 @@ export interface FileRouteTypes {
     | '/courses/$courseId'
     | '/auth/'
     | '/courses/'
+    | '/_authenticated/admin/banque'
     | '/_authenticated/admin/demandes'
     | '/_authenticated/admin/utilisateurs'
     | '/_authenticated/courses/new'
+    | '/_authenticated/enseignant/banque'
     | '/_authenticated/enseignant/ecole'
     | '/_authenticated/enseignant/eleves'
     | '/_authenticated/enseignant/examens'
@@ -842,6 +892,7 @@ export interface FileRouteTypes {
     | '/_authenticated/etablissement/validation-contenus'
     | '/_authenticated/etablissement/validation-enseignants'
     | '/_authenticated/etudiant/aide'
+    | '/_authenticated/etudiant/banque'
     | '/_authenticated/etudiant/classement'
     | '/_authenticated/etudiant/correction'
     | '/_authenticated/etudiant/cours'
@@ -878,6 +929,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AProposRoute: typeof AProposRoute
   AuthRoute: typeof AuthRouteWithChildren
+  BanqueEpreuvesRoute: typeof BanqueEpreuvesRoute
   CitoyenneteRoute: typeof CitoyenneteRoute
   CoursesRoute: typeof CoursesRouteWithChildren
   CultureRoute: typeof CultureRoute
@@ -914,6 +966,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/banque-epreuves': {
+      id: '/banque-epreuves'
+      path: '/banque-epreuves'
+      fullPath: '/banque-epreuves'
+      preLoaderRoute: typeof BanqueEpreuvesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/citoyennete': {
@@ -1035,6 +1094,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/banque': {
+      id: '/_authenticated/admin/banque'
+      path: '/banque'
+      fullPath: '/admin/banque'
+      preLoaderRoute: typeof AuthenticatedAdminBanqueRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/demandes': {
       id: '/_authenticated/admin/demandes'
       path: '/demandes'
@@ -1061,6 +1127,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/enseignant/'
       preLoaderRoute: typeof AuthenticatedEnseignantIndexRouteImport
+      parentRoute: typeof AuthenticatedEnseignantRoute
+    }
+    '/_authenticated/enseignant/banque': {
+      id: '/_authenticated/enseignant/banque'
+      path: '/banque'
+      fullPath: '/enseignant/banque'
+      preLoaderRoute: typeof AuthenticatedEnseignantBanqueRouteImport
       parentRoute: typeof AuthenticatedEnseignantRoute
     }
     '/_authenticated/enseignant/ecole': {
@@ -1187,6 +1260,13 @@ declare module '@tanstack/react-router' {
       path: '/aide'
       fullPath: '/etudiant/aide'
       preLoaderRoute: typeof AuthenticatedEtudiantAideRouteImport
+      parentRoute: typeof AuthenticatedEtudiantRoute
+    }
+    '/_authenticated/etudiant/banque': {
+      id: '/_authenticated/etudiant/banque'
+      path: '/banque'
+      fullPath: '/etudiant/banque'
+      preLoaderRoute: typeof AuthenticatedEtudiantBanqueRouteImport
       parentRoute: typeof AuthenticatedEtudiantRoute
     }
     '/_authenticated/etudiant/classement': {
@@ -1368,12 +1448,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAdminRouteChildren {
+  AuthenticatedAdminBanqueRoute: typeof AuthenticatedAdminBanqueRoute
   AuthenticatedAdminDemandesRoute: typeof AuthenticatedAdminDemandesRoute
   AuthenticatedAdminUtilisateursRoute: typeof AuthenticatedAdminUtilisateursRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
+  AuthenticatedAdminBanqueRoute: AuthenticatedAdminBanqueRoute,
   AuthenticatedAdminDemandesRoute: AuthenticatedAdminDemandesRoute,
   AuthenticatedAdminUtilisateursRoute: AuthenticatedAdminUtilisateursRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
@@ -1383,6 +1465,7 @@ const AuthenticatedAdminRouteWithChildren =
   AuthenticatedAdminRoute._addFileChildren(AuthenticatedAdminRouteChildren)
 
 interface AuthenticatedEnseignantRouteChildren {
+  AuthenticatedEnseignantBanqueRoute: typeof AuthenticatedEnseignantBanqueRoute
   AuthenticatedEnseignantEcoleRoute: typeof AuthenticatedEnseignantEcoleRoute
   AuthenticatedEnseignantElevesRoute: typeof AuthenticatedEnseignantElevesRoute
   AuthenticatedEnseignantExamensRoute: typeof AuthenticatedEnseignantExamensRoute
@@ -1400,6 +1483,7 @@ interface AuthenticatedEnseignantRouteChildren {
 
 const AuthenticatedEnseignantRouteChildren: AuthenticatedEnseignantRouteChildren =
   {
+    AuthenticatedEnseignantBanqueRoute: AuthenticatedEnseignantBanqueRoute,
     AuthenticatedEnseignantEcoleRoute: AuthenticatedEnseignantEcoleRoute,
     AuthenticatedEnseignantElevesRoute: AuthenticatedEnseignantElevesRoute,
     AuthenticatedEnseignantExamensRoute: AuthenticatedEnseignantExamensRoute,
@@ -1481,6 +1565,7 @@ const AuthenticatedEtudiantCoursRouteWithChildren =
 
 interface AuthenticatedEtudiantRouteChildren {
   AuthenticatedEtudiantAideRoute: typeof AuthenticatedEtudiantAideRoute
+  AuthenticatedEtudiantBanqueRoute: typeof AuthenticatedEtudiantBanqueRoute
   AuthenticatedEtudiantClassementRoute: typeof AuthenticatedEtudiantClassementRoute
   AuthenticatedEtudiantCorrectionRoute: typeof AuthenticatedEtudiantCorrectionRoute
   AuthenticatedEtudiantCoursRoute: typeof AuthenticatedEtudiantCoursRouteWithChildren
@@ -1505,6 +1590,7 @@ interface AuthenticatedEtudiantRouteChildren {
 
 const AuthenticatedEtudiantRouteChildren: AuthenticatedEtudiantRouteChildren = {
   AuthenticatedEtudiantAideRoute: AuthenticatedEtudiantAideRoute,
+  AuthenticatedEtudiantBanqueRoute: AuthenticatedEtudiantBanqueRoute,
   AuthenticatedEtudiantClassementRoute: AuthenticatedEtudiantClassementRoute,
   AuthenticatedEtudiantCorrectionRoute: AuthenticatedEtudiantCorrectionRoute,
   AuthenticatedEtudiantCoursRoute: AuthenticatedEtudiantCoursRouteWithChildren,
@@ -1594,6 +1680,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AProposRoute: AProposRoute,
   AuthRoute: AuthRouteWithChildren,
+  BanqueEpreuvesRoute: BanqueEpreuvesRoute,
   CitoyenneteRoute: CitoyenneteRoute,
   CoursesRoute: CoursesRouteWithChildren,
   CultureRoute: CultureRoute,
