@@ -41,6 +41,76 @@ export type Database = {
         }
         Relationships: []
       }
+      banque_epreuves: {
+        Row: {
+          annee: number | null
+          classe: string
+          corrige_path: string | null
+          created_at: string
+          depose_par: string | null
+          description: string | null
+          fichier_path: string
+          id: string
+          matiere: string
+          motif_rejet: string | null
+          recherche: unknown
+          serie: string | null
+          session: string | null
+          source: string | null
+          statut: string
+          telechargements: number
+          titre: string
+          type_examen: string
+          updated_at: string
+          valide_at: string | null
+          valide_par: string | null
+        }
+        Insert: {
+          annee?: number | null
+          classe: string
+          corrige_path?: string | null
+          created_at?: string
+          depose_par?: string | null
+          description?: string | null
+          fichier_path: string
+          id?: string
+          matiere: string
+          motif_rejet?: string | null
+          serie?: string | null
+          session?: string | null
+          source?: string | null
+          statut?: string
+          telechargements?: number
+          titre: string
+          type_examen: string
+          updated_at?: string
+          valide_at?: string | null
+          valide_par?: string | null
+        }
+        Update: {
+          annee?: number | null
+          classe?: string
+          corrige_path?: string | null
+          created_at?: string
+          depose_par?: string | null
+          description?: string | null
+          fichier_path?: string
+          id?: string
+          matiere?: string
+          motif_rejet?: string | null
+          serie?: string | null
+          session?: string | null
+          source?: string | null
+          statut?: string
+          telechargements?: number
+          titre?: string
+          type_examen?: string
+          updated_at?: string
+          valide_at?: string | null
+          valide_par?: string | null
+        }
+        Relationships: []
+      }
       chapitres: {
         Row: {
           created_at: string
@@ -1681,6 +1751,10 @@ export type Database = {
           rendu_auto: boolean
         }
       }
+      compter_telechargement_epreuve: {
+        Args: { p_id: string }
+        Returns: undefined
+      }
       copies_epreuve: {
         Args: { p_epreuve_id: string }
         Returns: {
@@ -1723,6 +1797,41 @@ export type Database = {
           ordre: number
           points: number
           type: string
+        }[]
+      }
+      rechercher_banque_epreuves: {
+        Args: {
+          p_annee?: number
+          p_classe?: string
+          p_limite?: number
+          p_matiere?: string
+          p_mode?: string
+          p_offset?: number
+          p_texte?: string
+          p_type?: string
+        }
+        Returns: {
+          annee: number | null
+          classe: string
+          corrige_path: string | null
+          created_at: string
+          depose_par: string | null
+          description: string | null
+          fichier_path: string
+          id: string
+          matiere: string
+          motif_rejet: string | null
+          recherche: unknown
+          serie: string | null
+          session: string | null
+          source: string | null
+          statut: string
+          telechargements: number
+          titre: string
+          type_examen: string
+          updated_at: string
+          valide_at: string | null
+          valide_par: string | null
         }[]
       }
       rechercher_fiches_orientation: {

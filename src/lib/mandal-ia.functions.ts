@@ -35,8 +35,9 @@ export const askMandalIA = createServerFn({ method: "POST" })
     const { generateWithGemini } = await import("./gemini.server");
     const { buildStudentContext } = await import("./student-context.server");
     const { fichesPourQuestion, CONSIGNES_SOURCES } = await import("./orientation-fiches.server");
+    const { epreuvesPourQuestion, CONSIGNES_BANQUE } = await import("./banque-ia.server");
 
-    const [{ data: history }, studentContext, fiches] = await Promise.all([
+    const [{ data: history }, studentContext, fiches, epreuves] = await Promise.all([
       context.supabase
         .from("ia_messages")
         .select("role, contenu")
@@ -45,6 +46,7 @@ export const askMandalIA = createServerFn({ method: "POST" })
         .limit(20),
       buildStudentContext(context.supabase, context.userId),
       fichesPourQuestion(context.supabase, data.message, 3),
+      epreuvesPourQuestion(context.supabase, data.message),
     ]);
 
     const messages: AiMessage[] = [
@@ -61,6 +63,7 @@ export const askMandalIA = createServerFn({ method: "POST" })
         `PROFIL DE L'ÉLÈVE (cours suivis sur M'ANDAL)\n${studentContext || "Aucune information de cours disponible."}`,
         `${CONSIGNES_SOURCES}\n(Pour une simple question de cours ou d'exercice, la section « ## Sources » n'est pas nécessaire, et ignore les fiches si elles ne concernent pas la question.)`,
         fiches ? `FICHES DE LA BASE M'ANDAL\n${fiches}` : "",
+        epreuves ? `${CONSIGNES_BANQUE}\n${epreuves}` : "",
       ]
         .filter(Boolean)
         .join("\n\n"),

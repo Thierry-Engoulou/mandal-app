@@ -2,7 +2,7 @@
 // Les réponses restent prudentes sur ce qui change chaque année (dates, frais,
 // places) et renvoient vers l'institution qui fait foi.
 
-function faq(slug, question, categorie, resume, details, mots_cles, sources) {
+export function faq(slug, question, categorie, resume, details, mots_cles, sources) {
   return {
     slug: `faq-${slug}`,
     titre: question,

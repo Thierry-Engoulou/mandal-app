@@ -1,20 +1,30 @@
 // Génère la migration de contenu de la base d'orientation à partir des fiches
-// de supabase/seed/orientation. Usage : node scripts/generer-seed-orientation.mjs
-import { writeFileSync } from "node:fs";
+// de supabase/seed/orientation.
+// Usage : node scripts/generer-seed-orientation.mjs [--parts <dossier>]
+// --parts écrit aussi des fichiers SQL de ~30 Ko à coller un par un dans
+// l'éditeur SQL de Supabase (qui tronque les scripts trop longs).
+import { mkdirSync, writeFileSync } from "node:fs";
 import { SOURCES } from "../supabase/seed/orientation/sources.mjs";
 import { FILIERES } from "../supabase/seed/orientation/filieres.mjs";
 import { METIERS } from "../supabase/seed/orientation/metiers.mjs";
 import { FAQ } from "../supabase/seed/orientation/faq.mjs";
+import { FAQ_2 } from "../supabase/seed/orientation/faq-2.mjs";
+import { METIERS_2 } from "../supabase/seed/orientation/metiers-2.mjs";
+import { ETABLISSEMENTS } from "../supabase/seed/orientation/etablissements.mjs";
 
 const SORTIE = "supabase/migrations/20261015160000_seed_orientation.sql";
 
 const lit = (v) => (v == null ? "NULL" : `'${String(v).replace(/'/g, "''")}'`);
 const tab = (a) => `ARRAY[${(a ?? []).map(lit).join(", ")}]::text[]`;
 
+const FILIERES_TOUTES = [...FILIERES, ...ETABLISSEMENTS];
+const METIERS_TOUS = [...METIERS, ...METIERS_2];
+const FAQ_TOUTES = [...FAQ, ...FAQ_2];
+
 const fiches = [
-  ...FILIERES.map((f) => ({ ...f, type: "filiere" })),
-  ...METIERS.map((f) => ({ ...f, type: "metier" })),
-  ...FAQ.map((f) => ({ ...f, type: "faq" })),
+  ...FILIERES_TOUTES.map((f) => ({ ...f, type: "filiere" })),
+  ...METIERS_TOUS.map((f) => ({ ...f, type: "metier" })),
+  ...FAQ_TOUTES.map((f) => ({ ...f, type: "faq" })),
 ];
 
 const slugs = new Set();
@@ -45,16 +55,11 @@ const lignes = fiches.map((f) => {
   ].join(", ")})`;
 });
 
-const sql = `-- ============================================================================
--- Contenu de la base d'orientation : ${FILIERES.length} filières, ${METIERS.length} métiers, ${FAQ.length} questions fréquentes.
--- FICHIER GÉNÉRÉ par scripts/generer-seed-orientation.mjs — ne pas modifier à la main.
--- Ré-exécutable : les fiches existantes (même slug) sont mises à jour.
--- ============================================================================
-
-INSERT INTO public.orientation_fiches
+const INSERT = `INSERT INTO public.orientation_fiches
   (slug, type, titre, categorie, niveau_acces, resume, contenu, debouches, formations, mots_cles, sources)
 VALUES
-${lignes.join(",\n")}
+`;
+const CONFLIT = `
 ON CONFLICT (slug) DO UPDATE SET
   type = EXCLUDED.type,
   titre = EXCLUDED.titre,
@@ -69,5 +74,41 @@ ON CONFLICT (slug) DO UPDATE SET
   mis_a_jour = current_date;
 `;
 
+const sql = `-- ============================================================================
+-- Contenu de la base d'orientation : ${FILIERES_TOUTES.length} filières et établissements, ${METIERS_TOUS.length} métiers, ${FAQ_TOUTES.length} questions fréquentes.
+-- FICHIER GÉNÉRÉ par scripts/generer-seed-orientation.mjs — ne pas modifier à la main.
+-- Ré-exécutable : les fiches existantes (même slug) sont mises à jour.
+-- ============================================================================
+
+${INSERT}${lignes.join(",\n")}${CONFLIT}`;
+
 writeFileSync(SORTIE, sql);
 console.log(`${SORTIE} : ${fiches.length} fiches`);
+
+const iParts = process.argv.indexOf("--parts");
+if (iParts !== -1) {
+  const dossier = process.argv[iParts + 1];
+  if (!dossier) throw new Error("--parts : dossier manquant");
+  mkdirSync(dossier, { recursive: true });
+  const parts = [];
+  let courant = [];
+  let taille = 0;
+  for (const l of lignes) {
+    if (courant.length && taille + l.length > 30000) {
+      parts.push(courant);
+      courant = [];
+      taille = 0;
+    }
+    courant.push(l);
+    taille += l.length;
+  }
+  parts.push(courant);
+  parts.forEach((p, i) => {
+    const nom = `${dossier}/fiches_${String(i + 1).padStart(2, "0")}.sql`;
+    writeFileSync(
+      nom,
+      `-- Partie ${i + 1}/${parts.length} : ${p.length} fiches\n${INSERT}${p.join(",\n")}${CONFLIT}`,
+    );
+  });
+  console.log(`${parts.length} parties écrites dans ${dossier}`);
+}
