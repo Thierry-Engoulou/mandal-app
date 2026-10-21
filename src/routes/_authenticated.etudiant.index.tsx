@@ -10,6 +10,7 @@ import {
   GraduationCap,
   Scale,
   HeartHandshake,
+  Library,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useProfile, displayName } from "@/lib/use-profile";
@@ -30,6 +31,17 @@ const PALIER = 1000;
 
 function StudentDashboardPage() {
   const { data: profile, isLoading: loadingProfile } = useProfile();
+
+  const { data: nbEpreuves } = useQuery({
+    queryKey: ["banque-nombre-publiees"],
+    queryFn: async () => {
+      const { count } = await supabase
+        .from("banque_epreuves")
+        .select("id", { count: "exact", head: true })
+        .eq("statut", "publiee");
+      return count ?? 0;
+    },
+  });
 
   const { data: stats } = useQuery({
     enabled: !!profile,
@@ -114,6 +126,30 @@ function StudentDashboardPage() {
           </div>
         ))}
       </div>
+
+      {/* Banque d'épreuves */}
+      <Link
+        to="/etudiant/banque"
+        className="group flex flex-col gap-3 rounded-2xl border border-primary/30 bg-primary/5 p-5 shadow-sm transition hover:border-primary hover:bg-primary/10 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div className="flex items-center gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+            <Library className="h-6 w-6" />
+          </div>
+          <div>
+            <h2 className="font-display text-lg font-bold text-foreground">Banque d'épreuves</h2>
+            <p className="text-sm text-muted-foreground">
+              {nbEpreuves
+                ? `${nbEpreuves} épreuve${nbEpreuves > 1 ? "s" : ""} à télécharger : BEPC, Probatoire, Bac, GCE, concours…`
+                : "Épreuves du BEPC, du Probatoire, du Bac, du GCE et des concours à télécharger."}
+            </p>
+          </div>
+        </div>
+        <span className="flex items-center gap-1 text-sm font-semibold text-primary">
+          Voir les épreuves{" "}
+          <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+        </span>
+      </Link>
 
       {/* 3 Pillars Quick Explorer for Students */}
       <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
