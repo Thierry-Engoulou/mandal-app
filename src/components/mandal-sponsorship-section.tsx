@@ -133,6 +133,17 @@ export function MandalSponsorshipSection() {
               Entreprises, fondations ou particuliers : contribuez directement à l'émergence des
               talents de notre jeunesse.
             </p>
+            <p className="text-sm text-slate-300">
+              WhatsApp parrainage :{" "}
+              <a
+                href={`https://wa.me/${SITE_INFO.whatsappParrainage}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold text-amber-400 underline-offset-2 hover:underline"
+              >
+                {SITE_INFO.whatsappParrainageAffiche}
+              </a>
+            </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Button
@@ -140,7 +151,13 @@ export function MandalSponsorshipSection() {
               size="lg"
               className="rounded-full bg-amber-500 text-slate-950 font-bold hover:bg-amber-400"
             >
-              <a href={`mailto:${SITE_INFO.email}?subject=Parrainage%20M'Andal`}>
+              <a
+                href={`https://wa.me/${SITE_INFO.whatsappParrainage}?text=${encodeURIComponent(
+                  "Bonjour M'ANDAL, je souhaite devenir parrain / partenaire.",
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Devenir Parrain / Partenaire <ArrowRight className="ml-2 size-4" />
               </a>
             </Button>

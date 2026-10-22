@@ -10,6 +10,9 @@ export const SITE_INFO = {
   emailEditeur: "engoulouthierry62@gmail.com",
   telephone: "+237 6 90 50 41 28",
   email: "contact@jvepi-mandal.org",
+  // Numéro WhatsApp des parrains et partenaires (format international, sans espaces ni « + »).
+  whatsappParrainage: "237697160965",
+  whatsappParrainageAffiche: "+237 6 97 16 09 65",
   regionSupabase: "région Europe de l'Ouest, Irlande",
   miseAJour: "22 octobre 2026",
 } as const;
