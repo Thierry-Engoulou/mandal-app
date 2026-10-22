@@ -32,6 +32,8 @@ export const askMandalIA = createServerFn({ method: "POST" })
     z.object({ message: z.string().trim().min(1).max(4000) }).parse(data),
   )
   .handler(async ({ data, context }) => {
+    const { verifierQuotaIA } = await import("./quota-ia.server");
+    await verifierQuotaIA(context.supabase, "ia_messages", context.userId);
     const { generateWithGemini } = await import("./gemini.server");
     const { buildStudentContext } = await import("./student-context.server");
     const { fichesPourQuestion, CONSIGNES_SOURCES } = await import("./orientation-fiches.server");

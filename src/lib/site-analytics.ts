@@ -7,26 +7,59 @@
 import { supabase } from "@/integrations/supabase/client";
 
 const CLE_VISITEUR = "mandal_visiteur_v1";
+const CLE_REFUS = "mandal_statistiques_refus";
 let visiteurMemoire: string | null = null;
 const dejaEnvoyees = new Set<string>();
 
-/** Identifiant anonyme et persistant du navigateur (aléatoire). */
+const DUREE_IDENTIFIANT_MS = 395 * 24 * 60 * 60 * 1000; // 13 mois
+
+/** Identifiant anonyme du navigateur (aléatoire), renouvelé après 13 mois. */
 export function identifiantVisiteur(): string {
   if (visiteurMemoire) return visiteurMemoire;
   try {
-    const existant = localStorage.getItem(CLE_VISITEUR);
-    if (existant && /^[0-9a-f-]{36}$/i.test(existant)) {
-      visiteurMemoire = existant;
-      return existant;
+    const brut = localStorage.getItem(CLE_VISITEUR);
+    const [id, cree] = (brut ?? "").split("|");
+    if (
+      id &&
+      /^[0-9a-f-]{36}$/i.test(id) &&
+      Number(cree) > 0 &&
+      Date.now() - Number(cree) < DUREE_IDENTIFIANT_MS
+    ) {
+      visiteurMemoire = id;
+      return id;
     }
     const nouveau = crypto.randomUUID();
-    localStorage.setItem(CLE_VISITEUR, nouveau);
+    localStorage.setItem(CLE_VISITEUR, `${nouveau}|${Date.now()}`);
     visiteurMemoire = nouveau;
   } catch {
     // Navigation privée ou stockage bloqué : identifiant valable pour la session.
     visiteurMemoire = crypto.randomUUID();
   }
   return visiteurMemoire;
+}
+
+/** Le visiteur accepte-t-il d'être compté (anonymement) ? Oui par défaut. */
+export function compterVisites(): boolean {
+  try {
+    return localStorage.getItem(CLE_REFUS) !== "1";
+  } catch {
+    return true;
+  }
+}
+
+/** Active (false) ou désactive (true) le comptage anonyme pour ce navigateur. */
+export function desactiverComptage(desactiver: boolean): void {
+  try {
+    if (desactiver) {
+      localStorage.setItem(CLE_REFUS, "1");
+      localStorage.removeItem(CLE_VISITEUR);
+    } else {
+      localStorage.removeItem(CLE_REFUS);
+    }
+  } catch {
+    // stockage indisponible : rien à faire
+  }
+  visiteurMemoire = null;
 }
 
 /** Chemin regroupé : les identifiants (/courses/<uuid>) deviennent « :id ». */
@@ -41,7 +74,7 @@ export function pageNormalisee(pathname: string): string {
 export function enregistrerVisite(pathname: string): void {
   if (typeof window === "undefined") return;
   const page = pageNormalisee(pathname);
-  if (page.startsWith("/admin") || dejaEnvoyees.has(page)) return;
+  if (page.startsWith("/admin") || dejaEnvoyees.has(page) || !compterVisites()) return;
   dejaEnvoyees.add(page);
   void supabase
     .rpc("enregistrer_visite", { p_visiteur: identifiantVisiteur(), p_page: page })

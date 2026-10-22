@@ -18,6 +18,8 @@ export const askOrientationAdvisor = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => z.object({ message: z.string().min(1).max(2000) }).parse(data))
   .handler(async ({ data, context }) => {
+    const { verifierQuotaIA } = await import("./quota-ia.server");
+    await verifierQuotaIA(context.supabase, "orientation_messages", context.userId);
     const { generateWithGemini } = await import("./gemini.server");
     const { fichesPourQuestion, CONSIGNES_SOURCES } = await import("./orientation-fiches.server");
 

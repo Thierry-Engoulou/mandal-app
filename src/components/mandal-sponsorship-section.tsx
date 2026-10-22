@@ -13,6 +13,7 @@ import {
   DollarSign,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SITE_INFO } from "@/lib/site-info";
 
 export function MandalSponsorshipSection() {
   return (
@@ -139,7 +140,7 @@ export function MandalSponsorshipSection() {
               size="lg"
               className="rounded-full bg-amber-500 text-slate-950 font-bold hover:bg-amber-400"
             >
-              <a href="mailto:contact@jvepi-mandalorgmandal.cm?subject=Parrainage%20M'Andal">
+              <a href={`mailto:${SITE_INFO.email}?subject=Parrainage%20M'Andal`}>
                 Devenir Parrain / Partenaire <ArrowRight className="ml-2 size-4" />
               </a>
             </Button>

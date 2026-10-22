@@ -15,11 +15,15 @@ import { Route as AProposRouteImport } from './routes/a-propos'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BanqueEpreuvesRouteImport } from './routes/banque-epreuves'
 import { Route as CitoyenneteRouteImport } from './routes/citoyennete'
+import { Route as ConditionsUtilisationRouteImport } from './routes/conditions-utilisation'
+import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
+import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as CultureRouteImport } from './routes/culture'
 import { Route as DemandeInscriptionRouteImport } from './routes/demande-inscription'
 import { Route as EducationRouteImport } from './routes/education'
 import { Route as InscriptionRouteImport } from './routes/inscription'
+import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
 import { Route as AuthenticatedDashboardEnseignantRouteImport } from './routes/_authenticated.dashboard-enseignant'
 import { Route as AuthenticatedDashboardEtudiantRouteImport } from './routes/_authenticated.dashboard-etudiant'
@@ -111,6 +115,21 @@ const CitoyenneteRoute = CitoyenneteRouteImport.update({
   path: '/citoyennete',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConditionsUtilisationRoute = ConditionsUtilisationRouteImport.update({
+  id: '/conditions-utilisation',
+  path: '/conditions-utilisation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
+  id: '/confidentialite',
+  path: '/confidentialite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesRoute = CoursesRouteImport.update({
   id: '/courses',
   path: '/courses',
@@ -134,6 +153,11 @@ const EducationRoute = EducationRouteImport.update({
 const InscriptionRoute = InscriptionRouteImport.update({
   id: '/inscription',
   path: '/inscription',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
+  id: '/mentions-legales',
+  path: '/mentions-legales',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
@@ -500,11 +524,15 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRouteWithChildren
   '/banque-epreuves': typeof BanqueEpreuvesRoute
   '/citoyennete': typeof CitoyenneteRoute
+  '/conditions-utilisation': typeof ConditionsUtilisationRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/cookies': typeof CookiesRoute
   '/courses': typeof CoursesRouteWithChildren
   '/culture': typeof CultureRoute
   '/demande-inscription': typeof DemandeInscriptionRoute
   '/education': typeof EducationRoute
   '/inscription': typeof InscriptionRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard-enseignant': typeof AuthenticatedDashboardEnseignantRoute
   '/dashboard-etudiant': typeof AuthenticatedDashboardEtudiantRoute
@@ -572,10 +600,14 @@ export interface FileRoutesByTo {
   '/a-propos': typeof AProposRoute
   '/banque-epreuves': typeof BanqueEpreuvesRoute
   '/citoyennete': typeof CitoyenneteRoute
+  '/conditions-utilisation': typeof ConditionsUtilisationRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/cookies': typeof CookiesRoute
   '/culture': typeof CultureRoute
   '/demande-inscription': typeof DemandeInscriptionRoute
   '/education': typeof EducationRoute
   '/inscription': typeof InscriptionRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/dashboard-enseignant': typeof AuthenticatedDashboardEnseignantRoute
   '/dashboard-etudiant': typeof AuthenticatedDashboardEtudiantRoute
   '/auth/callback': typeof AuthCallbackRoute
@@ -641,11 +673,15 @@ export interface FileRoutesById {
   '/auth': typeof AuthRouteWithChildren
   '/banque-epreuves': typeof BanqueEpreuvesRoute
   '/citoyennete': typeof CitoyenneteRoute
+  '/conditions-utilisation': typeof ConditionsUtilisationRoute
+  '/confidentialite': typeof ConfidentialiteRoute
+  '/cookies': typeof CookiesRoute
   '/courses': typeof CoursesRouteWithChildren
   '/culture': typeof CultureRoute
   '/demande-inscription': typeof DemandeInscriptionRoute
   '/education': typeof EducationRoute
   '/inscription': typeof InscriptionRoute
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard-enseignant': typeof AuthenticatedDashboardEnseignantRoute
   '/_authenticated/dashboard-etudiant': typeof AuthenticatedDashboardEtudiantRoute
@@ -716,11 +752,15 @@ export interface FileRouteTypes {
     | '/auth'
     | '/banque-epreuves'
     | '/citoyennete'
+    | '/conditions-utilisation'
+    | '/confidentialite'
+    | '/cookies'
     | '/courses'
     | '/culture'
     | '/demande-inscription'
     | '/education'
     | '/inscription'
+    | '/mentions-legales'
     | '/admin'
     | '/dashboard-enseignant'
     | '/dashboard-etudiant'
@@ -788,10 +828,14 @@ export interface FileRouteTypes {
     | '/a-propos'
     | '/banque-epreuves'
     | '/citoyennete'
+    | '/conditions-utilisation'
+    | '/confidentialite'
+    | '/cookies'
     | '/culture'
     | '/demande-inscription'
     | '/education'
     | '/inscription'
+    | '/mentions-legales'
     | '/dashboard-enseignant'
     | '/dashboard-etudiant'
     | '/auth/callback'
@@ -856,11 +900,15 @@ export interface FileRouteTypes {
     | '/auth'
     | '/banque-epreuves'
     | '/citoyennete'
+    | '/conditions-utilisation'
+    | '/confidentialite'
+    | '/cookies'
     | '/courses'
     | '/culture'
     | '/demande-inscription'
     | '/education'
     | '/inscription'
+    | '/mentions-legales'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard-enseignant'
     | '/_authenticated/dashboard-etudiant'
@@ -931,11 +979,15 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   BanqueEpreuvesRoute: typeof BanqueEpreuvesRoute
   CitoyenneteRoute: typeof CitoyenneteRoute
+  ConditionsUtilisationRoute: typeof ConditionsUtilisationRoute
+  ConfidentialiteRoute: typeof ConfidentialiteRoute
+  CookiesRoute: typeof CookiesRoute
   CoursesRoute: typeof CoursesRouteWithChildren
   CultureRoute: typeof CultureRoute
   DemandeInscriptionRoute: typeof DemandeInscriptionRoute
   EducationRoute: typeof EducationRoute
   InscriptionRoute: typeof InscriptionRoute
+  MentionsLegalesRoute: typeof MentionsLegalesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -982,6 +1034,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CitoyenneteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/conditions-utilisation': {
+      id: '/conditions-utilisation'
+      path: '/conditions-utilisation'
+      fullPath: '/conditions-utilisation'
+      preLoaderRoute: typeof ConditionsUtilisationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confidentialite': {
+      id: '/confidentialite'
+      path: '/confidentialite'
+      fullPath: '/confidentialite'
+      preLoaderRoute: typeof ConfidentialiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses': {
       id: '/courses'
       path: '/courses'
@@ -1015,6 +1088,13 @@ declare module '@tanstack/react-router' {
       path: '/inscription'
       fullPath: '/inscription'
       preLoaderRoute: typeof InscriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mentions-legales': {
+      id: '/mentions-legales'
+      path: '/mentions-legales'
+      fullPath: '/mentions-legales'
+      preLoaderRoute: typeof MentionsLegalesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/admin': {
@@ -1682,11 +1762,15 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   BanqueEpreuvesRoute: BanqueEpreuvesRoute,
   CitoyenneteRoute: CitoyenneteRoute,
+  ConditionsUtilisationRoute: ConditionsUtilisationRoute,
+  ConfidentialiteRoute: ConfidentialiteRoute,
+  CookiesRoute: CookiesRoute,
   CoursesRoute: CoursesRouteWithChildren,
   CultureRoute: CultureRoute,
   DemandeInscriptionRoute: DemandeInscriptionRoute,
   EducationRoute: EducationRoute,
   InscriptionRoute: InscriptionRoute,
+  MentionsLegalesRoute: MentionsLegalesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -52,6 +52,7 @@ function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [created, setCreated] = useState(false);
+  const [accepte, setAccepte] = useState(false);
 
   // Charger les classes depuis la base Supabase
   useEffect(() => {
@@ -68,6 +69,10 @@ function SignupPage() {
   // Inscription avec Google : le rôle choisi est mémorisé le temps de l'aller-retour
   // chez Google, puis appliqué par /auth/callback.
   const handleGoogleSignup = async () => {
+    if (!accepte) {
+      toast.error("Coche la case pour accepter les conditions d'utilisation.");
+      return;
+    }
     setGoogleLoading(true);
     try {
       localStorage.setItem(GOOGLE_SIGNUP_ROLE_KEY, role);
@@ -86,6 +91,10 @@ function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!accepte) {
+      toast.error("Coche la case pour accepter les conditions d'utilisation.");
+      return;
+    }
     if (password !== confirmPassword) {
       toast.error("Les mots de passe ne correspondent pas.");
       return;
@@ -314,6 +323,31 @@ function SignupPage() {
                   </select>
                 </div>
               )}
+
+              <label className="flex items-start gap-2 text-xs text-muted-foreground">
+                <input
+                  type="checkbox"
+                  checked={accepte}
+                  onChange={(e) => setAccepte(e.target.checked)}
+                  className="mt-0.5 size-4 shrink-0 accent-primary"
+                  required
+                />
+                <span>
+                  J'accepte les{" "}
+                  <Link
+                    to="/conditions-utilisation"
+                    target="_blank"
+                    className="text-primary underline"
+                  >
+                    conditions d'utilisation
+                  </Link>{" "}
+                  et j'ai lu la{" "}
+                  <Link to="/confidentialite" target="_blank" className="text-primary underline">
+                    politique de confidentialité
+                  </Link>
+                  . Si j'ai moins de 15 ans, un parent est d'accord.
+                </span>
+              </label>
 
               <Button
                 type="submit"

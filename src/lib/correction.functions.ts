@@ -50,6 +50,8 @@ export const corrigerCopie = createServerFn({ method: "POST" })
       .parse(data),
   )
   .handler(async ({ data, context }) => {
+    const { verifierQuotaIA } = await import("./quota-ia.server");
+    await verifierQuotaIA(context.supabase, "corrections_ia", context.userId);
     const { generateWithGemini } = await import("./gemini.server");
     const { buildStudentContext } = await import("./student-context.server");
 

@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { MandalLogo } from "@/components/mandal-logo";
 import { Button } from "@/components/ui/button";
+import { LiensLegaux } from "@/components/legal/liens-legaux";
 
 export const Route = createFileRoute("/a-propos")({
   head: () => ({
@@ -210,6 +211,11 @@ function AboutPage() {
           </div>
         </div>
       </section>
+      <footer className="border-t border-border py-6">
+        <div className="mx-auto max-w-4xl px-4">
+          <LiensLegaux className="justify-center" />
+        </div>
+      </footer>
     </div>
   );
 }

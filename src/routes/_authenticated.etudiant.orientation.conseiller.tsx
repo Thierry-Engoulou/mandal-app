@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { avecGardeMajorite } from "@/components/garde-majorite";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
@@ -11,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { MathText } from "@/components/math-text";
 
 export const Route = createFileRoute("/_authenticated/etudiant/orientation/conseiller")({
-  component: OrientationAdvisorPage,
+  component: avecGardeMajorite(OrientationAdvisorPage),
   head: () => ({
     meta: [
       { title: "Conseiller d'orientation IA — MANDAL" },
@@ -154,6 +155,11 @@ function OrientationAdvisorPage() {
             {pending ? <LoaderCircle className="animate-spin" /> : <Send className="size-4" />}
           </Button>
         </form>
+        <p className="mt-2 text-center text-[11px] text-muted-foreground">
+          Mandal IA est une intelligence artificielle : elle peut se tromper. Vérifie les points
+          importants avec ton enseignant, et n'écris pas d'informations personnelles (nom complet,
+          téléphone, adresse).
+        </p>
       </div>
     </div>
   );

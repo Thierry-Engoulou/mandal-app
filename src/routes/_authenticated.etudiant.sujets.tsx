@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { avecGardeMajorite } from "@/components/garde-majorite";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
@@ -24,7 +25,7 @@ import { MathText } from "@/components/math-text";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/etudiant/sujets")({
-  component: EpreuvesBlanchesPage,
+  component: avecGardeMajorite(EpreuvesBlanchesPage),
   head: () => ({
     meta: [
       { title: "Épreuves blanches Mandal IA — M'ANDAL" },

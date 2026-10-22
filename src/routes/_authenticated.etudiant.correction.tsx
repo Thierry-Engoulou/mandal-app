@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { avecGardeMajorite } from "@/components/garde-majorite";
 import { z } from "zod";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -30,7 +31,7 @@ const searchSchema = z.object({ epreuve: z.string().uuid().optional() });
 
 export const Route = createFileRoute("/_authenticated/etudiant/correction")({
   validateSearch: (search) => searchSchema.parse(search),
-  component: CorrectionPage,
+  component: avecGardeMajorite(CorrectionPage),
   head: () => ({
     meta: [
       { title: "Corriger ma copie — Mandal IA" },
