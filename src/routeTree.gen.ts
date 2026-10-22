@@ -37,6 +37,7 @@ import { Route as CoursesCourseIdRouteImport } from './routes/courses.$courseId'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
 import { Route as AuthenticatedAdminBanqueRouteImport } from './routes/_authenticated.admin.banque'
 import { Route as AuthenticatedAdminDemandesRouteImport } from './routes/_authenticated.admin.demandes'
+import { Route as AuthenticatedAdminGalerieRouteImport } from './routes/_authenticated.admin.galerie'
 import { Route as AuthenticatedAdminUtilisateursRouteImport } from './routes/_authenticated.admin.utilisateurs'
 import { Route as AuthenticatedCoursesNewRouteImport } from './routes/_authenticated.courses.new'
 import { Route as AuthenticatedEnseignantIndexRouteImport } from './routes/_authenticated.enseignant.index'
@@ -228,6 +229,12 @@ const AuthenticatedAdminDemandesRoute =
   AuthenticatedAdminDemandesRouteImport.update({
     id: '/demandes',
     path: '/demandes',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminGalerieRoute =
+  AuthenticatedAdminGalerieRouteImport.update({
+    id: '/galerie',
+    path: '/galerie',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminUtilisateursRoute =
@@ -545,6 +552,7 @@ export interface FileRoutesByFullPath {
   '/courses/': typeof CoursesIndexRoute
   '/admin/banque': typeof AuthenticatedAdminBanqueRoute
   '/admin/demandes': typeof AuthenticatedAdminDemandesRoute
+  '/admin/galerie': typeof AuthenticatedAdminGalerieRoute
   '/admin/utilisateurs': typeof AuthenticatedAdminUtilisateursRoute
   '/courses/new': typeof AuthenticatedCoursesNewRoute
   '/enseignant/banque': typeof AuthenticatedEnseignantBanqueRoute
@@ -616,6 +624,7 @@ export interface FileRoutesByTo {
   '/courses': typeof CoursesIndexRoute
   '/admin/banque': typeof AuthenticatedAdminBanqueRoute
   '/admin/demandes': typeof AuthenticatedAdminDemandesRoute
+  '/admin/galerie': typeof AuthenticatedAdminGalerieRoute
   '/admin/utilisateurs': typeof AuthenticatedAdminUtilisateursRoute
   '/courses/new': typeof AuthenticatedCoursesNewRoute
   '/enseignant/banque': typeof AuthenticatedEnseignantBanqueRoute
@@ -694,6 +703,7 @@ export interface FileRoutesById {
   '/courses/': typeof CoursesIndexRoute
   '/_authenticated/admin/banque': typeof AuthenticatedAdminBanqueRoute
   '/_authenticated/admin/demandes': typeof AuthenticatedAdminDemandesRoute
+  '/_authenticated/admin/galerie': typeof AuthenticatedAdminGalerieRoute
   '/_authenticated/admin/utilisateurs': typeof AuthenticatedAdminUtilisateursRoute
   '/_authenticated/courses/new': typeof AuthenticatedCoursesNewRoute
   '/_authenticated/enseignant/banque': typeof AuthenticatedEnseignantBanqueRoute
@@ -773,6 +783,7 @@ export interface FileRouteTypes {
     | '/courses/'
     | '/admin/banque'
     | '/admin/demandes'
+    | '/admin/galerie'
     | '/admin/utilisateurs'
     | '/courses/new'
     | '/enseignant/banque'
@@ -844,6 +855,7 @@ export interface FileRouteTypes {
     | '/courses'
     | '/admin/banque'
     | '/admin/demandes'
+    | '/admin/galerie'
     | '/admin/utilisateurs'
     | '/courses/new'
     | '/enseignant/banque'
@@ -921,6 +933,7 @@ export interface FileRouteTypes {
     | '/courses/'
     | '/_authenticated/admin/banque'
     | '/_authenticated/admin/demandes'
+    | '/_authenticated/admin/galerie'
     | '/_authenticated/admin/utilisateurs'
     | '/_authenticated/courses/new'
     | '/_authenticated/enseignant/banque'
@@ -1186,6 +1199,13 @@ declare module '@tanstack/react-router' {
       path: '/demandes'
       fullPath: '/admin/demandes'
       preLoaderRoute: typeof AuthenticatedAdminDemandesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/galerie': {
+      id: '/_authenticated/admin/galerie'
+      path: '/galerie'
+      fullPath: '/admin/galerie'
+      preLoaderRoute: typeof AuthenticatedAdminGalerieRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/utilisateurs': {
@@ -1530,6 +1550,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminBanqueRoute: typeof AuthenticatedAdminBanqueRoute
   AuthenticatedAdminDemandesRoute: typeof AuthenticatedAdminDemandesRoute
+  AuthenticatedAdminGalerieRoute: typeof AuthenticatedAdminGalerieRoute
   AuthenticatedAdminUtilisateursRoute: typeof AuthenticatedAdminUtilisateursRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
 }
@@ -1537,6 +1558,7 @@ interface AuthenticatedAdminRouteChildren {
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminBanqueRoute: AuthenticatedAdminBanqueRoute,
   AuthenticatedAdminDemandesRoute: AuthenticatedAdminDemandesRoute,
+  AuthenticatedAdminGalerieRoute: AuthenticatedAdminGalerieRoute,
   AuthenticatedAdminUtilisateursRoute: AuthenticatedAdminUtilisateursRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
 }

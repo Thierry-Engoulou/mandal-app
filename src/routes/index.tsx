@@ -18,6 +18,7 @@ import classroomImage from "@/assets/mandal-classroom.jpg";
 import { AnnouncementsCarousel } from "@/components/announcements-carousel";
 import { MandalLogo } from "@/components/mandal-logo";
 import { MandalSponsorshipSection } from "@/components/mandal-sponsorship-section";
+import { GalerieDefilante } from "@/components/galerie-defilante";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { listOlympiads } from "@/lib/site-content.functions";
@@ -451,6 +452,8 @@ function HomePage() {
         </div>
         <AnnouncementsCarousel />
       </div>
+
+      <GalerieDefilante />
 
       <Footer />
     </div>

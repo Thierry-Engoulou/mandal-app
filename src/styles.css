@@ -179,3 +179,28 @@
 .ease-out-expo {
   transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* Bandeau de photos qui défile (galerie de l'accueil) */
+@keyframes defilement {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-defilement {
+  animation: defilement var(--duree-defilement, 60s) linear infinite;
+}
+
+.animate-defilement:hover,
+.animate-defilement:focus-within {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-defilement {
+    animation: none;
+  }
+}
