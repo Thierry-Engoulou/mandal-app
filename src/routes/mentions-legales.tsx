@@ -20,14 +20,17 @@ function MentionsLegalesPage() {
     <LegalLayout titre="Mentions légales">
       <h2>Éditeur du site</h2>
       <p>
-        Le site <a href={SITE_INFO.url}>{SITE_INFO.url}</a> ({SITE_INFO.nom}) est édité par{" "}
-        {SITE_INFO.editeur}, {SITE_INFO.formeJuridique}, {SITE_INFO.immatriculation}, dont le siège
-        est situé {SITE_INFO.adresse}.
+        Le site <a href={SITE_INFO.url}>{SITE_INFO.url}</a> ({SITE_INFO.nom}) est édité{" "}
+        {SITE_INFO.statutEditeur} par {SITE_INFO.editeur}, {SITE_INFO.adresse}.
       </p>
       <ul>
-        <li>Téléphone : {SITE_INFO.telephone}</li>
         <li>
-          E-mail : <a href={`mailto:${SITE_INFO.email}`}>{SITE_INFO.email}</a>
+          Contact de l'éditeur :{" "}
+          <a href={`mailto:${SITE_INFO.emailEditeur}`}>{SITE_INFO.emailEditeur}</a>
+        </li>
+        <li>
+          Contact général : <a href={`mailto:${SITE_INFO.email}`}>{SITE_INFO.email}</a> —{" "}
+          {SITE_INFO.telephone}
         </li>
         <li>Responsable de la publication : {SITE_INFO.responsablePublication}</li>
       </ul>
@@ -39,8 +42,11 @@ function MentionsLegalesPage() {
           <a href="https://vercel.com">vercel.com</a>
         </li>
         <li>
-          Base de données et fichiers : Supabase Inc. ({SITE_INFO.regionSupabase}) —{" "}
-          <a href="https://supabase.com">supabase.com</a>
+          Données des utilisateurs (comptes, progression) et fichiers : Supabase Inc., stockés dans
+          la {SITE_INFO.regionSupabase} — <a href="https://supabase.com">supabase.com</a>
+        </li>
+        <li>
+          Code source : GitHub Inc., États-Unis — <a href="https://github.com">github.com</a>
         </li>
       </ul>
 
@@ -53,8 +59,9 @@ function MentionsLegalesPage() {
         Les épreuves d'examens officiels de la banque d'épreuves restent la propriété de leurs
         auteurs (Office du Baccalauréat du Cameroun, Cameroon GCE Board, ministères, établissements)
         et sont diffusées à des fins pédagogiques, avec l'indication de leur source. Pour demander
-        le retrait d'un document : <a href={`mailto:${SITE_INFO.email}`}>{SITE_INFO.email}</a>. Nous
-        le retirons dans les meilleurs délais.
+        le retrait d'un document :{" "}
+        <a href={`mailto:${SITE_INFO.emailEditeur}`}>{SITE_INFO.emailEditeur}</a>. Nous le retirons
+        dans les meilleurs délais.
       </p>
 
       <h2>Crédits</h2>

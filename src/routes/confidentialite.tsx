@@ -28,7 +28,9 @@ function ConfidentialitePage() {
 
       <h2>1. Qui est responsable ?</h2>
       <p>
-        {SITE_INFO.editeur}, {SITE_INFO.adresse}. Pour toute question sur tes données : {mail}.
+        {SITE_INFO.editeur}, éditeur du site {SITE_INFO.statutEditeur}, {SITE_INFO.adresse}. Pour
+        toute question sur tes données :{" "}
+        <a href={`mailto:${SITE_INFO.emailEditeur}`}>{SITE_INFO.emailEditeur}</a> (ou {mail}).
       </p>
 
       <h2>2. Quelles données ?</h2>
@@ -88,8 +90,8 @@ function ConfidentialitePage() {
         <li>L'équipe M'ANDAL et, pour leurs classes et leurs épreuves, tes enseignants.</li>
         <li>
           Nos prestataires techniques : Vercel (hébergement du site, États-Unis), Supabase (base de
-          données et fichiers, {SITE_INFO.regionSupabase}), Google (connexion avec Google et service
-          d'IA Gemini).
+          données et fichiers, stockés dans la {SITE_INFO.regionSupabase}), Google (connexion avec
+          Google et service d'IA Gemini).
         </li>
       </ul>
       <p>
