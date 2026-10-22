@@ -28,7 +28,8 @@ export function youtubeEmbedUrl(url: string): string | null {
   const match = url.match(
     /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/,
   );
-  return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+  // youtube-nocookie : pas de traceur YouTube tant que la vidéo n'est pas lue.
+  return match ? `https://www.youtube-nocookie.com/embed/${match[1]}` : null;
 }
 
 /**

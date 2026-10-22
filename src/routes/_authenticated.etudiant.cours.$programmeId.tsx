@@ -22,6 +22,7 @@ import {
   svgDataUrl,
   youtubeEmbedUrl,
 } from "@/lib/concept-content";
+import { EmbedApresClic } from "@/components/embed-apres-clic";
 import { FunctionGraph } from "@/components/function-graph";
 import { InteractiveLesson } from "@/components/interactive-lesson";
 import { LessonQuiz } from "@/components/lesson-quiz";
@@ -75,15 +76,17 @@ function ConceptContent({ concept }: { concept: ProgrammeConcept }) {
           />
         ) : null}
         {embed ? (
-          <div className="overflow-hidden rounded-xl border border-border">
-            <iframe
-              src={embed}
-              className="h-[500px] w-full"
-              title={concept.titre}
-              allowFullScreen
-              sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-            />
-          </div>
+          <EmbedApresClic fournisseur="GeoGebra" titre={concept.titre} className="h-[200px]">
+            <div className="overflow-hidden rounded-xl border border-border">
+              <iframe
+                src={embed}
+                className="h-[500px] w-full"
+                title={concept.titre}
+                allowFullScreen
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+              />
+            </div>
+          </EmbedApresClic>
         ) : null}
         <a
           href={concept.media_url}
@@ -99,9 +102,17 @@ function ConceptContent({ concept }: { concept: ProgrammeConcept }) {
   if (concept.type_contenu === "video" && concept.media_url) {
     const embed = youtubeEmbedUrl(concept.media_url);
     return embed ? (
-      <div className="aspect-video overflow-hidden rounded-xl">
-        <iframe src={embed} className="h-full w-full" allowFullScreen title={concept.titre} />
-      </div>
+      <EmbedApresClic fournisseur="YouTube (Google)" titre={concept.titre} className="aspect-video">
+        <div className="aspect-video overflow-hidden rounded-xl">
+          <iframe
+            src={`${embed}?autoplay=1`}
+            className="h-full w-full"
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowFullScreen
+            title={concept.titre}
+          />
+        </div>
+      </EmbedApresClic>
     ) : (
       <video src={concept.media_url} controls className="w-full rounded-xl" />
     );

@@ -154,6 +154,11 @@ function OrientationAdvisorPage() {
             {pending ? <LoaderCircle className="animate-spin" /> : <Send className="size-4" />}
           </Button>
         </form>
+        <p className="mt-2 text-center text-[11px] text-muted-foreground">
+          Mandal IA est une intelligence artificielle : elle peut se tromper. Vérifie les points
+          importants avec ton enseignant, et n'écris pas d'informations personnelles (nom complet,
+          téléphone, adresse).
+        </p>
       </div>
     </div>
   );

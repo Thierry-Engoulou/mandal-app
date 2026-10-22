@@ -4,6 +4,7 @@ import { Bot, Download, FileText, ScanLine } from "lucide-react";
 import { MandalLogo } from "@/components/mandal-logo";
 import { BanqueExplorer } from "@/components/banque/banque-explorer";
 import { Button } from "@/components/ui/button";
+import { LiensLegaux } from "@/components/legal/liens-legaux";
 
 const searchSchema = z.object({
   q: z.string().max(200).optional(),
@@ -95,8 +96,13 @@ function BanqueEpreuvesPage() {
         <p className="text-center text-xs text-muted-foreground">
           Les épreuves sont publiées à des fins pédagogiques, avec l'indication de leur source.
           Enseignant ? Connecte-toi pour proposer tes épreuves. Une erreur ou un fichier à retirer :
-          écris-nous depuis la page À propos.
+          voir les{" "}
+          <Link to="/mentions-legales" className="underline">
+            mentions légales
+          </Link>
+          .
         </p>
+        <LiensLegaux className="justify-center" />
       </main>
     </div>
   );

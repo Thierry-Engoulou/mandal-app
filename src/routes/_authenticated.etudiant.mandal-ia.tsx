@@ -181,7 +181,9 @@ function MandalIAPage() {
           </Button>
         </form>
         <p className="mt-2 text-xs text-muted-foreground">
-          Mandal IA peut se tromper : en cas de doute, vérifie avec ton enseignant.
+          Mandal IA est une intelligence artificielle : elle peut se tromper. Vérifie les points
+          importants avec ton enseignant, et n'écris pas d'informations personnelles (nom complet,
+          téléphone, adresse).
         </p>
       </div>
     </div>

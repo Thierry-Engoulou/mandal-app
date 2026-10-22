@@ -44,18 +44,40 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+// En-têtes de sécurité ajoutés à toutes les réponses du serveur.
+// frame-ancestors : le site ne peut être affiché dans un cadre que par lui-même
+// et par l'éditeur Lovable (aperçu), ce qui empêche le « clickjacking ».
+const SECURITY_HEADERS: Record<string, string> = {
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "geolocation=(), microphone=(), payment=(), usb=(), interest-cohort=()",
+  "Content-Security-Policy":
+    "frame-ancestors 'self' https://*.lovable.dev https://*.lovable.app https://*.lovableproject.com https://*.lovableproject-dev.com https://*.gpt-eng.com; base-uri 'self'; object-src 'none'",
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+};
+
+function withSecurityHeaders(response: Response): Response {
+  const secured = new Response(response.body, response);
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    if (!secured.headers.has(name)) secured.headers.set(name, value);
+  }
+  return secured;
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      return withSecurityHeaders(await normalizeCatastrophicSsrResponse(response));
     } catch (error) {
       console.error(error);
-      return new Response(renderErrorPage(), {
-        status: 500,
-        headers: { "content-type": "text/html; charset=utf-8" },
-      });
+      return withSecurityHeaders(
+        new Response(renderErrorPage(), {
+          status: 500,
+          headers: { "content-type": "text/html; charset=utf-8" },
+        }),
+      );
     }
   },
 };

@@ -22,6 +22,8 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { listOlympiads } from "@/lib/site-content.functions";
 import { cn } from "@/lib/utils";
+import { LiensLegaux } from "@/components/legal/liens-legaux";
+import { SITE_INFO } from "@/lib/site-info";
 
 const olympiadsQuery = queryOptions({ queryKey: ["olympiads"], queryFn: () => listOlympiads() });
 
@@ -360,12 +362,12 @@ function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
                 <Phone className="size-4 text-emerald-500 shrink-0" />
-                <span>Infoline : (+237) 690 50 41 28</span>
+                <span>Infoline : {SITE_INFO.telephone}</span>
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="size-4 text-emerald-500 shrink-0" />
-                <a href="mailto:contact@jvepi-mandalorgmandal.cm" className="hover:underline">
-                  contact@jvepi-mandalorgmandal.cm
+                <a href={`mailto:${SITE_INFO.email}`} className="hover:underline">
+                  {SITE_INFO.email}
                 </a>
               </li>
             </ul>
@@ -398,6 +400,7 @@ function Footer() {
         <p className="text-xs text-muted-foreground">
           © 2026 M'ANDAL (Mahol Andal) · Tous droits réservés.
         </p>
+        <LiensLegaux />
         <div className="flex flex-wrap items-center gap-5 text-sm font-semibold text-muted-foreground">
           <Link to="/" className="hover:text-emerald-500">
             🏠 Accueil
