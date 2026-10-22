@@ -8,9 +8,8 @@ export const SITE_INFO = {
   immatriculation: "[N° RCCM ou récépissé de déclaration d'association]",
   adresse: "[Adresse complète], Cameroun",
   responsablePublication: "[Nom et fonction du responsable de la publication]",
-  telephone: "(+237) 690 50 41 28",
-  // ⚠️ Adresse à vérifier : elle semble mal formée.
-  email: "contact@jvepi-mandalorgmandal.cm",
+  telephone: "+237 6 90 50 41 28",
+  email: "contact@jvepi-mandal.org",
   regionSupabase: "[Région du projet Supabase : Settings → General → Region]",
   miseAJour: "22 octobre 2026",
 } as const;
