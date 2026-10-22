@@ -77,7 +77,9 @@ function ConfidentialitePage() {
         <strong>Gemini, de Google</strong>. Ta question, les photos de copie et les sujets joints
         lui sont envoyés pour produire la réponse. Dans l'offre utilisée, Google peut se servir de
         ces contenus pour améliorer ses services, et des personnes peuvent les relire après
-        séparation de toute information d'identification du compte.
+        séparation de toute information d'identification du compte. C'est pourquoi, conformément aux
+        conditions de Google, Mandal IA est <strong>réservé aux personnes de 18 ans ou plus</strong>
+        .
       </p>
       <p>
         <strong>N'écris donc jamais ton nom complet, ton numéro de téléphone ou ton adresse</strong>{" "}
@@ -112,8 +114,9 @@ function ConfidentialitePage() {
       <p>
         M'ANDAL s'adresse notamment à des élèves mineurs. Si tu as moins de 15 ans, demande à un
         parent ou à un responsable légal de lire cette page avec toi et de donner son accord avant
-        de créer ton compte. Un parent peut nous écrire à tout moment ({mail}) pour accéder aux
-        données de son enfant ou les faire supprimer.
+        de créer ton compte. Si tu as moins de 18 ans, tu n'as pas accès à Mandal IA : aucune de tes
+        questions n'est donc envoyée à Google. Un parent peut nous écrire à tout moment ({mail})
+        pour accéder aux données de son enfant ou les faire supprimer.
       </p>
 
       <h2>8. Tes droits</h2>

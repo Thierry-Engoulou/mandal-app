@@ -59,6 +59,12 @@ function ConditionsPage() {
 
       <h2>4. Mandal IA</h2>
       <p>
+        Mandal IA (questions, conseiller d'orientation, correction de copies, épreuves blanches)
+        utilise le service Gemini de Google et est{" "}
+        <strong>réservé aux personnes de 18 ans ou plus</strong>, qui le confirment avant d'y
+        accéder. Le reste de M'ANDAL reste ouvert à tous.
+      </p>
+      <p>
         Mandal IA est un outil d'entraînement : ses réponses et ses corrections peuvent contenir des
         erreurs et ne remplacent ni ton enseignant ni une note officielle. N'y écris pas
         d'informations personnelles (voir la{" "}

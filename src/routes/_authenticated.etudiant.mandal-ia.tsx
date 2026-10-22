@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { avecGardeMajorite } from "@/components/garde-majorite";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
@@ -11,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { MathText } from "@/components/math-text";
 
 export const Route = createFileRoute("/_authenticated/etudiant/mandal-ia")({
-  component: MandalIAPage,
+  component: avecGardeMajorite(MandalIAPage),
   head: () => ({
     meta: [
       { title: "Mandal IA — votre répétiteur numérique" },
