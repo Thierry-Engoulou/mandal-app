@@ -702,6 +702,36 @@ export type Database = {
         }
         Relationships: []
       }
+      galerie_photos: {
+        Row: {
+          ajoute_par: string | null
+          chemin: string
+          created_at: string
+          id: string
+          legende: string | null
+          ordre: number
+          visible: boolean
+        }
+        Insert: {
+          ajoute_par?: string | null
+          chemin: string
+          created_at?: string
+          id?: string
+          legende?: string | null
+          ordre?: number
+          visible?: boolean
+        }
+        Update: {
+          ajoute_par?: string | null
+          chemin?: string
+          created_at?: string
+          id?: string
+          legende?: string | null
+          ordre?: number
+          visible?: boolean
+        }
+        Relationships: []
+      }
       examens: {
         Row: {
           chapitre_id: string | null

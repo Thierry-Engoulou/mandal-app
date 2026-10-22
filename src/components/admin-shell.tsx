@@ -1,7 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
-import { Users, Mail, LayoutDashboard, Inbox, Library, LogOut } from "lucide-react";
+import { Users, Mail, LayoutDashboard, Inbox, Library, LogOut, Images } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ const items = [
   { to: "/admin/utilisateurs", label: "Utilisateurs", icon: Users, exact: false },
   { to: "/admin/demandes", label: "Demandes d'inscription", icon: Inbox, exact: false },
   { to: "/admin/banque", label: "Banque d'épreuves", icon: Library, exact: false },
+  { to: "/admin/galerie", label: "Galerie photos", icon: Images, exact: false },
 ] as const;
 
 export function AdminShell({ children }: { children: ReactNode }) {
