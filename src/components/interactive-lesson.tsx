@@ -161,6 +161,7 @@ import {
   NomenclatureAlcene,
   PolymeresUsages,
   Polymerisation,
+  ProprietesInsatures,
   StructureInsatures,
   TestDibrome,
 } from "@/components/interactive/chimie1-insatures";
@@ -169,6 +170,7 @@ import {
   BenzeneAddition,
   BenzeneStructure,
   BenzeneSubstitution,
+  ProprietesOxygenes,
   TestAldehydeCetone,
 } from "@/components/interactive/chimie1-aromatiques";
 import {
@@ -192,6 +194,7 @@ import {
 } from "@/components/interactive/chimie1-redox-a";
 import {
   AnodeSoluble,
+  ApplicationsIndustrielles,
   Corrosion,
   CouplesNonMetalliques,
   DemiEquation,
@@ -1142,6 +1145,21 @@ export const INTERACTIFS = [
     label: "Équilibrer par les n.o.",
     description: "Poser alpha et bêta, puis placer les coefficients.",
   },
+  {
+    value: "proprietes-insatures",
+    label: "Gaz, liquide ou solide ?",
+    description: "L'état, la densité et la solubilité d'un alcène ou d'un alcyne.",
+  },
+  {
+    value: "proprietes-oxygenes",
+    label: "Pourquoi les alcools bouillent-ils si haut ?",
+    description: "Les liaisons hydrogène, et la solubilité qui s'effondre avec la chaîne.",
+  },
+  {
+    value: "applications-industrielles",
+    label: "L'oxydoréduction dans l'industrie",
+    description: "Haut fourneau, aluminothermie, alumine, eau de javel et dismutation.",
+  },
 ] as const;
 
 export type InteractifKey = (typeof INTERACTIFS)[number]["value"];
@@ -1341,6 +1359,9 @@ const WIDGETS: Record<string, typeof CercleTrigo> = {
   electronegativite: Electronegativite,
   "redox-voie-seche": RedoxVoieSeche,
   "equilibrer-no": EquilibrerNo,
+  "proprietes-insatures": ProprietesInsatures,
+  "proprietes-oxygenes": ProprietesOxygenes,
+  "applications-industrielles": ApplicationsIndustrielles,
 };
 
 type Spec = { widget?: string; consigne?: string };

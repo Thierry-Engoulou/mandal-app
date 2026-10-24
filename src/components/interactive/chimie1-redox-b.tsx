@@ -2017,3 +2017,196 @@ export function EquilibrerNo() {
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Chapitre 19 — L'oxydoréduction dans l'industrie                     */
+/* ------------------------------------------------------------------ */
+
+type Procede = {
+  value: string;
+  label: string;
+  equation: string;
+  no: string;
+  oxydant: string;
+  reducteur: string;
+  usage: string;
+  note: string;
+  dismutation: boolean;
+};
+
+const PROC_DEFAUT: Procede = {
+  value: "haut-fourneau",
+  label: "Haut fourneau",
+  equation: "Fe₂O₃ + 3 CO → 2 Fe + 3 CO₂",
+  no: "Fe : +III → 0   ·   C : +II → +IV",
+  oxydant: "Fe₂O₃",
+  reducteur: "CO",
+  usage: "produire la fonte, puis l'acier",
+  note: "Dans la nature le fer est oxydé : l'obtenir, c'est le réduire. Le monoxyde de carbone, fabriqué sur place à partir du coke, est le réducteur.",
+  dismutation: false,
+};
+
+const PROCEDES: ReadonlyArray<Procede> = [
+  PROC_DEFAUT,
+  {
+    value: "aluminothermie",
+    label: "Aluminothermie",
+    equation: "2 Al + Fe₂O₃ → Al₂O₃ + 2 Fe",
+    no: "Al : 0 → +III   ·   Fe : +III → 0",
+    oxydant: "Fe₂O₃",
+    reducteur: "Al",
+    usage: "souder les rails de chemin de fer sur place",
+    note: "L'aluminium est un réducteur si puissant qu'il arrache l'oxygène aux autres oxydes. La réaction est si exothermique que le fer produit est liquide.",
+    dismutation: false,
+  },
+  {
+    value: "alumine",
+    label: "Électrolyse de l'alumine",
+    equation: "2 Al₂O₃ → 4 Al + 3 O₂",
+    no: "Al : +III → 0   ·   O : −II → 0",
+    oxydant: "Al³⁺",
+    reducteur: "O²⁻",
+    usage: "produire l'aluminium",
+    note: "Aucun réducteur chimique ne peut réduire l'aluminium, justement parce qu'il est le plus fort. Seule l'électricité y parvient — d'où les usines installées près des barrages, comme à Édéa.",
+    dismutation: false,
+  },
+  {
+    value: "javel",
+    label: "Eau de javel",
+    equation: "Cl₂ + 2 HO⁻ → ClO⁻ + Cl⁻ + H₂O",
+    no: "Cl : 0 → +I   ET   Cl : 0 → −I",
+    oxydant: "Cl₂",
+    reducteur: "Cl₂",
+    usage: "désinfecter l'eau et les surfaces",
+    note: "Le même élément est à la fois oxydé et réduit : cette réaction s'appelle une DISMUTATION. Le chlore monte à +I dans ClO⁻ et descend à −I dans Cl⁻.",
+    dismutation: true,
+  },
+];
+
+export function ApplicationsIndustrielles() {
+  const [choix, setChoix] = useState("haut-fourneau");
+  const [degre, setDegre] = useState(48);
+  const [volume, setVolume] = useState(0.25);
+  const p = PROCEDES.find((x) => x.value === choix) ?? PROC_DEFAUT;
+
+  const vCl2 = degre * volume;
+  const nCl2 = vCl2 / 22.4;
+  const concentration = volume > 0 ? nCl2 / volume : 0;
+
+  const W = 440;
+  const H = 190;
+
+  return (
+    <div className="space-y-3">
+      <Choice
+        label="Procédé industriel"
+        value={choix}
+        options={PROCEDES.map((o) => ({ value: o.value, label: o.label }))}
+        onChange={setChoix}
+      />
+
+      <Board width={W} height={H}>
+        <rect width={W} height={H} fill="#ffffff" />
+        <text
+          x={W / 2}
+          y={34}
+          textAnchor="middle"
+          fontSize={15}
+          fontWeight={700}
+          fill={PALETTE.ink}
+        >
+          {p.equation}
+        </text>
+        <text x={W / 2} y={58} textAnchor="middle" fontSize={11} fill={PALETTE.slate}>
+          {p.no}
+        </text>
+
+        <rect x={30} y={76} width={176} height={46} rx={8} fill="#fef2f2" />
+        <text x={118} y={94} textAnchor="middle" fontSize={10} fill={PALETTE.slate}>
+          oxydant — son n.o. diminue
+        </text>
+        <text x={118} y={113} textAnchor="middle" fontSize={14} fontWeight={700} fill={PALETTE.red}>
+          {p.oxydant}
+        </text>
+
+        <rect x={234} y={76} width={176} height={46} rx={8} fill="#ecfdf5" />
+        <text x={322} y={94} textAnchor="middle" fontSize={10} fill={PALETTE.slate}>
+          réducteur — son n.o. augmente
+        </text>
+        <text
+          x={322}
+          y={113}
+          textAnchor="middle"
+          fontSize={14}
+          fontWeight={700}
+          fill={PALETTE.green}
+        >
+          {p.reducteur}
+        </text>
+
+        <text
+          x={W / 2}
+          y={146}
+          textAnchor="middle"
+          fontSize={11}
+          fontWeight={700}
+          fill={PALETTE.purple}
+        >
+          à quoi ça sert : {p.usage}
+        </text>
+        {p.dismutation ? (
+          <text
+            x={W / 2}
+            y={170}
+            textAnchor="middle"
+            fontSize={12}
+            fontWeight={700}
+            fill={PALETTE.orange}
+          >
+            DISMUTATION — le même élément monte et descend
+          </text>
+        ) : null}
+      </Board>
+
+      <Verdict tone={p.dismutation ? "warn" : "ok"}>{p.note}</Verdict>
+
+      {p.value === "javel" ? (
+        <>
+          <Panel>
+            <Ctrl
+              label="Degré chlorométrique"
+              value={degre}
+              min={6}
+              max={120}
+              step={2}
+              onChange={setDegre}
+              display={`${degre} °Chl`}
+              color={PALETTE.orange}
+            />
+            <Ctrl
+              label="Volume de solution à préparer"
+              value={volume}
+              min={0.05}
+              max={2}
+              step={0.05}
+              onChange={setVolume}
+              display={`${fmt(volume * 1000, 0)} mL`}
+              color={PALETTE.blue}
+            />
+          </Panel>
+          <div className="grid grid-cols-3 gap-2">
+            <Stat label="Dichlore nécessaire" value={`${fmt(vCl2, 1)} L`} color={PALETTE.orange} />
+            <Stat label="Soit" value={`${fmt(nCl2, 3)} mol`} color={PALETTE.slate} />
+            <Stat label="[ClO⁻]" value={`${fmt(concentration, 2)} mol/L`} color={PALETTE.green} />
+          </div>
+          <Verdict tone="ok">
+            Le degré chlorométrique est le volume de dichlore gazeux, mesuré dans les conditions
+            normales, utilisé pour préparer UN LITRE de solution. Une mole de dichlore donne une
+            mole d&apos;ions hypochlorite : la concentration ne dépend donc que du degré, pas du
+            volume préparé.
+          </Verdict>
+        </>
+      ) : null}
+    </div>
+  );
+}

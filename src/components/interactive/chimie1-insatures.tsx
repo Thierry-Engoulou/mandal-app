@@ -1661,3 +1661,162 @@ export function DeshydratationAlcool() {
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Chapitre 7 — Gaz, liquide ou solide ?                               */
+/* ------------------------------------------------------------------ */
+
+const EBU_ALCENES = [-104, -47, -6, 30, 63, 94, 121, 147, 171];
+const EBU_ALCYNES = [-84, -23, 8, 40, 71, 100, 126, 151, 174];
+
+export function ProprietesInsatures() {
+  const [n, setN] = useState(2);
+  const [type, setType] = useState<"ene" | "yne">("ene");
+  const [milieu, setMilieu] = useState<"eau" | "essence">("eau");
+
+  const table = type === "ene" ? EBU_ALCENES : EBU_ALCYNES;
+  const teb = table[n - 2] ?? 0;
+  const etat = teb < 25 ? "gaz" : "liquide";
+  const M = type === "ene" ? 14 * n : 14 * n - 2;
+  const densite = M / 29;
+  const soluble = milieu === "essence";
+  const nom = `${racine(n)}-1-${type === "ene" ? "ène" : "yne"}`;
+
+  const W = 440;
+  const H = 210;
+
+  return (
+    <div className="space-y-3">
+      <Choice
+        label="Famille"
+        value={type}
+        options={[
+          { value: "ene" as const, label: "Alcène" },
+          { value: "yne" as const, label: "Alcyne" },
+        ]}
+        onChange={setType}
+      />
+      <Ctrl
+        label="Nombre de carbones"
+        value={n}
+        min={2}
+        max={10}
+        step={1}
+        onChange={setN}
+        display={`${nom} — C${indiceSub(n)}H${indiceSub(type === "ene" ? 2 * n : 2 * n - 2)}`}
+      />
+      <Choice
+        label="On le verse dans"
+        value={milieu}
+        options={[
+          { value: "eau" as const, label: "De l'eau" },
+          { value: "essence" as const, label: "De l'essence" },
+        ]}
+        onChange={setMilieu}
+      />
+
+      <Board width={W} height={H}>
+        <rect width={W} height={H} fill="#ffffff" />
+
+        <path
+          d="M54 54 L158 54 L148 170 L64 170 Z"
+          fill="#f8fafc"
+          stroke={PALETTE.slate}
+          strokeWidth={2}
+        />
+        <path
+          d="M60 104 L152 104 L148 170 L64 170 Z"
+          fill={milieu === "eau" ? "#bfdbfe" : "#fde68a"}
+          opacity={0.7}
+        />
+        <text x={106} y={190} textAnchor="middle" fontSize={11} fill={PALETTE.slate}>
+          {milieu === "eau" ? "eau" : "essence"}
+        </text>
+
+        {soluble ? (
+          <text
+            x={106}
+            y={144}
+            textAnchor="middle"
+            fontSize={11}
+            fontWeight={700}
+            fill={PALETTE.green}
+          >
+            dissous
+          </text>
+        ) : (
+          <g>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <circle key={i} cx={78 + i * 13} cy={108} r={6} fill="#a3a3a3" opacity={0.8} />
+            ))}
+            <text
+              x={106}
+              y={144}
+              textAnchor="middle"
+              fontSize={11}
+              fontWeight={700}
+              fill={PALETTE.red}
+            >
+              ne se dissout pas
+            </text>
+          </g>
+        )}
+
+        <g fontSize={11}>
+          <text x={196} y={48} fill={PALETTE.slate}>
+            masse molaire
+          </text>
+          <text x={416} y={48} textAnchor="end" fontWeight={700} fill={PALETTE.ink}>
+            {M} g/mol
+          </text>
+          <text x={196} y={76} fill={PALETTE.slate}>
+            température d&apos;ébullition
+          </text>
+          <text x={416} y={76} textAnchor="end" fontWeight={700} fill={PALETTE.blue}>
+            {fmt(teb, 0)} °C
+          </text>
+          <text x={196} y={104} fill={PALETTE.slate}>
+            état à 25 °C
+          </text>
+          <text
+            x={416}
+            y={104}
+            textAnchor="end"
+            fontWeight={700}
+            fill={etat === "gaz" ? PALETTE.green : PALETTE.orange}
+          >
+            {etat}
+          </text>
+          <text x={196} y={132} fill={PALETTE.slate}>
+            densité par rapport à l&apos;air
+          </text>
+          <text x={416} y={132} textAnchor="end" fontWeight={700} fill={PALETTE.purple}>
+            d = {fmt(densite, 2)}
+          </text>
+          <text x={196} y={160} fill={PALETTE.slate}>
+            couleur
+          </text>
+          <text x={416} y={160} textAnchor="end" fontWeight={700} fill={PALETTE.ink}>
+            incolore
+          </text>
+        </g>
+
+        <text x={300} y={190} textAnchor="middle" fontSize={10} fill={PALETTE.slate}>
+          d = M / 29
+        </text>
+      </Board>
+
+      <Verdict tone={soluble ? "ok" : "warn"}>
+        {soluble
+          ? "Soluble dans les solvants organiques : c'est la règle pour tous les composés organiques, et l'essence en est un."
+          : "Peu soluble dans l'eau — et c'est une bonne nouvelle pratique : on peut recueillir ces gaz par DÉPLACEMENT D'EAU sans qu'ils se dissolvent au passage."}
+      </Verdict>
+
+      <Verdict tone="ok">
+        {etat === "gaz"
+          ? `Avec ${n} carbones, le composé est un GAZ. Les termes de 2 à 4 carbones sont gazeux, de 5 à 15 liquides, au-delà solides.`
+          : `Avec ${n} carbones, le composé est LIQUIDE. La température d'ébullition augmente avec la longueur de la chaîne, et diminue quand la molécule se ramifie.`}
+      </Verdict>
+    </div>
+  );
+}

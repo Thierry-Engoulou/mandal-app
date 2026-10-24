@@ -1026,3 +1026,223 @@ export function TestAldehydeCetone() {
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Chapitre 9 — Pourquoi les alcools bouillent-ils si haut ?           */
+/* ------------------------------------------------------------------ */
+
+type Oxygene = {
+  value: string;
+  label: string;
+  formule: string;
+  M: number;
+  teb: number;
+  liaisonH: boolean;
+  solubilite: string;
+  famille: string;
+};
+
+const OXY_PAR_DEFAUT: Oxygene = {
+  value: "alcane",
+  label: "Propane",
+  formule: "CH₃ — CH₂ — CH₃",
+  M: 44,
+  teb: -42,
+  liaisonH: false,
+  solubilite: "insoluble",
+  famille: "alcane",
+};
+
+const OXYGENES: ReadonlyArray<Oxygene> = [
+  OXY_PAR_DEFAUT,
+  {
+    value: "aldehyde",
+    label: "Propanal",
+    formule: "CH₃ — CH₂ — CHO",
+    M: 58,
+    teb: 49,
+    liaisonH: false,
+    solubilite: "assez soluble",
+    famille: "aldéhyde",
+  },
+  {
+    value: "cetone",
+    label: "Propanone",
+    formule: "CH₃ — CO — CH₃",
+    M: 58,
+    teb: 56,
+    liaisonH: false,
+    solubilite: "miscible",
+    famille: "cétone",
+  },
+  {
+    value: "alcool",
+    label: "Propan-1-ol",
+    formule: "CH₃ — CH₂ — CH₂ — OH",
+    M: 60,
+    teb: 97,
+    liaisonH: true,
+    solubilite: "miscible",
+    famille: "alcool",
+  },
+];
+
+export function ProprietesOxygenes() {
+  const [temp, setTemp] = useState(20);
+  const [chaine, setChaine] = useState(3);
+
+  const bouillent = OXYGENES.filter((o) => temp >= o.teb);
+  // la solubilité d'un alcool s'effondre quand la chaîne s'allonge
+  const solubleAlcool = chaine <= 3 ? "miscible" : chaine <= 5 ? "peu soluble" : "insoluble";
+
+  const W = 440;
+  const H = 240;
+  const larg = 96;
+
+  return (
+    <div className="space-y-3">
+      <Ctrl
+        label="Température du bain"
+        value={temp}
+        min={-60}
+        max={130}
+        step={5}
+        onChange={setTemp}
+        display={`${temp} °C`}
+        color={PALETTE.red}
+      />
+
+      <Board width={W} height={H}>
+        <rect width={W} height={H} fill="#ffffff" />
+
+        {OXYGENES.map((o, i) => {
+          const x = 14 + i * (larg + 10);
+          const bout = temp >= o.teb;
+          return (
+            <g key={o.value}>
+              <text
+                x={x + larg / 2}
+                y={20}
+                textAnchor="middle"
+                fontSize={11}
+                fontWeight={700}
+                fill={PALETTE.ink}
+              >
+                {o.label}
+              </text>
+              <text x={x + larg / 2} y={36} textAnchor="middle" fontSize={9} fill={PALETTE.slate}>
+                M = {o.M} g/mol
+              </text>
+
+              <path
+                d={`M${x + 12} 48 L${x + larg - 12} 48 L${x + larg - 18} 150 L${x + 18} 150 Z`}
+                fill="#f8fafc"
+                stroke={PALETTE.slate}
+                strokeWidth={1.6}
+              />
+              <path
+                d={`M${x + 16} 96 L${x + larg - 16} 96 L${x + larg - 18} 150 L${x + 18} 150 Z`}
+                fill={bout ? "#fed7aa" : "#dbeafe"}
+                opacity={0.8}
+              />
+              {bout
+                ? Array.from({ length: 6 }).map((_, k) => (
+                    <circle
+                      key={k}
+                      cx={x + 28 + ((k * 19) % 46)}
+                      cy={60 + ((k * 17) % 34)}
+                      r={3 + (k % 2)}
+                      fill="#fb923c"
+                    />
+                  ))
+                : null}
+              {o.liaisonH && !bout ? (
+                <g>
+                  <line
+                    x1={x + 30}
+                    y1={112}
+                    x2={x + 48}
+                    y2={126}
+                    stroke={PALETTE.purple}
+                    strokeWidth={1.6}
+                    strokeDasharray="3 2"
+                  />
+                  <line
+                    x1={x + 48}
+                    y1={126}
+                    x2={x + 66}
+                    y2={112}
+                    stroke={PALETTE.purple}
+                    strokeWidth={1.6}
+                    strokeDasharray="3 2"
+                  />
+                  <text
+                    x={x + larg / 2}
+                    y={142}
+                    textAnchor="middle"
+                    fontSize={8}
+                    fill={PALETTE.purple}
+                  >
+                    liaison H
+                  </text>
+                </g>
+              ) : null}
+
+              <text
+                x={x + larg / 2}
+                y={170}
+                textAnchor="middle"
+                fontSize={11}
+                fontWeight={700}
+                fill={bout ? PALETTE.orange : PALETTE.blue}
+              >
+                {bout ? "BOUT" : "liquide"}
+              </text>
+              <text x={x + larg / 2} y={188} textAnchor="middle" fontSize={10} fill={PALETTE.slate}>
+                {o.teb} °C
+              </text>
+              <text x={x + larg / 2} y={206} textAnchor="middle" fontSize={9} fill={PALETTE.slate}>
+                {o.famille}
+              </text>
+            </g>
+          );
+        })}
+
+        <text x={W / 2} y={230} textAnchor="middle" fontSize={10} fill={PALETTE.slate}>
+          même longueur de chaîne, masses molaires voisines — et pourtant 139 °C d&apos;écart
+        </text>
+      </Board>
+
+      <Ctrl
+        label="Longueur de chaîne de l'alcool"
+        value={chaine}
+        min={1}
+        max={8}
+        step={1}
+        onChange={setChaine}
+        display={`${chaine} carbone${chaine > 1 ? "s" : ""}`}
+        color={PALETTE.green}
+      />
+
+      <div className="grid grid-cols-3 gap-2">
+        <Stat label="Déjà en ébullition" value={`${bouillent.length} / 4`} color={PALETTE.orange} />
+        <Stat label="Liaisons hydrogène" value="alcool seul" color={PALETTE.purple} />
+        <Stat label="Solubilité dans l'eau" value={solubleAlcool} color={PALETTE.blue} />
+      </div>
+
+      <Verdict tone="ok">
+        Le groupe —OH d&apos;un alcool s&apos;accroche au —OH de sa voisine : c&apos;est la liaison
+        hydrogène. Les molécules se tiennent par la main, et il faut bien plus d&apos;énergie pour
+        les séparer. L&apos;aldéhyde et la cétone, eux, n&apos;ont pas d&apos;hydrogène sur
+        l&apos;oxygène : ils ne peuvent pas s&apos;accrocher entre eux, et ils bouillent entre les
+        deux.
+      </Verdict>
+
+      <Verdict tone={chaine <= 3 ? "ok" : "warn"}>
+        {chaine <= 3
+          ? "Chaîne courte : la tête —OH l'emporte, l'alcool se mélange à l'eau en toutes proportions."
+          : `Avec ${chaine} carbones, la queue hydrocarbonée l'emporte sur la tête —OH : l'alcool devient ${solubleAlcool}. C'est la règle à retenir — le plus long des deux l'emporte.`}
+      </Verdict>
+    </div>
+  );
+}
