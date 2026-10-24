@@ -293,6 +293,100 @@ import {
   SonNumerique,
   VideoNumerique,
 } from "@/components/interactive/info1-infographie";
+import {
+  CarteMere,
+  FichePeripherique,
+  FicheTechnique,
+  PilotePeripherique,
+  TypesLogiciels,
+  TypesSystemes,
+} from "@/components/interactive/inf7-materiel-a";
+import {
+  BlocAlimentation,
+  CausesMaterielles,
+  DiagnosticDysfonctionnement,
+  DimensionnerOnduleur,
+  EquipementsProtection,
+  RisquesPoste,
+  RolesOnduleur,
+} from "@/components/interactive/inf7-materiel-b";
+import {
+  BulletinNotes,
+  ClasseurFeuille,
+  FonctionsTableur,
+  MiseEnFormeCellule,
+  ReferencesCellules,
+  ZoneImpression,
+} from "@/components/interactive/inf7-tableur";
+import {
+  ArchitecturesReseau,
+  EtendueReseaux,
+  InternetIntranetExtranet,
+  PourquoiReseau,
+  TopologiesLogiques,
+  TopologiesPhysiques,
+} from "@/components/interactive/inf7-reseau-a";
+import {
+  AdresseIp,
+  CablesReseau,
+  ClassesAdresses,
+  EquipementsReseau,
+  ProtocolesInternet,
+  SupportsTransmission,
+} from "@/components/interactive/inf7-reseau-b";
+import { CarteReseau, CommandesReseau, MonterReseau } from "@/components/interactive/inf7-reseau-c";
+import {
+  Cardinalites,
+  DecomposerSysteme,
+  EntitePropriete,
+  NiveauxMerise,
+  ReglesGestion,
+} from "@/components/interactive/inf7-merise-a";
+import { ClesTables, NormaliserMcd, PassageMcdMld } from "@/components/interactive/inf7-merise-b";
+import { FonctionsSgbd, ModelesBd, StructureTable } from "@/components/interactive/inf7-sgbd";
+import {
+  AlterDrop,
+  CreateTable,
+  InsertUpdateDelete,
+  OperateursSql,
+  RequeteSelect,
+  SousLangagesSql,
+} from "@/components/interactive/inf7-sql";
+import {
+  CreerTableAccess,
+  FeuilleDonneesAccess,
+  InterfaceAccess,
+} from "@/components/interactive/inf7-access";
+import {
+  AlternativesLda,
+  FamillesStructures,
+  RepetitivesLda,
+} from "@/components/interactive/inf7-algo-a";
+import {
+  CinqStructures,
+  Enregistrement,
+  ParcoursTableau,
+  RechercheMax,
+  RechercheSequentielle,
+  StructureTableau,
+  TraceExecution,
+} from "@/components/interactive/inf7-algo-b";
+import {
+  ConstantesC,
+  InstallerIde,
+  LangagesProgrammation,
+  PrintfScanf,
+  StructureProgrammeC,
+  VariablesC,
+} from "@/components/interactive/inf7-c-a";
+import {
+  BouclesC,
+  ErreursC,
+  IfElseC,
+  RechercheC,
+  SwitchC,
+  TableauC,
+} from "@/components/interactive/inf7-c-b";
 
 /**
  * Leçons de type "interactif" : des simulations que l'élève manipule directement
@@ -1514,6 +1608,429 @@ export const INTERACTIFS = [
     label: "Les réglages d'une vidéo",
     description: "Définition, cadence, compression, puis codec contre conteneur.",
   },
+  // inf7-materiel-a
+  {
+    value: "types-systemes",
+    label: "Types de systèmes informatiques",
+    description:
+      "Classer douze situations entre système personnel, d'organisation et de contrôle-commande.",
+  },
+  {
+    value: "fiche-peripherique",
+    label: "Fiche d'un périphérique",
+    description:
+      "Lire les caractéristiques d'un écran et comparer matricielle, jet d'encre et laser.",
+  },
+  {
+    value: "types-logiciels",
+    label: "Catégories de logiciels",
+    description:
+      "Ranger dix logiciels entre base, application standard, progiciel, spécifique et procédure.",
+  },
+  {
+    value: "carte-mere",
+    label: "Dans le boîtier",
+    description:
+      "Cliquer chaque composant pour son rôle et ses unités, et comparer ATX, microATX et ITX.",
+  },
+  {
+    value: "pilote-peripherique",
+    label: "Périphérique qui ne répond pas",
+    description: "Mener les vérifications dans l'ordre et lire le gestionnaire de périphériques.",
+  },
+  {
+    value: "fiche-technique",
+    label: "Lire une fiche technique",
+    description:
+      "Décoder chaque ligne d'une fiche de revendeur et choisir la machine selon l'usage.",
+  },
+  // inf7-materiel-b
+  {
+    value: "causes-materielles",
+    label: "Symptôme et cause matérielle",
+    description:
+      "Huit machines, huit symptômes, et le thermomètre du processeur qui monte avec la poussière.",
+  },
+  {
+    value: "diagnostic-dysfonctionnement",
+    label: "Matériel ou logiciel ?",
+    description: "Trancher dix pannes grâce au test de la séquence de démarrage.",
+  },
+  {
+    value: "risques-poste",
+    label: "Sécuriser une salle",
+    description:
+      "Choisir ses mesures dans un budget, puis faire passer une année scolaire sur la salle.",
+  },
+  {
+    value: "bloc-alimentation",
+    label: "Le bloc d'alimentation",
+    description:
+      "Suivre les trois tensions continues et voir la machine redémarrer quand le bloc est trop juste.",
+  },
+  {
+    value: "equipements-protection",
+    label: "Régulateur, parasurtenseur, onduleur",
+    description: "Douze combinaisons d'équipement et d'épreuve : un seul appareil passe les trois.",
+  },
+  {
+    value: "dimensionner-onduleur",
+    label: "Dimensionner un onduleur",
+    description:
+      "Additionner les consommations, convertir en VA, et voir l'imprimante laser faire disjoncter.",
+  },
+  {
+    value: "roles-onduleur",
+    label: "Ce qu'un onduleur protège",
+    description: "Cocher les trois fonctions réelles d'un onduleur, et seulement celles-là.",
+  },
+  // inf7-tableur
+  {
+    value: "classeur-feuille",
+    label: "Cellule, plage et feuilles",
+    description:
+      "Désigner une cellule, une plage, et comparer la même référence dans trois feuilles.",
+  },
+  {
+    value: "mise-en-forme-cellule",
+    label: "Mettre en forme un bulletin",
+    description:
+      "Bordures, fusion, orientation, retour à la ligne — avec l'aperçu avant impression.",
+  },
+  {
+    value: "zone-impression",
+    label: "Zone d'impression et protection",
+    description:
+      "Définir la zone, régler l'échelle, puis protéger la feuille et essayer d'écraser une formule.",
+  },
+  {
+    value: "references-cellules",
+    label: "Références et recopie",
+    description:
+      "Tirer la poignée de recopie, figer avec le dollar, et relier trois feuilles à un bilan.",
+  },
+  {
+    value: "fonctions-tableur",
+    label: "Les sept fonctions du programme",
+    description: "Composer ses formules et voir SOMME.SI décomposé ligne par ligne.",
+  },
+  {
+    value: "bulletin-notes",
+    label: "Construire un bulletin",
+    description:
+      "Écrire chaque formule du bulletin et éviter les deux fautes que le correcteur cherche.",
+  },
+  // inf7-reseau-a
+  {
+    value: "pourquoi-reseau",
+    label: "Pourquoi un réseau",
+    description: "Relier huit postes isolés et chiffrer ce que le réseau fait économiser en un an.",
+  },
+  {
+    value: "etendue-reseaux",
+    label: "PAN, LAN, MAN, WAN",
+    description:
+      "Nommer le type de réseau de dix situations, et placer chacune sur une règle d'échelle.",
+  },
+  {
+    value: "internet-intranet-extranet",
+    label: "Internet, intranet, extranet",
+    description:
+      "Placer chaque ressource dans sa zone, puis faire frapper chaque visiteur à la porte.",
+  },
+  {
+    value: "topologies-physiques",
+    label: "Bus, étoile, anneau",
+    description: "Construire les trois topologies, couper un câble, et voir ce qui tombe.",
+  },
+  {
+    value: "topologies-logiques",
+    label: "Ethernet contre le jeton",
+    description:
+      "Provoquer une collision, suivre le jeton, et voir la courbe s'inverser avec la charge.",
+  },
+  {
+    value: "architectures-reseau",
+    label: "Poste à poste ou client-serveur",
+    description: "Suivre une requête, ajouter des postes, puis faire tomber le serveur.",
+  },
+  // inf7-reseau-b
+  {
+    value: "supports-transmission",
+    label: "Choisir le support",
+    description: "Six locaux, six contraintes : paire torsadée, coaxial, fibre ou Wi-Fi.",
+  },
+  {
+    value: "cables-reseau",
+    label: "Les câbles à l'épreuve",
+    description:
+      "Allonger la distance, ajouter des perturbations, et ouvrir la coupe de chaque câble.",
+  },
+  {
+    value: "equipements-reseau",
+    label: "Placer les équipements",
+    description: "Hub ou switch au centre, routeur en sortie, et compter les trames qui circulent.",
+  },
+  {
+    value: "protocoles-internet",
+    label: "Quel protocole pour quelle action",
+    description: "Désigner le protocole, puis faire descendre le message dans la pile TCP/IP.",
+  },
+  {
+    value: "adresse-ip",
+    label: "Composer une adresse IP",
+    description:
+      "Séparer partie réseau et partie hôte, et dire si deux machines se parlent directement.",
+  },
+  {
+    value: "classes-adresses",
+    label: "Les classes d'adresses",
+    description:
+      "Lire le premier octet sur une règle graduée, puis déduire masque, réseau et diffusion.",
+  },
+  // inf7-reseau-c
+  {
+    value: "carte-reseau",
+    label: "Configurer la carte réseau",
+    description: "Remplir les quatre champs TCP/IPv4 et introduire les trois erreurs classiques.",
+  },
+  {
+    value: "monter-reseau",
+    label: "Monter un réseau de trois postes",
+    description: "Câbler, adresser, tester — et voir refuser les plans d'adressage impossibles.",
+  },
+  {
+    value: "commandes-reseau",
+    label: "ipconfig et ping",
+    description:
+      "Six machines en panne, et la chaîne de diagnostic du 127.0.0.1 jusqu'au nom de domaine.",
+  },
+  // inf7-merise-a
+  {
+    value: "decomposer-systeme",
+    label: "Décomposer une organisation",
+    description:
+      "Extraire entités, propriétés et relations d'un énoncé, et comparer deux décompositions.",
+  },
+  {
+    value: "niveaux-merise",
+    label: "Les trois niveaux de MERISE",
+    description: "Classer douze décisions de projet entre conceptuel, logique et physique.",
+  },
+  {
+    value: "regles-gestion",
+    label: "Surligner les règles de gestion",
+    description: "Qualifier chaque mot d'un énoncé, et voir le MCD que les règles imposent.",
+  },
+  {
+    value: "entite-propriete",
+    label: "Construire une entité",
+    description: "Nommer, choisir des propriétés atomiques, et désigner un identifiant qui tient.",
+  },
+  {
+    value: "cardinalites",
+    label: "Poser les cardinalités",
+    description: "Les deux questions dans l'ordre, et ce que chaque couple autorise réellement.",
+  },
+  // inf7-merise-b
+  {
+    value: "cles-tables",
+    label: "Clé primaire, clé étrangère",
+    description: "Désigner les clés, puis voir la base refuser les insertions fautives.",
+  },
+  {
+    value: "passage-mcd-mld",
+    label: "Du MCD au MLD",
+    description:
+      "Choisir la règle, faire migrer la clé, et voir une table d'association apparaître.",
+  },
+  {
+    value: "normaliser-mcd",
+    label: "Normaliser un MCD",
+    description: "Six MCD, six défauts, et le dégât concret que chacun aurait causé.",
+  },
+  // inf7-sgbd
+  {
+    value: "modeles-bd",
+    label: "Fichiers séparés ou base de données",
+    description: "Changer une adresse et voir trois fichiers sur quatre garder l'ancienne.",
+  },
+  {
+    value: "fonctions-sgbd",
+    label: "Les fonctions d'un SGBD",
+    description: "Ranger dix opérations, et voir le moteur et l'interface travailler séparément.",
+  },
+  {
+    value: "structure-table",
+    label: "Anatomie d'une table",
+    description: "Nommer champs, enregistrements et clés, puis provoquer chaque contrainte.",
+  },
+  // inf7-sql
+  {
+    value: "sous-langages-sql",
+    label: "LDD, LMD, LCD",
+    description: "Classer douze commandes, avec les pièges ALTER/UPDATE et DELETE/DROP.",
+  },
+  {
+    value: "create-table",
+    label: "Écrire un CREATE TABLE",
+    description: "Un vrai éditeur SQL qui guette les quatre fautes classiques.",
+  },
+  {
+    value: "alter-drop",
+    label: "ALTER, DELETE, DROP",
+    description: "Voir ce que chaque commande change, et ce qu'un vrai SGBD ne rendra jamais.",
+  },
+  {
+    value: "insert-update-delete",
+    label: "INSERT, UPDATE, DELETE",
+    description: "Remplir une table, et être prévenu avant un UPDATE sans clause WHERE.",
+  },
+  {
+    value: "requete-select",
+    label: "Écrire des SELECT",
+    description:
+      "Interroger une base de lycée, et voir le produit cartésien exploser sans jointure.",
+  },
+  {
+    value: "operateurs-sql",
+    label: "Construire une condition",
+    description: "Comparaisons, AND, OR, BETWEEN, IN, LIKE, IS NULL — et les deux pièges.",
+  },
+  // inf7-access
+  {
+    value: "interface-access",
+    label: "L'interface d'Access",
+    description: "Nommer chaque partie de la fenêtre et ouvrir les cinq familles d'objets.",
+  },
+  {
+    value: "creer-table-access",
+    label: "Créer une table sous Access",
+    description: "Construire la table en mode Création, puis saisir en mode Feuille de données.",
+  },
+  {
+    value: "feuille-donnees-access",
+    label: "La feuille de données",
+    description: "Trier, filtrer, lire le SQL qu'Access écrit, et provoquer les quatre refus.",
+  },
+  // inf7-algo-a
+  {
+    value: "familles-structures",
+    label: "Reconnaître la famille",
+    description: "Douze fragments à classer, avec leur organigramme et leur chemin d'exécution.",
+  },
+  {
+    value: "alternatives-lda",
+    label: "Dérouler une alternative",
+    description:
+      "Réordonner les tests des mentions et voir un élève à 18 repartir avec « Passable ».",
+  },
+  {
+    value: "repetitives-lda",
+    label: "Les trois boucles",
+    description: "TantQue, Répéter et Pour en parallèle, boucle infinie et variable drapeau.",
+  },
+  // inf7-algo-b
+  {
+    value: "cinq-structures",
+    label: "Les cinq structures de données",
+    description: "Tableau, liste, pile et file côte à côte : le LIFO et le FIFO en action.",
+  },
+  {
+    value: "structure-tableau",
+    label: "Manipuler un tableau",
+    description: "Déclarer, remplir, déborder, puis passer au tableau à deux dimensions.",
+  },
+  {
+    value: "enregistrement",
+    label: "Construire un enregistrement",
+    description: "Définir un type champ par champ, et voir pourquoi un tableau n'y suffit pas.",
+  },
+  {
+    value: "parcours-tableau",
+    label: "Parcourir un tableau",
+    description: "Initialiser, accumuler, exploiter — et voir ce que donne un accumulateur oublié.",
+  },
+  {
+    value: "recherche-sequentielle",
+    label: "La recherche séquentielle",
+    description: "Avancer case par case, suivre le drapeau, et déplacer l'incrémentation.",
+  },
+  {
+    value: "recherche-max",
+    label: "Chercher le maximum",
+    description: "Initialiser par tab[1] ou par 0, et voir l'algorithme rater un maximum négatif.",
+  },
+  {
+    value: "trace-execution",
+    label: "Remplir une trace d'exécution",
+    description:
+      "Remplir le tableau de trace ligne par ligne, du meilleur cas à la recherche vaine.",
+  },
+  // inf7-c-a
+  {
+    value: "langages-programmation",
+    label: "Du source à l'exécution",
+    description: "Le même programme en quatre langages, et le compilateur contre l'interpréteur.",
+  },
+  {
+    value: "installer-ide",
+    label: "Installer un IDE",
+    description: "L'installation de Code::Blocks écran par écran, avec le « no compiler found ».",
+  },
+  {
+    value: "structure-programme-c",
+    label: "Assembler un programme C",
+    description:
+      "Remettre les cinq parties dans l'ordre et provoquer les trois erreurs fréquentes.",
+  },
+  {
+    value: "variables-c",
+    label: "Déclarer des variables en C",
+    description: "Les règles de nommage, la mémoire, et le piège de la division entière.",
+  },
+  {
+    value: "constantes-c",
+    label: "Constantes et adresses",
+    description: "#define contre const, et ce que scanf fait du & — ou sans lui.",
+  },
+  {
+    value: "printf-scanf",
+    label: "printf et scanf",
+    description: "Composer un format, choisir ses arguments, et voir l'affichage absurde.",
+  },
+  // inf7-c-b
+  {
+    value: "if-else-c",
+    label: "if, else if en C",
+    description: "Évaluer une condition, puis remplacer == par = et mettre un ; après le if.",
+  },
+  {
+    value: "switch-c",
+    label: "Le switch",
+    description: "Retirer les break un par un, et voir pourquoi les mentions exigent des else if.",
+  },
+  {
+    value: "boucles-c",
+    label: "Traduire les boucles en C",
+    description:
+      "Construire la traduction morceau par morceau, sans oublier d'inverser le Répéter.",
+  },
+  {
+    value: "tableau-c",
+    label: "Le tableau en C",
+    description: "Le décalage des indices, la case oubliée, la case fantôme et le débordement.",
+  },
+  {
+    value: "recherche-c",
+    label: "La recherche séquentielle en C",
+    description: "LDA et C en parallèle, avec les trois erreurs de traduction une par une.",
+  },
+  {
+    value: "erreurs-c",
+    label: "Le chasseur d'erreurs",
+    description: "Cliquer la ligne fautive, nommer sa famille, la corriger, et relancer.",
+  },
 ] as const;
 
 export type InteractifKey = (typeof INTERACTIFS)[number]["value"];
@@ -1779,6 +2296,97 @@ const WIDGETS: Record<string, typeof CercleTrigo> = {
   photomontage: Photomontage,
   "son-numerique": SonNumerique,
   "video-numerique": VideoNumerique,
+  // inf7-materiel-a
+  "types-systemes": TypesSystemes,
+  "fiche-peripherique": FichePeripherique,
+  "types-logiciels": TypesLogiciels,
+  "carte-mere": CarteMere,
+  "pilote-peripherique": PilotePeripherique,
+  "fiche-technique": FicheTechnique,
+  // inf7-materiel-b
+  "causes-materielles": CausesMaterielles,
+  "diagnostic-dysfonctionnement": DiagnosticDysfonctionnement,
+  "risques-poste": RisquesPoste,
+  "bloc-alimentation": BlocAlimentation,
+  "equipements-protection": EquipementsProtection,
+  "dimensionner-onduleur": DimensionnerOnduleur,
+  "roles-onduleur": RolesOnduleur,
+  // inf7-tableur
+  "classeur-feuille": ClasseurFeuille,
+  "mise-en-forme-cellule": MiseEnFormeCellule,
+  "zone-impression": ZoneImpression,
+  "references-cellules": ReferencesCellules,
+  "fonctions-tableur": FonctionsTableur,
+  "bulletin-notes": BulletinNotes,
+  // inf7-reseau-a
+  "pourquoi-reseau": PourquoiReseau,
+  "etendue-reseaux": EtendueReseaux,
+  "internet-intranet-extranet": InternetIntranetExtranet,
+  "topologies-physiques": TopologiesPhysiques,
+  "topologies-logiques": TopologiesLogiques,
+  "architectures-reseau": ArchitecturesReseau,
+  // inf7-reseau-b
+  "supports-transmission": SupportsTransmission,
+  "cables-reseau": CablesReseau,
+  "equipements-reseau": EquipementsReseau,
+  "protocoles-internet": ProtocolesInternet,
+  "adresse-ip": AdresseIp,
+  "classes-adresses": ClassesAdresses,
+  // inf7-reseau-c
+  "carte-reseau": CarteReseau,
+  "monter-reseau": MonterReseau,
+  "commandes-reseau": CommandesReseau,
+  // inf7-merise-a
+  "decomposer-systeme": DecomposerSysteme,
+  "niveaux-merise": NiveauxMerise,
+  "regles-gestion": ReglesGestion,
+  "entite-propriete": EntitePropriete,
+  cardinalites: Cardinalites,
+  // inf7-merise-b
+  "cles-tables": ClesTables,
+  "passage-mcd-mld": PassageMcdMld,
+  "normaliser-mcd": NormaliserMcd,
+  // inf7-sgbd
+  "modeles-bd": ModelesBd,
+  "fonctions-sgbd": FonctionsSgbd,
+  "structure-table": StructureTable,
+  // inf7-sql
+  "sous-langages-sql": SousLangagesSql,
+  "create-table": CreateTable,
+  "alter-drop": AlterDrop,
+  "insert-update-delete": InsertUpdateDelete,
+  "requete-select": RequeteSelect,
+  "operateurs-sql": OperateursSql,
+  // inf7-access
+  "interface-access": InterfaceAccess,
+  "creer-table-access": CreerTableAccess,
+  "feuille-donnees-access": FeuilleDonneesAccess,
+  // inf7-algo-a
+  "familles-structures": FamillesStructures,
+  "alternatives-lda": AlternativesLda,
+  "repetitives-lda": RepetitivesLda,
+  // inf7-algo-b
+  "cinq-structures": CinqStructures,
+  "structure-tableau": StructureTableau,
+  enregistrement: Enregistrement,
+  "parcours-tableau": ParcoursTableau,
+  "recherche-sequentielle": RechercheSequentielle,
+  "recherche-max": RechercheMax,
+  "trace-execution": TraceExecution,
+  // inf7-c-a
+  "langages-programmation": LangagesProgrammation,
+  "installer-ide": InstallerIde,
+  "structure-programme-c": StructureProgrammeC,
+  "variables-c": VariablesC,
+  "constantes-c": ConstantesC,
+  "printf-scanf": PrintfScanf,
+  // inf7-c-b
+  "if-else-c": IfElseC,
+  "switch-c": SwitchC,
+  "boucles-c": BouclesC,
+  "tableau-c": TableauC,
+  "recherche-c": RechercheC,
+  "erreurs-c": ErreursC,
 };
 
 type Spec = { widget?: string; consigne?: string };
