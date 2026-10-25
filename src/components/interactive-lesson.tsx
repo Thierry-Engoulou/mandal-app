@@ -387,6 +387,61 @@ import {
   SwitchC,
   TableauC,
 } from "@/components/interactive/inf7-c-b";
+import {
+  CourantsPhiloAfricaine,
+  DistinguerPhilosophie,
+  FrisePhiloAfricaine,
+  TheseAuteurAfricaine,
+} from "@/components/interactive/philo-afrique";
+import {
+  AnalyserSujet,
+  BaremeEpreuve,
+  DefinirConcept,
+  PlanDissertation,
+  QuatreTachesTexte,
+  StructureTexte,
+  ThemeProblemeThese,
+} from "@/components/interactive/philo-methode";
+import {
+  ConnaitreAutrui,
+  DouteCartesien,
+  EtatDeNature,
+  ImperatifCategorique,
+  NotionsConscience,
+  TopiquesFreud,
+} from "@/components/interactive/philo-conscience";
+import {
+  DroitPerfectible,
+  DroitPlusFort,
+  LegalLegitime,
+  NotionsEtat,
+  QuelEtat,
+  TroisContrats,
+} from "@/components/interactive/philo-droit";
+import {
+  CasablancaMonrovia,
+  CausesEtMarge,
+  CroissanceDeveloppement,
+  DeterminismeFatalisme,
+  PeresPanafricanisme,
+  TribunalCirconstances,
+} from "@/components/interactive/philo-liberte";
+import {
+  CinqAttitudesMort,
+  ComiteEthique,
+  EssenceExistence,
+  LaboratoireBernard,
+  OpinionCroyanceScience,
+  VieSansFin,
+} from "@/components/interactive/philo-science";
+import {
+  AtelierSyllogisme,
+  DetecteurSophismes,
+  PositionsReligieuses,
+  PreuvesDeDieu,
+  ReligionDeuxUsages,
+  VeriteValidite,
+} from "@/components/interactive/philo-dieu";
 
 /**
  * Leçons de type "interactif" : des simulations que l'élève manipule directement
@@ -2031,6 +2086,222 @@ export const INTERACTIFS = [
     label: "Le chasseur d'erreurs",
     description: "Cliquer la ligne fautive, nommer sa famille, la corriger, et relancer.",
   },
+  // philo-afrique
+  {
+    value: "distinguer-philosophie",
+    label: "Proverbe, sagesse ou philosophie ?",
+    description: "Les trois critères appliqués à douze énoncés, de Ptahhotep à Njoh Mouelle.",
+  },
+  {
+    value: "these-auteur-africaine",
+    label: "Attribuer une thèse à son auteur",
+    description: "Six thèses sans leur nom, et les fiches des huit auteurs du chapitre.",
+  },
+  {
+    value: "frise-philo-africaine",
+    label: "La frise de la philosophie africaine",
+    description: "Onze philosophes à remettre dans l'ordre, puis Thalès sur la même frise.",
+  },
+  {
+    value: "courants-philo-africaine",
+    label: "Les trois courants, et la querelle jouée",
+    description: "Ethnophilosophie, critique, troisième voie — puis répondre aux objections.",
+  },
+  // philo-methode
+  {
+    value: "bareme-epreuve",
+    label: "Le barème de l'épreuve, et le temps",
+    description: "Répartir les 20 points, puis les 240 minutes entre les deux parties.",
+  },
+  {
+    value: "analyser-sujet",
+    label: "Analyser un sujet en six cases",
+    description: "Concepts, reformulation, présupposé, thèse opposée, problème, problématique.",
+  },
+  {
+    value: "plan-dissertation",
+    label: "Construire le plan",
+    description:
+      "Placer douze arguments, reconnaître la forme du libellé, rédiger les transitions.",
+  },
+  {
+    value: "quatre-taches-texte",
+    label: "Les quatre tâches de la partie I",
+    description:
+      "Thème, problème, thèse, structure logique — et les paraphrases qui coûtent des points.",
+  },
+  {
+    value: "definir-concept",
+    label: "Définir un concept",
+    description: "Genre prochain et différence spécifique, contre le cercle vicieux et l'exemple.",
+  },
+  {
+    value: "theme-probleme-these",
+    label: "Thème, problème, thèse",
+    description: "Douze réponses de candidats à classer, dont quatre qui ne répondent à rien.",
+  },
+  {
+    value: "structure-texte",
+    label: "La structure logique d'un texte",
+    description: "Postulat, arguments, objection, exemple, conclusion — puis le paragraphe rédigé.",
+  },
+  // philo-conscience
+  {
+    value: "notions-conscience",
+    label: "Conscience psychologique, morale, inconscient",
+    description: "Douze situations, et les deux sens du mot inconscient.",
+  },
+  {
+    value: "doute-cartesien",
+    label: "Mener le doute cartésien",
+    description: "Les sens, le calcul, le corps, le malin génie — puis essayer de nier le cogito.",
+  },
+  {
+    value: "topiques-freud",
+    label: "Les deux topiques de Freud",
+    description: "Placer les éléments, dire quelle instance parle, affronter Alain et Popper.",
+  },
+  {
+    value: "connaitre-autrui",
+    label: "Connaître autrui",
+    description: "Intuition, analogie, dialogue — et la limite que Sartre et Hegel discutent.",
+  },
+  {
+    value: "etat-de-nature",
+    label: "L'état de nature : Hobbes ou Rousseau ?",
+    description: "Régler les vivres, la promiscuité et l'autorité, et voir le groupe basculer.",
+  },
+  {
+    value: "imperatif-categorique",
+    label: "L'impératif catégorique à l'épreuve",
+    description: "Universaliser six maximes, puis les comparer au calcul utilitariste.",
+  },
+  // philo-droit
+  {
+    value: "legal-legitime",
+    label: "Légal ou légitime ?",
+    description: "Douze situations sur deux axes, et les quatre cases du tableau se remplissent.",
+  },
+  {
+    value: "droit-plus-fort",
+    label: "Le droit du plus fort",
+    description:
+      "Déplacer le rapport de forces, voir les lois se réécrire, puis la question de Rousseau.",
+  },
+  {
+    value: "droit-perfectible",
+    label: "Un droit perfectible",
+    description: "Six lois abolies, et toujours au nom d'un principe extérieur à la loi.",
+  },
+  {
+    value: "notions-etat",
+    label: "État, gouvernement, nation, pouvoir",
+    description: "Quinze énoncés, dont le coup d'État qui piège presque tout le monde.",
+  },
+  {
+    value: "trois-contrats",
+    label: "Les trois contrats",
+    description: "Hobbes, Locke, Rousseau : un état de nature, un contrat, un droit de révolte.",
+  },
+  {
+    value: "quel-etat",
+    label: "Quel État ?",
+    description: "Quatre curseurs, trois jauges, et le verdict nomme le penseur correspondant.",
+  },
+  // philo-liberte
+  {
+    value: "determinisme-fatalisme",
+    label: "Déterminisme ou fatalisme ?",
+    description: "Douze propos à classer, et la conséquence pratique de chacun.",
+  },
+  {
+    value: "causes-et-marge",
+    label: "Les causes et la marge",
+    description: "Activer cinq déterminismes, voir la zone des choix se rétrécir sans disparaître.",
+  },
+  {
+    value: "tribunal-circonstances",
+    label: "Le tribunal des circonstances",
+    description:
+      "Fixer la part de liberté de huit auteurs, et essayer les deux positions extrêmes.",
+  },
+  {
+    value: "peres-panafricanisme",
+    label: "Les pères du panafricanisme",
+    description: "Diaspora ou continent, et les douze figures avec leurs ouvrages.",
+  },
+  {
+    value: "casablanca-monrovia",
+    label: "Casablanca ou Monrovia ?",
+    description: "Cinq leviers à régler à la table d'Addis-Abeba, en 1963.",
+  },
+  {
+    value: "croissance-developpement",
+    label: "Croissance ou développement ?",
+    description: "Répartir un budget sur vingt ans, et regarder les deux courbes diverger.",
+  },
+  // philo-science
+  {
+    value: "opinion-croyance-science",
+    label: "Opinion, croyance ou science ?",
+    description: "Quinze énoncés, et le critère de Popper découvert en l'appliquant.",
+  },
+  {
+    value: "laboratoire-bernard",
+    label: "Le laboratoire de Claude Bernard",
+    description: "L'enquête réelle sur l'urine des lapins, en quatre étapes, sans raccourci.",
+  },
+  {
+    value: "comite-ethique",
+    label: "Le comité d'éthique",
+    description: "Huit projets à autoriser ou refuser, et ce qu'ils donnent dix ans plus tard.",
+  },
+  {
+    value: "essence-existence",
+    label: "Essence ou existence d'abord ?",
+    description: "Le modèle de l'artisan, puis la question que Sartre lui oppose.",
+  },
+  {
+    value: "cinq-attitudes-mort",
+    label: "Cinq philosophes au chevet",
+    description: "Épicure, Platon, Spinoza, Heidegger et les traditions africaines répondent.",
+  },
+  {
+    value: "vie-sans-fin",
+    label: "Une vie sans fin",
+    description: "Une liste de choses à faire, avec un temps infini puis un temps compté.",
+  },
+  // philo-dieu
+  {
+    value: "positions-religieuses",
+    label: "Théisme, déisme, athéisme, agnosticisme",
+    description: "Douze affirmations, dont quatre qui ne portent pas sur l'existence de Dieu.",
+  },
+  {
+    value: "preuves-de-dieu",
+    label: "Les preuves au tribunal",
+    description: "Les trois preuves pas à pas, et l'endroit exact où chacune cède.",
+  },
+  {
+    value: "religion-deux-usages",
+    label: "La même religion, deux usages",
+    description: "Dix situations historiques, et deux lignes qui citent le même texte.",
+  },
+  {
+    value: "verite-validite",
+    label: "Vrai, valide, ou ni l'un ni l'autre",
+    description: "Douze raisonnements et deux questions indépendantes pour chacun.",
+  },
+  {
+    value: "atelier-syllogisme",
+    label: "L'atelier du syllogisme",
+    description: "Vingt-cinq combinaisons, vérifiées règle par règle.",
+  },
+  {
+    value: "detecteur-sophismes",
+    label: "Le détecteur de sophismes",
+    description: "Douze arguments à juger, dont trois qu'il faut savoir laisser passer.",
+  },
 ] as const;
 
 export type InteractifKey = (typeof INTERACTIFS)[number]["value"];
@@ -2387,6 +2658,54 @@ const WIDGETS: Record<string, typeof CercleTrigo> = {
   "tableau-c": TableauC,
   "recherche-c": RechercheC,
   "erreurs-c": ErreursC,
+  // philo-afrique
+  "distinguer-philosophie": DistinguerPhilosophie,
+  "these-auteur-africaine": TheseAuteurAfricaine,
+  "frise-philo-africaine": FrisePhiloAfricaine,
+  "courants-philo-africaine": CourantsPhiloAfricaine,
+  // philo-methode
+  "bareme-epreuve": BaremeEpreuve,
+  "analyser-sujet": AnalyserSujet,
+  "plan-dissertation": PlanDissertation,
+  "quatre-taches-texte": QuatreTachesTexte,
+  "definir-concept": DefinirConcept,
+  "theme-probleme-these": ThemeProblemeThese,
+  "structure-texte": StructureTexte,
+  // philo-conscience
+  "notions-conscience": NotionsConscience,
+  "doute-cartesien": DouteCartesien,
+  "topiques-freud": TopiquesFreud,
+  "connaitre-autrui": ConnaitreAutrui,
+  "etat-de-nature": EtatDeNature,
+  "imperatif-categorique": ImperatifCategorique,
+  // philo-droit
+  "legal-legitime": LegalLegitime,
+  "droit-plus-fort": DroitPlusFort,
+  "droit-perfectible": DroitPerfectible,
+  "notions-etat": NotionsEtat,
+  "trois-contrats": TroisContrats,
+  "quel-etat": QuelEtat,
+  // philo-liberte
+  "determinisme-fatalisme": DeterminismeFatalisme,
+  "causes-et-marge": CausesEtMarge,
+  "tribunal-circonstances": TribunalCirconstances,
+  "peres-panafricanisme": PeresPanafricanisme,
+  "casablanca-monrovia": CasablancaMonrovia,
+  "croissance-developpement": CroissanceDeveloppement,
+  // philo-science
+  "opinion-croyance-science": OpinionCroyanceScience,
+  "laboratoire-bernard": LaboratoireBernard,
+  "comite-ethique": ComiteEthique,
+  "essence-existence": EssenceExistence,
+  "cinq-attitudes-mort": CinqAttitudesMort,
+  "vie-sans-fin": VieSansFin,
+  // philo-dieu
+  "positions-religieuses": PositionsReligieuses,
+  "preuves-de-dieu": PreuvesDeDieu,
+  "religion-deux-usages": ReligionDeuxUsages,
+  "verite-validite": VeriteValidite,
+  "atelier-syllogisme": AtelierSyllogisme,
+  "detecteur-sophismes": DetecteurSophismes,
 };
 
 type Spec = { widget?: string; consigne?: string };
