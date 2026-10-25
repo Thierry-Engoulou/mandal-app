@@ -435,6 +435,38 @@ import {
   VieSansFin,
 } from "@/components/interactive/philo-science";
 import {
+  CompterPropositions,
+  ConstituantsPhrase,
+  FormesDePhrase,
+  JuxtapositionCoordination,
+  PropositionsBepc,
+  TypesDePhrases
+} from "@/components/interactive/fr3-phrase";
+import {
+  AccordCollectif,
+  ChasseAccords,
+  ImparfaitPasseSimple,
+  PasseSimple,
+  TempsIndicatif,
+  TrouverLeSujet
+} from "@/components/interactive/fr3-accords";
+import {
+  ChampLexical,
+  EtudeDeTexteBepc,
+  FicheLecture,
+  LectureMethodique,
+  MontrerSentiment,
+  NuancerSentiment
+} from "@/components/interactive/fr3-lecture";
+import {
+  CompteRenduFilm,
+  PointDeVue,
+  RaconterOral,
+  SchemaActanciel,
+  SchemaNarratif,
+  VoixEtCorps
+} from "@/components/interactive/fr3-expression";
+import {
   AtelierSyllogisme,
   DetecteurSophismes,
   PositionsReligieuses,
@@ -2302,6 +2334,130 @@ export const INTERACTIFS = [
     label: "Le détecteur de sophismes",
     description: "Douze arguments à juger, dont trois qu'il faut savoir laisser passer.",
   },
+  // fr3-phrase
+  {
+    value: "types-de-phrases",
+    label: "Reconnaître le type d'une phrase",
+    description: "Douze phrases sans leur ponctuation, et trois pièges où le signe ment.",
+  },
+  {
+    value: "formes-de-phrase",
+    label: "Transformer une phrase",
+    description: "Négative, passive, emphatique : l'atelier surveille le « ne » oublié et le temps de l'auxiliaire.",
+  },
+  {
+    value: "constituants-phrase",
+    label: "L'atelier des deux tests",
+    description: "Supprimer, déplacer, conclure : obligatoire ou facultatif, puis la fonction.",
+  },
+  {
+    value: "compter-propositions",
+    label: "Compter les propositions",
+    description: "Cliquer les verbes conjugués, avec l'infinitif et le participe en embuscade.",
+  },
+  {
+    value: "juxtaposition-coordination",
+    label: "Juxtaposées ou coordonnées ?",
+    description: "Les sept conjonctions, et le piège de « car » contre « parce que ».",
+  },
+  {
+    value: "propositions-bepc",
+    label: "La question 5 du BEPC",
+    description: "Relever, nommer, donner la fonction — la méthode en trois gestes.",
+  },
+  // fr3-accords
+  {
+    value: "trouver-le-sujet",
+    label: "Qui est-ce qui ?",
+    description: "Le sujet inversé et les trois écrans qui font rater l'accord.",
+  },
+  {
+    value: "accord-collectif",
+    label: "Collectifs et pronoms relatifs",
+    description: "« La plupart de », l'article défini, et l'antécédent de « qui ».",
+  },
+  {
+    value: "chasse-accords",
+    label: "La chasse aux fautes d'accord",
+    description: "Trois textes fautifs, avec des verbes corrects glissés au milieu.",
+  },
+  {
+    value: "temps-indicatif",
+    label: "L'atelier des temps composés",
+    description: "Trois pièces à assembler : l'auxiliaire, son temps, le participe passé.",
+  },
+  {
+    value: "passe-simple",
+    label: "Le passé simple",
+    description: "Huit tableaux à remplir, ceux qui tombent à la question 4 du BEPC.",
+  },
+  {
+    value: "imparfait-passe-simple",
+    label: "Installer le décor, puis l'événement",
+    description: "Le texte se colore en arrière-plan et premier plan.",
+  },
+  // fr3-lecture
+  {
+    value: "champ-lexical",
+    label: "La question 2 du BEPC",
+    description: "Relever un champ lexical, et le distinguer d'une famille de mots.",
+  },
+  {
+    value: "nuancer-sentiment",
+    label: "L'échelle des sentiments",
+    description: "D'agacé à fou de rage : viser le mot exact, et garder les mots forts.",
+  },
+  {
+    value: "montrer-sentiment",
+    label: "Montrer au lieu de dire",
+    description: "Par le corps, par l'action, par la comparaison.",
+  },
+  {
+    value: "lecture-methodique",
+    label: "Les quatre temps de la lecture",
+    description: "Situer, repérer, interpréter, conclure — et l'étape que les copies sautent.",
+  },
+  {
+    value: "fiche-lecture",
+    label: "La fiche de lecture",
+    description: "Six cases sur « Ville cruelle », avec les erreurs classiques.",
+  },
+  {
+    value: "etude-de-texte-bepc",
+    label: "L'épreuve d'étude de texte",
+    description: "Huit questions notées au barème officiel, compréhension et langue.",
+  },
+  // fr3-expression
+  {
+    value: "schema-narratif",
+    label: "Bâtir le schéma avant d'écrire",
+    description: "Cinq étapes, et les proportions que les correcteurs guettent.",
+  },
+  {
+    value: "schema-actanciel",
+    label: "Remplir les six cases",
+    description: "Sujet, objet, destinateur, destinataire, adjuvants, opposants.",
+  },
+  {
+    value: "point-de-vue",
+    label: "La même scène, trois points de vue",
+    description: "Externe, interne, omnisciente — et la rupture à débusquer.",
+  },
+  {
+    value: "raconter-oral",
+    label: "L'atelier de l'accroche",
+    description: "Entrer dans l'histoire, situer, annoncer, conclure.",
+  },
+  {
+    value: "compte-rendu-film",
+    label: "Préparer le compte rendu",
+    description: "Cinq moments, cinq minutes, et la fin qu'on ne raconte pas.",
+  },
+  {
+    value: "voix-et-corps",
+    label: "La console de l'orateur",
+    description: "Volume, débit, articulation, intonation, posture et silence.",
+  },
 ] as const;
 
 export type InteractifKey = (typeof INTERACTIFS)[number]["value"];
@@ -2706,6 +2862,34 @@ const WIDGETS: Record<string, typeof CercleTrigo> = {
   "verite-validite": VeriteValidite,
   "atelier-syllogisme": AtelierSyllogisme,
   "detecteur-sophismes": DetecteurSophismes,
+  // fr3-phrase
+  "types-de-phrases": TypesDePhrases,
+  "formes-de-phrase": FormesDePhrase,
+  "constituants-phrase": ConstituantsPhrase,
+  "compter-propositions": CompterPropositions,
+  "juxtaposition-coordination": JuxtapositionCoordination,
+  "propositions-bepc": PropositionsBepc,
+  // fr3-accords
+  "trouver-le-sujet": TrouverLeSujet,
+  "accord-collectif": AccordCollectif,
+  "chasse-accords": ChasseAccords,
+  "temps-indicatif": TempsIndicatif,
+  "passe-simple": PasseSimple,
+  "imparfait-passe-simple": ImparfaitPasseSimple,
+  // fr3-lecture
+  "champ-lexical": ChampLexical,
+  "nuancer-sentiment": NuancerSentiment,
+  "montrer-sentiment": MontrerSentiment,
+  "lecture-methodique": LectureMethodique,
+  "fiche-lecture": FicheLecture,
+  "etude-de-texte-bepc": EtudeDeTexteBepc,
+  // fr3-expression
+  "schema-narratif": SchemaNarratif,
+  "schema-actanciel": SchemaActanciel,
+  "point-de-vue": PointDeVue,
+  "raconter-oral": RaconterOral,
+  "compte-rendu-film": CompteRenduFilm,
+  "voix-et-corps": VoixEtCorps,
 };
 
 type Spec = { widget?: string; consigne?: string };
