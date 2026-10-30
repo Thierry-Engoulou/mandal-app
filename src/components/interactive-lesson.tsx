@@ -499,6 +499,38 @@ import {
   TemoignageArgument,
 } from "@/components/interactive/fr3-debat";
 import {
+  DirectIndirect,
+  FormesDiscours,
+  ModeCirconstancielle,
+  NommerCirconstancielle,
+  PonctuerDialogue,
+  QuestionCinqBepc,
+} from "@/components/interactive/fr3-circonstancielles";
+import {
+  AOuA,
+  DeclencheursSubjonctif,
+  DicteeGrammaticale,
+  FormerSubjonctif,
+  SubjonctifOuIndicatif1g,
+  TestsHomophonesGram,
+} from "@/components/interactive/fr3-grammatical";
+import {
+  AppreciatifDepreciatif,
+  DegreAdhesion,
+  DilemmeAndromaque,
+  LireSceneTragedie,
+  RelevierModalisateurs,
+  StructureTragedie,
+} from "@/components/interactive/fr3-tragedie";
+import {
+  ExprimerOpinion,
+  HierarchiserArguments,
+  ParagrapheArgumentatif,
+  PresenterStand,
+  RedigerTransition,
+  RepondreQuestions,
+} from "@/components/interactive/fr3-argumenter2";
+import {
   AtelierSyllogisme,
   DetecteurSophismes,
   PositionsReligieuses,
@@ -2615,6 +2647,130 @@ export const INTERACTIFS = [
     label: "Le débat réglé",
     description: "Modérateur : temps de parole, reprises, conclusion sans donner son avis.",
   },
+  // fr3-circonstancielles
+  {
+    value: "nommer-circonstancielle",
+    label: "Nommer la circonstancielle",
+    description: "Les sept sens, la conjonction qui les annonce, et le test du déplacement.",
+  },
+  {
+    value: "mode-circonstancielle",
+    label: "Indicatif ou subjonctif après la conjonction",
+    description: "Fait accompli ou non réalisé : toute la règle tient à cette question.",
+  },
+  {
+    value: "question-cinq-bepc",
+    label: "La question 5, en entier",
+    description: "Cinq gestes imposés, et les faux verbes refusés un par un.",
+  },
+  {
+    value: "ponctuer-dialogue",
+    label: "Ponctuer un dialogue",
+    description: "Deux-points, guillemets, tirets, virgules d'incise — et les verbes de parole.",
+  },
+  {
+    value: "direct-indirect",
+    label: "Du direct à l'indirect",
+    description: "Quatre changements dans l'ordre, et le piège de l'introducteur au présent.",
+  },
+  {
+    value: "formes-discours",
+    label: "Les quatre formes du même épisode",
+    description: "Direct, indirect, indirect libre, narrativisé — et ce que chacune fait au récit.",
+  },
+  // fr3-grammatical
+  {
+    value: "tests-homophones-gram",
+    label: "Le test de chaque couple",
+    description: "Treize couples, treize remplacements, et ta liste personnelle à la fin.",
+  },
+  {
+    value: "a-ou-a",
+    label: "Le « a » et le « on n' »",
+    description: "Les mots de négation surlignés, et le « n' » qu'on entend enfin.",
+  },
+  {
+    value: "dictee-grammaticale",
+    label: "La dictée grammaticale",
+    description: "Huit textes, le test appliqué devant toi, et un cas que rien ne tranche.",
+  },
+  {
+    value: "former-subjonctif",
+    label: "Fabriquer le subjonctif",
+    description: "Les trois gestes imposés, et les sept irréguliers à part.",
+  },
+  {
+    value: "subjonctif-ou-indicatif-1g",
+    label: "Subjonctif ou indicatif au 1er groupe",
+    description: "Le même verbe, la même personne, et un i qui change tout.",
+  },
+  {
+    value: "declencheurs-subjonctif",
+    label: "Les sept déclencheurs",
+    description: "Vingt-huit phrases, et les six faux déclencheurs montés contre les vrais.",
+  },
+  // fr3-tragedie
+  {
+    value: "relever-modalisateurs",
+    label: "Relever les modalisateurs",
+    description: "Dix textes, et les adverbes qui n'en sont pas.",
+  },
+  {
+    value: "degre-adhesion",
+    label: "Le curseur du degré d'adhésion",
+    description: "Sept crans, de « je garantis » à « je rapporte sans y croire ».",
+  },
+  {
+    value: "appreciatif-depreciatif",
+    label: "Appréciatif, dépréciatif, neutre",
+    description: "Vingt-quatre mots à ranger, dont une ironie qui retourne le jugement.",
+  },
+  {
+    value: "structure-tragedie",
+    label: "La structure de la tragédie",
+    description: "Les cinq actes, les trois unités, et les neuf termes du théâtre.",
+  },
+  {
+    value: "dilemme-andromaque",
+    label: "Le dilemme d'Andromaque",
+    description: "Deux portes, aucune tenable — puis la troisième, que Racine a inventée.",
+  },
+  {
+    value: "lire-scene-tragedie",
+    label: "Lire une scène de tragédie",
+    description: "Sept temps, de la situation de la scène au moule de réponse.",
+  },
+  // fr3-argumenter2
+  {
+    value: "hierarchiser-arguments",
+    label: "Hiérarchiser ses arguments",
+    description: "Éliminer d'abord, classer ensuite — et entendre l'ordre inverse.",
+  },
+  {
+    value: "rediger-transition",
+    label: "Rédiger la transition",
+    description: "Trois temps vérifiés, et le piège du résumé déguisé.",
+  },
+  {
+    value: "paragraphe-argumentatif",
+    label: "Bâtir le paragraphe",
+    description: "Argument, explication, exemple, mini-conclusion — et six à réparer.",
+  },
+  {
+    value: "exprimer-opinion",
+    label: "L'échelle de l'engagement",
+    description: "Adapter ce qu'on affirme à ce qu'on sait, et quitter le registre familier.",
+  },
+  {
+    value: "presenter-stand",
+    label: "La console du stand",
+    description: "Les trois choses à faire retenir, les quatre temps, et l'affiche de sept mots.",
+  },
+  {
+    value: "repondre-questions",
+    label: "La salle de questions",
+    description: "Quatre gestes imposés, et dix questions dont deux sans réponse.",
+  },
 ] as const;
 
 export type InteractifKey = (typeof INTERACTIFS)[number]["value"];
@@ -3075,6 +3231,34 @@ const WIDGETS: Record<string, typeof CercleTrigo> = {
   "intervention-orale": InterventionOrale,
   "contredire-poliment": ContredirePoliment,
   "debat-regle": DebatRegle,
+  // fr3-circonstancielles
+  "nommer-circonstancielle": NommerCirconstancielle,
+  "mode-circonstancielle": ModeCirconstancielle,
+  "question-cinq-bepc": QuestionCinqBepc,
+  "ponctuer-dialogue": PonctuerDialogue,
+  "direct-indirect": DirectIndirect,
+  "formes-discours": FormesDiscours,
+  // fr3-grammatical
+  "tests-homophones-gram": TestsHomophonesGram,
+  "a-ou-a": AOuA,
+  "dictee-grammaticale": DicteeGrammaticale,
+  "former-subjonctif": FormerSubjonctif,
+  "subjonctif-ou-indicatif-1g": SubjonctifOuIndicatif1g,
+  "declencheurs-subjonctif": DeclencheursSubjonctif,
+  // fr3-tragedie
+  "relever-modalisateurs": RelevierModalisateurs,
+  "degre-adhesion": DegreAdhesion,
+  "appreciatif-depreciatif": AppreciatifDepreciatif,
+  "structure-tragedie": StructureTragedie,
+  "dilemme-andromaque": DilemmeAndromaque,
+  "lire-scene-tragedie": LireSceneTragedie,
+  // fr3-argumenter2
+  "hierarchiser-arguments": HierarchiserArguments,
+  "rediger-transition": RedigerTransition,
+  "paragraphe-argumentatif": ParagrapheArgumentatif,
+  "exprimer-opinion": ExprimerOpinion,
+  "presenter-stand": PresenterStand,
+  "repondre-questions": RepondreQuestions,
 };
 
 type Spec = { widget?: string; consigne?: string };
