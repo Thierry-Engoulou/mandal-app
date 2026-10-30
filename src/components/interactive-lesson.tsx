@@ -440,7 +440,7 @@ import {
   FormesDePhrase,
   JuxtapositionCoordination,
   PropositionsBepc,
-  TypesDePhrases
+  TypesDePhrases,
 } from "@/components/interactive/fr3-phrase";
 import {
   AccordCollectif,
@@ -448,7 +448,7 @@ import {
   ImparfaitPasseSimple,
   PasseSimple,
   TempsIndicatif,
-  TrouverLeSujet
+  TrouverLeSujet,
 } from "@/components/interactive/fr3-accords";
 import {
   ChampLexical,
@@ -456,7 +456,7 @@ import {
   FicheLecture,
   LectureMethodique,
   MontrerSentiment,
-  NuancerSentiment
+  NuancerSentiment,
 } from "@/components/interactive/fr3-lecture";
 import {
   CompteRenduFilm,
@@ -464,8 +464,40 @@ import {
   RaconterOral,
   SchemaActanciel,
   SchemaNarratif,
-  VoixEtCorps
+  VoixEtCorps,
 } from "@/components/interactive/fr3-expression";
+import {
+  CompletiveCod,
+  FonctionDuRelatif,
+  IndicatifOuSubjonctif,
+  PronomRelatif,
+  QueRelatifOuCompletive,
+  RelativeDeterminative,
+} from "@/components/interactive/fr3-subordonnees";
+import {
+  DicteeHomophones,
+  FamilleDeMots,
+  FuturOuConditionnel,
+  HomophoneContexte,
+  SystemeHypothetique,
+  ValeursConditionnel,
+} from "@/components/interactive/fr3-orthographe";
+import {
+  DenoteConnote,
+  EchelleConnotation,
+  LectureArgumentative,
+  MotChoisi,
+  ProcederArgumentation,
+  TrierArgumentation,
+} from "@/components/interactive/fr3-argumenter";
+import {
+  ContredirePoliment,
+  DebatRegle,
+  InterventionOrale,
+  PlanDialectique,
+  RedactionArgumentee,
+  TemoignageArgument,
+} from "@/components/interactive/fr3-debat";
 import {
   AtelierSyllogisme,
   DetecteurSophismes,
@@ -2343,7 +2375,8 @@ export const INTERACTIFS = [
   {
     value: "formes-de-phrase",
     label: "Transformer une phrase",
-    description: "Négative, passive, emphatique : l'atelier surveille le « ne » oublié et le temps de l'auxiliaire.",
+    description:
+      "Négative, passive, emphatique : l'atelier surveille le « ne » oublié et le temps de l'auxiliaire.",
   },
   {
     value: "constituants-phrase",
@@ -2457,6 +2490,130 @@ export const INTERACTIFS = [
     value: "voix-et-corps",
     label: "La console de l'orateur",
     description: "Volume, débit, articulation, intonation, posture et silence.",
+  },
+  // fr3-subordonnees
+  {
+    value: "pronom-relatif",
+    label: "Choisir le pronom relatif",
+    description: "Seize phrases, et la phrase refaite qui fait apparaître la préposition.",
+  },
+  {
+    value: "relative-determinative",
+    label: "La virgule qui change tout",
+    description: "Avec ou sans virgules : certains, ou tous. Et trois phrases de règlement.",
+  },
+  {
+    value: "fonction-du-relatif",
+    label: "Nature et fonction, question par question",
+    description: "On cache la principale, on lit la relative seule, on recolle les morceaux.",
+  },
+  {
+    value: "completive-cod",
+    label: "La complétive et sa fonction",
+    description: "Le test du remplacement par un groupe nominal, et les quatre fonctions rares.",
+  },
+  {
+    value: "que-relatif-ou-completive",
+    label: "Trier les « que »",
+    description: "Vingt phrases, trois paniers, et les faux amis de la comparaison.",
+  },
+  {
+    value: "indicatif-ou-subjonctif",
+    label: "Indicatif ou subjonctif ?",
+    description: "La famille du verbe principal décide, et l'oreille tranche par « être ».",
+  },
+  // fr3-orthographe
+  {
+    value: "homophone-contexte",
+    label: "Le mot qui convient",
+    description: "La nature d'abord, la famille ensuite : l'oreille ne sert à rien.",
+  },
+  {
+    value: "famille-de-mots",
+    label: "Remonter à la famille",
+    description: "Verdir réveille le d de vert, verrier les deux r de verre.",
+  },
+  {
+    value: "dictee-homophones",
+    label: "La dictée corrigée",
+    description: "Six textes, leurs homophones surlignés, et le test qui convient à chacun.",
+  },
+  {
+    value: "futur-ou-conditionnel",
+    label: "Futur ou conditionnel ?",
+    description: "Vingt phrases, et le test du « il » qui sépare prendra de prendrait.",
+  },
+  {
+    value: "valeurs-conditionnel",
+    label: "La valeur du conditionnel",
+    description: "Regret, reproche, irréel du passé, information non confirmée.",
+  },
+  {
+    value: "systeme-hypothetique",
+    label: "Le système hypothétique",
+    description: "Trois systèmes, dix-huit phrases, et le « si j'aurais » refusé.",
+  },
+  // fr3-argumenter
+  {
+    value: "denote-connote",
+    label: "Dénotation ou connotation ?",
+    description: "Le dictionnaire, puis les images — dont celles propres à notre culture.",
+  },
+  {
+    value: "echelle-connotation",
+    label: "L'échelle de l'intensité",
+    description: "Cinq situations de gravité croissante, et le piège de la surenchère.",
+  },
+  {
+    value: "mot-choisi",
+    label: "Réécrire dans l'autre camp",
+    description: "Six textes qui basculent sans qu'un seul fait change.",
+  },
+  {
+    value: "trier-argumentation",
+    label: "Thèse, arguments et exemples",
+    description: "Le général et le particulier, avec un exemple fictif pour piège.",
+  },
+  {
+    value: "proceder-argumentation",
+    label: "Nommer les procédés",
+    description: "Concession, question rhétorique, analogie, absurde, autorité, ironie.",
+  },
+  {
+    value: "lecture-argumentative",
+    label: "La lecture en cinq étapes",
+    description: "Du paratexte à la réponse citée, dans l'ordre de l'épreuve.",
+  },
+  // fr3-debat
+  {
+    value: "temoignage-argument",
+    label: "Du récit à l'argument",
+    description: "Préciser, élaguer, conclure au présent : trois passes sur un témoignage.",
+  },
+  {
+    value: "plan-dialectique",
+    label: "Construire son plan",
+    description: "Le verbe de la consigne, l'ordre des arguments, la synthèse qui déplace.",
+  },
+  {
+    value: "redaction-argumentee",
+    label: "Composer et se faire corriger",
+    description: "Brouillon imposé, panneau du correcteur, et les cinq fautes qui coûtent.",
+  },
+  {
+    value: "intervention-orale",
+    label: "Construire son intervention",
+    description: "Quatre blocs, deux minutes, les silences — et le traqueur de tics.",
+  },
+  {
+    value: "contredire-poliment",
+    label: "Remonter l'échelle",
+    description: "Vingt répliques, l'attaque de la personne et l'homme de paille.",
+  },
+  {
+    value: "debat-regle",
+    label: "Le débat réglé",
+    description: "Modérateur : temps de parole, reprises, conclusion sans donner son avis.",
   },
 ] as const;
 
@@ -2890,6 +3047,34 @@ const WIDGETS: Record<string, typeof CercleTrigo> = {
   "raconter-oral": RaconterOral,
   "compte-rendu-film": CompteRenduFilm,
   "voix-et-corps": VoixEtCorps,
+  // fr3-subordonnees
+  "pronom-relatif": PronomRelatif,
+  "relative-determinative": RelativeDeterminative,
+  "fonction-du-relatif": FonctionDuRelatif,
+  "completive-cod": CompletiveCod,
+  "que-relatif-ou-completive": QueRelatifOuCompletive,
+  "indicatif-ou-subjonctif": IndicatifOuSubjonctif,
+  // fr3-orthographe
+  "homophone-contexte": HomophoneContexte,
+  "famille-de-mots": FamilleDeMots,
+  "dictee-homophones": DicteeHomophones,
+  "futur-ou-conditionnel": FuturOuConditionnel,
+  "valeurs-conditionnel": ValeursConditionnel,
+  "systeme-hypothetique": SystemeHypothetique,
+  // fr3-argumenter
+  "denote-connote": DenoteConnote,
+  "echelle-connotation": EchelleConnotation,
+  "mot-choisi": MotChoisi,
+  "trier-argumentation": TrierArgumentation,
+  "proceder-argumentation": ProcederArgumentation,
+  "lecture-argumentative": LectureArgumentative,
+  // fr3-debat
+  "temoignage-argument": TemoignageArgument,
+  "plan-dialectique": PlanDialectique,
+  "redaction-argumentee": RedactionArgumentee,
+  "intervention-orale": InterventionOrale,
+  "contredire-poliment": ContredirePoliment,
+  "debat-regle": DebatRegle,
 };
 
 type Spec = { widget?: string; consigne?: string };
