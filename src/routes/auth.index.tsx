@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { homeForRole } from "@/lib/role-home";
 import { GoogleIcon } from "@/components/google-icon";
+import { useAppMobile } from "@/lib/app-mobile";
 import { MandalLogo } from "@/components/mandal-logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +32,7 @@ function AuthPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const appMobile = useAppMobile();
 
   // Si l'utilisateur a déjà une session valide ou arrive avec des paramètres auth
   useEffect(() => {
@@ -112,28 +114,33 @@ function AuthPage() {
             </p>
           </div>
 
-          <Button
-            type="button"
-            variant="outline"
-            className="h-12 w-full rounded-xl border-border bg-card text-foreground font-semibold hover:bg-secondary transition flex items-center justify-center gap-2"
-            onClick={handleGoogleLogin}
-            disabled={googleLoading || loading}
-          >
-            {googleLoading ? (
-              <LoaderCircle className="animate-spin size-5 text-primary" />
-            ) : (
-              <GoogleIcon />
-            )}
-            Continuer avec Google
-          </Button>
+          {/* Google refuse la connexion dans une WebView : masqué dans l'app mobile. */}
+          {appMobile ? null : (
+            <>
+              <Button
+                type="button"
+                variant="outline"
+                className="h-12 w-full rounded-xl border-border bg-card text-foreground font-semibold hover:bg-secondary transition flex items-center justify-center gap-2"
+                onClick={handleGoogleLogin}
+                disabled={googleLoading || loading}
+              >
+                {googleLoading ? (
+                  <LoaderCircle className="animate-spin size-5 text-primary" />
+                ) : (
+                  <GoogleIcon />
+                )}
+                Continuer avec Google
+              </Button>
 
-          <div className="my-5 flex items-center gap-3">
-            <span className="h-px flex-1 bg-border" />
-            <span className="text-xs text-muted-foreground">
-              Ou continuez avec email / téléphone
-            </span>
-            <span className="h-px flex-1 bg-border" />
-          </div>
+              <div className="my-5 flex items-center gap-3">
+                <span className="h-px flex-1 bg-border" />
+                <span className="text-xs text-muted-foreground">
+                  Ou continuez avec email / téléphone
+                </span>
+                <span className="h-px flex-1 bg-border" />
+              </div>
+            </>
+          )}
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
