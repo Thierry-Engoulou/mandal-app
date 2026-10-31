@@ -152,8 +152,11 @@ await essai("Téléchargement d'une épreuve", async () => {
   const bouton = page.getByRole("button", { name: /Télécharger/ }).first();
   await bouton.waitFor({ timeout: 60000 });
   await capture("06-banque");
+  await page.waitForLoadState("networkidle").catch(() => {});
+  await bouton.scrollIntoViewIfNeeded();
   await device.shell("logcat -c");
-  await bouton.click();
+  // La liste peut encore bouger pendant son chargement : clic direct en dernier recours.
+  await bouton.click({ timeout: 15000 }).catch(() => bouton.evaluate((b) => b.click()));
   let lancees = [];
   for (let i = 0; i < 20 && !lancees.some((l) => l.includes("supabase.co")); i++) {
     await attendre(1000);
