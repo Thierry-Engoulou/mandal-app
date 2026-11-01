@@ -1,15 +1,15 @@
 -- ---------------------------------------------------------------------------
--- M'Andal — Mathématiques 3ème : les simulations qui manquaient encore
+-- M'Andal — Mathématiques 3ème : filet de sécurité pour les simulations
 --
--- Les scripts de densification regardaient le chapitre dans son ensemble : dès
--- qu'une seule de leurs simulations s'y trouvait déjà, ils passaient leur
--- chemin et laissaient les autres de côté. Neuf simulations sont restées en
--- rade de cette façon.
+-- Les scripts seed-maths3-simulations-1 à 4 jugent le chapitre dans son
+-- ensemble : dès qu'une seule de leurs simulations s'y trouve déjà, ils
+-- s'arrêtent et laissent les autres de côté. Si un chargement s'est arrêté en
+-- route, des simulations peuvent donc rester en rade sans que rien ne le dise.
 --
--- Celui-ci regarde les leçons une par une. Il pose celles qui manquent, laisse
--- tranquilles celles qui sont là, et ne touche à rien d'autre. Relancez-le
--- autant de fois que vous voulez.
--- ---------------------------------------------------------------------------
+-- Ce fichier-ci regarde les leçons une par une. Il pose celles qui manquent,
+-- laisse tranquilles celles qui sont là, et ne touche à rien d'autre.
+-- Relancez-le autant de fois que vous voulez : il vous dira chapitre par
+-- chapitre ce qu'il a trouvé.
 --
 -- Partie 2 sur 2 : chapitres 9 à 16.
 -- ---------------------------------------------------------------------------
