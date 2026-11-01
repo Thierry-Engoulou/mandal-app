@@ -435,6 +435,102 @@ import {
   VieSansFin,
 } from "@/components/interactive/philo-science";
 import {
+  CompterPropositions,
+  ConstituantsPhrase,
+  FormesDePhrase,
+  JuxtapositionCoordination,
+  PropositionsBepc,
+  TypesDePhrases,
+} from "@/components/interactive/fr3-phrase";
+import {
+  AccordCollectif,
+  ChasseAccords,
+  ImparfaitPasseSimple,
+  PasseSimple,
+  TempsIndicatif,
+  TrouverLeSujet,
+} from "@/components/interactive/fr3-accords";
+import {
+  ChampLexical,
+  EtudeDeTexteBepc,
+  FicheLecture,
+  LectureMethodique,
+  MontrerSentiment,
+  NuancerSentiment,
+} from "@/components/interactive/fr3-lecture";
+import {
+  CompteRenduFilm,
+  PointDeVue,
+  RaconterOral,
+  SchemaActanciel,
+  SchemaNarratif,
+  VoixEtCorps,
+} from "@/components/interactive/fr3-expression";
+import {
+  CompletiveCod,
+  FonctionDuRelatif,
+  IndicatifOuSubjonctif,
+  PronomRelatif,
+  QueRelatifOuCompletive,
+  RelativeDeterminative,
+} from "@/components/interactive/fr3-subordonnees";
+import {
+  DicteeHomophones,
+  FamilleDeMots,
+  FuturOuConditionnel,
+  HomophoneContexte,
+  SystemeHypothetique,
+  ValeursConditionnel,
+} from "@/components/interactive/fr3-orthographe";
+import {
+  DenoteConnote,
+  EchelleConnotation,
+  LectureArgumentative,
+  MotChoisi,
+  ProcederArgumentation,
+  TrierArgumentation,
+} from "@/components/interactive/fr3-argumenter";
+import {
+  ContredirePoliment,
+  DebatRegle,
+  InterventionOrale,
+  PlanDialectique,
+  RedactionArgumentee,
+  TemoignageArgument,
+} from "@/components/interactive/fr3-debat";
+import {
+  DirectIndirect,
+  FormesDiscours,
+  ModeCirconstancielle,
+  NommerCirconstancielle,
+  PonctuerDialogue,
+  QuestionCinqBepc,
+} from "@/components/interactive/fr3-circonstancielles";
+import {
+  AOuA,
+  DeclencheursSubjonctif,
+  DicteeGrammaticale,
+  FormerSubjonctif,
+  SubjonctifOuIndicatif1g,
+  TestsHomophonesGram,
+} from "@/components/interactive/fr3-grammatical";
+import {
+  AppreciatifDepreciatif,
+  DegreAdhesion,
+  DilemmeAndromaque,
+  LireSceneTragedie,
+  RelevierModalisateurs,
+  StructureTragedie,
+} from "@/components/interactive/fr3-tragedie";
+import {
+  ExprimerOpinion,
+  HierarchiserArguments,
+  ParagrapheArgumentatif,
+  PresenterStand,
+  RedigerTransition,
+  RepondreQuestions,
+} from "@/components/interactive/fr3-argumenter2";
+import {
   AtelierSyllogisme,
   DetecteurSophismes,
   PositionsReligieuses,
@@ -2302,6 +2398,379 @@ export const INTERACTIFS = [
     label: "Le détecteur de sophismes",
     description: "Douze arguments à juger, dont trois qu'il faut savoir laisser passer.",
   },
+  // fr3-phrase
+  {
+    value: "types-de-phrases",
+    label: "Reconnaître le type d'une phrase",
+    description: "Douze phrases sans leur ponctuation, et trois pièges où le signe ment.",
+  },
+  {
+    value: "formes-de-phrase",
+    label: "Transformer une phrase",
+    description:
+      "Négative, passive, emphatique : l'atelier surveille le « ne » oublié et le temps de l'auxiliaire.",
+  },
+  {
+    value: "constituants-phrase",
+    label: "L'atelier des deux tests",
+    description: "Supprimer, déplacer, conclure : obligatoire ou facultatif, puis la fonction.",
+  },
+  {
+    value: "compter-propositions",
+    label: "Compter les propositions",
+    description: "Cliquer les verbes conjugués, avec l'infinitif et le participe en embuscade.",
+  },
+  {
+    value: "juxtaposition-coordination",
+    label: "Juxtaposées ou coordonnées ?",
+    description: "Les sept conjonctions, et le piège de « car » contre « parce que ».",
+  },
+  {
+    value: "propositions-bepc",
+    label: "La question 5 du BEPC",
+    description: "Relever, nommer, donner la fonction — la méthode en trois gestes.",
+  },
+  // fr3-accords
+  {
+    value: "trouver-le-sujet",
+    label: "Qui est-ce qui ?",
+    description: "Le sujet inversé et les trois écrans qui font rater l'accord.",
+  },
+  {
+    value: "accord-collectif",
+    label: "Collectifs et pronoms relatifs",
+    description: "« La plupart de », l'article défini, et l'antécédent de « qui ».",
+  },
+  {
+    value: "chasse-accords",
+    label: "La chasse aux fautes d'accord",
+    description: "Trois textes fautifs, avec des verbes corrects glissés au milieu.",
+  },
+  {
+    value: "temps-indicatif",
+    label: "L'atelier des temps composés",
+    description: "Trois pièces à assembler : l'auxiliaire, son temps, le participe passé.",
+  },
+  {
+    value: "passe-simple",
+    label: "Le passé simple",
+    description: "Huit tableaux à remplir, ceux qui tombent à la question 4 du BEPC.",
+  },
+  {
+    value: "imparfait-passe-simple",
+    label: "Installer le décor, puis l'événement",
+    description: "Le texte se colore en arrière-plan et premier plan.",
+  },
+  // fr3-lecture
+  {
+    value: "champ-lexical",
+    label: "La question 2 du BEPC",
+    description: "Relever un champ lexical, et le distinguer d'une famille de mots.",
+  },
+  {
+    value: "nuancer-sentiment",
+    label: "L'échelle des sentiments",
+    description: "D'agacé à fou de rage : viser le mot exact, et garder les mots forts.",
+  },
+  {
+    value: "montrer-sentiment",
+    label: "Montrer au lieu de dire",
+    description: "Par le corps, par l'action, par la comparaison.",
+  },
+  {
+    value: "lecture-methodique",
+    label: "Les quatre temps de la lecture",
+    description: "Situer, repérer, interpréter, conclure — et l'étape que les copies sautent.",
+  },
+  {
+    value: "fiche-lecture",
+    label: "La fiche de lecture",
+    description: "Six cases sur « Ville cruelle », avec les erreurs classiques.",
+  },
+  {
+    value: "etude-de-texte-bepc",
+    label: "L'épreuve d'étude de texte",
+    description: "Huit questions notées au barème officiel, compréhension et langue.",
+  },
+  // fr3-expression
+  {
+    value: "schema-narratif",
+    label: "Bâtir le schéma avant d'écrire",
+    description: "Cinq étapes, et les proportions que les correcteurs guettent.",
+  },
+  {
+    value: "schema-actanciel",
+    label: "Remplir les six cases",
+    description: "Sujet, objet, destinateur, destinataire, adjuvants, opposants.",
+  },
+  {
+    value: "point-de-vue",
+    label: "La même scène, trois points de vue",
+    description: "Externe, interne, omnisciente — et la rupture à débusquer.",
+  },
+  {
+    value: "raconter-oral",
+    label: "L'atelier de l'accroche",
+    description: "Entrer dans l'histoire, situer, annoncer, conclure.",
+  },
+  {
+    value: "compte-rendu-film",
+    label: "Préparer le compte rendu",
+    description: "Cinq moments, cinq minutes, et la fin qu'on ne raconte pas.",
+  },
+  {
+    value: "voix-et-corps",
+    label: "La console de l'orateur",
+    description: "Volume, débit, articulation, intonation, posture et silence.",
+  },
+  // fr3-subordonnees
+  {
+    value: "pronom-relatif",
+    label: "Choisir le pronom relatif",
+    description: "Seize phrases, et la phrase refaite qui fait apparaître la préposition.",
+  },
+  {
+    value: "relative-determinative",
+    label: "La virgule qui change tout",
+    description: "Avec ou sans virgules : certains, ou tous. Et trois phrases de règlement.",
+  },
+  {
+    value: "fonction-du-relatif",
+    label: "Nature et fonction, question par question",
+    description: "On cache la principale, on lit la relative seule, on recolle les morceaux.",
+  },
+  {
+    value: "completive-cod",
+    label: "La complétive et sa fonction",
+    description: "Le test du remplacement par un groupe nominal, et les quatre fonctions rares.",
+  },
+  {
+    value: "que-relatif-ou-completive",
+    label: "Trier les « que »",
+    description: "Vingt phrases, trois paniers, et les faux amis de la comparaison.",
+  },
+  {
+    value: "indicatif-ou-subjonctif",
+    label: "Indicatif ou subjonctif ?",
+    description: "La famille du verbe principal décide, et l'oreille tranche par « être ».",
+  },
+  // fr3-orthographe
+  {
+    value: "homophone-contexte",
+    label: "Le mot qui convient",
+    description: "La nature d'abord, la famille ensuite : l'oreille ne sert à rien.",
+  },
+  {
+    value: "famille-de-mots",
+    label: "Remonter à la famille",
+    description: "Verdir réveille le d de vert, verrier les deux r de verre.",
+  },
+  {
+    value: "dictee-homophones",
+    label: "La dictée corrigée",
+    description: "Six textes, leurs homophones surlignés, et le test qui convient à chacun.",
+  },
+  {
+    value: "futur-ou-conditionnel",
+    label: "Futur ou conditionnel ?",
+    description: "Vingt phrases, et le test du « il » qui sépare prendra de prendrait.",
+  },
+  {
+    value: "valeurs-conditionnel",
+    label: "La valeur du conditionnel",
+    description: "Regret, reproche, irréel du passé, information non confirmée.",
+  },
+  {
+    value: "systeme-hypothetique",
+    label: "Le système hypothétique",
+    description: "Trois systèmes, dix-huit phrases, et le « si j'aurais » refusé.",
+  },
+  // fr3-argumenter
+  {
+    value: "denote-connote",
+    label: "Dénotation ou connotation ?",
+    description: "Le dictionnaire, puis les images — dont celles propres à notre culture.",
+  },
+  {
+    value: "echelle-connotation",
+    label: "L'échelle de l'intensité",
+    description: "Cinq situations de gravité croissante, et le piège de la surenchère.",
+  },
+  {
+    value: "mot-choisi",
+    label: "Réécrire dans l'autre camp",
+    description: "Six textes qui basculent sans qu'un seul fait change.",
+  },
+  {
+    value: "trier-argumentation",
+    label: "Thèse, arguments et exemples",
+    description: "Le général et le particulier, avec un exemple fictif pour piège.",
+  },
+  {
+    value: "proceder-argumentation",
+    label: "Nommer les procédés",
+    description: "Concession, question rhétorique, analogie, absurde, autorité, ironie.",
+  },
+  {
+    value: "lecture-argumentative",
+    label: "La lecture en cinq étapes",
+    description: "Du paratexte à la réponse citée, dans l'ordre de l'épreuve.",
+  },
+  // fr3-debat
+  {
+    value: "temoignage-argument",
+    label: "Du récit à l'argument",
+    description: "Préciser, élaguer, conclure au présent : trois passes sur un témoignage.",
+  },
+  {
+    value: "plan-dialectique",
+    label: "Construire son plan",
+    description: "Le verbe de la consigne, l'ordre des arguments, la synthèse qui déplace.",
+  },
+  {
+    value: "redaction-argumentee",
+    label: "Composer et se faire corriger",
+    description: "Brouillon imposé, panneau du correcteur, et les cinq fautes qui coûtent.",
+  },
+  {
+    value: "intervention-orale",
+    label: "Construire son intervention",
+    description: "Quatre blocs, deux minutes, les silences — et le traqueur de tics.",
+  },
+  {
+    value: "contredire-poliment",
+    label: "Remonter l'échelle",
+    description: "Vingt répliques, l'attaque de la personne et l'homme de paille.",
+  },
+  {
+    value: "debat-regle",
+    label: "Le débat réglé",
+    description: "Modérateur : temps de parole, reprises, conclusion sans donner son avis.",
+  },
+  // fr3-circonstancielles
+  {
+    value: "nommer-circonstancielle",
+    label: "Nommer la circonstancielle",
+    description: "Les sept sens, la conjonction qui les annonce, et le test du déplacement.",
+  },
+  {
+    value: "mode-circonstancielle",
+    label: "Indicatif ou subjonctif après la conjonction",
+    description: "Fait accompli ou non réalisé : toute la règle tient à cette question.",
+  },
+  {
+    value: "question-cinq-bepc",
+    label: "La question 5, en entier",
+    description: "Cinq gestes imposés, et les faux verbes refusés un par un.",
+  },
+  {
+    value: "ponctuer-dialogue",
+    label: "Ponctuer un dialogue",
+    description: "Deux-points, guillemets, tirets, virgules d'incise — et les verbes de parole.",
+  },
+  {
+    value: "direct-indirect",
+    label: "Du direct à l'indirect",
+    description: "Quatre changements dans l'ordre, et le piège de l'introducteur au présent.",
+  },
+  {
+    value: "formes-discours",
+    label: "Les quatre formes du même épisode",
+    description: "Direct, indirect, indirect libre, narrativisé — et ce que chacune fait au récit.",
+  },
+  // fr3-grammatical
+  {
+    value: "tests-homophones-gram",
+    label: "Le test de chaque couple",
+    description: "Treize couples, treize remplacements, et ta liste personnelle à la fin.",
+  },
+  {
+    value: "a-ou-a",
+    label: "Le « a » et le « on n' »",
+    description: "Les mots de négation surlignés, et le « n' » qu'on entend enfin.",
+  },
+  {
+    value: "dictee-grammaticale",
+    label: "La dictée grammaticale",
+    description: "Huit textes, le test appliqué devant toi, et un cas que rien ne tranche.",
+  },
+  {
+    value: "former-subjonctif",
+    label: "Fabriquer le subjonctif",
+    description: "Les trois gestes imposés, et les sept irréguliers à part.",
+  },
+  {
+    value: "subjonctif-ou-indicatif-1g",
+    label: "Subjonctif ou indicatif au 1er groupe",
+    description: "Le même verbe, la même personne, et un i qui change tout.",
+  },
+  {
+    value: "declencheurs-subjonctif",
+    label: "Les sept déclencheurs",
+    description: "Vingt-huit phrases, et les six faux déclencheurs montés contre les vrais.",
+  },
+  // fr3-tragedie
+  {
+    value: "relever-modalisateurs",
+    label: "Relever les modalisateurs",
+    description: "Dix textes, et les adverbes qui n'en sont pas.",
+  },
+  {
+    value: "degre-adhesion",
+    label: "Le curseur du degré d'adhésion",
+    description: "Sept crans, de « je garantis » à « je rapporte sans y croire ».",
+  },
+  {
+    value: "appreciatif-depreciatif",
+    label: "Appréciatif, dépréciatif, neutre",
+    description: "Vingt-quatre mots à ranger, dont une ironie qui retourne le jugement.",
+  },
+  {
+    value: "structure-tragedie",
+    label: "La structure de la tragédie",
+    description: "Les cinq actes, les trois unités, et les neuf termes du théâtre.",
+  },
+  {
+    value: "dilemme-andromaque",
+    label: "Le dilemme d'Andromaque",
+    description: "Deux portes, aucune tenable — puis la troisième, que Racine a inventée.",
+  },
+  {
+    value: "lire-scene-tragedie",
+    label: "Lire une scène de tragédie",
+    description: "Sept temps, de la situation de la scène au moule de réponse.",
+  },
+  // fr3-argumenter2
+  {
+    value: "hierarchiser-arguments",
+    label: "Hiérarchiser ses arguments",
+    description: "Éliminer d'abord, classer ensuite — et entendre l'ordre inverse.",
+  },
+  {
+    value: "rediger-transition",
+    label: "Rédiger la transition",
+    description: "Trois temps vérifiés, et le piège du résumé déguisé.",
+  },
+  {
+    value: "paragraphe-argumentatif",
+    label: "Bâtir le paragraphe",
+    description: "Argument, explication, exemple, mini-conclusion — et six à réparer.",
+  },
+  {
+    value: "exprimer-opinion",
+    label: "L'échelle de l'engagement",
+    description: "Adapter ce qu'on affirme à ce qu'on sait, et quitter le registre familier.",
+  },
+  {
+    value: "presenter-stand",
+    label: "La console du stand",
+    description: "Les trois choses à faire retenir, les quatre temps, et l'affiche de sept mots.",
+  },
+  {
+    value: "repondre-questions",
+    label: "La salle de questions",
+    description: "Quatre gestes imposés, et dix questions dont deux sans réponse.",
+  },
 ] as const;
 
 export type InteractifKey = (typeof INTERACTIFS)[number]["value"];
@@ -2706,6 +3175,90 @@ const WIDGETS: Record<string, typeof CercleTrigo> = {
   "verite-validite": VeriteValidite,
   "atelier-syllogisme": AtelierSyllogisme,
   "detecteur-sophismes": DetecteurSophismes,
+  // fr3-phrase
+  "types-de-phrases": TypesDePhrases,
+  "formes-de-phrase": FormesDePhrase,
+  "constituants-phrase": ConstituantsPhrase,
+  "compter-propositions": CompterPropositions,
+  "juxtaposition-coordination": JuxtapositionCoordination,
+  "propositions-bepc": PropositionsBepc,
+  // fr3-accords
+  "trouver-le-sujet": TrouverLeSujet,
+  "accord-collectif": AccordCollectif,
+  "chasse-accords": ChasseAccords,
+  "temps-indicatif": TempsIndicatif,
+  "passe-simple": PasseSimple,
+  "imparfait-passe-simple": ImparfaitPasseSimple,
+  // fr3-lecture
+  "champ-lexical": ChampLexical,
+  "nuancer-sentiment": NuancerSentiment,
+  "montrer-sentiment": MontrerSentiment,
+  "lecture-methodique": LectureMethodique,
+  "fiche-lecture": FicheLecture,
+  "etude-de-texte-bepc": EtudeDeTexteBepc,
+  // fr3-expression
+  "schema-narratif": SchemaNarratif,
+  "schema-actanciel": SchemaActanciel,
+  "point-de-vue": PointDeVue,
+  "raconter-oral": RaconterOral,
+  "compte-rendu-film": CompteRenduFilm,
+  "voix-et-corps": VoixEtCorps,
+  // fr3-subordonnees
+  "pronom-relatif": PronomRelatif,
+  "relative-determinative": RelativeDeterminative,
+  "fonction-du-relatif": FonctionDuRelatif,
+  "completive-cod": CompletiveCod,
+  "que-relatif-ou-completive": QueRelatifOuCompletive,
+  "indicatif-ou-subjonctif": IndicatifOuSubjonctif,
+  // fr3-orthographe
+  "homophone-contexte": HomophoneContexte,
+  "famille-de-mots": FamilleDeMots,
+  "dictee-homophones": DicteeHomophones,
+  "futur-ou-conditionnel": FuturOuConditionnel,
+  "valeurs-conditionnel": ValeursConditionnel,
+  "systeme-hypothetique": SystemeHypothetique,
+  // fr3-argumenter
+  "denote-connote": DenoteConnote,
+  "echelle-connotation": EchelleConnotation,
+  "mot-choisi": MotChoisi,
+  "trier-argumentation": TrierArgumentation,
+  "proceder-argumentation": ProcederArgumentation,
+  "lecture-argumentative": LectureArgumentative,
+  // fr3-debat
+  "temoignage-argument": TemoignageArgument,
+  "plan-dialectique": PlanDialectique,
+  "redaction-argumentee": RedactionArgumentee,
+  "intervention-orale": InterventionOrale,
+  "contredire-poliment": ContredirePoliment,
+  "debat-regle": DebatRegle,
+  // fr3-circonstancielles
+  "nommer-circonstancielle": NommerCirconstancielle,
+  "mode-circonstancielle": ModeCirconstancielle,
+  "question-cinq-bepc": QuestionCinqBepc,
+  "ponctuer-dialogue": PonctuerDialogue,
+  "direct-indirect": DirectIndirect,
+  "formes-discours": FormesDiscours,
+  // fr3-grammatical
+  "tests-homophones-gram": TestsHomophonesGram,
+  "a-ou-a": AOuA,
+  "dictee-grammaticale": DicteeGrammaticale,
+  "former-subjonctif": FormerSubjonctif,
+  "subjonctif-ou-indicatif-1g": SubjonctifOuIndicatif1g,
+  "declencheurs-subjonctif": DeclencheursSubjonctif,
+  // fr3-tragedie
+  "relever-modalisateurs": RelevierModalisateurs,
+  "degre-adhesion": DegreAdhesion,
+  "appreciatif-depreciatif": AppreciatifDepreciatif,
+  "structure-tragedie": StructureTragedie,
+  "dilemme-andromaque": DilemmeAndromaque,
+  "lire-scene-tragedie": LireSceneTragedie,
+  // fr3-argumenter2
+  "hierarchiser-arguments": HierarchiserArguments,
+  "rediger-transition": RedigerTransition,
+  "paragraphe-argumentatif": ParagrapheArgumentatif,
+  "exprimer-opinion": ExprimerOpinion,
+  "presenter-stand": PresenterStand,
+  "repondre-questions": RepondreQuestions,
 };
 
 type Spec = { widget?: string; consigne?: string };
