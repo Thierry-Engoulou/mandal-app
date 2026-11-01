@@ -83,7 +83,7 @@ Par quoi commencer
 Une seule chose compte : le site doit savoir dessiner les simulations avant
 que les leçons ne les réclament.
 
-   1. Fusionner la pull request des 76 simulations de Terminale sur GitHub.
+   1. Fusionner la pull request des 75 simulations de Terminale sur GitHub.
    2. Attendre que Vercel ait fini de reconstruire le site, trois à cinq
       minutes.
    3. Alors seulement, charger les fichiers SQL.
@@ -174,7 +174,7 @@ La base de test ne contenait au départ ni Terminale C ni Terminale D. Les
 deux classes ont bien été créées toutes seules par le premier fichier lancé —
 c'est exactement ce qui se passera chez vous si elles n'existent pas encore.
 
-J'ai enfin dessiné les soixante-seize simulations une par une et je les ai
+J'ai enfin dessiné les soixante-quinze simulations une par une et je les ai
 regardées en image, pour attraper ce qu'aucun contrôle automatique ne voit :
 un texte qui dépasse du cadre, un résultat faux, une barre qui reste rouge
 quand elle devrait être verte. Six défauts de ce genre ont été corrigés avant
