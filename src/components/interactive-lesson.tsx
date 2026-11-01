@@ -222,6 +222,77 @@ import {
   RegleGamma,
   VitesseReaction,
 } from "@/components/interactive/chimie-tle-solutions";
+import {
+  BusOrdinateur,
+  CaracteristiquesCpu,
+  ComposantsUc,
+  CouchesSysteme,
+  DemarrageBios,
+  SchemaFonctionnel,
+  UnitesMesure,
+} from "@/components/interactive/info1-materiel";
+import {
+  ArbreMaintenance,
+  BoiteOutils,
+  Defragmentation,
+  DiagnosticPanne,
+  MachineInfectee,
+  MaintenanceLogicielle,
+  NettoyageDisque,
+  Partitionnement,
+  ProtectionElectrique,
+  ScanAntivirus,
+  TypesMaintenance,
+  TypesVirus,
+} from "@/components/interactive/info1-maintenance";
+import {
+  AnalyseProbleme,
+  ChoixTypes,
+  Operateurs,
+  PartiesAlgorithme,
+  TraceVariables,
+} from "@/components/interactive/info1-algo-a";
+import {
+  BouclePour,
+  BoucleTantque,
+  ComparerBoucles,
+  ConditionsComposees,
+  SelonCas,
+  SiAlorsSinon,
+  Tableaux,
+} from "@/components/interactive/info1-algo-b";
+import {
+  FonctionProcedure,
+  ProcedureParametres,
+  Recursivite,
+} from "@/components/interactive/info1-algo-c";
+import {
+  BaliseImage,
+  BaliseLien,
+  BalisesTexte,
+  EditeurHtml,
+  ListesHtml,
+  StructurePage,
+  TableauxHtml,
+} from "@/components/interactive/info1-web-a";
+import {
+  ChampsInput,
+  FeuilleStyle,
+  FormulaireComplet,
+  FormulaireHtml,
+  PlacementsCss,
+  SyntaxeCss,
+} from "@/components/interactive/info1-web-b";
+import {
+  FormatsImage,
+  InterfacePhotoshop,
+  MatricielleVectorielle,
+  Photomontage,
+  PixelsDefinition,
+  RetoucheImage,
+  SonNumerique,
+  VideoNumerique,
+} from "@/components/interactive/info1-infographie";
 
 /**
  * Leçons de type "interactif" : des simulations que l'élève manipule directement
@@ -1160,6 +1231,289 @@ export const INTERACTIFS = [
     label: "L'oxydoréduction dans l'industrie",
     description: "Haut fourneau, aluminothermie, alumine, eau de javel et dismutation.",
   },
+  // informatique 1ere — materiel
+  {
+    value: "schema-fonctionnel",
+    label: "Ranger les périphériques",
+    description: "Entrée, sortie ou stockage : dans quel sens va l'information ?",
+  },
+  {
+    value: "unites-mesure",
+    label: "À chaque composant son unité",
+    description: "Hertz, octet, pouce, ppp — et pourquoi 500 Go n'en font que 465.",
+  },
+  {
+    value: "composants-uc",
+    label: "Ouvrir l'unité centrale",
+    description: "Chaque composant, son rôle, et ce qui se passe quand on le retire.",
+  },
+  {
+    value: "caracteristiques-cpu",
+    label: "Régler un processeur",
+    description: "Fréquence, jeu d'instruction, mémoire : qui freine vraiment la machine ?",
+  },
+  {
+    value: "couches-systeme",
+    label: "Les quatre couches",
+    description: "Une demande qui descend jusqu'au matériel, puis remonte.",
+  },
+  {
+    value: "bus-ordinateur",
+    label: "Les trois bus",
+    description: "Adresses, données, contrôle : coupe l'un des trois et vois ce qui manque.",
+  },
+  {
+    value: "demarrage-bios",
+    label: "Le démarrage étape par étape",
+    description: "Le BIOS, la séquence POST, et les bips quand un composant manque.",
+  },
+  // informatique 1ere — maintenance
+  {
+    value: "types-maintenance",
+    label: "Corrective ou préventive ?",
+    description: "Classer des situations réelles selon le moment de l'intervention.",
+  },
+  {
+    value: "arbre-maintenance",
+    label: "L'arbre de la maintenance",
+    description: "Placer les cinq branches, conditionnelle et prévisionnelle comprises.",
+  },
+  {
+    value: "maintenance-logicielle",
+    label: "Corrective, évolutive ou adaptative",
+    description: "Dix tickets à classer, et la question qui tranche à chaque fois.",
+  },
+  {
+    value: "protection-electrique",
+    label: "Protéger une salle informatique",
+    description: "Régulateur, parasurtenseur, onduleur face à trois incidents.",
+  },
+  {
+    value: "diagnostic-panne",
+    label: "Diagnostiquer une panne",
+    description: "Six machines, et le moins de vérifications possible.",
+  },
+  {
+    value: "boite-outils",
+    label: "La boîte à outils",
+    description: "Remplir sa sacoche avant de partir en intervention.",
+  },
+  {
+    value: "types-virus",
+    label: "Reconnaître les types de virus",
+    description: "Ver, cheval de Troie, bombe logique, macrovirus, logiciel espion.",
+  },
+  {
+    value: "machine-infectee",
+    label: "La machine est-elle infectée ?",
+    description: "Virus ou autre cause : refuser de conclure trop vite.",
+  },
+  {
+    value: "scan-antivirus",
+    label: "Analyser et nettoyer",
+    description: "Réparer, supprimer, quarantaine ou ignorer — et les faux positifs.",
+  },
+  {
+    value: "defragmentation",
+    label: "Défragmenter un disque",
+    description: "Les fichiers se morcellent, la tête de lecture saute, le temps monte.",
+  },
+  {
+    value: "partitionnement",
+    label: "Partitionner un disque",
+    description: "Et pourquoi une partition n'est pas une sauvegarde.",
+  },
+  {
+    value: "nettoyage-disque",
+    label: "Rendre sa vitesse à une machine",
+    description: "Espace libéré, programmes au démarrage, temps de démarrage.",
+  },
+  // informatique 1ere — algo-a
+  {
+    value: "parties-algorithme",
+    label: "Reconstituer un algorithme",
+    description: "En-tête, déclarations, corps : remettre les lignes dans l'ordre.",
+  },
+  {
+    value: "analyse-probleme",
+    label: "Analyser un problème",
+    description: "Entrées, traitement, sorties — avant d'écrire la moindre ligne.",
+  },
+  {
+    value: "choix-types",
+    label: "Choisir le bon type",
+    description: "Entier, réel, caractère, chaîne, booléen, et les deux pièges.",
+  },
+  {
+    value: "trace-variables",
+    label: "Dérouler un algorithme",
+    description: "Le tableau de trace, ligne par ligne, et l'échange avec ou sans temp.",
+  },
+  {
+    value: "operateurs",
+    label: "div, mod et les opérateurs logiques",
+    description: "La division posée, le test de parité, et les tables de vérité.",
+  },
+  // informatique 1ere — algo-b
+  {
+    value: "si-alors-sinon",
+    label: "Suivre le chemin d'un Si",
+    description: "La branche qui s'allume, et le cas limite de l'égalité.",
+  },
+  {
+    value: "conditions-composees",
+    label: "Les mentions, et le piège de l'ordre",
+    description: "Réordonner les tests et voir un 18 repartir avec « Passable ».",
+  },
+  {
+    value: "selon-cas",
+    label: "Selon ou Si imbriqués ?",
+    description: "Valeurs énumérables ou intervalles : la question qui tranche.",
+  },
+  {
+    value: "boucle-tantque",
+    label: "La boucle TantQue",
+    description: "Initialisation, condition, progression — et la boucle infinie.",
+  },
+  {
+    value: "boucle-pour",
+    label: "La boucle Pour",
+    description: "Début, fin, pas, et pourquoi elle ne peut pas être infinie.",
+  },
+  {
+    value: "comparer-boucles",
+    label: "TantQue et Répéter côte à côte",
+    description: "Test au début ou à la fin : zéro tour contre un tour.",
+  },
+  {
+    value: "tableaux",
+    label: "Parcourir un tableau",
+    description: "Somme, comptage, maximum en un seul passage — et les bornes.",
+  },
+  // informatique 1ere — algo-c
+  {
+    value: "fonction-procedure",
+    label: "Procédure ou fonction ?",
+    description: "Le résultat se récupère-t-il dans une variable ?",
+  },
+  {
+    value: "procedure-parametres",
+    label: "Passer des paramètres",
+    description: "Formels et effectifs, l'ordre, les types, les variables locales.",
+  },
+  {
+    value: "recursivite",
+    label: "La récursivité en action",
+    description: "La pile des appels, le cas de base, et ce qui arrive sans lui.",
+  },
+  // informatique 1ere — web-a
+  {
+    value: "editeur-html",
+    label: "Ton premier éditeur HTML",
+    description: "Tu tapes, le navigateur affiche, et les fautes sont signalées.",
+  },
+  {
+    value: "structure-page",
+    label: "Construire le squelette",
+    description: "Ce qui va dans le head, ce qui va dans le body.",
+  },
+  {
+    value: "balises-texte",
+    label: "Les balises de texte",
+    description: "Titres, paragraphes, strong et em — et la surprise des espaces.",
+  },
+  {
+    value: "balise-image",
+    label: "Insérer une image",
+    description: "Le chemin, la casse, le alt, et la déformation.",
+  },
+  {
+    value: "balise-lien",
+    label: "Fabriquer des liens",
+    description: "Interne, externe, ancre, mailto, et les quatre fautes classiques.",
+  },
+  {
+    value: "listes-html",
+    label: "Construire des listes",
+    description: "ul, ol, dl, et l'imbrication qui casse la numérotation.",
+  },
+  {
+    value: "tableaux-html",
+    label: "Construire un tableau",
+    description: "tr, th, td, colspan, et cellpadding contre cellspacing.",
+  },
+  // informatique 1ere — web-b
+  {
+    value: "formulaire-html",
+    label: "get ou post ?",
+    description: "Le mot de passe dans la barre d'adresse, et le champ sans name.",
+  },
+  {
+    value: "champs-input",
+    label: "Les types de champs",
+    description: "Radio contre checkbox, et le name qui regroupe.",
+  },
+  {
+    value: "formulaire-complet",
+    label: "Assembler un formulaire",
+    description: "Ce qui arrive au serveur, et ce qui reste en route.",
+  },
+  {
+    value: "syntaxe-css",
+    label: "La syntaxe CSS",
+    description: "Sélecteur, propriété, valeur — et le point-virgule oublié.",
+  },
+  {
+    value: "placements-css",
+    label: "La cascade",
+    description: "En ligne, interne, externe : laquelle gagne, et pourquoi.",
+  },
+  {
+    value: "feuille-style",
+    label: "Habiller une page",
+    description: "Couleurs, police, bordure, et padding contre margin, coloriés.",
+  },
+  // informatique 1ere — infographie
+  {
+    value: "pixels-definition",
+    label: "Définition, résolution et poids",
+    description: "La même image imprimée à 72 puis à 300 points par pouce.",
+  },
+  {
+    value: "matricielle-vectorielle",
+    label: "Agrandir les deux sortes d'images",
+    description: "Le zoom jusqu'à 1600 % : les pixels contre la formule.",
+  },
+  {
+    value: "formats-image",
+    label: "Choisir le bon format",
+    description: "Huit situations, et un JPEG réenregistré dix fois.",
+  },
+  {
+    value: "interface-photoshop",
+    label: "L'interface d'un logiciel de retouche",
+    description: "Les cinq parties, et la barre d'options qui change d'outil en outil.",
+  },
+  {
+    value: "retouche-image",
+    label: "Retoucher une photographie",
+    description: "Luminosité, contraste, recadrage, calques — puis l'aplatissement.",
+  },
+  {
+    value: "photomontage",
+    label: "Réussir ou rater un photomontage",
+    description: "Les cinq étapes, et un mode détective pour repérer les trucages.",
+  },
+  {
+    value: "son-numerique",
+    label: "Numériser un son",
+    description: "Échantillonner, quantifier, et le calcul du poids.",
+  },
+  {
+    value: "video-numerique",
+    label: "Les réglages d'une vidéo",
+    description: "Définition, cadence, compression, puis codec contre conteneur.",
+  },
 ] as const;
 
 export type InteractifKey = (typeof INTERACTIFS)[number]["value"];
@@ -1362,6 +1716,69 @@ const WIDGETS: Record<string, typeof CercleTrigo> = {
   "proprietes-insatures": ProprietesInsatures,
   "proprietes-oxygenes": ProprietesOxygenes,
   "applications-industrielles": ApplicationsIndustrielles,
+  // info1-materiel
+  "schema-fonctionnel": SchemaFonctionnel,
+  "unites-mesure": UnitesMesure,
+  "composants-uc": ComposantsUc,
+  "caracteristiques-cpu": CaracteristiquesCpu,
+  "couches-systeme": CouchesSysteme,
+  "bus-ordinateur": BusOrdinateur,
+  "demarrage-bios": DemarrageBios,
+  // info1-maintenance
+  "types-maintenance": TypesMaintenance,
+  "arbre-maintenance": ArbreMaintenance,
+  "maintenance-logicielle": MaintenanceLogicielle,
+  "protection-electrique": ProtectionElectrique,
+  "diagnostic-panne": DiagnosticPanne,
+  "boite-outils": BoiteOutils,
+  "types-virus": TypesVirus,
+  "machine-infectee": MachineInfectee,
+  "scan-antivirus": ScanAntivirus,
+  defragmentation: Defragmentation,
+  partitionnement: Partitionnement,
+  "nettoyage-disque": NettoyageDisque,
+  // info1-algo-a
+  "parties-algorithme": PartiesAlgorithme,
+  "analyse-probleme": AnalyseProbleme,
+  "choix-types": ChoixTypes,
+  "trace-variables": TraceVariables,
+  operateurs: Operateurs,
+  // info1-algo-b
+  "si-alors-sinon": SiAlorsSinon,
+  "conditions-composees": ConditionsComposees,
+  "selon-cas": SelonCas,
+  "boucle-tantque": BoucleTantque,
+  "boucle-pour": BouclePour,
+  "comparer-boucles": ComparerBoucles,
+  tableaux: Tableaux,
+  // info1-algo-c
+  "fonction-procedure": FonctionProcedure,
+  "procedure-parametres": ProcedureParametres,
+  recursivite: Recursivite,
+  // info1-web-a
+  "editeur-html": EditeurHtml,
+  "structure-page": StructurePage,
+  "balises-texte": BalisesTexte,
+  "balise-image": BaliseImage,
+  "balise-lien": BaliseLien,
+  "listes-html": ListesHtml,
+  "tableaux-html": TableauxHtml,
+  // info1-web-b
+  "formulaire-html": FormulaireHtml,
+  "champs-input": ChampsInput,
+  "formulaire-complet": FormulaireComplet,
+  "syntaxe-css": SyntaxeCss,
+  "placements-css": PlacementsCss,
+  "feuille-style": FeuilleStyle,
+  // info1-infographie
+  "pixels-definition": PixelsDefinition,
+  "matricielle-vectorielle": MatricielleVectorielle,
+  "formats-image": FormatsImage,
+  "interface-photoshop": InterfacePhotoshop,
+  "retouche-image": RetoucheImage,
+  photomontage: Photomontage,
+  "son-numerique": SonNumerique,
+  "video-numerique": VideoNumerique,
 };
 
 type Spec = { widget?: string; consigne?: string };
