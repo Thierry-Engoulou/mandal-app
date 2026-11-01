@@ -1,0 +1,99 @@
+MANDAL — Mathématiques 1ère C (programme officiel du Cameroun)
+==============================================================
+
+21 chapitres, 4 modules, 110 leçons, un quiz à la fin de chaque chapitre.
+
+
+COMMENT LANCER CELA DANS SUPABASE
+---------------------------------
+
+Deux façons, au choix. Le résultat est exactement le même.
+
+  Façon 1, la plus sûre : les 21 petits fichiers
+  ----------------------------------------------
+  Ouvrez seed-maths1c-ch01.sql, copiez tout, collez dans l'éditeur SQL de
+  Supabase, cliquez sur Run. Puis ch02, puis ch03, et ainsi de suite.
+
+  L'ordre n'a aucune importance. Chaque fichier crée tout seul ce dont il a
+  besoin : la matière, la classe « 1ère C », le programme et son chapitre.
+  Si vous lancez deux fois le même fichier, rien n'est dupliqué.
+
+  Façon 2, en une seule fois : COMPLET-maths-1ere-c.sql
+  -----------------------------------------------------
+  Un seul fichier de 294 Ko. Certains navigateurs coupent un copier-coller
+  aussi long sans prévenir. Si le contrôle ne montre pas les 21 lignes
+  attendues, revenez à la façon 1.
+
+
+VÉRIFIER QUE TOUT EST EN PLACE
+------------------------------
+
+Lancez CONTROLE-maths-1ere-c.sql. Il ne modifie rien.
+
+Vous devez voir 21 lignes, et la colonne « verdict » doit afficher OK
+partout. Les totaux attendus :
+
+    Module 21  chapitres  1 à 10   53 leçons
+    Module 22  chapitres 11 et 12  11 leçons
+    Module 23  chapitres 13 à 18   30 leçons
+    Module 24  chapitres 19 à 21   16 leçons
+                                  ---
+                                  110 leçons
+
+
+LE CONTENU DES CHAPITRES
+------------------------
+
+Module 21 — Relations et opérations fondamentales dans l'ensemble des réels
+   1  Équations et inéquations polynômiales du second degré dans ℝ
+   2  Systèmes d'équations à deux ou trois inconnues
+   3  Trigonométrie
+   4  Généralités sur les fonctions numériques, 1ère partie
+   5  Généralités sur les fonctions numériques, 2ème partie
+   6  Limite et continuité d'une fonction numérique
+   7  Dérivation
+   8  Représentation graphique d'une fonction numérique
+   9  Suites numériques
+  10  Séries statistiques regroupées en classes
+
+Module 22 — Organisation et gestion des données
+  11  Dénombrement
+  12  Introduction à la théorie des graphes
+
+Module 23 — Configurations et transformations élémentaires du plan
+  13  Géométrie analytique dans le plan
+  14  Barycentres
+  15  Arcs capables
+  16  Transformations du plan
+  17  Espaces vectoriels sur ℝ
+  18  Matrices et applications linéaires
+
+Module 24 — Solides de l'espace
+  19  Orthogonalité dans l'espace
+  20  Géométrie analytique dans l'espace
+  21  Les sphères
+
+
+CE QU'IL Y A DANS CHAQUE CHAPITRE
+---------------------------------
+
+  64 leçons de cours, écrites en tutoyant l'élève, avec les formules en
+     LaTeX, des exemples camerounais et un exercice corrigé à la fin
+  21 quiz, un par chapitre, avec correction immédiate et explication
+  19 simulations à manipuler directement dans le site
+   3 figures dessinées
+   3 pages de courbes tracées par le site
+
+
+IMPORTANT : LES SIMULATIONS
+---------------------------
+
+Les 12 nouvelles simulations de la 1ère C (dénombrement, graphes,
+statistiques en classes, limites, arcs capables, matrices, espaces
+vectoriels, distance à une droite, tangentes, orthogonalité dans l'espace,
+repère de l'espace, sphères) arrivent par la pull request numéro 15 sur
+GitHub.
+
+Tant que cette pull request n'est pas fusionnée, ces leçons afficheront
+« Cette simulation n'est pas reconnue ». Fusionnez-la d'abord, laissez
+Vercel redéployer, puis lancez les scripts SQL.

@@ -1,0 +1,234 @@
+PHILOSOPHIE — CLASSES DE TERMINALE C ET D
+=========================================
+
+
+Ce que vous avez entre les mains
+--------------------------------
+
+Treize chapitres, un seul module, 121 leçons. Un même jeu de fichiers remplit
+les deux séries à la fois : la Terminale C et la Terminale D.
+
+   Module 1 — La philosophie               13 chapitres, 121 leçons par série
+
+Un seul module, et c'est normal : le programme officiel de Philosophie des
+séries C et D n'en compte qu'un, contrairement aux programmes scientifiques.
+J'ai respecté l'ordre exact de votre photo, chapitre par chapitre.
+
+Chaque chapitre est bâti de la même façon : une leçon de cours, puis la
+simulation qui lui correspond, puis la leçon suivante, et ainsi de suite
+jusqu'au quiz qui ferme le chapitre. Quarante et une simulations en tout,
+treize quiz, treize figures dessinées, et un sujet type Baccalauréat
+entièrement corrigé à la fin de chaque chapitre.
+
+Chaque leçon de cours se termine par un exercice corrigé.
+
+Trente-sept heures de cours par série, au total.
+
+
+Ce que ce programme a de particulier
+------------------------------------
+
+Les deux premiers chapitres de méthodologie ne sont pas un supplément : ce
+sont eux qui rapportent les points. J'ai donc commencé par chercher la
+structure exacte de l'épreuve, et la voici, pour les séries C, D, E et TI :
+
+   Partie I — Évaluation des ressources            9 points
+      A1. définir trois concepts du texte                       3 points
+      A2. thème et problème philosophique                       2 points
+          thèse de l'auteur                                     1 point
+          structure logique du texte                            3 points
+      (la répartition interne de A2 varie un peu selon les sessions)
+
+   Partie II — Évaluation de l'agir compétent      9 points
+      la thèse                                                  3 points
+      l'antithèse                                               3 points
+      la synthèse                                               3 points
+      deux pages au plus
+
+   Présentation                                    2 points
+      respect de la structure demandée                          1 point
+      aspect général de la copie                                1 point
+
+Vos élèves ont donc sous les yeux la carte exacte de ce qu'on leur demandera,
+et une simulation qui leur fait répartir les vingt points eux-mêmes.
+
+J'ai aussi trouvé le corrigé harmonisé national de 2025, et il m'a appris
+quelque chose qu'on ne devine pas : pour un sujet qui cite un auteur, le plan
+attendu n'est pas thèse-antithèse-synthèse, mais
+
+   I. Explication et commentaire de la pensée
+   II. Limites de la pensée
+   III. Réinterprétation et valorisation
+
+C'est l'erreur de méthode la plus fréquente des copies, et le chapitre 2 la
+traite avec une simulation qui reconnaît la forme du libellé.
+
+
+D'où vient le contenu
+---------------------
+
+Vous m'avez donné le programme officiel en photo, et rien d'autre. Je suis
+allé chercher la matière dans des documents camerounais, chapitre par
+chapitre.
+
+   ch 1   la philosophie africaine
+          camerecole.org, articles 1912 et 2289 (le résumé de Towa)
+
+   ch 2   la dissertation philosophique
+          le corrigé harmonisé national de 2025 (camerecole 2723), et des
+          épreuves des sessions récentes
+
+   ch 3   l'exercice sur texte philosophique
+          les épreuves de 2023 (texte de Bachelard) et de 2021 (texte de
+          Rousseau), avec leur correction officielle
+
+   ch 4   la conscience et l'inconscient        camerecole 1913
+   ch 5   autrui et la morale                   camerecole 1916 et 1918
+   ch 6   droit et justice                      camerecole 1919
+   ch 7   l'État et le pouvoir                  camerecole 1920
+   ch 8   liberté et responsabilité             camerecole 1922
+   ch 9   panafricanisme et développement       camerecole 1923, et le
+                                                corrigé national de 2021
+   ch 10  la science                            camerecole 1926 et 1927
+   ch 11  l'existence et la mort                fasoeducation.bf
+   ch 12  Dieu et la religion                   camerecole 1928
+
+   ch 13  la logique
+          Je dois vous le dire franchement : je n'ai trouvé aucun cours
+          camerounais sur ce chapitre. Je l'ai donc écrit à partir de contenu
+          formel vérifiable — vérité et validité, le syllogisme et ses règles,
+          les types de raisonnement, les sophismes — et je l'ai entièrement
+          tourné vers l'épreuve, puisque chaque sujet commence par
+          « dans le respect des règles de la logique ». C'est le chapitre le
+          plus directement utile des treize.
+
+Les auteurs africains ne sont pas un ornement. Cheikh Anta Diop, Towa,
+Hountondji, Eboussi Boulaga, Njoh Mouelle, Ki-Zerbo, Sankara, Mveng, Jean-Marc
+Ela et Axelle Kabou sont cités avec leurs ouvrages et leurs dates, et discutés
+comme les autres — c'est ce que le barème camerounais récompense.
+
+
+Par quoi commencer
+------------------
+
+Une seule chose compte : le site doit savoir dessiner les simulations avant
+que les leçons ne les réclament.
+
+   1. Fusionner la pull request des 41 simulations de Philosophie sur GitHub.
+   2. Attendre que Vercel ait fini de reconstruire le site, trois à cinq
+      minutes.
+   3. Alors seulement, charger les fichiers SQL.
+
+Si vous inversez les deux dernières étapes, les élèves liront « Cette
+simulation n'est pas reconnue » sur les leçons concernées, jusqu'au
+redéploiement. Rien n'est cassé, mais c'est laid.
+
+
+Charger les fichiers
+--------------------
+
+Dans l'éditeur SQL de Supabase, ouvrez chaque fichier, copiez tout, collez,
+cliquez sur Run. Treize fois. L'ordre n'a aucune importance.
+
+   seed-philo-ch01.sql   La philosophie africaine
+   seed-philo-ch02.sql   Consolidation des acquis de la dissertation
+   seed-philo-ch03.sql   Consolidation des acquis de l'exercice sur texte
+   seed-philo-ch04.sql   La conscience et l'inconscient
+   seed-philo-ch05.sql   Autrui et la morale
+   seed-philo-ch06.sql   Droit et justice
+   seed-philo-ch07.sql   L'État et le pouvoir
+   seed-philo-ch08.sql   Liberté et responsabilité
+   seed-philo-ch09.sql   Panafricanisme et développement de l'Afrique
+   seed-philo-ch10.sql   La science
+   seed-philo-ch11.sql   L'existence et la mort
+   seed-philo-ch12.sql   Dieu et la religion
+   seed-philo-ch13.sql   La logique
+
+Puis, pour finir, CONTROLE-philo.sql.
+
+Si vous relancez deux fois le même fichier, ou si vous perdez le fil de ceux
+que vous avez déjà passés, ce n'est pas grave : quand un chapitre a déjà ses
+leçons, le script vous le dit et n'ajoute rien. Vous pouvez même tout relancer
+du début par acquit de conscience.
+
+
+Ce que le contrôle doit vous montrer
+------------------------------------
+
+Le fichier CONTROLE-philo.sql affiche six tableaux, et chacun porte en
+commentaire ce que vous devez y lire. En résumé :
+
+   Tableau 1   deux lignes, et les mêmes chiffres sur les deux :
+               13 chapitres, 121 leçons, 41 simulations, 13 quiz, 13 figures
+
+   Tableau 2   une seule ligne : Module 1, 13 chapitres, 242 leçons
+
+   Tableau 3   treize lignes, une par chapitre, qui totalisent 121 leçons
+
+   Tableau 4   vide
+
+   Tableau 5   quarante et une lignes, la liste des simulations
+
+   Tableau 6   vide
+
+Les deux tableaux vides sont les plus importants. Le quatrième cherche une
+leçon de cours restée sans simulation, le sixième un chapitre qui ne finirait
+pas par son quiz. Tant qu'ils n'affichent rien, tout va bien.
+
+
+Ce que j'ai vérifié avant de vous l'envoyer
+-------------------------------------------
+
+J'ai lancé les treize fichiers sur une vraie base PostgreSQL vide, dans un
+ordre tiré au hasard, puis je les ai tous relancés dans un autre ordre. Le
+nombre de leçons n'a pas bougé d'une ligne : 242, soit 121 par série.
+
+Dans cette base, j'ai ensuite contrôlé la numérotation continue des leçons à
+l'intérieur de chaque chapitre, la place du quiz en dernière position, la
+présence d'une simulation après chaque leçon de cours, et le fait qu'aucune
+bonne réponse de quiz ne pointe en dehors de sa liste de choix. Les
+41 simulations annoncées sont bien les 41 enregistrées dans le site.
+
+La base de test ne contenait au départ ni Terminale C ni Terminale D. Les deux
+classes ont été créées toutes seules par le premier fichier lancé — c'est
+exactement ce qui se passera chez vous si elles n'existent pas encore.
+
+J'ai enfin dessiné les quarante et une simulations une par une et je les ai
+regardées en image, pour attraper ce qu'aucun contrôle automatique ne voit.
+Deux défauts de calcul ont été corrigés avant l'envoi : le risque de tyrannie
+qui restait trop bas à réglages moyens dans « quel État ? », et le diagnostic
+de « croissance ou développement ? » qui ne reconnaissait pas la situation la
+plus courante — celle d'une économie de rente.
+
+
+Les simulations
+---------------
+
+Quarante et une, toutes nouvelles. Le registre du site passe de 316 à 357
+composants.
+
+Quelques-unes à montrer en classe en premier :
+
+   le barème de l'épreuve, où l'on répartit soi-même les vingt points avant de
+   les comparer au barème officiel — et où un second curseur montre ce qui
+   arrive quand on passe trois heures sur la dissertation ;
+
+   l'atelier du syllogisme, qui est un vrai moteur : vos élèves assemblent
+   deux prémisses parmi dix, et la machine vérifie les cinq règles une par
+   une, dit laquelle est violée et construit la conclusion quand elle suit ;
+
+   le tribunal des circonstances, où l'on fixe la part de liberté de huit
+   auteurs d'infraction, puis où deux boutons montrent ce qu'un déterminisme
+   absolu et une liberté absolue feraient de la justice ;
+
+   Casablanca ou Monrovia, où l'on règle les cinq leviers de l'unité africaine
+   à la table d'Addis-Abeba en 1963, et où l'on découvre que l'OUA réelle fait
+   monter la stabilité et stagner l'autonomie économique ;
+
+   une vie sans fin, où l'on reçoit l'immortalité et une liste de six choses à
+   faire — et où l'on reporte, et reporte encore, jusqu'à comprendre tout seul
+   l'argument de Heidegger ;
+
+   le détecteur de sophismes, avec ses douze arguments dont trois sont
+   parfaitement corrects : apprendre à les laisser passer est aussi difficile
+   que de repérer les autres.

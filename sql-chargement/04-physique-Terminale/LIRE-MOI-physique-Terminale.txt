@@ -1,0 +1,117 @@
+MANDAL — Physique Terminale C et D (programme officiel du Cameroun)
+===================================================================
+
+22 chapitres, 4 modules, 101 leçons, un quiz à la fin de chaque chapitre.
+
+Source : NewSchool APC Physique Terminale S, de Bekongo Bertrand.
+
+
+UN POINT IMPORTANT AVANT DE COMMENCER
+--------------------------------------
+
+Chaque fichier remplit LES DEUX CLASSES à la fois. Vous n'avez donc que
+22 fichiers à lancer, et non 44. Chaque script crée :
+
+    le programme « Physique — Terminale C » rattaché à la classe Terminale C
+    le programme « Physique — Terminale D » rattaché à la classe Terminale D
+
+Si l'une des deux classes n'existe pas encore dans votre base, le script
+la crée tout seul.
+
+
+L'ORDRE DES CHOSES
+------------------
+
+  1. Fusionnez d'abord la pull request numéro 16 sur GitHub.
+  2. Attendez que Vercel ait fini de redéployer, deux à trois minutes.
+  3. Lancez ensuite les 22 fichiers SQL dans Supabase.
+  4. Terminez par le fichier de contrôle.
+
+Si vous lancez les scripts SQL avant d'avoir fusionné la pull request,
+les leçons de simulation afficheront « Cette simulation n'est pas
+reconnue » jusqu'au redéploiement.
+
+
+COMMENT LANCER LES SCRIPTS
+--------------------------
+
+Ouvrez seed-phytle-ch01.sql, copiez tout, collez dans l'éditeur SQL de
+Supabase, cliquez sur Run. Puis ch02, puis ch03, et ainsi de suite.
+
+L'ordre n'a aucune importance : chaque fichier crée tout seul ce dont il
+a besoin. Si vous lancez deux fois le même fichier, rien n'est dupliqué.
+
+
+VÉRIFIER QUE TOUT EST EN PLACE
+------------------------------
+
+Lancez CONTROLE-physique-terminale.sql. Il ne modifie rien.
+
+Vous devez voir 44 lignes, 22 pour la série C puis 22 pour la série D,
+et la colonne « verdict » doit afficher OK partout.
+
+Les totaux attendus, pour chaque série :
+
+    Module 1  chapitres  1 et 2    11 leçons
+    Module 2  chapitres  3 à 10    40 leçons
+    Module 3  chapitres 11 à 14    17 leçons
+    Module 4  chapitres 15 à 22    33 leçons
+                                  ---
+                                  101 leçons
+
+
+LE CONTENU DES CHAPITRES
+------------------------
+
+Module 1 — Mesures et incertitudes
+   1  Rappels sur les incertitudes
+   2  Équations aux dimensions
+
+Module 2 — Mouvements et interactions, évolutions temporelles des
+           systèmes mécaniques
+   3  Forces et champs gravitationnels
+   4  Forces et champs électrostatiques
+   5  Forces et champs magnétiques
+   6  Les lois de Newton sur le mouvement
+   7  Mouvements dans un champ uniforme
+   8  Mouvements circulaires uniformes et satellites
+   9  Généralités sur les systèmes oscillants
+  10  Les oscillateurs mécaniques
+
+Module 3 — Électricité, évolutions temporelles des circuits électriques
+  11  Les condensateurs
+  12  Les oscillateurs électriques
+  13  Dipôles commandés et capteurs
+  14  Les chaînes électroniques
+
+Module 4 — Ondes, matière et transformations nucléaires
+  15  Les ondes mécaniques
+  16  Superposition d'ondes mécaniques
+  17  Aspect ondulatoire de la lumière
+  18  L'effet Doppler
+  19  Niveaux d'énergie de l'atome d'hydrogène
+  20  L'effet photoélectrique
+  21  L'effet Compton
+  22  La radioactivité
+
+
+CE QU'IL Y A DANS CHAQUE CHAPITRE
+---------------------------------
+
+  54 leçons de cours, écrites en tutoyant l'élève, avec les formules en
+     LaTeX, des exemples camerounais et un exercice corrigé à la fin
+  22 quiz, un par chapitre, avec correction immédiate et explication
+  24 simulations à manipuler directement dans le site
+   1 figure dessinée, le spectre magnétique d'un aimant droit
+
+
+CE QUI A ÉTÉ VÉRIFIÉ AVANT LIVRAISON
+------------------------------------
+
+Les 1 705 formules ont été rendues avec la vraie bibliothèque KaTeX,
+sans une seule erreur. Les 112 questions de quiz ont été contrôlées une
+à une : bonne réponse valide, pas de doublon, explication présente. Les
+24 simulations ont été rendues puis relues dans un navigateur. Les 22
+scripts ont été exécutés sur un vrai PostgreSQL, dans un ordre
+aléatoire, sur une base neuve, puis relancés une seconde fois pour
+vérifier que rien ne se duplique.

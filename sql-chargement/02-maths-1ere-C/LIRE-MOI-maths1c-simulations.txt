@@ -1,0 +1,78 @@
+MANDAL — Densification des simulations, Mathématiques 1ère C
+=============================================================
+
+CE QUE FONT CES SCRIPTS
+-----------------------
+
+Avant : 19 simulations pour 64 leçons de cours.
+Après : 67 simulations, soit au moins une par leçon de cours.
+
+Les scripts n'ajoutent que des leçons de simulation. Ils ne modifient
+aucun texte, ne suppriment rien, et ne touchent à aucun quiz.
+
+Une seule chose change sur les leçons existantes : leur numéro d'ordre
+est multiplié par 10 (la leçon 1 devient la 10, la leçon 2 devient la 20,
+et ainsi de suite). C'est ce qui libère la place pour glisser une
+simulation juste après sa leçon de cours. L'ordre de lecture reste
+exactement le même.
+
+
+DANS QUEL ORDRE LES LANCER
+--------------------------
+
+Prérequis : les scripts seed-maths1c-ch01.sql à seed-maths1c-ch21.sql
+doivent déjà avoir été lancés.
+
+Ensuite, dans l'éditeur SQL de Supabase, dans l'ordre que vous voulez :
+
+   1.  seed-maths1c-simulations-1.sql    chapitres 1 à 5      16 simulations
+   2.  seed-maths1c-simulations-2.sql    chapitres 6 à 11     14 simulations
+   3.  seed-maths1c-simulations-3.sql    chapitres 12 à 17     9 simulations
+   4.  seed-maths1c-simulations-4.sql    chapitres 18 à 21     9 simulations
+
+Puis, pour vérifier :
+
+   5.  CONTROLE-maths1c-simulations.sql
+
+Vous pouvez relancer n'importe lequel de ces scripts autant de fois que
+vous voulez : rien ne sera dupliqué.
+
+
+CE QUE DOIT AFFICHER LE CONTRÔLE
+--------------------------------
+
+Tableau 1 : 21 lignes, une par chapitre. La somme de la colonne
+            « leçons » doit faire 158, celle de la colonne
+            « simulations » doit faire 67.
+
+Tableau 2 : AUCUNE LIGNE. Chaque ligne qui apparaîtrait serait une leçon
+            de cours restée sans simulation.
+
+Tableau 3 : 7 lignes, les sept simulations PhET, toutes en français.
+
+
+DEUX SORTES DE SIMULATIONS
+--------------------------
+
+60 simulations sont programmées dans l'application elle-même, dont 27
+écrites spécialement pour ce programme : équations irrationnelles et
+solutions parasites, pivot de Gauss, équations trigonométriques, fonction
+dérivée, sens de variation, asymptote oblique, suites, courbes
+cumulatives, triangle de Pascal, graphes, lignes de niveau, cocyclicité,
+symétries, matrices, droites et plans de l'espace.
+
+7 simulations viennent de PhET, le laboratoire de l'université du
+Colorado. Elles s'affichent dans la leçon et demandent une connexion
+internet. J'ai vérifié une par une que la version française existe.
+
+
+ATTENTION : L'ORDRE DES DÉPLOIEMENTS
+------------------------------------
+
+1. Fusionner la pull request n° 18 (simulations de 3ème).
+2. Fusionner la pull request n° 19 (simulations de 1ère C).
+3. Attendre que Vercel ait redéployé le site.
+4. Seulement ensuite, lancer ces scripts SQL.
+
+Dans un autre ordre, les élèves verront pendant quelques minutes le
+message « Cette simulation n'est pas reconnue » sur les nouvelles leçons.

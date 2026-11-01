@@ -1,0 +1,210 @@
+M'ANDAL — TOUS LES SCRIPTS SQL, DANS L'ORDRE
+============================================
+
+Vous n'avez encore rien chargé. Ce fichier est fait pour cela : il vous mène
+du début à la fin, sans que vous ayez à vous souvenir de quoi que ce soit.
+
+Dix dossiers, un par programme. Chaque dossier contient ses fichiers de
+chapitres, son fichier de contrôle, et sa propre notice détaillée.
+
+
+CE QU'IL FAUT SAVOIR AVANT DE COMMENCER
+---------------------------------------
+
+Trois choses, et elles vous éviteront toutes les mauvaises surprises.
+
+1. VOUS NE POUVEZ RIEN CASSER.
+
+   Chaque script regarde d'abord si le chapitre a déjà ses leçons. Si oui, il
+   vous le dit et n'ajoute rien. Vous pouvez donc lancer deux fois le même
+   fichier, perdre le fil, tout relancer du début par acquit de conscience :
+   le résultat sera le même.
+
+2. L'ORDRE À L'INTÉRIEUR D'UN DOSSIER N'A AUCUNE IMPORTANCE.
+
+   Chaque fichier est autonome. Il crée la matière, retrouve l'établissement,
+   trouve ou crée la classe, crée le programme et le chapitre s'ils manquent.
+   Lancez-les dans l'ordre des numéros, c'est plus simple à suivre, mais rien
+   ne vous y oblige.
+
+3. SIX PROGRAMMES SONT PRÊTS, QUATRE ATTENDENT UNE FUSION SUR GITHUB.
+
+   C'est le seul point qui demande votre attention. Voyez la section suivante.
+
+
+LE POINT QUI DEMANDE VOTRE ATTENTION
+------------------------------------
+
+Les leçons appellent des simulations, et ces simulations vivent dans le code
+du site. Si une simulation n'est pas encore déployée quand la leçon arrive,
+l'élève lit « Cette simulation n'est pas reconnue ».
+
+Rien n'est cassé, et cela se répare tout seul au redéploiement suivant. Mais
+c'est laid, et vos élèves le verront.
+
+   DÉJÀ EN LIGNE — chargez quand vous voulez
+      01  Mathématiques 3ème
+      02  Mathématiques 1ère C
+      03  Physique 1ère D
+      04  Physique Terminale C et D
+      05  Chimie Terminale C, D et E
+      06  Chimie 1ère C, D et E
+
+   EN ATTENTE DE FUSION — fusionnez d'abord, puis chargez
+      07  Informatique 1ère A, C et D          pull request n° 26
+      08  Informatique Terminale C et D        pull request n° 27
+      09  Philosophie Terminale C et D         pull request n° 28
+      10  Français 3ème, modules 1 à 3         pull request n° 29
+
+Les quatre pull requests sont EMPILÉES : chacune est posée sur la précédente.
+Vous devez donc les fusionner dans cet ordre exact :
+
+      26, puis 27, puis 28, puis 29.
+
+Si vous essayez de fusionner la 29 en premier, GitHub refusera ou vous fera
+entrer les trois autres sans le dire. Allez dans l'ordre.
+
+Après la dernière fusion, attendez que Vercel ait fini de reconstruire le
+site — trois à cinq minutes — avant de charger les dossiers 07 à 10.
+
+
+COMMENT CHARGER UN FICHIER
+--------------------------
+
+Dans Supabase, menu de gauche, « SQL Editor ».
+
+   1. Ouvrez le fichier .sql sur votre ordinateur, avec le Bloc-notes ou
+      n'importe quel éditeur de texte.
+   2. Sélectionnez tout — Ctrl+A — et copiez — Ctrl+C.
+   3. Collez dans l'éditeur SQL de Supabase — Ctrl+V.
+   4. Cliquez sur « Run ».
+   5. Regardez le message en bas : il vous dit combien de leçons ont été
+      ajoutées, ou que le chapitre était déjà rempli.
+
+Puis effacez l'éditeur et passez au fichier suivant.
+
+Un conseil pratique : faites un dossier à la fois, d'une traite, et lancez le
+fichier CONTROLE de ce dossier avant de passer au suivant. Vous saurez
+immédiatement si quelque chose manque, au lieu de le découvrir à la fin.
+
+
+L'ORDRE COMPLET, DOSSIER PAR DOSSIER
+------------------------------------
+
+   01-maths-3eme                       classe 3ème
+        16 fichiers de chapitres, puis 4 fichiers de simulations,
+        puis les 2 fichiers CONTROLE
+        à l'arrivée : 16 chapitres, 166 leçons, 61 simulations
+
+   02-maths-1ere-C                     classe 1ère C
+        21 fichiers de chapitres, puis 4 de simulations, puis les CONTROLE
+        à l'arrivée : 21 chapitres, 110 leçons
+
+   03-physique-1ere-D                  classe 1ère D
+        ATTENTION, c'est le seul dossier où l'ordre compte :
+        PH-1-structure.sql EN PREMIER, puis PH-2, PH-3, PH-4, PH-5
+        à l'arrivée : 17 chapitres
+
+   04-physique-Terminale               classes Terminale C et D
+        22 fichiers, puis le CONTROLE
+        un seul fichier remplit les deux séries
+        à l'arrivée : 22 chapitres, 101 leçons par série
+
+   05-chimie-Terminale                 classes Terminale C, D et E
+        17 fichiers, puis le CONTROLE
+        un seul fichier remplit les trois séries
+        à l'arrivée : 17 chapitres, 69 leçons par série
+
+   06-chimie-1ere                      classes 1ère C, D et E
+        19 fichiers, puis le CONTROLE
+        un seul fichier remplit les trois séries
+        à l'arrivée : 19 chapitres, 177 leçons par série
+
+   --- fusionner la pull request 26 avant de continuer ---
+
+   07-informatique-1ere                classes 1ère A, C et D
+        20 fichiers, puis le CONTROLE
+        à l'arrivée : 20 chapitres, 143 leçons par série, 55 simulations
+
+   --- fusionner la pull request 27 ---
+
+   08-informatique-Terminale           classes Terminale C et D
+        25 fichiers, puis le CONTROLE
+        à l'arrivée : 25 chapitres, 193 leçons par série, 76 simulations
+
+   --- fusionner la pull request 28 ---
+
+   09-philosophie-Terminale            classes Terminale C et D
+        13 fichiers, puis le CONTROLE
+        à l'arrivée : 13 chapitres, 121 leçons par série, 41 simulations
+
+   --- fusionner la pull request 29 ---
+
+   10-francais-3eme                    classe 3ème
+        24 fichiers, puis le CONTROLE
+        à l'arrivée : 24 chapitres, 196 leçons, 72 simulations
+        ce sont les modules 1, 2 et 3 sur 5 ; les deux autres suivront
+
+
+CE QUI A CHANGÉ DEPUIS LE PREMIER ENVOI
+---------------------------------------
+
+Un seul dossier a bougé : le 10, le français.
+
+Il contenait huit fichiers — le module 1. Il en contient maintenant
+vingt-quatre : les modules 1, 2 et 3. Les huit premiers n'ont pas changé d'une
+ligne, donc si vous les aviez déjà chargés, vous pouvez vous contenter des
+chapitres 09 à 24.
+
+Les neuf autres dossiers sont rigoureusement identiques au premier envoi.
+
+Ce que les seize nouveaux chapitres apportent :
+
+   les trois subordonnées du français sont maintenant complètes — relative,
+   complétive, circonstancielle — ce qui achève la question 5 du BEPC ;
+
+   trois sujets d'examen entièrement corrigés : une étude de texte sur un
+   article de presse (chapitre 14), une expression écrite avec sa rédaction
+   complète (chapitre 15), et une étude de texte sur une scène d'Andromaque
+   (chapitre 22) ;
+
+   quarante-huit simulations de plus.
+
+
+SI QUELQUE CHOSE SE PASSE MAL
+-----------------------------
+
+« Je ne sais pas à quel établissement rattacher ces classes »
+   Votre base contient plusieurs établissements, ou aucun. Les scripts
+   demandent qu'il y en ait exactement un. Dites-le-moi et je les adapte.
+
+« Cette simulation n'est pas reconnue » sur une leçon
+   La pull request correspondante n'est pas encore fusionnée, ou Vercel n'a
+   pas fini de reconstruire. Attendez cinq minutes et rechargez la page.
+   Les leçons, elles, sont bien en base : il n'y a rien à relancer.
+
+Le CONTROLE affiche moins de chapitres que prévu
+   Un fichier n'est pas passé. Relancez-les tous : ceux qui sont déjà chargés
+   ne feront rien, et celui qui manquait se posera.
+
+Le copier-coller s'arrête au milieu
+   C'est le navigateur qui coupe les gros fichiers sans prévenir. J'ai vérifié
+   un par un : aucun des 213 fichiers de ce paquet ne dépasse cinquante
+   kilo-octets, précisément pour éviter cela.
+
+
+CE QUE VOUS AUREZ À L'ARRIVÉE
+-----------------------------
+
+   Classe        Matières prêtes
+   3ème          Mathématiques, Français
+   1ère A        Informatique
+   1ère C        Mathématiques, Physique, Chimie, Informatique
+   1ère D        Physique, Chimie, Informatique
+   1ère E        Chimie
+   Terminale C   Physique, Chimie, Informatique, Philosophie
+   Terminale D   Physique, Chimie, Informatique, Philosophie
+   Terminale E   Chimie
+
+Soit, tous programmes confondus, plus de mille six cents leçons et près de
+trois cent cinquante simulations.

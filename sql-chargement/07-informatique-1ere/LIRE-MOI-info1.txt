@@ -1,0 +1,178 @@
+INFORMATIQUE — CLASSES DE PREMIÈRE A, C ET D
+============================================
+
+
+Ce que vous avez entre les mains
+--------------------------------
+
+Vingt chapitres, trois modules, 143 leçons. Un seul jeu de fichiers remplit
+les trois séries à la fois : la 1ère A, la 1ère C et la 1ère D.
+
+   Module 1 — Maintenance informatique           7 chapitres,  49 leçons
+   Module 2 — Algorithmique et programmation    10 chapitres,  72 leçons
+   Module 3 — Infographie et multimédia          3 chapitres,  22 leçons
+
+Chaque chapitre est bâti de la même façon : une leçon de cours, puis la
+simulation qui lui correspond, puis la leçon suivante, et ainsi de suite
+jusqu'au quiz qui ferme le chapitre. Cinquante-cinq simulations en tout,
+vingt quiz de sept questions, douze figures dessinées.
+
+Chaque leçon de cours se termine par un exercice entièrement corrigé.
+
+
+D'où vient le contenu
+---------------------
+
+Vous m'aviez demandé de ne rien écrire de mémoire, et d'aller chercher des
+documents camerounais pour les parties qui manquaient dans votre PDF. C'est
+ce que j'ai fait, et voici la provenance exacte :
+
+   Module 1, maintenance
+      Votre manuel, celui que vous m'avez envoyé : NTAKENDO Emmanuel,
+      grandprof.org, août 2018. Les sept chapitres suivent son texte de près :
+      mêmes définitions, mêmes sigles, mêmes typologies.
+
+   Module 2, algorithmique et HTML/CSS
+      Le cours de Première de FEUSSI FOTSING, publié sur socinan.com. C'est
+      lui qui a comblé les pages absentes de votre document : la syntaxe
+      complète du langage de description d'algorithme, les trois structures
+      répétitives, les tableaux, les procédures et fonctions, la récursivité,
+      puis tout le HTML et le CSS.
+
+   Module 3, infographie et multimédia
+      Le même document socinan.com pour la numérisation, le matriciel et le
+      vectoriel, les formats et l'interface de retouche ; les cinq épreuves du
+      Probatoire contenues dans votre manuel pour le reste.
+
+Les trois sujets type Probatoire corrigés viennent tous de la session 2017,
+et chacun ferme le module qui lui correspond :
+
+   partie 1, algorithmique    →  fin du module 2, chapitre 12
+   partie 2, infographie      →  fin du module 3, chapitre 20
+   partie 3, maintenance      →  fin du module 1, chapitre 7
+
+C'est aussi la répartition des points de l'épreuve : 7 points, 6 points et
+6 à 7 points. Autant que vos élèves le sachent.
+
+
+Par quoi commencer
+------------------
+
+Une seule chose compte : le site doit savoir dessiner les simulations avant
+que les leçons ne les réclament.
+
+   1. Fusionner la pull request des 55 simulations d'informatique sur GitHub.
+   2. Attendre que Vercel ait fini de reconstruire le site, trois à cinq
+      minutes.
+   3. Alors seulement, charger les fichiers SQL.
+
+Si vous inversez les deux dernières étapes, les élèves liront « Cette
+simulation n'est pas reconnue » sur les leçons concernées, jusqu'au
+redéploiement. Rien n'est cassé, mais c'est laid.
+
+
+Charger les fichiers
+--------------------
+
+Dans l'éditeur SQL de Supabase, ouvrez chaque fichier, copiez tout, collez,
+cliquez sur Run. Vingt fois. L'ordre n'a aucune importance.
+
+   seed-info1-ch01.sql   Le fonctionnement d'un ordinateur
+   seed-info1-ch02.sql   Les composants de l'unité centrale
+   seed-info1-ch03.sql   Le système d'exploitation, les bus et les pilotes
+   seed-info1-ch04.sql   Introduction à la maintenance
+   seed-info1-ch05.sql   Les pannes matérielles et logicielles
+   seed-info1-ch06.sql   Les virus et les antivirus
+   seed-info1-ch07.sql   Optimiser un ordinateur
+   seed-info1-ch08.sql   Notions d'algorithmique
+   seed-info1-ch09.sql   Variables, types et instructions élémentaires
+   seed-info1-ch10.sql   Les structures alternatives
+   seed-info1-ch11.sql   Les structures répétitives
+   seed-info1-ch12.sql   Les fonctions et les procédures
+   seed-info1-ch13.sql   Les bases du HTML
+   seed-info1-ch14.sql   Les balises usuelles : texte, images et liens
+   seed-info1-ch15.sql   Les listes et les tableaux
+   seed-info1-ch16.sql   Les formulaires
+   seed-info1-ch17.sql   Les feuilles de style CSS
+   seed-info1-ch18.sql   L'image numérique : matricielle et vectorielle
+   seed-info1-ch19.sql   Retouche, trucage et logiciels d'infographie
+   seed-info1-ch20.sql   Le son et la vidéo numériques
+
+Puis, pour finir, CONTROLE-info1.sql.
+
+Si vous relancez deux fois le même fichier, ou si vous perdez le fil de ceux
+que vous avez déjà passés, ce n'est pas grave : quand un chapitre a déjà ses
+leçons, le script vous le dit et n'ajoute rien. Vous pouvez même tout
+relancer du début par acquit de conscience.
+
+
+Ce que le contrôle doit vous montrer
+------------------------------------
+
+Le fichier CONTROLE-info1.sql affiche six tableaux, et chacun porte en
+commentaire ce que vous devez y lire. En résumé :
+
+   Tableau 1   trois lignes, et les mêmes chiffres sur les trois :
+               20 chapitres, 143 leçons, 55 simulations, 20 quiz, 12 figures
+
+   Tableau 2   trois lignes : 7 chapitres, puis 10, puis 3
+
+   Tableau 3   vingt lignes, une par chapitre, qui totalisent 143 leçons
+
+   Tableau 4   vide
+
+   Tableau 5   cinquante-cinq lignes, la liste des simulations
+
+   Tableau 6   vide
+
+Les deux tableaux vides sont les plus importants. Le quatrième cherche une
+leçon de cours restée sans simulation, le sixième un chapitre qui ne
+finirait pas par son quiz. Tant qu'ils n'affichent rien, tout va bien.
+
+
+Ce que j'ai vérifié avant de vous l'envoyer
+-------------------------------------------
+
+J'ai lancé les vingt fichiers sur une vraie base PostgreSQL vide, dans un
+ordre tiré au hasard, puis je les ai tous relancés dans un autre ordre. Le
+nombre de leçons n'a pas bougé d'une ligne : 429, soit 143 par série.
+
+Dans cette base, j'ai ensuite contrôlé le contenu de chaque simulation et de
+chaque quiz, la numérotation continue des leçons à l'intérieur de chaque
+chapitre, la place du quiz en dernière position, la présence d'une simulation
+après chaque leçon de cours, et le fait qu'aucune bonne réponse de quiz ne
+pointe en dehors de sa liste de choix.
+
+La base de test ne contenait au départ que la classe « 1ère D ». Les classes
+« 1ère A » et « 1ère C » ont bien été créées toutes seules par le premier
+fichier lancé — c'est exactement ce qui se passera chez vous si elles
+n'existent pas encore.
+
+J'ai enfin dessiné les cinquante-cinq simulations une par une et je les ai
+regardées en image, pour attraper ce qu'aucun contrôle automatique ne voit :
+un texte qui dépasse du cadre, une courbe qui ne s'affiche pas, une case
+coupée. Sept défauts de ce genre ont été corrigés avant l'envoi.
+
+
+Les simulations
+---------------
+
+Cinquante-cinq, toutes nouvelles — le programme d'informatique n'avait encore
+aucun composant dans le site.
+
+Quelques-unes à montrer en classe en premier :
+
+   le démarrage étape par étape, où l'on débranche un composant et où l'on
+   voit le POST s'arrêter net avec son code sonore ;
+
+   la boucle TantQue, où supprimer la ligne de progression déclenche une
+   vraie boucle infinie, arrêtée au centième tour ;
+
+   l'éditeur HTML, où l'élève tape ses balises et voit le navigateur
+   répondre — y compris quand il oublie une fermeture ;
+
+   la cascade CSS, qui répond une fois pour toutes au fameux « mon CSS ne
+   marche pas » ;
+
+   et l'agrandissement d'une image matricielle contre une vectorielle, qui
+   fait comprendre la différence en trois secondes de curseur.

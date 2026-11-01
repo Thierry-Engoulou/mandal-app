@@ -1,0 +1,136 @@
+CHIMIE — CLASSES DE PREMIÈRE C, D ET E
+======================================
+
+
+Ce que vous avez entre les mains
+--------------------------------
+
+Dix-neuf chapitres, trois modules, 177 leçons. Un seul jeu de fichiers
+remplit les trois séries à la fois : la 1ère C, la 1ère D et la 1ère E.
+
+   Module 1 — Chimie organique                              10 chapitres
+   Module 2 — Les pétroles, les gaz naturels et les engrais   2 chapitres
+   Module 3 — Oxydoréduction                                  7 chapitres
+
+Chaque chapitre est bâti de la même façon : une leçon de cours, puis la
+simulation qui lui correspond, puis la leçon suivante, et ainsi de suite
+jusqu'au quiz qui ferme le chapitre. Soixante-neuf simulations en tout,
+dix-neuf quiz de sept questions, seize figures dessinées.
+
+Chaque leçon de cours se termine par un exercice entièrement corrigé, pris
+dans le manuel « Collection l'ESSENTIEL — Chimie 1ères C, D & E » que vous
+m'avez envoyé. Mêmes équations, mêmes conditions expérimentales, mêmes
+valeurs numériques, mêmes sigles camerounais : SONARA, SNH, SCDP, CSPH,
+pipeline Tchad-Cameroun.
+
+Les modules 1 et 3 se terminent chacun par un sujet type Probatoire corrigé
+en entier. Les deux viennent du Probatoire C et D, session 2012, Cameroun :
+la chimie organique ferme le module 1, l'oxydoréduction et les engrais
+ferment le module 3.
+
+L'ordre des chapitres suit votre sommaire officiel, séquence par séquence.
+En particulier, les composés oxygénés viennent bien avant les composés
+aromatiques.
+
+
+Par quoi commencer
+------------------
+
+Une seule chose compte : le site doit savoir dessiner les simulations avant
+que les leçons ne les réclament.
+
+   1. Fusionner la pull request n° 25 sur GitHub.
+   2. Attendre que Vercel ait fini de reconstruire le site, trois à cinq
+      minutes.
+   3. Alors seulement, charger les fichiers SQL.
+
+Si vous inversez les deux dernières étapes, les élèves liront « Cette
+simulation n'est pas reconnue » sur les leçons concernées, jusqu'au
+redéploiement. Rien n'est cassé, mais c'est laid.
+
+
+Charger les fichiers
+--------------------
+
+Dans l'éditeur SQL de Supabase, ouvrez chaque fichier, copiez tout, collez,
+cliquez sur Run. Dix-neuf fois. L'ordre n'a aucune importance.
+
+   seed-chim1-ch01.sql   Introduction : analyser un composé organique
+   seed-chim1-ch02.sql   De la composition centésimale à la formule brute
+   seed-chim1-ch03.sql   Les alcanes : structure, nomenclature et isomérie
+   seed-chim1-ch04.sql   Les cyclanes et les propriétés physiques des alcanes
+   seed-chim1-ch05.sql   Propriétés chimiques et préparation des alcanes
+   seed-chim1-ch06.sql   Les alcènes et les alcynes : structure et nomenclature
+   seed-chim1-ch07.sql   Propriétés physiques et chimiques des alcènes et des alcynes
+   seed-chim1-ch08.sql   Polymérisation et préparations au laboratoire
+   seed-chim1-ch09.sql   Les composés oxygénés : alcools, aldéhydes et cétones
+   seed-chim1-ch10.sql   Les composés aromatiques : le benzène
+   seed-chim1-ch11.sql   Les pétroles et les gaz naturels
+   seed-chim1-ch12.sql   Les engrais
+   seed-chim1-ch13.sql   Action d'un acide sur un métal
+   seed-chim1-ch14.sql   Couple oxydant-réducteur et classification électrochimique
+   seed-chim1-ch15.sql   Les piles et le potentiel d'oxydoréduction
+   seed-chim1-ch16.sql   Demi-équations et équilibrage des réactions rédox
+   seed-chim1-ch17.sql   Les dosages d'oxydoréduction
+   seed-chim1-ch18.sql   Électrolyse, corrosion et protection des métaux
+   seed-chim1-ch19.sql   Oxydoréduction par voie sèche et nombres d'oxydation
+
+Puis, pour finir, CONTROLE-chim1.sql.
+
+Si vous relancez deux fois le même fichier, ou si vous perdez le fil de ceux
+que vous avez déjà passés, ce n'est pas grave : quand un chapitre a déjà ses
+leçons, le script vous le dit et n'ajoute rien. Vous pouvez même tout
+relancer du début par acquit de conscience.
+
+
+Ce que le contrôle doit vous montrer
+------------------------------------
+
+Le fichier CONTROLE-chim1.sql affiche cinq tableaux, et chacun porte en
+commentaire ce que vous devez y lire. En résumé :
+
+   Tableau 1   trois lignes, et les mêmes chiffres sur les trois :
+               19 chapitres, 177 leçons, 69 simulations, 19 quiz, 16 figures
+
+   Tableau 2   dix-neuf lignes, une par chapitre, qui totalisent 177 leçons
+
+   Tableau 3   vide
+
+   Tableau 4   soixante-neuf lignes, la liste des simulations
+
+   Tableau 5   vide
+
+Les deux tableaux vides sont les plus importants. Le troisième cherche une
+leçon de cours restée sans simulation, le cinquième un chapitre qui ne
+finirait pas par son quiz. Tant qu'ils n'affichent rien, tout va bien.
+
+
+Ce que j'ai vérifié avant de vous l'envoyer
+-------------------------------------------
+
+J'ai lancé les dix-neuf fichiers sur une vraie base PostgreSQL vide, dans un
+ordre tiré au hasard, puis je les ai tous relancés dans un autre ordre. Le
+nombre de leçons n'a pas bougé d'une ligne.
+
+Dans cette base, j'ai ensuite contrôlé le contenu de chaque simulation et de
+chaque quiz, la numérotation continue des leçons à l'intérieur de chaque
+chapitre, la place du quiz en dernière position, la présence d'une
+simulation après chaque leçon de cours, et le fait qu'aucune bonne réponse
+de quiz ne pointe en dehors de sa liste de choix.
+
+La base de test ne contenait au départ que la classe « 1ère D ». Les classes
+« 1ère C » et « 1ère E » ont bien été créées toutes seules par le premier
+fichier lancé — c'est exactement ce qui se passera chez vous si elles
+n'existent pas encore.
+
+
+Les simulations
+---------------
+
+Soixante-neuf, dont sept réutilisent des composants déjà présents dans le
+site : la pile de Daniell, le dosage rédox, les nombres d'oxydation, la
+classe d'un alcool, l'oxydation ménagée, l'action d'un acide sur un métal et
+la règle du gamma.
+
+Les soixante-deux autres sont nouvelles. Elles arrivent par la pull request
+n° 25, celle qu'il faut fusionner en premier.

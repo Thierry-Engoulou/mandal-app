@@ -1,0 +1,121 @@
+MANDAL — Chimie Terminale C, D et E (programme officiel du Cameroun)
+=====================================================================
+
+17 chapitres, 4 modules, 69 leçons, un quiz à la fin de chaque chapitre,
+et un sujet type Baccalauréat corrigé à la fin de chaque module.
+
+
+UN POINT IMPORTANT AVANT DE COMMENCER
+--------------------------------------
+
+Chaque fichier remplit LES TROIS CLASSES à la fois. Vous n'avez donc que
+17 fichiers à lancer, et non 51. Chaque script crée :
+
+    le programme « Chimie — Terminale C » rattaché à la classe Terminale C
+    le programme « Chimie — Terminale D » rattaché à la classe Terminale D
+    le programme « Chimie — Terminale E » rattaché à la classe Terminale E
+
+Si l'une de ces classes n'existe pas encore dans votre base, le script la
+crée tout seul.
+
+
+L'ORDRE DES CHOSES
+------------------
+
+  1. Fusionnez d'abord la pull request numéro 17 sur GitHub.
+  2. Attendez que Vercel ait fini de redéployer, deux à trois minutes.
+  3. Lancez ensuite les 17 fichiers SQL dans Supabase.
+  4. Terminez par le fichier de contrôle.
+
+Si vous lancez les scripts SQL avant d'avoir fusionné la pull request,
+les leçons de simulation afficheront « Cette simulation n'est pas
+reconnue » jusqu'au redéploiement.
+
+
+COMMENT LANCER LES SCRIPTS
+--------------------------
+
+Ouvrez seed-chimtle-ch01.sql, copiez tout, collez dans l'éditeur SQL de
+Supabase, cliquez sur Run. Puis ch02, puis ch03, et ainsi de suite.
+
+L'ordre n'a aucune importance : chaque fichier crée tout seul ce dont il
+a besoin. Si vous lancez deux fois le même fichier, rien n'est dupliqué.
+
+
+VÉRIFIER QUE TOUT EST EN PLACE
+------------------------------
+
+Lancez CONTROLE-chimie-terminale.sql. Il ne modifie rien.
+
+Vous devez voir 51 lignes, 17 par série, et la colonne « verdict » doit
+afficher OK partout.
+
+Les totaux attendus, pour chaque série :
+
+    Module 1  chapitres  1 à 6    27 leçons
+    Module 2  chapitres  7 à 10   18 leçons
+    Module 3  chapitres 11 à 13   11 leçons
+    Module 4  chapitres 14 à 17   13 leçons
+                                 ---
+                                  69 leçons
+
+
+LE CONTENU DES CHAPITRES
+------------------------
+
+Module 1 — Chimie organique
+   1  Propriétés chimiques des alcools
+   2  Les acides carboxyliques
+   3  Les dérivés des acides carboxyliques
+   4  Les amines
+   5  Les acides α-aminés et les peptides
+   6  Notions de stéréochimie
+
+Module 2 — Acides et bases en solution aqueuse
+   7  L'eau, le pH et les concentrations
+   8  Acides forts, bases fortes, acides et bases faibles
+   9  Couples acide-base et constante d'acidité
+  10  Dosages acido-basiques et solutions tampon
+
+Module 3 — Cinétique chimique
+  11  La vitesse des réactions chimiques
+  12  Les facteurs cinétiques
+  13  Estérification et hydrolyse : étude cinétique
+
+Module 4 — Oxydoréduction
+  14  Oxydoréduction en solution aqueuse
+  15  Nombres d'oxydation et voie sèche
+  16  Les piles et les potentiels d'oxydoréduction
+  17  Les dosages d'oxydoréduction
+
+
+CE QU'IL Y A DANS CHAQUE CHAPITRE
+---------------------------------
+
+  34 leçons de cours, écrites en tutoyant l'élève, avec les formules en
+     LaTeX, des exemples camerounais et un exercice corrigé à la fin
+  17 quiz, un par chapitre, avec correction immédiate et explication
+  18 simulations à manipuler directement dans le site
+   4 sujets type Baccalauréat entièrement corrigés, un par module
+
+
+UN MOT SUR LES SUJETS DE BAC
+----------------------------
+
+Le recueil de sujets que vous m'avez envoyé m'a servi à savoir ce qui
+tombe réellement à l'examen, et à calibrer la difficulté. Les énoncés et
+les corrigés du site sont écrits de zéro, dans le style du reste des
+leçons. Rien n'est recopié du livre.
+
+
+CE QUI A ÉTÉ VÉRIFIÉ AVANT LIVRAISON
+------------------------------------
+
+Les 1 083 formules ont été rendues avec la vraie bibliothèque KaTeX,
+sans une seule erreur. Les 96 questions de quiz ont été contrôlées une à
+une : bonne réponse valide, pas de doublon, explication présente. Les 17
+simulations ont été rendues puis relues dans un navigateur. Les 17
+scripts ont été exécutés sur un vrai PostgreSQL, dans un ordre
+aléatoire, sur une base neuve où seule la Terminale C existait, puis
+relancés une seconde fois pour vérifier que rien ne se duplique. Les
+séries D et E ont bien été créées par les scripts eux-mêmes.

@@ -1,0 +1,209 @@
+INFORMATIQUE — CLASSES DE TERMINALE C ET D
+==========================================
+
+
+Ce que vous avez entre les mains
+--------------------------------
+
+Vingt-cinq chapitres, trois modules, 193 leçons. Un seul jeu de fichiers
+remplit les deux séries à la fois : la Terminale C et la Terminale D.
+
+   Module 1 — Systèmes informatiques                      11 chapitres,  85 leçons
+   Module 2 — Systèmes d'information et base de données    7 chapitres,  52 leçons
+   Module 3 — Algorithme et programmation                  7 chapitres,  56 leçons
+
+Ces trois modules ne sont pas un découpage de mon invention : ce sont les
+trois parties de l'épreuve du Baccalauréat, et elles valent respectivement
+7 points, 7 points et 6 points. Vos élèves ont donc sous les yeux la carte
+exacte de ce qu'on leur demandera.
+
+Chaque chapitre est bâti de la même façon : une leçon de cours, puis la
+simulation qui lui correspond, puis la leçon suivante, et ainsi de suite
+jusqu'au quiz qui ferme le chapitre. Soixante-quinze simulations en tout,
+vingt-cinq quiz de sept questions, quinze figures dessinées.
+
+Chaque leçon de cours se termine par un exercice entièrement corrigé.
+
+
+D'où vient le contenu
+---------------------
+
+Vous m'avez donné le programme officiel en photo, et rien d'autre : vingt-cinq
+unités d'enseignement, de UE1 à UE25, avec leurs actions attendues. Je suis
+allé chercher la matière dans des documents camerounais, unité par unité.
+
+   UE1 à UE4, systèmes et maintenance
+      camerecole.org, articles 1426 et 1427. Les trois types de systèmes
+      informatiques — personnel, d'organisation, de contrôle-commande — et la
+      définition officielle viennent de là, mot pour mot.
+
+   UE5 et UE6, le tableur
+      camerecole.org, article 1429. La syntaxe exacte des sept fonctions au
+      programme — SOMME, PRODUIT, MOYENNE, SI, RANG, NB.SI et SOMME.SI — est
+      celle de ce document, points-virgules compris.
+
+   UE7 à UE11, les réseaux
+      camerecole.org, articles 1441 à 1445.
+
+   UE12 à UE14, MERISE et le MCD
+      camerecole.org, articles 1457 et 1458. Les quatre règles de passage du
+      MCD au MLD sont reprises telles qu'elles y figurent.
+
+   UE15 à UE18, SGBD, SQL et Access
+      camerecole.org, articles 1486, 1487, 1488 et 1490.
+
+   UE19 à UE21, algorithmique
+      Le cours de FEUSSI FOTSING publié sur socinan.com, déjà utilisé pour la
+      Première : c'est la même notation LDA d'un bout à l'autre des deux
+      niveaux, ce qui évite à vos élèves de réapprendre une syntaxe.
+
+   UE22 à UE25, le langage C
+      Le polycopié de programmation en C de l'université de Bordeaux pour la
+      syntaxe, et les épreuves du Baccalauréat pour le niveau et la forme des
+      questions.
+
+Trois sujets type Baccalauréat corrigés ferment les trois modules, et ils
+reprennent la session 2023 :
+
+   partie I, systèmes informatiques            →  fin du module 1, chapitre 11
+   partie II, systèmes d'information et BD     →  fin du module 2, chapitre 18
+   partie III, algorithmique et programmation  →  fin du module 3, chapitre 25
+
+Une précision qui a son importance. La correction nationale de 2023 qui
+circule en ligne contient plusieurs erreurs : le classement d'ALTER et
+d'UPDATE y est inversé, un CREATE TABLE y traîne une virgule de trop, et la
+condition d'un Répéter y est incohérente. J'ai écrit les versions correctes
+dans les leçons, et j'ai signalé chaque piège au passage plutôt que de
+recopier la faute.
+
+
+Par quoi commencer
+------------------
+
+Une seule chose compte : le site doit savoir dessiner les simulations avant
+que les leçons ne les réclament.
+
+   1. Fusionner la pull request des 76 simulations de Terminale sur GitHub.
+   2. Attendre que Vercel ait fini de reconstruire le site, trois à cinq
+      minutes.
+   3. Alors seulement, charger les fichiers SQL.
+
+Si vous inversez les deux dernières étapes, les élèves liront « Cette
+simulation n'est pas reconnue » sur les leçons concernées, jusqu'au
+redéploiement. Rien n'est cassé, mais c'est laid.
+
+
+Charger les fichiers
+--------------------
+
+Dans l'éditeur SQL de Supabase, ouvrez chaque fichier, copiez tout, collez,
+cliquez sur Run. Vingt-cinq fois. L'ordre n'a aucune importance.
+
+   seed-inf7-ch01.sql   L'environnement informatique
+   seed-inf7-ch02.sql   Le fonctionnement d'un ordinateur
+   seed-inf7-ch03.sql   Les causes des dysfonctionnements matériels et logiciels
+   seed-inf7-ch04.sql   Les équipements de protection électrique
+   seed-inf7-ch05.sql   Manipulation d'une feuille de calculs
+   seed-inf7-ch06.sql   Les fonctions d'un classeur dans la production d'un document
+   seed-inf7-ch07.sql   Les familles et les types de réseaux
+   seed-inf7-ch08.sql   Les topologies et les architectures réseaux
+   seed-inf7-ch09.sql   Les équipements d'interconnexion réseau
+   seed-inf7-ch10.sql   Les protocoles réseaux et l'adressage IP
+   seed-inf7-ch11.sql   Réalisation d'un petit réseau local
+   seed-inf7-ch12.sql   Les méthodes de conception d'un système d'information
+   seed-inf7-ch13.sql   Le modèle conceptuel de données
+   seed-inf7-ch14.sql   Le modèle logique de données
+   seed-inf7-ch15.sql   Les fonctions d'un SGBD
+   seed-inf7-ch16.sql   Création d'une base de données en SQL
+   seed-inf7-ch17.sql   Manipulation des données d'une base en SQL
+   seed-inf7-ch18.sql   Création d'une base de données sous MS Access
+   seed-inf7-ch19.sql   Les structures de contrôle
+   seed-inf7-ch20.sql   Les structures de données
+   seed-inf7-ch21.sql   Manipulation d'un tableau
+   seed-inf7-ch22.sql   Les bases du langage C
+   seed-inf7-ch23.sql   Les fonctions d'entrée et de sortie en C
+   seed-inf7-ch24.sql   Les structures de contrôle en langage C
+   seed-inf7-ch25.sql   Manipulation d'un tableau en langage C
+
+Puis, pour finir, CONTROLE-inf7.sql.
+
+Si vous relancez deux fois le même fichier, ou si vous perdez le fil de ceux
+que vous avez déjà passés, ce n'est pas grave : quand un chapitre a déjà ses
+leçons, le script vous le dit et n'ajoute rien. Vous pouvez même tout
+relancer du début par acquit de conscience.
+
+
+Ce que le contrôle doit vous montrer
+------------------------------------
+
+Le fichier CONTROLE-inf7.sql affiche six tableaux, et chacun porte en
+commentaire ce que vous devez y lire. En résumé :
+
+   Tableau 1   deux lignes, et les mêmes chiffres sur les deux :
+               25 chapitres, 193 leçons, 75 simulations, 25 quiz, 15 figures
+
+   Tableau 2   trois lignes : 11 chapitres, puis 7, puis 7
+
+   Tableau 3   vingt-cinq lignes, une par chapitre, qui totalisent 193 leçons
+
+   Tableau 4   vide
+
+   Tableau 5   soixante-quinze lignes, la liste des simulations
+
+   Tableau 6   vide
+
+Les deux tableaux vides sont les plus importants. Le quatrième cherche une
+leçon de cours restée sans simulation, le sixième un chapitre qui ne
+finirait pas par son quiz. Tant qu'ils n'affichent rien, tout va bien.
+
+
+Ce que j'ai vérifié avant de vous l'envoyer
+-------------------------------------------
+
+J'ai lancé les vingt-cinq fichiers sur une vraie base PostgreSQL vide, dans
+un ordre tiré au hasard, puis je les ai tous relancés dans un autre ordre. Le
+nombre de leçons n'a pas bougé d'une ligne : 386, soit 193 par série.
+
+Dans cette base, j'ai ensuite contrôlé le contenu de chaque simulation et de
+chaque quiz, la numérotation continue des leçons à l'intérieur de chaque
+chapitre, la place du quiz en dernière position, la présence d'une simulation
+après chaque leçon de cours, et le fait qu'aucune bonne réponse de quiz ne
+pointe en dehors de sa liste de choix.
+
+La base de test ne contenait au départ ni Terminale C ni Terminale D. Les
+deux classes ont bien été créées toutes seules par le premier fichier lancé —
+c'est exactement ce qui se passera chez vous si elles n'existent pas encore.
+
+J'ai enfin dessiné les soixante-seize simulations une par une et je les ai
+regardées en image, pour attraper ce qu'aucun contrôle automatique ne voit :
+un texte qui dépasse du cadre, un résultat faux, une barre qui reste rouge
+quand elle devrait être verte. Six défauts de ce genre ont été corrigés avant
+l'envoi.
+
+
+Les simulations
+---------------
+
+Soixante-seize, toutes nouvelles. Le registre du site passe de 240 à 316
+composants.
+
+Quelques-unes à montrer en classe en premier :
+
+   les douze combinaisons d'équipement électrique et d'incident, où l'on
+   découvre tout seul que l'onduleur est le seul des trois appareils à passer
+   les trois épreuves ;
+
+   la console SQL, une vraie : vos élèves y tapent leurs CREATE TABLE et
+   leurs SELECT, et la base refuse les requêtes fautives avec le message
+   qu'un vrai SGBD donnerait, numéro d'erreur compris ;
+
+   le SELECT sans jointure, qui fait exploser le produit cartésien sous leurs
+   yeux — cinq élèves et trois classes donnent quinze lignes absurdes ;
+
+   les Si imbriqués des mentions, où il suffit de remonter le test de 10 en
+   premier pour voir un élève à 18 de moyenne repartir avec « Passable » ;
+
+   la recherche séquentielle en C et en LDA côte à côte, avec les deux
+   compteurs qui avancent, l'un à partir de 1 et l'autre à partir de 0 : c'est
+   la question qui tombe à chaque session, et trois boutons permettent d'y
+   introduire les trois erreurs classiques une par une.
