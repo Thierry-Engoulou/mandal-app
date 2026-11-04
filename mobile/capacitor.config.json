@@ -1,0 +1,12 @@
+{
+  "appId": "cm.mandal.education",
+  "appName": "M'ANDAL",
+  "webDir": "www",
+  "server": {
+    "url": "https://mandal-education.vercel.app/",
+    "errorPath": "hors-ligne.html"
+  },
+  "android": {
+    "appendUserAgent": "MandalApp"
+  }
+}

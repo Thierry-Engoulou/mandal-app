@@ -6,10 +6,10 @@ import type { Database } from "@/integrations/supabase/types";
 type Table = "ia_messages" | "orientation_messages" | "epreuves_generees" | "corrections_ia";
 
 export const QUOTAS_IA: Record<Table, { max: number; libelle: string }> = {
-  ia_messages: { max: 40, libelle: "questions à Mandal IA" },
-  orientation_messages: { max: 30, libelle: "questions au conseiller d'orientation" },
-  epreuves_generees: { max: 5, libelle: "épreuves blanches" },
-  corrections_ia: { max: 10, libelle: "corrections de copie" },
+  ia_messages: { max: 100, libelle: "questions à Mandal IA" },
+  orientation_messages: { max: 60, libelle: "questions au conseiller d'orientation" },
+  epreuves_generees: { max: 10, libelle: "épreuves blanches" },
+  corrections_ia: { max: 20, libelle: "corrections de copie" },
 };
 
 /** Lève une erreur claire si l'élève a atteint sa limite du jour (heure de Douala). */

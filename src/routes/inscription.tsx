@@ -4,6 +4,7 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { GOOGLE_SIGNUP_ROLE_KEY } from "@/lib/role-home";
 import { GoogleIcon } from "@/components/google-icon";
+import { useAppMobile } from "@/lib/app-mobile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -51,6 +52,7 @@ function SignupPage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
+  const appMobile = useAppMobile();
   const [created, setCreated] = useState(false);
   const [accepte, setAccepte] = useState(false);
 
@@ -357,27 +359,31 @@ function SignupPage() {
                 {loading ? "Création en cours…" : "Créer mon compte & Accéder aux cours"}
               </Button>
 
-              <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                <span className="h-px flex-1 bg-border" /> ou{" "}
-                <span className="h-px flex-1 bg-border" />
-              </div>
+              {appMobile ? null : (
+                <>
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                    <span className="h-px flex-1 bg-border" /> ou{" "}
+                    <span className="h-px flex-1 bg-border" />
+                  </div>
 
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleGoogleSignup}
-                disabled={loading || googleLoading}
-                className="flex h-12 w-full items-center justify-center gap-2 rounded-xl font-semibold"
-              >
-                {googleLoading ? (
-                  <LoaderCircle className="size-5 animate-spin text-primary" />
-                ) : (
-                  <GoogleIcon />
-                )}
-                {role === "teacher"
-                  ? "S'inscrire avec Google comme enseignant"
-                  : "S'inscrire avec Google comme élève"}
-              </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleGoogleSignup}
+                    disabled={loading || googleLoading}
+                    className="flex h-12 w-full items-center justify-center gap-2 rounded-xl font-semibold"
+                  >
+                    {googleLoading ? (
+                      <LoaderCircle className="size-5 animate-spin text-primary" />
+                    ) : (
+                      <GoogleIcon />
+                    )}
+                    {role === "teacher"
+                      ? "S'inscrire avec Google comme enseignant"
+                      : "S'inscrire avec Google comme élève"}
+                  </Button>
+                </>
+              )}
 
               <p className="text-center text-sm text-muted-foreground">
                 Déjà un compte ?{" "}

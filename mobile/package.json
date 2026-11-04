@@ -1,0 +1,19 @@
+{
+  "name": "mandal-mobile",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Application Android M'ANDAL (Capacitor) : affiche le site mandal-education.vercel.app",
+  "scripts": {
+    "sync": "cap sync android",
+    "open": "cap open android",
+    "icones": "capacitor-assets generate --android"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/core": "8.5.3"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "3.0.5",
+    "@capacitor/cli": "8.5.3"
+  }
+}
