@@ -9,14 +9,7 @@ import { Citation, Qcm, type Question } from "./philo-noyau";
 /* ------------------------------------------------------------------ */
 
 type SensCirc =
-  | "temps"
-  | "cause"
-  | "consequence"
-  | "but"
-  | "opposition"
-  | "condition"
-  | "comparaison"
-  | "autre";
+  "temps" | "cause" | "consequence" | "but" | "opposition" | "condition" | "comparaison" | "autre";
 
 const SENS: ReadonlyArray<{ value: SensCirc; label: string; question: string }> = [
   { value: "temps", label: "temps", question: "quand ?" },

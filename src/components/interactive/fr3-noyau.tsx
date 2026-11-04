@@ -359,14 +359,7 @@ export function Surligner({
 /* Conjuguer : un tableau de personnes à remplir                       */
 /* ------------------------------------------------------------------ */
 
-export const PERSONNES = [
-  "je",
-  "tu",
-  "il / elle",
-  "nous",
-  "vous",
-  "ils / elles",
-] as const;
+export const PERSONNES = ["je", "tu", "il / elle", "nous", "vous", "ils / elles"] as const;
 
 export type Conjugaison = {
   id: string;
@@ -465,7 +458,10 @@ export function Conjuguer({
                   }}
                 />
                 {verifie && !bon ? (
-                  <span className="w-28 shrink-0 font-mono text-xs" style={{ color: PALETTE.green }}>
+                  <span
+                    className="w-28 shrink-0 font-mono text-xs"
+                    style={{ color: PALETTE.green }}
+                  >
                     {attendue}
                   </span>
                 ) : null}
@@ -536,7 +532,10 @@ export function TexteColore({
       {legende ? (
         <div className="flex flex-wrap gap-2">
           {legende.map((l) => (
-            <span key={l.label} className="flex items-center gap-1 text-[11px] text-muted-foreground">
+            <span
+              key={l.label}
+              className="flex items-center gap-1 text-[11px] text-muted-foreground"
+            >
               <span
                 className="inline-block h-2.5 w-2.5 rounded-sm"
                 style={{ backgroundColor: l.couleur }}

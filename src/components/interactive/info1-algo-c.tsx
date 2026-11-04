@@ -447,7 +447,7 @@ export function Recursivite() {
 
       <pre className="overflow-x-auto rounded-lg border border-border bg-secondary/30 p-3 font-mono text-[11px] leading-relaxed">
         {sansBase
-          ? d.code.replace(/    Si n [^\n]*\n        retourner [^\n]*\n    Sinon\n/, "")
+          ? d.code.replace(/ {4}Si n [^\n]*\n {8}retourner [^\n]*\n {4}Sinon\n/, "")
           : d.code}
       </pre>
 

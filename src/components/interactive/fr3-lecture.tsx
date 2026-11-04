@@ -35,7 +35,11 @@ const CHAMPS: ReadonlyArray<Releve> = [
       { mot: "prix,", bon: true, pourquoi: "le prix appartient pleinement au champ du commerce." },
       { mot: "les" },
       { mot: "acheteurs", bon: true, pourquoi: "l'autre côté de l'échange." },
-      { mot: "marchandaient,", bon: true, pourquoi: "un VERBE du champ lexical : discuter le prix." },
+      {
+        mot: "marchandaient,",
+        bon: true,
+        pourquoi: "un VERBE du champ lexical : discuter le prix.",
+      },
       { mot: "et" },
       { mot: "des" },
       { mot: "porteurs" },
@@ -284,9 +288,7 @@ export function NuancerSentiment() {
         ) : (
           <div className="mt-3 space-y-2">
             <Verdict tone={ecart === 0 ? "ok" : ecart === 1 ? "warn" : "bad"}>
-              <span className="font-semibold">
-                Le mot attendu : {e.mots[e.juste] ?? "—"}.{" "}
-              </span>
+              <span className="font-semibold">Le mot attendu : {e.mots[e.juste] ?? "—"}. </span>
               {e.remarque}
             </Verdict>
             <button
@@ -331,7 +333,8 @@ const MONTRER: ReadonlyArray<Question> = [
       {
         texte: "Il avait très peur, une peur terrible.",
         bonne: false,
-        retour: "Tu as nommé le sentiment, et même deux fois. L'intensité ajoutée ne remplace pas le procédé.",
+        retour:
+          "Tu as nommé le sentiment, et même deux fois. L'intensité ajoutée ne remplace pas le procédé.",
       },
       {
         texte: "Il était effrayé par ce qui l'attendait.",
@@ -354,7 +357,8 @@ const MONTRER: ReadonlyArray<Question> = [
       {
         texte: "Elle était rouge de colère.",
         bonne: false,
-        retour: "Le corps y est — « rouge » — mais tu as gardé le mot. Enlève-le et il reste « elle était rouge ».",
+        retour:
+          "Le corps y est — « rouge » — mais tu as gardé le mot. Enlève-le et il reste « elle était rouge ».",
       },
     ],
   },
@@ -371,14 +375,14 @@ const MONTRER: ReadonlyArray<Question> = [
       {
         texte: "Il était triste comme jamais.",
         bonne: false,
-        retour: "« Comme jamais » n'est pas une comparaison, c'est un renforcement. Et le mot est resté.",
+        retour:
+          "« Comme jamais » n'est pas une comparaison, c'est un renforcement. Et le mot est resté.",
       },
     ],
   },
   {
     id: "m4",
-    enonce:
-      "Laquelle de ces deux phrases vaut le plus en rédaction ?",
+    enonce: "Laquelle de ces deux phrases vaut le plus en rédaction ?",
     options: [
       {
         texte:
@@ -450,8 +454,8 @@ export function MontrerSentiment() {
       conclusion={
         <>
           Retiens le principe et sa limite. Le <strong>principe</strong> : les bons écrivains ne
-          disent presque jamais qu'un personnage a peur, ils montrent la peur et le lecteur la
-          nomme lui-même. La <strong>limite</strong> : montre les sentiments importants, nomme les
+          disent presque jamais qu'un personnage a peur, ils montrent la peur et le lecteur la nomme
+          lui-même. La <strong>limite</strong> : montre les sentiments importants, nomme les
           secondaires. Et en lecture, ce même procédé te sert à la question 4 — le texte ne
           contiendra pas le mot, tu devras le déduire des signes du corps, des actions et des
           images.
@@ -576,8 +580,8 @@ export function LectureMethodique() {
         <>
           Situer, repérer, interpréter, conclure. Le troisième temps est celui que les copies
           sautent, et c'est celui qui rapporte : pour chaque chose repérée, demande-toi{" "}
-          <strong>pourquoi</strong>. Dire « il y a beaucoup de comparaisons » n'est pas une analyse ;
-          dire « les comparaisons rapprochent la ville d'un animal, ce qui la rend menaçante » en
+          <strong>pourquoi</strong>. Dire « il y a beaucoup de comparaisons » n'est pas une analyse
+          ; dire « les comparaisons rapprochent la ville d'un animal, ce qui la rend menaçante » en
           est une. Et une lecture méthodique complète tient en huit lignes.
         </>
       }
@@ -595,12 +599,17 @@ const FICHE: ReadonlyArray<Question> = [
     enonce: "Case « auteur » de la fiche de « Ville cruelle ».",
     options: [
       {
-        texte: "Eza Boto, premier pseudonyme d'Alexandre Biyidi Awala, plus connu sous le nom de Mongo Beti.",
+        texte:
+          "Eza Boto, premier pseudonyme d'Alexandre Biyidi Awala, plus connu sous le nom de Mongo Beti.",
         bonne: true,
         retour:
           "Les deux pseudonymes valent d'être cités, et la raison aussi : écrire contre l'administration coloniale en 1954 n'était pas sans risque pour sa famille restée au pays.",
       },
-      { texte: "Mongo Beti", bonne: false, retour: "C'est le même homme, mais le roman est signé Eza Boto. Dis les deux." },
+      {
+        texte: "Mongo Beti",
+        bonne: false,
+        retour: "C'est le même homme, mais le roman est signé Eza Boto. Dis les deux.",
+      },
       { texte: "Banda", bonne: false, retour: "Banda est le héros du roman, pas son auteur." },
     ],
   },
@@ -615,7 +624,11 @@ const FICHE: ReadonlyArray<Question> = [
         retour:
           "Et n'oublie pas le trait essentiel : Tanga est DOUBLE — Tanga-Nord, européenne et commerçante, Tanga-Sud, africaine et laborieuse.",
       },
-      { texte: "Au Cameroun, aujourd'hui", bonne: false, retour: "Le roman paraît en 1954 et décrit la période coloniale." },
+      {
+        texte: "Au Cameroun, aujourd'hui",
+        bonne: false,
+        retour: "Le roman paraît en 1954 et décrit la période coloniale.",
+      },
     ],
   },
   {
@@ -648,7 +661,8 @@ const FICHE: ReadonlyArray<Question> = [
     enonce: "Case « thèmes ». Lequel est un vrai thème, et non un morceau d'histoire ?",
     options: [
       {
-        texte: "L'exploitation économique : Banda cultive, un autre achète à vil prix, un troisième revend.",
+        texte:
+          "L'exploitation économique : Banda cultive, un autre achète à vil prix, un troisième revend.",
         bonne: true,
         retour:
           "Un thème est une idée générale, et il s'illustre par le texte. Les trois autres thèmes du roman : l'opposition village-ville, l'arbitraire administratif, la solidarité.",
@@ -656,9 +670,14 @@ const FICHE: ReadonlyArray<Question> = [
       {
         texte: "Les inspecteurs brûlent la récolte de Banda.",
         bonne: false,
-        retour: "C'est un événement du récit, pas un thème. Le thème serait l'arbitraire administratif.",
+        retour:
+          "C'est un événement du récit, pas un thème. Le thème serait l'arbitraire administratif.",
       },
-      { texte: "Banda est orphelin de père.", bonne: false, retour: "C'est un détail du personnage." },
+      {
+        texte: "Banda est orphelin de père.",
+        bonne: false,
+        retour: "C'est un détail du personnage.",
+      },
     ],
   },
   {
@@ -691,7 +710,11 @@ const FICHE: ReadonlyArray<Question> = [
         retour:
           "Un avis nomme une scène précise et dit pourquoi elle a marqué. C'est la case que les élèves bâclent, et c'est la plus facile à réussir.",
       },
-      { texte: "J'ai beaucoup aimé ce livre, il est très intéressant.", bonne: false, retour: "Cela ne vaut rien : aucune scène, aucune raison." },
+      {
+        texte: "J'ai beaucoup aimé ce livre, il est très intéressant.",
+        bonne: false,
+        retour: "Cela ne vaut rien : aucune scène, aucune raison.",
+      },
       {
         texte: "Ce livre est un chef-d'œuvre de la littérature africaine.",
         bonne: false,
@@ -841,17 +864,18 @@ const EPREUVE: ReadonlyArray<Question> = [
   },
   {
     id: "ep6",
-    enonce:
-      "PARTIE II, question 2 (2 pts). Relève QUATRE mots du champ lexical de l'agriculture.",
+    enonce: "PARTIE II, question 2 (2 pts). Relève QUATRE mots du champ lexical de l'agriculture.",
     options: [
       {
-        texte: "« le cacao », « la récolte », « les fèves », « avait séché trois semaines au soleil »",
+        texte:
+          "« le cacao », « la récolte », « les fèves », « avait séché trois semaines au soleil »",
         bonne: true,
         retour:
           "Quatre, pas plus, et la dernière est une expression verbale : tu montres qu'un champ lexical ne contient pas que des noms. 0,5 point chacun.",
       },
       {
-        texte: "« le cacao », « la récolte », « les fèves », « les sacs », « le soleil », « la place », « le hangar », « l'inspecteur »",
+        texte:
+          "« le cacao », « la récolte », « les fèves », « les sacs », « le soleil », « la place », « le hangar », « l'inspecteur »",
         bonne: false,
         retour:
           "On t'en demandait quatre. Le correcteur ne note que les quatre premiers — et « les sacs » passerait, mais tu as pris le risque pour rien.",
@@ -884,7 +908,8 @@ const EPREUVE: ReadonlyArray<Question> = [
       {
         texte: "a) Passé simple. b) « Il attendait. »",
         bonne: false,
-        retour: "Tu as inverti les deux temps. « Attendait » a la terminaison -ait : c'est l'imparfait.",
+        retour:
+          "Tu as inverti les deux temps. « Attendait » a la terminaison -ait : c'est l'imparfait.",
       },
     ],
   },
@@ -903,7 +928,8 @@ const EPREUVE: ReadonlyArray<Question> = [
       {
         texte: "Trois propositions, à cause de « à faire ».",
         bonne: false,
-        retour: "« À faire » est un infinitif : il n'a pas de sujet et ne se conjugue pas. Il ne compte pas.",
+        retour:
+          "« À faire » est un infinitif : il n'a pas de sujet et ne se conjugue pas. Il ne compte pas.",
       },
       {
         texte: "Deux propositions indépendantes coordonnées.",
@@ -940,11 +966,12 @@ export function EtudeDeTexteBepc() {
           <>
             Les quatre règles qui font la différence, et aucune ne porte sur le contenu.{" "}
             <strong>Cite le texte</strong> à chaque question de compréhension : une réponse juste
-            mais sans citation perd la moitié des points. <strong>Réponds au nombre exact
-            demandé</strong> : quatre mots signifie quatre. <strong>Donne la nature ET la
-            fonction</strong> quand les deux sont demandées, car l'une sans l'autre ne vaut rien.{" "}
-            <strong>Justifie ton opinion personnelle</strong> : la question 5 n'a pas de bonne
-            réponse, mais elle a de mauvaises copies, celles qui répondent en une ligne.
+            mais sans citation perd la moitié des points.{" "}
+            <strong>Réponds au nombre exact demandé</strong> : quatre mots signifie quatre.{" "}
+            <strong>Donne la nature ET la fonction</strong> quand les deux sont demandées, car l'une
+            sans l'autre ne vaut rien. <strong>Justifie ton opinion personnelle</strong> : la
+            question 5 n'a pas de bonne réponse, mais elle a de mauvaises copies, celles qui
+            répondent en une ligne.
           </>
         }
       />
