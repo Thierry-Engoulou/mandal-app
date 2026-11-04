@@ -33,6 +33,19 @@ import { Input } from "@/components/ui/input";
 import { AuthRequiredModal } from "@/components/auth-required-modal";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import {
+  ANNEES_SUJETS,
+  CONCOURS,
+  ENSEIGNEMENT_GENERAL,
+  EXAMENS_GENERAL,
+  EXAMENS_TECHNIQUE,
+  TECHNIQUE_COMMERCIAL,
+  TECHNIQUE_INDUSTRIEL,
+  TOUS_LES_PARCOURS,
+  type Concours,
+  type LienSujets,
+  type Section,
+} from "@/lib/education-structure";
 
 const educationSearchSchema = z.object({
   niveau: z.string().optional(),
@@ -53,507 +66,6 @@ export const Route = createFileRoute("/education")({
   component: EducationPage,
 });
 
-type OptionId = "bepc" | "probatoire" | "bac" | "alevel" | "enst" | "universite" | "enspd" | "iut";
-
-interface SubjectItem {
-  matiere: string;
-  code?: string;
-  icon?: string;
-  chapitres: string[];
-  description: string;
-}
-
-interface LevelOption {
-  id: OptionId;
-  name: string;
-  subtitle: string;
-  badge?: string;
-  type: "scolaire" | "concours";
-  keywords: string[];
-  color: string;
-  defaultSubjects: SubjectItem[];
-}
-
-const LEVEL_OPTIONS: LevelOption[] = [
-  {
-    id: "bepc",
-    name: "BEPC (3ème · Premier cycle)",
-    subtitle: "Premier cycle secondaire & Brevet d'Études du Premier Cycle",
-    badge: "Examen Officiel 3ème",
-    type: "scolaire",
-    color: "emerald",
-    keywords: ["bepc", "3eme", "troisieme", "premier cycle"],
-    defaultSubjects: [
-      {
-        matiere: "Mathématiques — 3ème & BEPC",
-        icon: "📐",
-        chapitres: [
-          "Chapitre 01 : Calcul numérique, puissances et racines carrées",
-          "Chapitre 02 : Théorème de Thalès et réciproque dans le plan",
-          "Chapitre 03 : Trigonométrie dans le triangle rectangle (Cos, Sin, Tan)",
-          "Chapitre 04 : Calcul littéral, factorisation et identités remarquables",
-          "Chapitre 05 : Équations et inéquations du premier degré à une inconnue",
-          "Chapitre 06 : Statistiques, effectifs cumulés et diagrammes circulaires",
-          "Chapitre 07 : Géométrie dans l'espace : cônes, pyramides, cylindres et sphères",
-        ],
-        description:
-          "Fondamentaux d'arithmétique, géométrie plane, calcul algébrique et entraînement intensif aux annales du BEPC.",
-      },
-      {
-        matiere: "Sciences Physiques & Chimie — 3ème",
-        icon: "⚡",
-        chapitres: [
-          "Chapitre 01 : Masse volumique, densité et poussée d'Archimède",
-          "Chapitre 02 : Courant électrique alternatif, tension sinusoïdale et puissance",
-          "Chapitre 03 : Solutions aqueuses, ions, pH et réactions acido-basiques",
-          "Chapitre 04 : Combustion des métaux et des hydrocarbures (alcanes)",
-          "Chapitre 05 : Optique : lentilles minces convergentes et formation des images",
-        ],
-        description:
-          "Expériences guidées, circuits électriques, réactions chimiques fondamentales et corrigés types BEPC.",
-      },
-      {
-        matiere: "Français & Expression — 3ème",
-        icon: "✍️",
-        chapitres: [
-          "Chapitre 01 : Grammaire, accords complexes et propositions subordonnées",
-          "Chapitre 02 : Compréhension de texte et analyse littéraire méthodique",
-          "Chapitre 03 : Expression écrite, argumentation et rédaction de récits",
-          "Chapitre 04 : Vocabulaire, figures de style et orthographe lexicale",
-        ],
-        description:
-          "Maîtrise de la langue française, analyse de texte littéraire et rédaction d'examen officiel.",
-      },
-      {
-        matiere: "Sciences de la Vie et de la Terre (SVT) — 3ème",
-        icon: "🧬",
-        chapitres: [
-          "Chapitre 01 : Nutrition humaine, digestion et équilibre alimentaire",
-          "Chapitre 02 : Système nerveux, organes des sens et réflexes",
-          "Chapitre 03 : Micro-organismes et système immunitaire de l'organisme",
-          "Chapitre 04 : Préservation de l'environnement et gestion des écosystèmes",
-        ],
-        description:
-          "Fonctionnement du corps humain, hygiène de vie, défenses immunitaires et écologie.",
-      },
-    ],
-  },
-  {
-    id: "probatoire",
-    name: "Probatoire (Séries A · C · D · TI)",
-    subtitle:
-      "Enseignement secondaire 2nd cycle — Classes de Première (1ère D, 1ère C, 1ère A, 1ère TI)",
-    badge: "Examen Probatoire National",
-    type: "scolaire",
-    color: "emerald",
-    keywords: ["probatoire", "premiere", "1ere", "1ere d", "1ere c", "1ere ti"],
-    defaultSubjects: [
-      {
-        matiere: "Mathématiques — 1ère D & C (15 Chapitres)",
-        icon: "📐",
-        chapitres: [
-          "Chapitre 01 : Équations, inéquations et systèmes linéaires à 2 et 3 inconnues",
-          "Chapitre 02 : Polynômes du second degré, discriminant et factorisation",
-          "Chapitre 03 : Trigonométrie, formules d'addition, duplication et équations circulaires",
-          "Chapitre 04 : Angles orientés et cercles trigonométriques",
-          "Chapitre 05 : Barycentres de points pondérés dans le plan et l'espace",
-          "Chapitre 06 : Produit scalaire, orthogonalité et applications métriques",
-          "Chapitre 07 : Limites de fonctions numériques, continuité et asymptotes",
-          "Chapitre 08 : Dérivation, calcul de dérivées, tangentes et sens de variation",
-          "Chapitre 09 : Étude et représentations graphiques de fonctions rationnelles",
-          "Chapitre 10 : Suites arithmétiques et suites géométriques (terme général et sommes)",
-          "Chapitre 11 : Dénombrement, arrangements, permutations et combinaisons",
-          "Chapitre 12 : Initiation au calcul des probabilités et événements",
-          "Chapitre 13 : Géométrie analytique de l'espace, repérage et équations cartésiennes",
-          "Chapitre 14 : Transformations du plan (Homothéties, translations et rotations)",
-          "Chapitre 15 : Statistiques à une et deux variables et ajustement linéaire",
-        ],
-        description:
-          "Programme complet officiel du Probatoire Cameroun avec fiches de synthèse, exercices types et démonstrations pas à pas.",
-      },
-      {
-        matiere: "Physique-Chimie — 1ère C & D",
-        icon: "⚛️",
-        chapitres: [
-          "Chapitre 01 : Cinématique : vecteur position, vecteur vitesse et accélération",
-          "Chapitre 02 : Dynamique du point matériel et lois fondamentales du mouvement",
-          "Chapitre 03 : Travail, puissance mécanique et énergie cinétique / potentielle",
-          "Chapitre 04 : Calorimétrie, échanges thermiques et changements d'état physique",
-          "Chapitre 05 : Champ électrostatique, force de Coulomb et différence de potentiel",
-          "Chapitre 06 : Lois du courant continu, dipôles et circuits électriques",
-          "Chapitre 07 : Optique géométrique : lentilles minces, miroirs et instruments d'optique",
-          "Chapitre 08 : Chimie organique : hydrocarbures, alcanes, alcools et composés carbonylés",
-        ],
-        description:
-          "Cours approfondis, modélisations graphiques, expériences de laboratoire et annales officielles du Probatoire.",
-      },
-      {
-        matiere: "Sciences de la Vie et de la Terre (SVT) — 1ère D",
-        icon: "🔬",
-        chapitres: [
-          "Chapitre 01 : Génétique mendélienne, transmission des caractères et croisements",
-          "Chapitre 02 : Tectonique des plaques et dynamique interne de la Terre",
-          "Chapitre 03 : Système immunitaire : anticorps, lymphocytes et réponse immunitaire",
-          "Chapitre 04 : Respiration cellulaire et production d'énergie biochimique (ATP)",
-          "Chapitre 05 : Reproduction humaine et régulation hormonale",
-          "Chapitre 06 : Écologie, flux d'énergie et conservation de la biodiversité",
-        ],
-        description:
-          "Génétique, immunologie, géologie et physiologie humaine selon le programme officiel.",
-      },
-      {
-        matiere: "Français & Littérature — Première",
-        icon: "📚",
-        chapitres: [
-          "Chapitre 01 : Méthodologie rigoureuse de la dissertation littéraire",
-          "Chapitre 02 : Commentaire composé, analyse stylistique et axes d'étude",
-          "Chapitre 03 : Les grands courants littéraires et auteurs africains majeurs",
-          "Chapitre 04 : Stylistique, figures de rhétorique et maîtrise de la langue",
-        ],
-        description: "Préparation complète à l'épreuve écrite et orale de français du Probatoire.",
-      },
-      {
-        matiere: "Informatique & Algorithmique — Première",
-        icon: "💻",
-        chapitres: [
-          "Chapitre 01 : Algorithmique : structures conditionnelles et itératives",
-          "Chapitre 02 : Initiation à la programmation en langage Python",
-          "Chapitre 03 : Réseaux informatiques, adressage IP et protocoles Internet",
-          "Chapitre 04 : Sécurité numérique et traitement automatisé des données",
-        ],
-        description:
-          "Notions d'algorithmique, logique de programmation et technologies de l'information.",
-      },
-    ],
-  },
-  {
-    id: "bac",
-    name: "Baccalauréat (Séries A · C · D · TI)",
-    subtitle: "Classes de Terminale (Terminale C, Terminale D, Terminale A, Terminale TI)",
-    badge: "Diplôme de Fin d'Études Secondaires",
-    type: "scolaire",
-    color: "emerald",
-    keywords: ["bac", "baccalaureat", "terminale", "tle c", "tle d", "tle a"],
-    defaultSubjects: [
-      {
-        matiere: "Mathématiques — Terminale C & D (12 Chapitres)",
-        icon: "📐",
-        chapitres: [
-          "Chapitre 01 : Nombres complexes, forme trigonométrique et géométrie",
-          "Chapitre 02 : Fonctions exponentielles et équations associées",
-          "Chapitre 03 : Fonctions logarithmes népériens et décimaux",
-          "Chapitre 04 : Calcul intégral, primitives et calcul d'aires / volumes",
-          "Chapitre 05 : Équations différentielles linéaires du 1er et 2nd ordre",
-          "Chapitre 06 : Suites numériques, récurrence, convergence et limites",
-          "Chapitre 07 : Probabilités conditionnelles, variables aléatoires et lois de probabilité",
-          "Chapitre 08 : Géométrie vectorielle dans l'espace, produit vectoriel et équations de plans",
-          "Chapitre 09 : Matrices carrées, calcul matriciel et systèmes linéaires",
-          "Chapitre 10 : Arithmétique : divisibilité, PGCD, PPCM et congruences (Série C)",
-          "Chapitre 11 : Coniques : ellipses, hyperboles et paraboles (Série C)",
-          "Chapitre 12 : Statistiques à deux variables et droites de régression linéaire",
-        ],
-        description:
-          "Préparation d'excellence au Baccalauréat avec théorèmes fondamentaux, démonstrations et annales corrigées pas à pas.",
-      },
-      {
-        matiere: "Physique-Chimie — Terminale C & D",
-        icon: "⚛️",
-        chapitres: [
-          "Chapitre 01 : Mouvement d'une particule chargée dans des champs électrique et magnétique",
-          "Chapitre 02 : Oscillations mécaniques libres et amorties (pendules)",
-          "Chapitre 03 : Circuits électriques RLC, résonance et oscillations forcées",
-          "Chapitre 04 : Ondes mécaniques progressives et phénomènes de diffraction / interférences",
-          "Chapitre 05 : Physique nucléaire : radioactivité alpha/bêta/gamma et réactions de fission/fusion",
-          "Chapitre 06 : Cinétique chimique : vitesse de réaction et facteurs cinétiques",
-          "Chapitre 07 : Réactions acido-basiques en solution aqueuse, pH et titrages",
-          "Chapitre 08 : Chimie organique : estérification, saponification et polymères",
-          "Chapitre 09 : Spectrophotométrie et suivi cinétique de réactions",
-          "Chapitre 10 : Effet photoélectrique et dualité onde-corpuscule de la lumière",
-        ],
-        description:
-          "Programme complet de physique et chimie de Terminale avec modélisations numériques et protocoles expérimentaux.",
-      },
-      {
-        matiere: "Sciences de la Vie et de la Terre (SVT) — Terminale D",
-        icon: "🧬",
-        chapitres: [
-          "Chapitre 01 : Brassage génétique, méiose et diversité des génomes",
-          "Chapitre 02 : Neurophysiologie : potentiel d'action, synapse et transmission nerveuse",
-          "Chapitre 03 : Régulation de la glycémie et diabètes",
-          "Chapitre 04 : Régulation de la pression artérielle",
-          "Chapitre 05 : Immunologie avancée : mécanismes de reconnaissance du soi et du non-soi",
-          "Chapitre 06 : Évolution des espèces et hominisation",
-          "Chapitre 07 : Géodynamique interne et formation des chaînes de montagnes",
-          "Chapitre 08 : Gestion des ressources énergétiques et géologiques",
-        ],
-        description:
-          "Programme officiel de SVT Terminale D : génétique approfondie, neurosciences et géodynamique.",
-      },
-      {
-        matiere: "Philosophie — Terminale",
-        icon: "🏛️",
-        chapitres: [
-          "Chapitre 01 : La conscience, l'inconscient et le sujet",
-          "Chapitre 02 : La vérité, la science et les enjeux de la technique",
-          "Chapitre 03 : L'État, la justice, le droit et la liberté politique",
-          "Chapitre 04 : Philosophie africaine contemporaine, traditions et modernité",
-        ],
-        description:
-          "Notions philosophiques majeures, méthodologie de la dissertation philosophique et étude de textes d'auteurs.",
-      },
-      {
-        matiere: "Informatique — Terminale TI",
-        icon: "💾",
-        chapitres: [
-          "Chapitre 01 : Bases de données relationnelles et requêtes SQL avancées",
-          "Chapitre 02 : Programmation orientée objet (POO) en Python",
-          "Chapitre 03 : Développement web fullstack (HTML5, CSS3, JavaScript)",
-          "Chapitre 04 : Cybersécurité, cryptographie et administration réseau",
-        ],
-        description:
-          "Bases de données relationnelles, développement web et sécurité des réseaux informatiques.",
-      },
-    ],
-  },
-  {
-    id: "alevel",
-    name: "Advanced Level (GCE A-Level)",
-    subtitle: "Cameroon GCE Board — Lower & Upper Sixth Forms (Sciences & Arts)",
-    badge: "General Certificate of Education",
-    type: "scolaire",
-    color: "emerald",
-    keywords: ["alevel", "gce", "anglophone", "sixth form", "lower sixth", "upper sixth"],
-    defaultSubjects: [
-      {
-        matiere: "Pure Mathematics & Further Maths (A-Level)",
-        icon: "📐",
-        chapitres: [
-          "Unit 01 : Advanced Algebraic Structures & Polynomials",
-          "Unit 02 : Trigonometric Identities, Inverse Functions & Calculus",
-          "Unit 03 : Differentiation, Integration Techniques & Differential Equations",
-          "Unit 04 : Vectors in 3D & Vector Equations of Lines and Planes",
-          "Unit 05 : Numerical Methods, Newton-Raphson & Trapezium Rule",
-          "Unit 06 : Complex Numbers, De Moivre's Theorem & Loci in Argand Diagrams",
-          "Unit 07 : Sequences, Series, Maclaurin & Taylor Expansions",
-          "Unit 08 : Probability Distributions (Binomial, Normal & Poisson)",
-        ],
-        description:
-          "Full GCE A-Level syllabus covering Pure Mathematics, Statistics, and Further Mechanics.",
-      },
-      {
-        matiere: "Physics & Chemistry (GCE A-Level)",
-        icon: "⚛️",
-        chapitres: [
-          "Unit 01 : Advanced Mechanics, Circular Motion & Gravitational Fields",
-          "Unit 02 : Oscillations, Wave Optics & Doppler Effect",
-          "Unit 03 : Thermal Physics, Ideal Gases & Thermodynamics",
-          "Unit 04 : Electric & Magnetic Fields, Electromagnetic Induction & Alternating Current",
-          "Unit 05 : Quantum Physics, Photoelectric Effect & Atomic Models",
-          "Unit 06 : Physical Chemistry: Energetics, Kinetics & Chemical Equilibria",
-          "Unit 07 : Inorganic Chemistry: Periodicity & Transition Elements",
-          "Unit 08 : Organic Chemistry: Reaction Mechanisms & Spectroscopy (NMR, IR)",
-        ],
-        description:
-          "Theoretical mastery and practical laboratory question-solving for top grades in GCE A-Level.",
-      },
-      {
-        matiere: "English Literature & General Paper",
-        icon: "📖",
-        chapitres: [
-          "Unit 01 : Critical Essay Writing & Argumentation Techniques",
-          "Unit 02 : Drama Analysis : Shakespearean & African Plays",
-          "Unit 03 : Poetry Analysis : Metre, Rhyme & Thematic Exploration",
-          "Unit 04 : Contemporary Global Issues, Ethics & African Renaissance",
-        ],
-        description:
-          "Comprehensive preparation for GCE Literature in English and General Paper papers.",
-      },
-    ],
-  },
-  {
-    id: "enst",
-    name: "ENS Technique (Professeurs Techniques)",
-    subtitle: "École Normale Supérieure d'Enseignement Technique (ENSET)",
-    badge: "Formation des Formateurs & Ingénieurs",
-    type: "scolaire",
-    color: "emerald",
-    keywords: ["enst", "enset", "professeur", "technique", "formateur"],
-    defaultSubjects: [
-      {
-        matiere: "Sciences de l'Ingénieur & Génie Mécanique / Électrique",
-        icon: "⚙️",
-        chapitres: [
-          "Module 01 : Résistance des Matériaux (RDM) et calculs de structures",
-          "Module 02 : Électrotechnique industrielle et machines électriques (moteurs, transformateurs)",
-          "Module 03 : Automates programmables industriels et commande numérique",
-          "Module 04 : Dessin industriel assisté par ordinateur (CAO / DAO)",
-          "Module 05 : Thermodynamique appliquée et machines thermiques",
-          "Module 06 : Électronique de puissance et traitement du signal",
-        ],
-        description:
-          "Modules avancés en génie mécanique, génie électrique et sciences industrielles pour formateurs d'élite.",
-      },
-      {
-        matiere: "Pédagogie Appliquée & Didactique Technique",
-        icon: "🎓",
-        chapitres: [
-          "Module 01 : Didactique générale et conception de séquences pédagogiques techniques",
-          "Module 02 : Gestion d'ateliers et de laboratoires d'expérimentation",
-          "Module 03 : Évaluation des compétences et barèmes normatifs",
-          "Module 04 : Intégration des TICE dans l'enseignement technique",
-        ],
-        description:
-          "Méthodologie d'enseignement, transmission des savoirs pratiques et gestion de classe technique.",
-      },
-    ],
-  },
-  {
-    id: "universite",
-    name: "Université (Licence · Master · Doctorat)",
-    subtitle:
-      "Enseignement Supérieur Universitaire (Sciences fondamentales, Ingénierie & Humanités)",
-    badge: "Cycle LMD Universitaire",
-    type: "scolaire",
-    color: "emerald",
-    keywords: ["universite", "faculte", "licence", "master", "doctorat", "lmd"],
-    defaultSubjects: [
-      {
-        matiere: "Mathématiques Universitaires (Licence 1 - 2 - 3)",
-        icon: "📐",
-        chapitres: [
-          "Module 01 : Analyse réelle et complexe (Topologie, Séries de Fourier)",
-          "Module 02 : Algèbre linéaire et réduction des endomorphismes (Diagonalisation, Jordan)",
-          "Module 03 : Calcul différentiel et équations aux dérivées partielles (EDP)",
-          "Module 04 : Probabilités approfondies et processus stochastiques",
-          "Module 05 : Géométrie différentielle et calcul tensoriel",
-          "Module 06 : Analyse numérique matricielle et optimisation",
-        ],
-        description:
-          "Parcours mathématique universitaire rigoureux pour facultés de sciences et écoles d'ingénieurs.",
-      },
-      {
-        matiere: "Physique Fondamentale & Sciences de la Matière",
-        icon: "⚛️",
-        chapitres: [
-          "Module 01 : Mécanique analytique (Formalismes de Lagrange et d'Hamilton)",
-          "Module 02 : Électromagnétisme dans les milieux continus et équations de Maxwell",
-          "Module 03 : Physique quantique fondamentale (Équation de Schrödinger, opérateurs)",
-          "Module 04 : Thermodynamique statistique et physique des solides",
-          "Module 05 : Relativité restreinte et relativité générale",
-        ],
-        description: "Sciences physiques théoriques et appliquées de niveau supérieur.",
-      },
-      {
-        matiere: "Informatique & Génie Logiciel Universitaire",
-        icon: "💻",
-        chapitres: [
-          "Module 01 : Algorithmique avancée, théorie des graphes et complexité NP",
-          "Module 02 : Architecture des systèmes d'exploitation et programmation système C/C++",
-          "Module 03 : Conception orientée objet, design patterns et architecture logicielle",
-          "Module 04 : Systèmes distribués, cloud computing et micro-services",
-        ],
-        description: "Formation avancée en conception informatique et génie logiciel.",
-      },
-    ],
-  },
-  {
-    id: "enspd",
-    name: "Concours ENSPD (Polytechnique Douala)",
-    subtitle: "École Nationale Supérieure Polytechnique de Douala — Préparation intensive",
-    badge: "Grande École d'Ingénieurs",
-    type: "concours",
-    color: "amber",
-    keywords: ["enspd", "polytechnique", "douala", "concours enspd", "ingenieur"],
-    defaultSubjects: [
-      {
-        matiere: "Prépa Concours ENSPD : Mathématiques de Concours",
-        icon: "📐",
-        chapitres: [
-          "Module 01 : Algèbre générale, calcul matriciel et systèmes linéaires",
-          "Module 02 : Analyse de haut niveau : intégrales impropres, développements limités et séries",
-          "Module 03 : Équations différentielles appliquées aux sciences de l'ingénieur",
-          "Module 04 : Géométrie analytique 3D, produits scalaire / vectoriel et surfaces",
-          "Module 05 : Dénombrement accéléré et calcul des probabilités de concours",
-          "Module 06 : Annales corrigées pas à pas des 10 dernières sessions ENSPD",
-        ],
-        description:
-          "Entraînement de haut niveau axé sur la rapidité, l'exactitude des calculs et les astuces de résolution d'épreuves de polytechnique.",
-      },
-      {
-        matiere: "Prépa Concours ENSPD : Physique & Chimie d'Ingénierie",
-        icon: "⚛️",
-        chapitres: [
-          "Module 01 : Mécanique du solide, dynamique newtonienne et moments d'inertie",
-          "Module 02 : Électromagnétisme, induction et régimes transitoires RLC",
-          "Module 03 : Thermodynamique industrielle, cycles de Carnot et bilans énergétiques",
-          "Module 04 : Optique ondulatoire : interférences, diffraction et réseaux",
-          "Module 05 : Chimie des solutions aqueuses, équilibres chimiques et thermochimie",
-          "Module 06 : Annales corrigées de physique-chimie du concours ENSPD",
-        ],
-        description:
-          "Méthodologie de résolution rapide des épreuves de sciences physiques avec barèmes officiels.",
-      },
-      {
-        matiere: "Prépa Concours ENSPD : Épreuves Blanches & QCM Éliminatoires",
-        icon: "⚡",
-        chapitres: [
-          "Module 01 : Épreuve blanche n°1 en temps réel (Maths & Physique - 3h)",
-          "Module 02 : Épreuve blanche n°2 avec correction vidéo détaillée",
-          "Module 03 : Techniques de gestion du stress, du temps et élimination des pièges classiques",
-        ],
-        description:
-          "Simulations réelles dans les conditions exactes d'examen pour maximiser vos chances de réussite.",
-      },
-    ],
-  },
-  {
-    id: "iut",
-    name: "Concours IUT (Instituts Universitaires de Technologie)",
-    subtitle: "Filières technologiques & industrielles (Génie Mécanique, Électrique, Informatique)",
-    badge: "Concours Technologique Universitaire",
-    type: "concours",
-    color: "amber",
-    keywords: ["iut", "technologique", "industriel", "concours iut", "douala", "bandjoun"],
-    defaultSubjects: [
-      {
-        matiere: "Prépa Concours IUT : Physique & Sciences Industrielles",
-        icon: "⚙️",
-        chapitres: [
-          "Module 01 : Mécanique appliquée, statique et cinématique industrielle",
-          "Module 02 : Électricité générale, conversion d'énergie et lois fondamentales",
-          "Module 03 : Mesures physiques, métrologie et capteurs industriels",
-          "Module 04 : Corrigés types des épreuves antérieures du concours IUT",
-        ],
-        description:
-          "Préparation ciblée pour réussir l'entrée en filières technologiques et génie appliqué.",
-      },
-      {
-        matiere: "Prépa Concours IUT : Mathématiques Pratiques & Logique",
-        icon: "📐",
-        chapitres: [
-          "Module 01 : Calcul vectoriel, géométrie pratique et trigonométrie",
-          "Module 02 : Étude de fonctions numériques, approximations et modélisation",
-          "Module 03 : Statistiques appliquées, probabilités et raisonnement logique",
-          "Module 04 : Épreuves types et annales corrigées du concours IUT",
-        ],
-        description:
-          "Renforcement méthodique axé sur la logique, la rapidité d'exécution et les calculs sans calculatrice.",
-      },
-      {
-        matiere: "Prépa Concours IUT : Sciences Appliquées & Dessin Technique",
-        icon: "🔧",
-        chapitres: [
-          "Module 01 : Notions fondamentales de dessin industriel et projections orthogonales",
-          "Module 02 : Électronique fondamentale : diodes, transistors et portes logiques",
-          "Module 03 : Matériaux industriels et procédés de fabrication",
-        ],
-        description:
-          "Culture technique et industrielle pour faire la différence lors des épreuves de sélection.",
-      },
-    ],
-  },
-];
-
 export function EducationPage() {
   const navigate = useNavigate();
   const searchParams = Route.useSearch();
@@ -564,8 +76,7 @@ export function EducationPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   // Niveau actif basé sur le search param de l'URL
-  const activeLevelId = searchParams.niveau as OptionId | undefined;
-  const activeLevel = LEVEL_OPTIONS.find((opt) => opt.id === activeLevelId) || null;
+  const activeLevel = TOUS_LES_PARCOURS.find((p) => p.id === searchParams.niveau) ?? null;
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
@@ -575,7 +86,7 @@ export function EducationPage() {
     });
   }, []);
 
-  const handleSelectLevel = (levelId: OptionId) => {
+  const handleSelectLevel = (levelId: string) => {
     navigate({
       to: "/education",
       search: { niveau: levelId },
@@ -603,19 +114,19 @@ export function EducationPage() {
 
   // Filtrage des matières si recherche
   const filteredSubjects = activeLevel
-    ? activeLevel.defaultSubjects.filter((s) => {
+    ? activeLevel.matieres.filter((s) => {
         if (!searchQuery.trim()) return true;
         const q = searchQuery.toLowerCase();
         return (
           s.matiere.toLowerCase().includes(q) ||
-          s.description.toLowerCase().includes(q) ||
+          (s.description ?? "").toLowerCase().includes(q) ||
           s.chapitres.some((c) => c.toLowerCase().includes(q))
         );
       })
     : [];
 
   const totalChapters = activeLevel
-    ? activeLevel.defaultSubjects.reduce((acc, sub) => acc + sub.chapitres.length, 0)
+    ? activeLevel.matieres.reduce((acc, sub) => acc + sub.chapitres.length, 0)
     : 0;
 
   return (
@@ -647,6 +158,12 @@ export function EducationPage() {
               className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-400"
             >
               <span>📚</span> Éducation
+            </Link>
+            <Link
+              to="/mandal-sup"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-sky-400 transition-colors"
+            >
+              <span>🎓</span> M'Andal'Sup
             </Link>
             <Link
               to="/citoyennete"
@@ -713,7 +230,7 @@ export function EducationPage() {
                     Éducation
                   </Link>
                   <span>/</span>
-                  <span className="font-bold text-emerald-400">{activeLevel.name}</span>
+                  <span className="font-bold text-emerald-400">{activeLevel.nom}</span>
                 </div>
               </div>
 
@@ -737,7 +254,9 @@ export function EducationPage() {
                   >
                     {activeLevel.type === "concours"
                       ? "🏆 Concours d'Entrée"
-                      : "🎓 Niveau Scolaire"}
+                      : activeLevel.type === "technique"
+                        ? "🛠️ Enseignement technique"
+                        : "🎓 Enseignement général"}
                   </span>
                   {activeLevel.badge && (
                     <span className="rounded-full bg-slate-800 border border-slate-700 px-3 py-1 text-xs font-medium text-slate-300">
@@ -747,11 +266,17 @@ export function EducationPage() {
                 </div>
 
                 <h1 className="mt-4 font-display text-3xl font-black text-white sm:text-4xl lg:text-5xl tracking-tight">
-                  {activeLevel.name}
+                  {activeLevel.nom}
                 </h1>
                 <p className="mt-3 text-lg font-medium text-emerald-300 sm:text-xl">
-                  {activeLevel.subtitle}
+                  {activeLevel.sousTitre}
                 </p>
+                {activeLevel.specialites ? (
+                  <p className="mt-3 max-w-3xl text-sm text-slate-300">
+                    <span className="font-semibold text-white">Spécialités : </span>
+                    {activeLevel.specialites.join(" · ")}
+                  </p>
+                ) : null}
                 <p className="mt-3 max-w-3xl text-sm text-slate-300 leading-relaxed">
                   Accédez à tous les programmes officiels, chapitres pas à pas, fiches mémo de
                   formules, quiz d'auto-évaluation et exercices corrigés enregistrés pour ce niveau.
@@ -762,7 +287,7 @@ export function EducationPage() {
                   <div className="flex items-center gap-2 rounded-xl bg-slate-900/80 px-4 py-2 border border-slate-800">
                     <BookOpen className="size-4 text-emerald-400" />
                     <span className="text-xs font-bold text-white">
-                      {activeLevel.defaultSubjects.length} Matières complètes
+                      {activeLevel.matieres.length} Matières complètes
                     </span>
                   </div>
                   <div className="flex items-center gap-2 rounded-xl bg-slate-900/80 px-4 py-2 border border-slate-800">
@@ -810,7 +335,7 @@ export function EducationPage() {
                       asChild
                       className="rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 font-bold text-white hover:from-emerald-500 hover:to-teal-500 shadow-md shadow-emerald-950 cursor-pointer"
                     >
-                      <Link to="/inscription" search={{ level: activeLevel.id }}>
+                      <Link to="/inscription" search={{ level: activeLevel.niveauInscription }}>
                         Créer mon compte (Gratuit)
                       </Link>
                     </Button>
@@ -823,7 +348,7 @@ export function EducationPage() {
                 <div>
                   <h2 className="font-display text-2xl font-bold text-white flex items-center gap-2">
                     <BookOpen className="size-6 text-emerald-400" />
-                    Tous les cours &amp; Matières de {activeLevel.name}
+                    Tous les cours &amp; Matières de {activeLevel.nom}
                   </h2>
                   <p className="text-xs text-slate-400 mt-1">
                     Cliquez sur un chapitre pour ouvrir la leçon (nécessite un compte).
@@ -857,16 +382,27 @@ export function EducationPage() {
                           </h3>
                         </div>
                         <span className="shrink-0 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2.5 py-1 text-[11px] font-bold text-emerald-300">
-                          {sub.chapitres.length} chapitres
+                          {sub.chapitres.length
+                            ? `${sub.chapitres.length} chapitres`
+                            : "Chapitres à venir"}
                         </span>
                       </div>
 
-                      <p className="mt-3 text-xs leading-relaxed text-slate-300">
-                        {sub.description}
-                      </p>
+                      {sub.description ? (
+                        <p className="mt-3 text-xs leading-relaxed text-slate-300">
+                          {sub.description}
+                        </p>
+                      ) : null}
+
+                      {sub.chapitres.length === 0 ? (
+                        <p className="mt-6 rounded-xl border border-dashed border-slate-700 px-4 py-3 text-xs text-slate-400">
+                          Le programme détaillé de cette matière est en cours de rédaction. Ouvre le
+                          cours depuis ton espace pour suivre les leçons déjà publiées.
+                        </p>
+                      ) : null}
 
                       {/* Liste exhaustive des chapitres */}
-                      <div className="mt-6 space-y-2">
+                      <div className={cn("mt-6 space-y-2", sub.chapitres.length === 0 && "hidden")}>
                         <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-400">
                           <span>Programme détaillé par chapitre :</span>
                           <span className="text-emerald-400 font-semibold">
@@ -880,7 +416,10 @@ export function EducationPage() {
                               key={cIdx}
                               type="button"
                               onClick={() =>
-                                handleOpenCourse(`${sub.matiere} — ${chap}`, activeLevel.id)
+                                handleOpenCourse(
+                                  `${sub.matiere} — ${chap}`,
+                                  activeLevel.niveauInscription,
+                                )
                               }
                               className="w-full flex items-center justify-between gap-2.5 rounded-xl border border-slate-800/80 bg-slate-950/70 px-3.5 py-2.5 text-left text-xs text-slate-300 transition hover:border-emerald-500/50 hover:bg-slate-950 hover:text-white cursor-pointer group"
                             >
@@ -907,7 +446,10 @@ export function EducationPage() {
                       </div>
                       <Button
                         onClick={() =>
-                          handleOpenCourse(`Programme complet ${sub.matiere}`, activeLevel.id)
+                          handleOpenCourse(
+                            `Programme complet ${sub.matiere}`,
+                            activeLevel.niveauInscription,
+                          )
                         }
                         className="bg-emerald-600 font-bold text-white hover:bg-emerald-500 shadow-md cursor-pointer"
                         size="sm"
@@ -926,15 +468,15 @@ export function EducationPage() {
                   <Binary className="size-4" /> Outils Pédagogiques inclus
                 </div>
                 <h3 className="mt-2 font-display text-xl sm:text-2xl font-bold text-white">
-                  Tout le matériel d'apprentissage pour réussir {activeLevel.name}
+                  Tout le matériel d'apprentissage pour réussir {activeLevel.nom}
                 </h3>
 
                 <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                   <div
                     onClick={() =>
                       handleOpenCourse(
-                        `Fiches de synthèse Maths & Physique (${activeLevel.name})`,
-                        activeLevel.id,
+                        `Fiches de synthèse Maths & Physique (${activeLevel.nom})`,
+                        activeLevel.niveauInscription,
                       )
                     }
                     className="p-5 rounded-2xl border border-slate-800 bg-slate-950 hover:border-emerald-500/50 cursor-pointer transition"
@@ -949,8 +491,8 @@ export function EducationPage() {
                   <div
                     onClick={() =>
                       handleOpenCourse(
-                        `Quiz & Épreuves interactives (${activeLevel.name})`,
-                        activeLevel.id,
+                        `Quiz & Épreuves interactives (${activeLevel.nom})`,
+                        activeLevel.niveauInscription,
                       )
                     }
                     className="p-5 rounded-2xl border border-slate-800 bg-slate-950 hover:border-blue-500/50 cursor-pointer transition"
@@ -967,8 +509,8 @@ export function EducationPage() {
                   <div
                     onClick={() =>
                       handleOpenCourse(
-                        `Annales et Corrigés officiels (${activeLevel.name})`,
-                        activeLevel.id,
+                        `Annales et Corrigés officiels (${activeLevel.nom})`,
+                        activeLevel.niveauInscription,
                       )
                     }
                     className="p-5 rounded-2xl border border-slate-800 bg-slate-950 hover:border-amber-500/50 cursor-pointer transition"
@@ -983,8 +525,8 @@ export function EducationPage() {
                   <div
                     onClick={() =>
                       handleOpenCourse(
-                        `Laboratoire GeoGebra & Simulations (${activeLevel.name})`,
-                        activeLevel.id,
+                        `Laboratoire GeoGebra & Simulations (${activeLevel.nom})`,
+                        activeLevel.niveauInscription,
                       )
                     }
                     className="p-5 rounded-2xl border border-slate-800 bg-slate-950 hover:border-teal-500/50 cursor-pointer transition"
@@ -1001,7 +543,7 @@ export function EducationPage() {
               {/* BANNIÈRE D'APPEL À L'ACTION FINALE */}
               <div className="rounded-3xl border border-emerald-500/30 bg-gradient-to-r from-emerald-950/80 via-slate-900 to-slate-950 p-8 sm:p-12 text-center shadow-2xl">
                 <h3 className="font-display text-2xl sm:text-3xl font-bold text-white">
-                  Prêt à commencer vos cours de {activeLevel.name} ?
+                  Prêt à commencer vos cours de {activeLevel.nom} ?
                 </h3>
                 <p className="mt-2 max-w-2xl mx-auto text-sm text-slate-300">
                   Rejoignez la communauté M'ANDAL gratuitement et accédez à tous vos cours,
@@ -1013,7 +555,7 @@ export function EducationPage() {
                     size="lg"
                     className="rounded-full bg-emerald-600 px-8 font-bold text-white hover:bg-emerald-500 shadow-xl shadow-emerald-950"
                   >
-                    <Link to="/inscription" search={{ level: activeLevel.id }}>
+                    <Link to="/inscription" search={{ level: activeLevel.niveauInscription }}>
                       Créer mon compte gratuit
                     </Link>
                   </Button>
@@ -1057,80 +599,97 @@ export function EducationPage() {
                 </p>
               </div>
 
-              {/* SECTION : SÉLECTIONNEZ VOTRE NIVEAU (OUVRE LA PAGE DÉDIÉE) */}
-              <div>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-800 pb-4">
-                  <div>
-                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
-                      Étape 1 : Choisissez votre niveau ou concours
-                    </span>
-                    <h2 className="font-display text-2xl sm:text-3xl font-bold text-white mt-1">
-                      Cliquez sur une option pour ouvrir tous ses cours
-                    </h2>
-                  </div>
-                  <span className="text-xs font-medium text-slate-400">
-                    Connecté à la base de données{" "}
-                    <span className="font-bold text-emerald-400">Supabase M'Andal</span>
-                  </span>
+              {/* NAVIGATION ENTRE LES RUBRIQUES */}
+              <nav className="flex flex-wrap gap-2" aria-label="Rubriques de l'éducation">
+                {[
+                  ["#general", "A. Enseignement général"],
+                  ["#technique", "B. Enseignement technique"],
+                  ["#sujets", "Anciens sujets d'examens"],
+                  ["#concours", "Concours des grandes écoles"],
+                ].map(([href, libelle]) => (
+                  <a
+                    key={href}
+                    href={href}
+                    className="rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-xs font-bold text-slate-200 transition hover:border-emerald-500 hover:text-emerald-300"
+                  >
+                    {libelle}
+                  </a>
+                ))}
+                <Link
+                  to="/mandal-sup"
+                  className="rounded-full border border-sky-500/50 bg-sky-500/10 px-4 py-2 text-xs font-bold text-sky-300 transition hover:bg-sky-500/20"
+                >
+                  🎓 M'Andal'Sup : universités et grandes écoles
+                </Link>
+              </nav>
+
+              {/* A. ENSEIGNEMENT GÉNÉRAL */}
+              <section id="general" className="scroll-mt-24 space-y-8">
+                <EnTeteRubrique
+                  surtitre="A. Enseignement général"
+                  titre="Choisis ta classe pour voir ses matières"
+                />
+                {ENSEIGNEMENT_GENERAL.map((section) => (
+                  <GrilleParcours
+                    key={section.titre}
+                    section={section}
+                    onOuvrir={handleSelectLevel}
+                  />
+                ))}
+              </section>
+
+              {/* B. ENSEIGNEMENT TECHNIQUE */}
+              <section id="technique" className="scroll-mt-24 space-y-8">
+                <EnTeteRubrique
+                  surtitre="B. Enseignement technique"
+                  titre="Choisis ta filière pour voir ses spécialités et ses matières"
+                />
+                <h3 className="font-display text-xl font-bold text-white">
+                  B1 — Enseignement technique industriel
+                </h3>
+                {TECHNIQUE_INDUSTRIEL.map((section) => (
+                  <GrilleParcours
+                    key={`ind-${section.titre}`}
+                    section={section}
+                    onOuvrir={handleSelectLevel}
+                  />
+                ))}
+                <h3 className="font-display text-xl font-bold text-white">
+                  B2 — Enseignement technique commercial
+                </h3>
+                {TECHNIQUE_COMMERCIAL.map((section) => (
+                  <GrilleParcours
+                    key={`com-${section.titre}`}
+                    section={section}
+                    onOuvrir={handleSelectLevel}
+                  />
+                ))}
+              </section>
+
+              {/* ANCIENS SUJETS D'EXAMENS NATIONAUX */}
+              <section id="sujets" className="scroll-mt-24 space-y-6">
+                <EnTeteRubrique
+                  surtitre={`Anciens sujets d'examens nationaux (${ANNEES_SUJETS[ANNEES_SUJETS.length - 1]} à ${ANNEES_SUJETS[0]})`}
+                  titre="Clique sur une année pour ouvrir les épreuves dans la banque"
+                />
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <BlocExamens titre="Enseignement général" examens={EXAMENS_GENERAL} />
+                  <BlocExamens titre="Enseignement technique" examens={EXAMENS_TECHNIQUE} />
                 </div>
+              </section>
 
-                {/* Grille des 8 Options Cliquables */}
-                <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                  {LEVEL_OPTIONS.map((opt) => {
-                    const isConcours = opt.type === "concours";
-                    const count = opt.defaultSubjects.length;
-                    const chapCount = opt.defaultSubjects.reduce(
-                      (a, b) => a + b.chapitres.length,
-                      0,
-                    );
-
-                    return (
-                      <div
-                        key={opt.id}
-                        onClick={() => handleSelectLevel(opt.id)}
-                        className={cn(
-                          "group relative flex flex-col justify-between rounded-3xl border p-6 text-left transition-all duration-300 cursor-pointer hover:-translate-y-1 shadow-lg",
-                          isConcours
-                            ? "border-amber-500/30 bg-gradient-to-b from-slate-900 to-amber-950/20 hover:border-amber-400 hover:shadow-amber-950/40"
-                            : "border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 hover:border-emerald-400 hover:shadow-emerald-950/40",
-                        )}
-                      >
-                        <div>
-                          <div className="flex items-center justify-between">
-                            <span
-                              className={cn(
-                                "text-xs font-bold uppercase px-2.5 py-0.5 rounded-full",
-                                isConcours
-                                  ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
-                                  : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40",
-                              )}
-                            >
-                              {isConcours ? "🏆 Concours" : "🎓 Scolaire"}
-                            </span>
-                            <span className="text-xs text-slate-400 font-semibold">
-                              {chapCount} chapitres
-                            </span>
-                          </div>
-
-                          <h3 className="mt-4 font-display text-lg font-bold text-white group-hover:text-emerald-300 transition-colors">
-                            {opt.name}
-                          </h3>
-                          <p className="mt-2 text-xs text-slate-400 leading-relaxed">
-                            {opt.subtitle}
-                          </p>
-                        </div>
-
-                        <div className="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-bold text-emerald-400">
-                          <span>Voir les {count} matières</span>
-                          <span className="flex size-7 items-center justify-center rounded-full bg-emerald-500/15 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-colors">
-                            <ArrowRight className="size-4" />
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
+              {/* CONCOURS DES GRANDES ÉCOLES */}
+              <section id="concours" className="scroll-mt-24 space-y-6">
+                <EnTeteRubrique
+                  surtitre="Anciennes épreuves des concours des grandes écoles"
+                  titre="Polytechniques, médecine, grandes écoles et IUT"
+                />
+                <div className="grid gap-4 md:grid-cols-2">
+                  {CONCOURS.map((c) => (
+                    <CarteConcours key={c.sigle} concours={c} onPreparer={handleSelectLevel} />
+                  ))}
                 </div>
-              </div>
+              </section>
 
               {/* OUTILS PÉDAGOGIQUES & CONTENUS DE COURS (MATHS & PHYSIQUE) */}
               <div className="mt-16 rounded-3xl border border-slate-800 bg-slate-900/90 p-8 sm:p-12 shadow-2xl">
@@ -1362,6 +921,165 @@ export function EducationPage() {
           )}
         </div>
       </main>
+    </div>
+  );
+}
+
+function EnTeteRubrique({ surtitre, titre }: { surtitre: string; titre: string }) {
+  return (
+    <div className="border-b border-slate-800 pb-4">
+      <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
+        {surtitre}
+      </span>
+      <h2 className="mt-1 font-display text-2xl font-bold text-white sm:text-3xl">{titre}</h2>
+    </div>
+  );
+}
+
+function GrilleParcours({
+  section,
+  onOuvrir,
+}: {
+  section: Section;
+  onOuvrir: (id: string) => void;
+}) {
+  return (
+    <div>
+      <p className="mb-3 text-sm font-bold text-slate-200">
+        {section.titre}
+        {section.sousTitre ? (
+          <span className="font-normal text-slate-400"> — {section.sousTitre}</span>
+        ) : null}
+      </p>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {section.parcours.map((p) => {
+          const chapitres = p.matieres.reduce((n, m) => n + m.chapitres.length, 0);
+          return (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => onOuvrir(p.id)}
+              className="group flex flex-col justify-between rounded-3xl border border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 p-5 text-left shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-emerald-400"
+            >
+              <div>
+                <h3 className="font-display text-lg font-bold text-white transition-colors group-hover:text-emerald-300">
+                  {p.nom}
+                </h3>
+                <p className="mt-1 text-xs text-slate-400">{p.sousTitre}</p>
+                {p.specialites ? (
+                  <p className="mt-2 line-clamp-2 text-[11px] text-slate-500">
+                    {p.specialites.join(" · ")}
+                  </p>
+                ) : null}
+              </div>
+              <div className="mt-4 flex items-center justify-between border-t border-slate-800/80 pt-3 text-xs font-bold text-emerald-400">
+                <span>
+                  {p.matieres.length} matière{p.matieres.length > 1 ? "s" : ""}
+                  {chapitres ? ` · ${chapitres} chapitres` : ""}
+                </span>
+                <ArrowRight className="size-4" />
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function AnneesSujets({ lien }: { lien: LienSujets }) {
+  return (
+    <div className="flex flex-wrap gap-1.5">
+      {ANNEES_SUJETS.map((annee) => (
+        <Link
+          key={annee}
+          to="/banque-epreuves"
+          search={{ type: lien.type, ...(lien.q ? { q: lien.q } : {}), annee }}
+          className="rounded-lg border border-slate-700 bg-slate-950 px-2.5 py-1 text-xs font-semibold text-slate-200 transition hover:border-emerald-500 hover:text-emerald-300"
+        >
+          {annee}
+        </Link>
+      ))}
+    </div>
+  );
+}
+
+function BlocExamens({
+  titre,
+  examens,
+}: {
+  titre: string;
+  examens: { examen: string; liens: LienSujets[] }[];
+}) {
+  return (
+    <div className="space-y-5 rounded-3xl border border-slate-800 bg-slate-900/90 p-6">
+      <h3 className="font-display text-lg font-bold text-white">{titre}</h3>
+      {examens.map((e) => (
+        <div key={e.examen} className="space-y-3">
+          <p className="text-sm font-bold uppercase tracking-wide text-amber-300">{e.examen}</p>
+          {e.liens.map((lien) => (
+            <div key={lien.libelle} className="space-y-1.5">
+              {e.liens.length > 1 ? (
+                <p className="text-xs font-semibold text-slate-300">{lien.libelle}</p>
+              ) : null}
+              <AnneesSujets lien={lien} />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CarteConcours({
+  concours,
+  onPreparer,
+}: {
+  concours: Concours;
+  onPreparer: (id: string) => void;
+}) {
+  return (
+    <div className="space-y-4 rounded-3xl border border-amber-500/30 bg-gradient-to-b from-slate-900 to-amber-950/20 p-6">
+      <div>
+        <span className="rounded-full border border-amber-500/40 bg-amber-500/15 px-2.5 py-0.5 text-[11px] font-bold uppercase text-amber-300">
+          {concours.categorie}
+        </span>
+        <h3 className="mt-3 font-display text-xl font-black text-white">{concours.sigle}</h3>
+        <p className="mt-1 text-xs text-slate-300">{concours.nom}</p>
+      </div>
+      {concours.filieres ? (
+        <div className="space-y-2">
+          {concours.filieres.map((f) => (
+            <details
+              key={f.mention}
+              className="rounded-xl border border-slate-800 bg-slate-950/70 px-3 py-2"
+            >
+              <summary className="cursor-pointer text-xs font-bold text-slate-200">
+                {f.mention}
+              </summary>
+              <ul className="mt-2 space-y-1 text-xs text-slate-400">
+                {f.liste.map((l) => (
+                  <li key={l}>• {l}</li>
+                ))}
+              </ul>
+            </details>
+          ))}
+        </div>
+      ) : null}
+      <div className="space-y-1.5">
+        <p className="text-xs font-semibold text-slate-400">Anciennes épreuves :</p>
+        <AnneesSujets lien={{ libelle: concours.sigle, type: "Concours", q: concours.q }} />
+      </div>
+      {concours.preparation ? (
+        <Button
+          type="button"
+          size="sm"
+          onClick={() => onPreparer(concours.preparation!)}
+          className="rounded-xl bg-amber-500 font-bold text-slate-950 hover:bg-amber-400"
+        >
+          Préparer ce concours <ArrowRight className="ml-1.5 size-3.5" />
+        </Button>
+      ) : null}
     </div>
   );
 }

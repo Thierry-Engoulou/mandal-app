@@ -57,6 +57,7 @@ const navLinks = [
   { to: "/", label: "Accueil", icon: "🏠" },
   { to: "/education", label: "Éducation", icon: "📚" },
   { to: "/banque-epreuves", label: "Épreuves", icon: "📝" },
+  { to: "/mandal-sup", label: "M'Andal'Sup", icon: "🎓" },
   { to: "/citoyennete", label: "Citoyenneté", icon: "⚖️" },
   { to: "/culture", label: "Culture", icon: "🌍" },
   { to: "/a-propos", label: "À propos", icon: "✨" },

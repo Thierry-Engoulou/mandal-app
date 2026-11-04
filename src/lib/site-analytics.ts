@@ -125,6 +125,7 @@ export function libellePage(page: string): string {
     "/culture": "Culture",
     "/a-propos": "À propos",
     "/banque-epreuves": "Banque d'épreuves (publique)",
+    "/mandal-sup": "M'Andal'Sup",
     "/inscription": "Inscription",
     "/auth": "Connexion",
     "/courses": "Catalogue des cours",

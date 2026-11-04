@@ -23,6 +23,7 @@ import { Route as CultureRouteImport } from './routes/culture'
 import { Route as DemandeInscriptionRouteImport } from './routes/demande-inscription'
 import { Route as EducationRouteImport } from './routes/education'
 import { Route as InscriptionRouteImport } from './routes/inscription'
+import { Route as MandalSupRouteImport } from './routes/mandal-sup'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
 import { Route as AuthenticatedDashboardEnseignantRouteImport } from './routes/_authenticated.dashboard-enseignant'
@@ -154,6 +155,11 @@ const EducationRoute = EducationRouteImport.update({
 const InscriptionRoute = InscriptionRouteImport.update({
   id: '/inscription',
   path: '/inscription',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MandalSupRoute = MandalSupRouteImport.update({
+  id: '/mandal-sup',
+  path: '/mandal-sup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
@@ -539,6 +545,7 @@ export interface FileRoutesByFullPath {
   '/demande-inscription': typeof DemandeInscriptionRoute
   '/education': typeof EducationRoute
   '/inscription': typeof InscriptionRoute
+  '/mandal-sup': typeof MandalSupRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/dashboard-enseignant': typeof AuthenticatedDashboardEnseignantRoute
@@ -615,6 +622,7 @@ export interface FileRoutesByTo {
   '/demande-inscription': typeof DemandeInscriptionRoute
   '/education': typeof EducationRoute
   '/inscription': typeof InscriptionRoute
+  '/mandal-sup': typeof MandalSupRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/dashboard-enseignant': typeof AuthenticatedDashboardEnseignantRoute
   '/dashboard-etudiant': typeof AuthenticatedDashboardEtudiantRoute
@@ -690,6 +698,7 @@ export interface FileRoutesById {
   '/demande-inscription': typeof DemandeInscriptionRoute
   '/education': typeof EducationRoute
   '/inscription': typeof InscriptionRoute
+  '/mandal-sup': typeof MandalSupRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard-enseignant': typeof AuthenticatedDashboardEnseignantRoute
@@ -770,6 +779,7 @@ export interface FileRouteTypes {
     | '/demande-inscription'
     | '/education'
     | '/inscription'
+    | '/mandal-sup'
     | '/mentions-legales'
     | '/admin'
     | '/dashboard-enseignant'
@@ -846,6 +856,7 @@ export interface FileRouteTypes {
     | '/demande-inscription'
     | '/education'
     | '/inscription'
+    | '/mandal-sup'
     | '/mentions-legales'
     | '/dashboard-enseignant'
     | '/dashboard-etudiant'
@@ -920,6 +931,7 @@ export interface FileRouteTypes {
     | '/demande-inscription'
     | '/education'
     | '/inscription'
+    | '/mandal-sup'
     | '/mentions-legales'
     | '/_authenticated/admin'
     | '/_authenticated/dashboard-enseignant'
@@ -1000,6 +1012,7 @@ export interface RootRouteChildren {
   DemandeInscriptionRoute: typeof DemandeInscriptionRoute
   EducationRoute: typeof EducationRoute
   InscriptionRoute: typeof InscriptionRoute
+  MandalSupRoute: typeof MandalSupRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
 }
 
@@ -1101,6 +1114,13 @@ declare module '@tanstack/react-router' {
       path: '/inscription'
       fullPath: '/inscription'
       preLoaderRoute: typeof InscriptionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mandal-sup': {
+      id: '/mandal-sup'
+      path: '/mandal-sup'
+      fullPath: '/mandal-sup'
+      preLoaderRoute: typeof MandalSupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mentions-legales': {
@@ -1792,6 +1812,7 @@ const rootRouteChildren: RootRouteChildren = {
   DemandeInscriptionRoute: DemandeInscriptionRoute,
   EducationRoute: EducationRoute,
   InscriptionRoute: InscriptionRoute,
+  MandalSupRoute: MandalSupRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
 }
 export const routeTree = rootRouteImport
