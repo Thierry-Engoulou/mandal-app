@@ -148,13 +148,22 @@ const COLLECTIFS: ReadonlyArray<Question> = [
     enonce: "« Une foule de curieux … devant le portail. » Quel accord ?",
     options: [
       {
-        texte: "Les deux se défendent : « se pressait » voit l'ensemble comme un bloc, « se pressaient » voit les individus.",
+        texte:
+          "Les deux se défendent : « se pressait » voit l'ensemble comme un bloc, « se pressaient » voit les individus.",
         bonne: true,
         retour:
           "C'est le sens que tu veux donner qui décide. Au BEPC on ne te piégera pas là-dessus, justement parce que les deux passent.",
       },
-      { texte: "Seulement le singulier", bonne: false, retour: "Le pluriel est correct si l'on voit les individus pousser chacun de son côté." },
-      { texte: "Seulement le pluriel", bonne: false, retour: "Le singulier est correct si l'on voit la masse compacte." },
+      {
+        texte: "Seulement le singulier",
+        bonne: false,
+        retour: "Le pluriel est correct si l'on voit les individus pousser chacun de son côté.",
+      },
+      {
+        texte: "Seulement le pluriel",
+        bonne: false,
+        retour: "Le singulier est correct si l'on voit la masse compacte.",
+      },
     ],
   },
   {
@@ -216,7 +225,8 @@ const COLLECTIFS: ReadonlyArray<Question> = [
     enonce: "« C'est un des élèves qui … réussi. »",
     options: [
       {
-        texte: "ont — l'antécédent est « élèves » : ce sont les élèves qui ont réussi, et il est l'un d'eux",
+        texte:
+          "ont — l'antécédent est « élèves » : ce sont les élèves qui ont réussi, et il est l'un d'eux",
         bonne: true,
         retour:
           "Le piège de « un des… qui ». Demande-toi qui a réellement fait l'action : pas un seul élève, mais ceux qui ont réussi.",
@@ -264,7 +274,11 @@ const COLLECTIFS: ReadonlyArray<Question> = [
         retour:
           "Comme « la plupart de ». Ces expressions de quantité imposent le pluriel, quelle que soit leur apparence.",
       },
-      { texte: "a", bonne: false, retour: "« Beaucoup de » veut le pluriel. C'est une exception à retenir." },
+      {
+        texte: "a",
+        bonne: false,
+        retour: "« Beaucoup de » veut le pluriel. C'est une exception à retenir.",
+      },
     ],
   },
 ];
@@ -277,8 +291,8 @@ export function AccordCollectif() {
       conclusion={
         <>
           Pour les <strong>collectifs</strong>, les deux accords se défendent en général — sauf avec
-          l'article défini, qui impose le singulier, et sauf « la plupart de », « beaucoup de », « un
-          grand nombre de », « peu de », qui imposent le pluriel. Pour le pronom relatif{" "}
+          l'article défini, qui impose le singulier, et sauf « la plupart de », « beaucoup de », «
+          un grand nombre de », « peu de », qui imposent le pluriel. Pour le pronom relatif{" "}
           <strong>qui</strong>, une seule règle : il prend la personne et le nombre de son
           antécédent. Cherche l'antécédent, et conjugue comme si tu l'avais pour sujet.
         </>
@@ -369,7 +383,10 @@ const CHASSES: ReadonlyArray<Releve> = [
       },
       { mot: "les" },
       { mot: "places," },
-      { mot: "dit", pourquoi: "Correct : incise, le sujet inversé « un vieil homme » est singulier." },
+      {
+        mot: "dit",
+        pourquoi: "Correct : incise, le sujet inversé « un vieil homme » est singulier.",
+      },
       { mot: "un" },
       { mot: "vieil" },
       { mot: "homme." },
@@ -462,7 +479,8 @@ const VERBES: ReadonlyArray<VerbeFiche> = [
     infinitif: "chanter",
     auxiliaire: "avoir",
     participe: "chanté",
-    pourquoi: "Verbe ordinaire du 1er groupe : auxiliaire AVOIR, et le participe ne s'accorde pas avec le sujet.",
+    pourquoi:
+      "Verbe ordinaire du 1er groupe : auxiliaire AVOIR, et le participe ne s'accorde pas avec le sujet.",
     composes: {
       present: "j'ai chanté",
       imparfait: "j'avais chanté",
@@ -541,7 +559,12 @@ const VERBES: ReadonlyArray<VerbeFiche> = [
 const TEMPS_SIMPLES = [
   { cle: "present", label: "Présent", compose: "Passé composé", aux: "au présent" },
   { cle: "imparfait", label: "Imparfait", compose: "Plus-que-parfait", aux: "à l'imparfait" },
-  { cle: "passe-simple", label: "Passé simple", compose: "Passé antérieur", aux: "au passé simple" },
+  {
+    cle: "passe-simple",
+    label: "Passé simple",
+    compose: "Passé antérieur",
+    aux: "au passé simple",
+  },
   { cle: "futur", label: "Futur simple", compose: "Futur antérieur", aux: "au futur" },
 ] as const;
 
@@ -649,10 +672,12 @@ export function TempsIndicatif() {
             <div className="rounded-lg bg-secondary/40 px-2.5 py-2">
               <p className="text-[11px] text-muted-foreground">
                 Pièce 2 — l'auxiliaire se met <strong>{t.aux}</strong>, comme le temps simple de
-                départ. Pièce 3 — on ajoute le participe passé{" "}
-                <strong>{v.participe}</strong>.
+                départ. Pièce 3 — on ajoute le participe passé <strong>{v.participe}</strong>.
               </p>
-              <p className="mt-1.5 font-mono text-sm font-semibold" style={{ color: PALETTE.green }}>
+              <p
+                className="mt-1.5 font-mono text-sm font-semibold"
+                style={{ color: PALETTE.green }}
+              >
                 {forme}
               </p>
             </div>
@@ -728,7 +753,8 @@ const TABLEAUX_PS: ReadonlyArray<Conjugaison> = [
     temps: "passé simple de l'indicatif",
     groupe: "auxiliaire — à savoir par cœur",
     formes: ["eus", "eus", "eut", "eûmes", "eûtes", "eurent"],
-    piege: "Ces formes se prononcent « u », ce qui explique les fautes d'orthographe. Écris-les souvent.",
+    piege:
+      "Ces formes se prononcent « u », ce qui explique les fautes d'orthographe. Écris-les souvent.",
   },
   {
     id: "p7",
@@ -743,14 +769,7 @@ const TABLEAUX_PS: ReadonlyArray<Conjugaison> = [
     verbe: "descendre",
     temps: "passé simple de l'indicatif",
     groupe: "3e groupe — série en -i",
-    formes: [
-      "descendis",
-      "descendis",
-      "descendit",
-      "descendîmes",
-      "descendîtes",
-      "descendirent",
-    ],
+    formes: ["descendis", "descendis", "descendit", "descendîmes", "descendîtes", "descendirent"],
     piege: "Le verbe du texte d'entraînement du cours : « les voyageurs descendirent un par un ».",
   },
 ];
@@ -762,11 +781,11 @@ export function PasseSimple() {
       tableaux={TABLEAUX_PS}
       conclusion={
         <>
-          Trois séries, et c'est tout : <strong>-ai</strong> pour le 1er groupe,{" "}
-          <strong>-i</strong> pour le 2e et une partie du 3e, <strong>-u</strong> pour le reste du
-          3e. Plus <strong>venir</strong> et <strong>tenir</strong>, seuls de leur espèce. Et les
-          deux pièges de la question 4 du BEPC : le « s » qui transforme « je chantai » en « je
-          chantais », et l'accent grave de « ils chantèrent ».
+          Trois séries, et c'est tout : <strong>-ai</strong> pour le 1er groupe, <strong>-i</strong>{" "}
+          pour le 2e et une partie du 3e, <strong>-u</strong> pour le reste du 3e. Plus{" "}
+          <strong>venir</strong> et <strong>tenir</strong>, seuls de leur espèce. Et les deux pièges
+          de la question 4 du BEPC : le « s » qui transforme « je chantai » en « je chantais », et
+          l'accent grave de « ils chantèrent ».
         </>
       }
     />
@@ -918,8 +937,7 @@ export function ImparfaitPasseSimple() {
     } else {
       segments.push({
         texte: c === "imparfait" ? t.imparfait : t.passeSimple,
-        couleur:
-          c === "imparfait" ? "rgba(37,99,235,0.22)" : "rgba(234,88,12,0.22)",
+        couleur: c === "imparfait" ? "rgba(37,99,235,0.22)" : "rgba(234,88,12,0.22)",
       });
     }
   });
@@ -968,7 +986,10 @@ export function ImparfaitPasseSimple() {
           const c = choix[i];
           const bon = c === t.bon;
           return (
-            <li key={`${t.infinitif}-${i}`} className="rounded-lg border border-border bg-background p-2">
+            <li
+              key={`${t.infinitif}-${i}`}
+              className="rounded-lg border border-border bg-background p-2"
+            >
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-xs font-medium text-foreground">{t.infinitif}</span>
                 {(["imparfait", "passe"] as const).map((k) => {

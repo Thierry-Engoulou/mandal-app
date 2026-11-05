@@ -61,7 +61,8 @@ const PHRASES_TYPE: ReadonlyArray<ItemTri> = [
     id: "t8",
     texte: "Quel désordre dans cette cour",
     bonne: "exclamatif",
-    pourquoi: "« Quel » introduit l'exclamation. Elle ne demande rien et n'ordonne rien : elle s'émeut.",
+    pourquoi:
+      "« Quel » introduit l'exclamation. Elle ne demande rien et n'ordonne rien : elle s'émeut.",
   },
   {
     id: "t9",
@@ -154,10 +155,7 @@ const TRANSFOS: ReadonlyArray<Transformation> = [
     id: "f3",
     consigne: "Mets cette phrase à la forme passive, sans changer le temps.",
     depart: "Les élèves nettoient la cour.",
-    attendues: [
-      "La cour est nettoyée par les élèves",
-      "la cour est nettoyée par les élèves.",
-    ],
+    attendues: ["La cour est nettoyée par les élèves", "la cour est nettoyée par les élèves."],
     explication:
       "Trois gestes : le complément d'objet direct devient sujet, le verbe prend l'auxiliaire être AU MÊME TEMPS, et l'ancien sujet devient complément d'agent avec « par ». « Nettoient » est au présent, donc « est nettoyée ».",
     indices: [
@@ -240,8 +238,7 @@ const TRANSFOS: ReadonlyArray<Transformation> = [
     attendues: ["impossible", "c'est impossible", "impossible : pas de cod"],
     explication:
       "Seul un verbe qui a un complément d'objet DIRECT peut se mettre au passif. « À mon frère » est un complément d'objet indirect : il n'y a rien à faire passer en position de sujet.",
-    aide:
-      "Cherche le complément d'objet direct de « penser ». Il n'y en a pas : « à mon frère » est indirect, à cause de la préposition « à ».",
+    aide: "Cherche le complément d'objet direct de « penser ». Il n'y en a pas : « à mon frère » est indirect, à cause de la préposition « à ».",
   },
   {
     id: "f8",
@@ -253,8 +250,7 @@ const TRANSFOS: ReadonlyArray<Transformation> = [
     ],
     explication:
       "Les formes se cumulent : la phrase est maintenant déclarative, négative et emphatique en même temps. Le type, lui, n'a pas bougé.",
-    aide:
-      "Commence par l'emphase — « c'est mon frère qui a pris le car » — puis nie le présentatif : « ce n'est pas… ».",
+    aide: "Commence par l'emphase — « c'est mon frère qui a pris le car » — puis nie le présentatif : « ce n'est pas… ».",
   },
 ];
 
@@ -545,9 +541,9 @@ export function ConstituantsPhrase() {
 
       <Citation auteur="pourquoi cela rapporte">
         La question 3 de la deuxième partie du BEPC demande la nature et la fonction de mots
-        soulignés. Ces deux tests te donnent la fonction sans que tu aies à réciter quoi que ce
-        soit : supprimable et déplaçable, c'est un complément circonstanciel ; non supprimable,
-        juste après le verbe et sans préposition, c'est un complément d'objet direct.
+        soulignés. Ces deux tests te donnent la fonction sans que tu aies à réciter quoi que ce soit
+        : supprimable et déplaçable, c'est un complément circonstanciel ; non supprimable, juste
+        après le verbe et sans préposition, c'est un complément d'objet direct.
       </Citation>
     </div>
   );
@@ -567,7 +563,11 @@ const RELEVES_VERBES: ReadonlyArray<Releve> = [
     jetons: [
       { mot: "Mon" },
       { mot: "père" },
-      { mot: "répare", bon: true, pourquoi: "verbe conjugué au présent, 3e personne du singulier." },
+      {
+        mot: "répare",
+        bon: true,
+        pourquoi: "verbe conjugué au présent, 3e personne du singulier.",
+      },
       { mot: "la" },
       { mot: "moto" },
       { mot: "dans" },
@@ -609,7 +609,8 @@ const RELEVES_VERBES: ReadonlyArray<Releve> = [
       { mot: "de" },
       {
         mot: "réparer",
-        pourquoi: "C'est un INFINITIF. Il ne compte pas : il n'a pas de sujet et ne se conjugue pas.",
+        pourquoi:
+          "C'est un INFINITIF. Il ne compte pas : il n'a pas de sujet et ne se conjugue pas.",
       },
       { mot: "la" },
       { mot: "moto" },
@@ -699,10 +700,10 @@ export function CompterPropositions() {
       releves={RELEVES_VERBES}
       conclusion={
         <>
-          La règle ne souffre aucune exception : <strong>autant de verbes conjugués, autant de
-          propositions</strong>. Un infinitif ou un participe ne compte pas, parce qu'il n'a pas de
-          sujet et ne se met pas à un temps. Prends l'habitude de te demander, pour chaque verbe :
-          celui-là, il est conjugué ?
+          La règle ne souffre aucune exception :{" "}
+          <strong>autant de verbes conjugués, autant de propositions</strong>. Un infinitif ou un
+          participe ne compte pas, parce qu'il n'a pas de sujet et ne se met pas à un temps. Prends
+          l'habitude de te demander, pour chaque verbe : celui-là, il est conjugué ?
         </>
       }
     />
@@ -716,7 +717,8 @@ export function CompterPropositions() {
 const LIENS: ReadonlyArray<Question> = [
   {
     id: "j1",
-    enonce: "« Le car arrive, les voyageurs descendent. » Comment les propositions sont-elles reliées ?",
+    enonce:
+      "« Le car arrive, les voyageurs descendent. » Comment les propositions sont-elles reliées ?",
     options: [
       {
         texte: "Par juxtaposition : une simple virgule, aucun mot de liaison.",
@@ -727,7 +729,8 @@ const LIENS: ReadonlyArray<Question> = [
       {
         texte: "Par coordination",
         bonne: false,
-        retour: "La coordination suppose une conjonction ou un adverbe de liaison. Ici il n'y a qu'une virgule.",
+        retour:
+          "La coordination suppose une conjonction ou un adverbe de liaison. Ici il n'y a qu'une virgule.",
       },
       {
         texte: "Par subordination",
@@ -786,11 +789,11 @@ const LIENS: ReadonlyArray<Question> = [
   },
   {
     id: "j4",
-    enonce:
-      "Comment prouver que des propositions sont bien indépendantes ?",
+    enonce: "Comment prouver que des propositions sont bien indépendantes ?",
     options: [
       {
-        texte: "En essayant de les séparer en deux phrases : si les deux tiennent debout, elles sont indépendantes.",
+        texte:
+          "En essayant de les séparer en deux phrases : si les deux tiennent debout, elles sont indépendantes.",
         bonne: true,
         retour:
           "C'est le test clé du chapitre. « Le car arrive. Les voyageurs ne descendent pas. » Les deux phrases tiennent.",
@@ -830,8 +833,7 @@ const LIENS: ReadonlyArray<Question> = [
   },
   {
     id: "j6",
-    enonce:
-      "« Le car arrive, puis les voyageurs descendent. » Quel est le procédé ?",
+    enonce: "« Le car arrive, puis les voyageurs descendent. » Quel est le procédé ?",
     options: [
       {
         texte: "La coordination, par l'adverbe de liaison « puis ».",
@@ -864,8 +866,7 @@ export function JuxtapositionCoordination() {
           Dans une phrase composée, les propositions sont <strong>à égalité</strong>. Elles sont
           soit <strong>juxtaposées</strong> — par une virgule, un point-virgule ou deux points —
           soit <strong>coordonnées</strong> — par l'une des sept conjonctions, ou par un adverbe de
-          liaison. Le test qui tranche est toujours le même : essaie de les séparer en deux
-          phrases.
+          liaison. Le test qui tranche est toujours le même : essaie de les séparer en deux phrases.
         </>
       }
     />
@@ -888,7 +889,11 @@ const Q5: ReadonlyArray<Question> = [
         bonne: true,
         retour: "Oui. Le premier geste est toujours de compter les verbes conjugués.",
       },
-      { texte: "Une seule", bonne: false, retour: "Il y a deux verbes conjugués : « est » et « peut »." },
+      {
+        texte: "Une seule",
+        bonne: false,
+        retour: "Il y a deux verbes conjugués : « est » et « peut ».",
+      },
       {
         texte: "Trois",
         bonne: false,
@@ -924,7 +929,8 @@ const Q5: ReadonlyArray<Question> = [
     enonce: "Troisième geste : nomme la subordonnée et donne sa fonction.",
     options: [
       {
-        texte: "Subordonnée conjonctive circonstancielle de temps, complément circonstanciel de temps de « peut ».",
+        texte:
+          "Subordonnée conjonctive circonstancielle de temps, complément circonstanciel de temps de « peut ».",
         bonne: true,
         retour:
           "Le subordonnant « quand » marque le temps. Nature et fonction : il faut les deux pour les points.",
@@ -938,14 +944,14 @@ const Q5: ReadonlyArray<Question> = [
       {
         texte: "Subordonnée circonstancielle de cause",
         bonne: false,
-        retour: "« Quand » marque le temps, pas la cause. La cause serait « parce que », « puisque ».",
+        retour:
+          "« Quand » marque le temps, pas la cause. La cause serait « parce que », « puisque ».",
       },
     ],
   },
   {
     id: "b4",
-    enonce:
-      "« Le commerçant qui vend le poisson a fermé plus tôt. » Relève la principale.",
+    enonce: "« Le commerçant qui vend le poisson a fermé plus tôt. » Relève la principale.",
     options: [
       {
         texte: "« Le commerçant a fermé plus tôt »",
@@ -993,8 +999,7 @@ const Q5: ReadonlyArray<Question> = [
       {
         texte: "Phrase composée : deux indépendantes coordonnées par « car ».",
         bonne: true,
-        retour:
-          "Le test de séparation le prouve : les deux phrases tiennent debout séparément.",
+        retour: "Le test de séparation le prouve : les deux phrases tiennent debout séparément.",
       },
       {
         texte: "Phrase complexe avec une subordonnée de cause",
@@ -1006,8 +1011,7 @@ const Q5: ReadonlyArray<Question> = [
   },
   {
     id: "b7",
-    enonce:
-      "Même phrase, mais avec « parce que » à la place de « car ». Nature de la phrase ?",
+    enonce: "Même phrase, mais avec « parce que » à la place de « car ». Nature de la phrase ?",
     options: [
       {
         texte:
@@ -1026,8 +1030,7 @@ const Q5: ReadonlyArray<Question> = [
   },
   {
     id: "b8",
-    enonce:
-      "« Je sais que le car est complet. » Quelle est la nature de la subordonnée ?",
+    enonce: "« Je sais que le car est complet. » Quelle est la nature de la subordonnée ?",
     options: [
       {
         texte: "Subordonnée complétive, complément d'objet direct de « sais ».",

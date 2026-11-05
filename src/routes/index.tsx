@@ -57,6 +57,7 @@ const navLinks = [
   { to: "/", label: "Accueil", icon: "🏠" },
   { to: "/education", label: "Éducation", icon: "📚" },
   { to: "/banque-epreuves", label: "Épreuves", icon: "📝" },
+  { to: "/mandal-sup", label: "M'Andal'Sup", icon: "🎓" },
   { to: "/citoyennete", label: "Citoyenneté", icon: "⚖️" },
   { to: "/culture", label: "Culture", icon: "🌍" },
   { to: "/a-propos", label: "À propos", icon: "✨" },
@@ -337,6 +338,7 @@ function Footer() {
     { src: "/images/partenaires/fondation-mackenzie.jpeg", alt: "Fondation Mackenzie" },
     { src: "/images/partenaires/jvepi.jpeg", alt: "JVEPI" },
     { src: "/images/partenaires/jvepi-centre.jpeg", alt: "JVEPI Centre" },
+    { src: "/images/partenaires/the-okwelians.png", alt: "The Okwelians" },
   ];
 
   return (

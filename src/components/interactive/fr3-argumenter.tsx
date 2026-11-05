@@ -1290,13 +1290,7 @@ export function TrierArgumentation() {
 /* ------------------------------------------------------------------ */
 
 type Procede =
-  | "concession"
-  | "question"
-  | "analogie"
-  | "absurde"
-  | "autorite"
-  | "ironie"
-  | "exemple";
+  "concession" | "question" | "analogie" | "absurde" | "autorite" | "ironie" | "exemple";
 
 const NOM_PROCEDE: Record<Procede, string> = {
   concession: "concession",

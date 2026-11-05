@@ -182,8 +182,8 @@ export function SchemaNarratif() {
           />
         </div>
         <Citation auteur="à faire au brouillon, avant d'écrire">
-          Cinq lignes, cinq minutes, et tu ne te retrouveras pas à court de place avec un
-          dénouement expédié en « heureusement tout s'arrangea ».
+          Cinq lignes, cinq minutes, et tu ne te retrouveras pas à court de place avec un dénouement
+          expédié en « heureusement tout s'arrangea ».
         </Citation>
         <button
           type="button"
@@ -296,9 +296,21 @@ const ACTANTS: ReadonlyArray<Question> = [
     id: "a1",
     enonce: "« Ville cruelle ». Qui est le SUJET du schéma actanciel ?",
     options: [
-      { texte: "Banda", bonne: true, retour: "Celui qui veut quelque chose et qui agit. C'est en général le héros." },
-      { texte: "L'inspecteur", bonne: false, retour: "Il fait obstacle : c'est un opposant, pas le sujet." },
-      { texte: "La ville de Tanga", bonne: false, retour: "Elle n'agit pas pour obtenir quelque chose : elle résiste." },
+      {
+        texte: "Banda",
+        bonne: true,
+        retour: "Celui qui veut quelque chose et qui agit. C'est en général le héros.",
+      },
+      {
+        texte: "L'inspecteur",
+        bonne: false,
+        retour: "Il fait obstacle : c'est un opposant, pas le sujet.",
+      },
+      {
+        texte: "La ville de Tanga",
+        bonne: false,
+        retour: "Elle n'agit pas pour obtenir quelque chose : elle résiste.",
+      },
     ],
   },
   {
@@ -317,7 +329,11 @@ const ACTANTS: ReadonlyArray<Question> = [
         retour:
           "Trop vague. Si tu n'arrives pas à nommer un objet concret, ton récit n'a pas encore d'histoire.",
       },
-      { texte: "Sa mère", bonne: false, retour: "Sa mère est une destinataire, pas l'objet de la quête." },
+      {
+        texte: "Sa mère",
+        bonne: false,
+        retour: "Sa mère est une destinataire, pas l'objet de la quête.",
+      },
     ],
   },
   {
@@ -350,7 +366,11 @@ const ACTANTS: ReadonlyArray<Question> = [
         retour:
           "Le texte ne dit nulle part qu'il est méchant : il fait son travail sans regarder. C'est précisément ce qui est terrible.",
       },
-      { texte: "Il n'y a pas d'opposant", bonne: false, retour: "Sans opposant, il n'y aurait pas de roman." },
+      {
+        texte: "Il n'y a pas d'opposant",
+        bonne: false,
+        retour: "Sans opposant, il n'y aurait pas de roman.",
+      },
     ],
   },
   {
@@ -364,7 +384,11 @@ const ACTANTS: ReadonlyArray<Question> = [
         retour:
           "C'est ce qui rend le schéma utile. Si tu ne cherches que des gens, tu manques les opposants les plus intéressants.",
       },
-      { texte: "Non, il faut des personnages", bonne: false, retour: "Alors « Ville cruelle » n'aurait presque pas d'opposants." },
+      {
+        texte: "Non, il faut des personnages",
+        bonne: false,
+        retour: "Alors « Ville cruelle » n'aurait presque pas d'opposants.",
+      },
     ],
   },
   {
@@ -377,7 +401,11 @@ const ACTANTS: ReadonlyArray<Question> = [
         retour:
           "Un héros qui réussit sans difficulté n'intéresse personne. Et si tu n'arrives à nommer ni l'objet ni l'opposant, ne commence pas à écrire : remplis d'abord les six cases.",
       },
-      { texte: "Il faut le plus d'adjuvants possible", bonne: false, retour: "L'inverse : trop d'aide tue le récit." },
+      {
+        texte: "Il faut le plus d'adjuvants possible",
+        bonne: false,
+        retour: "L'inverse : trop d'aide tue le récit.",
+      },
     ],
   },
 ];
@@ -465,7 +493,11 @@ const RUPTURES: ReadonlyArray<Question> = [
         bonne: false,
         retour: "C'est une sensation d'Awa : on reste dans sa tête.",
       },
-      { texte: "« Awa poussa la porte. »", bonne: false, retour: "Un geste d'Awa, vu depuis Awa. Rien ne rompt." },
+      {
+        texte: "« Awa poussa la porte. »",
+        bonne: false,
+        retour: "Un geste d'Awa, vu depuis Awa. Rien ne rompt.",
+      },
     ],
   },
   {
@@ -473,13 +505,17 @@ const RUPTURES: ReadonlyArray<Question> = [
     enonce: "Comment éviter cette faute dans ta propre rédaction ?",
     options: [
       {
-        texte:
-          "Choisir le point de vue au brouillon, le noter, et s'y tenir jusqu'au bout.",
+        texte: "Choisir le point de vue au brouillon, le noter, et s'y tenir jusqu'au bout.",
         bonne: true,
         retour:
           "Une ligne au brouillon — « focalisation interne sur Awa » — et tu te relis en cherchant toute phrase qui dit ce qu'un autre pense.",
       },
-      { texte: "Écrire à la première personne", bonne: false, retour: "Le « je » aide, mais on peut aussi rompre avec lui — en racontant ce qu'un autre pense sans l'avoir appris." },
+      {
+        texte: "Écrire à la première personne",
+        bonne: false,
+        retour:
+          "Le « je » aide, mais on peut aussi rompre avec lui — en racontant ce qu'un autre pense sans l'avoir appris.",
+      },
     ],
   },
 ];
@@ -529,20 +565,32 @@ export function PointDeVue() {
         <Jauges
           jauges={[
             { label: "Ce que sait le LECTEUR", valeur: v.saitLecteur, couleur: PALETTE.blue },
-            { label: "Ce que savent les PERSONNAGES", valeur: v.saitPersonnage, couleur: PALETTE.orange },
+            {
+              label: "Ce que savent les PERSONNAGES",
+              valeur: v.saitPersonnage,
+              couleur: PALETTE.orange,
+            },
           ]}
         />
 
         <Verdict tone="ok">{v.effet}</Verdict>
 
         <div className="grid grid-cols-3 gap-2">
-          <Stat label="Têtes visitées" value={cle === "externe" ? "aucune" : cle === "interne" ? "une" : "plusieurs"} color={PALETTE.purple} />
+          <Stat
+            label="Têtes visitées"
+            value={cle === "externe" ? "aucune" : cle === "interne" ? "une" : "plusieurs"}
+            color={PALETTE.purple}
+          />
           <Stat
             label="Le lecteur en sait"
             value={cle === "externe" ? "moins" : cle === "interne" ? "autant" : "plus"}
             color={PALETTE.blue}
           />
-          <Stat label="Le geste de reculer" value={cle === "externe" ? "mystère" : cle === "interne" ? "délicatesse" : "erreur"} color={PALETTE.green} />
+          <Stat
+            label="Le geste de reculer"
+            value={cle === "externe" ? "mystère" : cle === "interne" ? "délicatesse" : "erreur"}
+            color={PALETTE.green}
+          />
         </div>
 
         <Citation auteur="le repère qui ne trompe pas">
@@ -613,8 +661,16 @@ const ORAL: ReadonlyArray<Question> = [
         retour:
           "« C'était un vendredi. J'étais resté pour ranger la bibliothèque avec deux camarades. Ils sont partis avant moi. » Tout est posé.",
       },
-      { texte: "Raconter la fin pour donner envie", bonne: false, retour: "Donner la fin au début supprime toute raison d'écouter." },
-      { texte: "Remercier l'auditoire", bonne: false, retour: "Les remerciements vont à la fin, s'ils vont quelque part." },
+      {
+        texte: "Raconter la fin pour donner envie",
+        bonne: false,
+        retour: "Donner la fin au début supprime toute raison d'écouter.",
+      },
+      {
+        texte: "Remercier l'auditoire",
+        bonne: false,
+        retour: "Les remerciements vont à la fin, s'ils vont quelque part.",
+      },
     ],
   },
   {
@@ -628,7 +684,11 @@ const ORAL: ReadonlyArray<Question> = [
         retour:
           "« Je vais vous raconter d'abord comment je me suis retrouvé seul, ensuite ce que j'ai fait, et enfin ce que j'en ai gardé. »",
       },
-      { texte: "Pour faire plus long", bonne: false, retour: "Un plan annoncé fait au contraire gagner du temps." },
+      {
+        texte: "Pour faire plus long",
+        bonne: false,
+        retour: "Un plan annoncé fait au contraire gagner du temps.",
+      },
     ],
   },
   {
@@ -642,7 +702,11 @@ const ORAL: ReadonlyArray<Question> = [
         retour:
           "Tout découle du fait que l'auditeur n'entend qu'une fois, alors que le lecteur peut relire.",
       },
-      { texte: "Rien ne change", bonne: false, retour: "Une phrase de cinq lignes se lit ; à l'oral, elle se perd." },
+      {
+        texte: "Rien ne change",
+        bonne: false,
+        retour: "Une phrase de cinq lignes se lit ; à l'oral, elle se perd.",
+      },
     ],
   },
   {
@@ -655,14 +719,21 @@ const ORAL: ReadonlyArray<Question> = [
         retour:
           "Comme la situation finale d'un récit écrit : ce qui a changé. Et écris-la en entier sur ta fiche, car c'est le second moment où le trac fait des dégâts.",
       },
-      { texte: "« Voilà, c'est tout, merci. »", bonne: false, retour: "L'auditoire se souviendra de cette phrase-là, et de rien d'autre." },
-      { texte: "Un résumé de ce qu'on vient de dire", bonne: false, retour: "On vient de l'entendre. Le résumé final est une perte de temps." },
+      {
+        texte: "« Voilà, c'est tout, merci. »",
+        bonne: false,
+        retour: "L'auditoire se souviendra de cette phrase-là, et de rien d'autre.",
+      },
+      {
+        texte: "Un résumé de ce qu'on vient de dire",
+        bonne: false,
+        retour: "On vient de l'entendre. Le résumé final est une perte de temps.",
+      },
     ],
   },
   {
     id: "o6",
-    enonce:
-      "Préparer un oral, est-ce l'écrire mot à mot ?",
+    enonce: "Préparer un oral, est-ce l'écrire mot à mot ?",
     options: [
       {
         texte:
@@ -671,7 +742,12 @@ const ORAL: ReadonlyArray<Question> = [
         retour:
           "Un exposé lu s'entend dès la troisième phrase, et il ennuie. Mais l'accroche et la chute écrites te donnent un départ sûr et une arrivée sûre.",
       },
-      { texte: "Oui, c'est plus prudent", bonne: false, retour: "C'est plus prudent et c'est raté : on perd le regard, l'intonation et l'auditoire." },
+      {
+        texte: "Oui, c'est plus prudent",
+        bonne: false,
+        retour:
+          "C'est plus prudent et c'est raté : on perd le regard, l'intonation et l'auditoire.",
+      },
     ],
   },
 ];
@@ -683,11 +759,11 @@ export function RaconterOral() {
       questions={ORAL}
       conclusion={
         <>
-          Quatre temps, deux minutes : une <strong>accroche</strong> qui entre dans l'histoire,
-          une <strong>situation</strong> en trois phrases, le <strong>récit</strong> guidé par des
-          mots de liaison, une <strong>chute</strong> qui dit pourquoi tu as raconté cela. Et les
-          cinq tics à faire tomber : « euh », « voilà », « en fait », le débit trop rapide, le
-          regard au sol.
+          Quatre temps, deux minutes : une <strong>accroche</strong> qui entre dans l'histoire, une{" "}
+          <strong>situation</strong> en trois phrases, le <strong>récit</strong> guidé par des mots
+          de liaison, une <strong>chute</strong> qui dit pourquoi tu as raconté cela. Et les cinq
+          tics à faire tomber : « euh », « voilà », « en fait », le débit trop rapide, le regard au
+          sol.
         </>
       }
     />
@@ -704,9 +780,11 @@ const CR: ReadonlyArray<Question> = [
     enonce: "Premier moment : la fiche technique. Que contient-elle, et en combien de temps ?",
     options: [
       {
-        texte: "Titre, réalisateur, année, pays, genre, durée — en quatre phrases, trente secondes.",
+        texte:
+          "Titre, réalisateur, année, pays, genre, durée — en quatre phrases, trente secondes.",
         bonne: true,
-        retour: "C'est l'état civil du film. Au-delà de trente secondes, tu perds l'auditoire avant d'avoir commencé.",
+        retour:
+          "C'est l'état civil du film. Au-delà de trente secondes, tu perds l'auditoire avant d'avoir commencé.",
       },
       {
         texte: "Toute l'histoire du cinéma du pays concerné",
@@ -720,13 +798,22 @@ const CR: ReadonlyArray<Question> = [
     enonce: "Deuxième moment : le sujet. Jusqu'où raconter ?",
     options: [
       {
-        texte: "Jusqu'au problème, en s'arrêtant avant le dénouement. La formule « le film raconte comment… » y oblige.",
+        texte:
+          "Jusqu'au problème, en s'arrêtant avant le dénouement. La formule « le film raconte comment… » y oblige.",
         bonne: true,
         retour:
           "Un compte rendu informe ET donne envie. Si tu racontes la fin, ton auditoire n'a plus aucune raison de voir le film.",
       },
-      { texte: "Tout, fin comprise, c'est plus clair", bonne: false, retour: "Tu viens de supprimer la raison d'écouter la suite." },
-      { texte: "Rien, pour ne rien dévoiler", bonne: false, retour: "Alors personne ne saura de quoi parle le film." },
+      {
+        texte: "Tout, fin comprise, c'est plus clair",
+        bonne: false,
+        retour: "Tu viens de supprimer la raison d'écouter la suite.",
+      },
+      {
+        texte: "Rien, pour ne rien dévoiler",
+        bonne: false,
+        retour: "Alors personne ne saura de quoi parle le film.",
+      },
     ],
   },
   {
@@ -746,13 +833,16 @@ const CR: ReadonlyArray<Question> = [
         bonne: false,
         retour: "C'est du résumé : tu racontes ce qui se passe.",
       },
-      { texte: "J'ai trouvé ce film très drôle.", bonne: false, retour: "C'est l'avis, et il viendra en cinquième position." },
+      {
+        texte: "J'ai trouvé ce film très drôle.",
+        bonne: false,
+        retour: "C'est l'avis, et il viendra en cinquième position.",
+      },
     ],
   },
   {
     id: "cr4",
-    enonce:
-      "Quatrième moment : comment le film montre. Faut-il être spécialiste ?",
+    enonce: "Quatrième moment : comment le film montre. Faut-il être spécialiste ?",
     options: [
       {
         texte:
@@ -761,7 +851,11 @@ const CR: ReadonlyArray<Question> = [
         retour:
           "« Les personnages parlent à la caméra », « le mélange du français, de l'anglais et du camfranglais » : voilà des remarques à la portée de tous, et elles se remarquent.",
       },
-      { texte: "Oui, il faut connaître la technique du cinéma", bonne: false, retour: "Quelques mots suffisent, et tu les apprendras au module 5." },
+      {
+        texte: "Oui, il faut connaître la technique du cinéma",
+        bonne: false,
+        retour: "Quelques mots suffisent, et tu les apprendras au module 5.",
+      },
     ],
   },
   {
@@ -775,8 +869,16 @@ const CR: ReadonlyArray<Question> = [
         retour:
           "Un auditoire croit un avis nuancé et se méfie d'un avis unanime. La réserve te rend crédible sur les éloges.",
       },
-      { texte: "« Tout est parfait dans ce film. »", bonne: false, retour: "Personne ne te croira, et tu n'auras rien appris à personne." },
-      { texte: "« J'ai aimé. »", bonne: false, retour: "Pas « j'ai aimé », mais « j'ai aimé PARCE QUE »." },
+      {
+        texte: "« Tout est parfait dans ce film. »",
+        bonne: false,
+        retour: "Personne ne te croira, et tu n'auras rien appris à personne.",
+      },
+      {
+        texte: "« J'ai aimé. »",
+        bonne: false,
+        retour: "Pas « j'ai aimé », mais « j'ai aimé PARCE QUE ».",
+      },
     ],
   },
   {
@@ -789,8 +891,16 @@ const CR: ReadonlyArray<Question> = [
         retour:
           "Les deux moments où l'on doit être précis, et les deux où le trac fait le plus de dégâts. Les noms propres et les dates sont les seules choses qu'on oublie vraiment.",
       },
-      { texte: "Tout le texte, pour ne rien oublier", bonne: false, retour: "Un compte rendu lu s'entend dès la troisième phrase." },
-      { texte: "Rien, il faut improviser", bonne: false, retour: "L'improvisation complète produit des « euh » et des oublis de noms." },
+      {
+        texte: "Tout le texte, pour ne rien oublier",
+        bonne: false,
+        retour: "Un compte rendu lu s'entend dès la troisième phrase.",
+      },
+      {
+        texte: "Rien, il faut improviser",
+        bonne: false,
+        retour: "L'improvisation complète produit des « euh » et des oublis de noms.",
+      },
     ],
   },
 ];
@@ -829,9 +939,7 @@ export function VoixEtCorps() {
   const audible = Math.round(Math.min(100, volume * 0.62 + articulation * 0.45));
   // compréhension : un débit trop rapide détruit tout, un débit trop lent endort
   const ecartDebit = Math.abs(debit - 42);
-  const compris = Math.round(
-    Math.min(100, Math.max(0, audible * 0.6 + 40 - ecartDebit * 0.9)),
-  );
+  const compris = Math.round(Math.min(100, Math.max(0, audible * 0.6 + 40 - ecartDebit * 0.9)));
   // attention : l'intonation et la posture la tiennent
   const bonusPosture =
     (posture["pieds"] ? 8 : 0) +
@@ -839,7 +947,10 @@ export function VoixEtCorps() {
     (posture["regard"] ? 14 : 0) +
     (posture["fiche"] ? 10 : 0);
   const attention = Math.round(
-    Math.min(100, Math.max(0, 18 + intonation * 0.42 + bonusPosture - Math.max(0, debit - 60) * 0.7)),
+    Math.min(
+      100,
+      Math.max(0, 18 + intonation * 0.42 + bonusPosture - Math.max(0, debit - 60) * 0.7),
+    ),
   );
 
   const diagnostic =
@@ -865,10 +976,46 @@ export function VoixEtCorps() {
       </p>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <Ctrl label="Volume" value={volume} min={0} max={100} step={5} onChange={setVolume} display={`${volume} %`} color={PALETTE.blue} />
-        <Ctrl label="Débit" value={debit} min={0} max={100} step={5} onChange={setDebit} display={`${debit} %`} color={PALETTE.orange} />
-        <Ctrl label="Articulation" value={articulation} min={0} max={100} step={5} onChange={setArticulation} display={`${articulation} %`} color={PALETTE.green} />
-        <Ctrl label="Intonation" value={intonation} min={0} max={100} step={5} onChange={setIntonation} display={`${intonation} %`} color={PALETTE.purple} />
+        <Ctrl
+          label="Volume"
+          value={volume}
+          min={0}
+          max={100}
+          step={5}
+          onChange={setVolume}
+          display={`${volume} %`}
+          color={PALETTE.blue}
+        />
+        <Ctrl
+          label="Débit"
+          value={debit}
+          min={0}
+          max={100}
+          step={5}
+          onChange={setDebit}
+          display={`${debit} %`}
+          color={PALETTE.orange}
+        />
+        <Ctrl
+          label="Articulation"
+          value={articulation}
+          min={0}
+          max={100}
+          step={5}
+          onChange={setArticulation}
+          display={`${articulation} %`}
+          color={PALETTE.green}
+        />
+        <Ctrl
+          label="Intonation"
+          value={intonation}
+          min={0}
+          max={100}
+          step={5}
+          onChange={setIntonation}
+          display={`${intonation} %`}
+          color={PALETTE.purple}
+        />
       </div>
 
       <Jauges

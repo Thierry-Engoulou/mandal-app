@@ -543,15 +543,7 @@ export function ProtectionElectrique() {
 /* ------------------------------------------------------------------ */
 
 type VerifId =
-  | "cable"
-  | "voyant"
-  | "post"
-  | "ecran"
-  | "ram"
-  | "disque"
-  | "antivirus"
-  | "pilote"
-  | "ventilo";
+  "cable" | "voyant" | "post" | "ecran" | "ram" | "disque" | "antivirus" | "pilote" | "ventilo";
 
 const VERIFS: ReadonlyArray<{ id: VerifId; label: string }> = [
   { id: "cable", label: "Vérifier le câble d'alimentation et la prise" },
