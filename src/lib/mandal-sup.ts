@@ -147,20 +147,20 @@ export const UNIVERSITES: Universite[] = [
       {
         sigle: "ISABEE",
         nom: "Institut Supérieur d'Agriculture, du Bois, de l'Eau et de l'Environnement",
-        precision: null,
-        lien: null,
+        precision: "Bélabo, antenne à Yokadouma",
+        lien: "https://isabeeb.cm",
       },
       {
         sigle: "ESSUT",
         nom: "École Supérieure des Sciences de l'Urbanisme et du Tourisme",
-        precision: null,
-        lien: null,
+        precision: "Abong-Mbang",
+        lien: "https://essut-ube.cm",
       },
       {
         sigle: "ESTM",
         nom: "École Supérieure de Transformation des Mines et des Ressources Énergétiques",
-        precision: null,
-        lien: null,
+        precision: "Batouri",
+        lien: "https://estm-ube.cm",
       },
     ],
   },
@@ -180,14 +180,20 @@ export const UNIVERSITES: Universite[] = [
       {
         sigle: "ISABEE",
         nom: "Institut Supérieur d'Agriculture, du Bois, de l'Eau et de l'Environnement",
-        precision: null,
-        lien: null,
+        precision: "Ebolowa",
+        lien: "https://www.isabeee.cm",
       },
       {
         sigle: "ENSTMO",
         nom: "École Nationale Supérieure des Sciences et Techniques Maritimes et Océaniques",
-        precision: null,
-        lien: null,
+        precision: "Kribi",
+        lien: "https://enstmo-ueb.cm",
+      },
+      {
+        sigle: "ESTLC",
+        nom: "École Supérieure de Transport, de Logistique et de Commerce",
+        precision: "Ambam, cursus d'ingénieur",
+        lien: "https://estlc.unv-ebolowa.cm",
       },
       {
         sigle: "FS",
@@ -220,8 +226,8 @@ export const UNIVERSITES: Universite[] = [
       {
         sigle: "ENSMIP",
         nom: "École Nationale Supérieure des Mines et des Industries Pétrolières",
-        precision: null,
-        lien: null,
+        precision: "Kaélé",
+        lien: "http://www.ensmip.univ-maroua.cm",
       },
     ],
   },
@@ -232,12 +238,6 @@ export const UNIVERSITES: Universite[] = [
       "Créée en 2022 avec Bertoua et Ebolowa, l'Université de Garoua renforce l'offre universitaire dans la région du Nord.",
     site: null,
     ecoles: [
-      {
-        sigle: "ESTLC",
-        nom: "École Supérieure de Transport, de Logistique et de Commerce",
-        precision: "cursus d'ingénieur",
-        lien: null,
-      },
       {
         sigle: "ESSEC",
         nom: "École Supérieure des Sciences Économiques et Commerciales",
@@ -286,8 +286,8 @@ export const UNIVERSITES: Universite[] = [
       {
         sigle: "EGEM",
         nom: "École de Géologie et d'Exploitation Minière",
-        precision: "cycle ingénieur",
-        lien: null,
+        precision: "cycle ingénieur — Meiganga",
+        lien: "https://egem-ndere.com",
       },
       {
         sigle: "Sciences biomédicales",
@@ -299,7 +299,7 @@ export const UNIVERSITES: Universite[] = [
         sigle: "EGCIM",
         nom: "École de Génie Chimique et des Industries Minérales",
         precision: null,
-        lien: null,
+        lien: "https://egcim-univ-ndere.cm",
       },
     ],
   },
