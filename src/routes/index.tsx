@@ -338,6 +338,7 @@ function Footer() {
     { src: "/images/partenaires/fondation-mackenzie.jpeg", alt: "Fondation Mackenzie" },
     { src: "/images/partenaires/jvepi.jpeg", alt: "JVEPI" },
     { src: "/images/partenaires/jvepi-centre.jpeg", alt: "JVEPI Centre" },
+    { src: "/images/partenaires/the-okwelians.png", alt: "The Okwelians" },
   ];
 
   return (
