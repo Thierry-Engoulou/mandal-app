@@ -140,6 +140,25 @@ function RootComponent() {
     enregistrerVisite(pathname);
   }, [pathname]);
 
+  // Après une mise en ligne, une page restée ouverte peut demander des fichiers de
+  // l'ancienne version, qui n'existent plus : on recharge alors la page (une seule
+  // fois par minute pour éviter toute boucle).
+  useEffect(() => {
+    const recharger = (event: Event) => {
+      event.preventDefault();
+      try {
+        const dernier = Number(sessionStorage.getItem("mandal_rechargement") ?? 0);
+        if (Date.now() - dernier < 60_000) return;
+        sessionStorage.setItem("mandal_rechargement", String(Date.now()));
+      } catch {
+        // stockage indisponible : on recharge quand même
+      }
+      window.location.reload();
+    };
+    window.addEventListener("vite:preloadError", recharger);
+    return () => window.removeEventListener("vite:preloadError", recharger);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}

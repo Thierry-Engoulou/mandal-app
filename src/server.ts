@@ -61,6 +61,12 @@ function withSecurityHeaders(response: Response): Response {
   for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
     if (!secured.headers.has(name)) secured.headers.set(name, value);
   }
+  // Pages HTML : le navigateur (et la WebView de l'app Android) revérifie la page
+  // à chaque visite, pour afficher la dernière version publiée sans vider le cache.
+  // Les fichiers JS/CSS ont un nom unique par version et restent en cache.
+  if ((secured.headers.get("content-type") ?? "").includes("text/html")) {
+    secured.headers.set("Cache-Control", "no-cache, must-revalidate");
+  }
   return secured;
 }
 
