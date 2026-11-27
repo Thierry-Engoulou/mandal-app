@@ -66,7 +66,7 @@ export function MandalSponsorshipSection() {
               </p>
             </div>
             <div className="mt-8 rounded-xl border border-red-500/20 bg-red-950/20 p-4 text-xs font-medium text-red-300">
-              ⚡ Risque : Décrochage et perte de talents exceptionnels pour le pays.
+              Risque : Décrochage et perte de talents exceptionnels pour le pays.
             </div>
           </div>
 
@@ -92,7 +92,7 @@ export function MandalSponsorshipSection() {
               </p>
             </div>
             <div className="mt-8 rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-4 text-xs font-medium text-emerald-300">
-              ✨ Impact : Accès garanti 24h/24 aux cours, simulations et épreuves corrigées.
+              Impact : Accès garanti 24h/24 aux cours, simulations et épreuves corrigées.
             </div>
           </div>
 
@@ -118,7 +118,7 @@ export function MandalSponsorshipSection() {
               </p>
             </div>
             <div className="mt-8 rounded-xl border border-blue-500/20 bg-blue-950/20 p-4 text-xs font-medium text-blue-300">
-              🤝 Garantie : Transparence, méritocratie et transmission directe du savoir.
+              Garantie : Transparence, méritocratie et transmission directe du savoir.
             </div>
           </div>
         </div>

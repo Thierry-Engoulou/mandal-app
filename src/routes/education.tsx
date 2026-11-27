@@ -151,31 +151,31 @@ export function EducationPage() {
               to="/"
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-emerald-400 transition-colors"
             >
-              <span>🏠</span> Accueil
+              Accueil
             </Link>
             <Link
               to="/education"
               className="inline-flex items-center gap-1.5 text-sm font-bold text-emerald-400"
             >
-              <span>📚</span> Éducation
+              Éducation
             </Link>
             <Link
               to="/mandal-sup"
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-sky-400 transition-colors"
             >
-              <span>🎓</span> M'Andal'Sup
+              M'Andal'Sup
             </Link>
             <Link
               to="/citoyennete"
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-blue-400 transition-colors"
             >
-              <span>⚖️</span> Citoyenneté
+              Citoyenneté
             </Link>
             <Link
               to="/culture"
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-amber-400 transition-colors"
             >
-              <span>🌍</span> Culture
+              Culture
             </Link>
           </nav>
           <div className="flex items-center gap-3">
@@ -253,10 +253,10 @@ export function EducationPage() {
                     )}
                   >
                     {activeLevel.type === "concours"
-                      ? "🏆 Concours d'Entrée"
+                      ? "Concours d'Entrée"
                       : activeLevel.type === "technique"
-                        ? "🛠️ Enseignement technique"
-                        : "🎓 Enseignement général"}
+                        ? "Enseignement technique"
+                        : "Enseignement général"}
                   </span>
                   {activeLevel.badge && (
                     <span className="rounded-full bg-slate-800 border border-slate-700 px-3 py-1 text-xs font-medium text-slate-300">
@@ -376,7 +376,10 @@ export function EducationPage() {
                     <div>
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-2.5">
-                          <span className="text-2xl">{sub.icon || "📚"}</span>
+                          <BookOpen
+                            className="size-6 shrink-0 text-emerald-400"
+                            aria-hidden="true"
+                          />
                           <h3 className="font-display text-lg font-bold text-white">
                             {sub.matiere}
                           </h3>
@@ -619,7 +622,7 @@ export function EducationPage() {
                   to="/mandal-sup"
                   className="rounded-full border border-sky-500/50 bg-sky-500/10 px-4 py-2 text-xs font-bold text-sky-300 transition hover:bg-sky-500/20"
                 >
-                  🎓 M'Andal'Sup : universités et grandes écoles
+                  M'Andal'Sup : universités et grandes écoles
                 </Link>
               </nav>
 

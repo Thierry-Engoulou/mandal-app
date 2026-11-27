@@ -191,7 +191,6 @@ const PREPARATIONS: Record<string, Matiere[]> = {
         "Module 05 : Dénombrement accéléré et calcul des probabilités de concours",
         "Module 06 : Annales corrigées pas à pas des 10 dernières sessions ENSPD",
       ],
-      icon: "📐",
     },
     {
       matiere: "Prépa Concours ENSPD : Physique & Chimie d'Ingénierie",
@@ -205,7 +204,6 @@ const PREPARATIONS: Record<string, Matiere[]> = {
         "Module 05 : Chimie des solutions aqueuses, équilibres chimiques et thermochimie",
         "Module 06 : Annales corrigées de physique-chimie du concours ENSPD",
       ],
-      icon: "⚛️",
     },
     {
       matiere: "Prépa Concours ENSPD : Épreuves Blanches & QCM Éliminatoires",
@@ -216,7 +214,6 @@ const PREPARATIONS: Record<string, Matiere[]> = {
         "Module 02 : Épreuve blanche n°2 avec correction vidéo détaillée",
         "Module 03 : Techniques de gestion du stress, du temps et élimination des pièges classiques",
       ],
-      icon: "⚡",
     },
   ],
   "prepa-iut": [
@@ -230,7 +227,6 @@ const PREPARATIONS: Record<string, Matiere[]> = {
         "Module 03 : Mesures physiques, métrologie et capteurs industriels",
         "Module 04 : Corrigés types des épreuves antérieures du concours IUT",
       ],
-      icon: "⚙️",
     },
     {
       matiere: "Prépa Concours IUT : Mathématiques Pratiques & Logique",
@@ -242,7 +238,6 @@ const PREPARATIONS: Record<string, Matiere[]> = {
         "Module 03 : Statistiques appliquées, probabilités et raisonnement logique",
         "Module 04 : Épreuves types et annales corrigées du concours IUT",
       ],
-      icon: "📐",
     },
     {
       matiere: "Prépa Concours IUT : Sciences Appliquées & Dessin Technique",
@@ -253,21 +248,8 @@ const PREPARATIONS: Record<string, Matiere[]> = {
         "Module 02 : Électronique fondamentale : diodes, transistors et portes logiques",
         "Module 03 : Matériaux industriels et procédés de fabrication",
       ],
-      icon: "🔧",
     },
   ],
-};
-
-const ICONES: Record<string, string> = {
-  Mathématiques: "📐",
-  Informatique: "💻",
-  Français: "📖",
-  Anglais: "🇬🇧",
-  SVT: "🧬",
-  "Physique-Chimie": "⚗️",
-  Physique: "⚛️",
-  Chimie: "🧪",
-  Philosophie: "🤔",
 };
 
 /** Matières d'une classe ; `cle` choisit les chapitres déjà rédigés. */
@@ -277,7 +259,6 @@ function matieres(noms: string[], cles: string[] = []): Matiere[] {
     const detail = cle ? CHAPITRES[cle] : undefined;
     return {
       matiere: nom,
-      icon: ICONES[nom] ?? "📚",
       description: detail?.description,
       chapitres: detail?.chapitres ?? [],
     };
@@ -292,7 +273,6 @@ function matieresTechniques(liste: string): Matiere[] {
     .filter(Boolean)
     .map((m) => ({
       matiere: m.charAt(0).toUpperCase() + m.slice(1),
-      icon: m.toLowerCase().startsWith("math") ? "📐" : "🛠️",
       chapitres: [],
     }));
 }

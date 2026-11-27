@@ -676,7 +676,7 @@ function TeacherExamsPage() {
               {/* Téléversement du sujet PDF */}
               <div className="rounded-xl border border-dashed border-border bg-muted/20 p-4 space-y-2">
                 <Label className="text-xs font-bold uppercase tracking-wider text-primary flex items-center gap-2">
-                  📄 Joindre le Sujet / Épreuve en PDF
+                  Joindre le Sujet / Épreuve en PDF
                 </Label>
                 <p className="text-xs text-muted-foreground">
                   Chargez l'épreuve complète en PDF. Les élèves de la classe sélectionnée recevront

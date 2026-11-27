@@ -222,7 +222,6 @@ function ExamRunnerPage() {
             {/* Alerte obligatoire à moins de 30 minutes */}
             {remaining !== null && remaining <= 1800 && (
               <div className="flex items-start gap-3 rounded-xl border border-amber-500/40 bg-amber-500/15 p-3 text-amber-900 dark:text-amber-200">
-                <span className="text-xl">⚠️</span>
                 <div className="text-xs leading-relaxed">
                   <strong className="font-bold uppercase tracking-wider block text-amber-800 dark:text-amber-300">
                     Rappel obligatoire : Il reste moins de {minutes} minutes !
@@ -261,7 +260,7 @@ function ExamRunnerPage() {
               Elles seront transmises à votre enseignant et analysées pour la correction.
             </p>
             <label className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition">
-              <span>📷 Photographier / Charger mes copies (Format, PDF ou Scan)</span>
+              <span>Photographier / Charger mes copies (Format, PDF ou Scan)</span>
               <input
                 type="file"
                 accept="image/*,application/pdf"

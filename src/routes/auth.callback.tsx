@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState, useRef } from "react";
 import type { Session } from "@supabase/supabase-js";
+import { TriangleAlert } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { GOOGLE_SIGNUP_ROLE_KEY, homeForRole } from "@/lib/role-home";
 
@@ -199,7 +200,7 @@ function AuthCallback() {
         {errorMsg ? (
           <div>
             <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-red-500/10 text-red-400">
-              ⚠️
+              <TriangleAlert className="size-6" aria-hidden="true" />
             </div>
             <h2 className="mt-4 font-display text-lg font-bold text-white">
               Connexion interrompue
