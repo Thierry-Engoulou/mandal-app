@@ -293,7 +293,7 @@ function SignupPage() {
                     htmlFor="classeSelect"
                     className="text-xs font-bold uppercase tracking-wider text-primary"
                   >
-                    🎓 Choisissez votre Classe ou Concours
+                    Choisissez votre Classe ou Concours
                   </Label>
                   <select
                     id="classeSelect"

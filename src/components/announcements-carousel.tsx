@@ -4,18 +4,29 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
+// Le texte de chaque affiche est repris en clair : lisible par les moteurs de
+// recherche et les lecteurs d'écran, et affiché sous le carrousel.
 const announcements = [
   {
     src: "/images/annonces/back-to-school.jpeg",
-    alt: "Annonce Back to School, acte 3",
+    alt: "Affiche Back to School, acte 3 — JVEPI Centre",
+    titre: "Back to School, acte 3",
+    texte:
+      "Et si vous souteniez nos actions à l'occasion du Back to School, acte 3 ? Soutenez nos actions par Orange Money (code marchand 852647) ou MTN MoMo (code marchand 404352), identifiant : JVEPI Association. Infos : (+237) 689 115 208. Avec JVEPI, la Fondation Mackenzie et M'Andal.",
   },
   {
     src: "/images/annonces/prepaconcours.jpeg",
-    alt: "Annonce de préparation aux concours",
+    alt: "Affiche M'Andal'PrépaConcours : programme d'accompagnement des talents",
+    titre: "M'Andal'PrépaConcours : programme d'accompagnement des talents",
+    texte:
+      "50 jeunes talents scolaires, ruraux et urbains, à l'honneur. Critères de sélection : au moins 14/20 aux olympiades ; moyenne annuelle d'au moins 14/20 dans les matières de base ; ou baccalauréat avec au moins 14/20 de moyenne dans les matières de base ; bonne recommandation (assiduité) de l'établissement. Récompenses : un quitus M'Andal'PrépaConcours (ENSPD, ENSPY, FMS), un accompagnement pour constituer les dossiers, une carte d'accès libre d'un an aux formations en leadership et développement personnel. Olympiades le 6 mars 2026 à 12 h ; liste des présélectionnés publiée le 13 mars 2026 ; 30 établissements présélectionnés. Gratuit. Contact : +237 694 17 15 69 / 670 71 32 59, contact@jvepi-mandal.org.",
   },
   {
     src: "/images/annonces/awards-2026.jpeg",
-    alt: "Annonce Awards 2026",
+    alt: "Affiche Awards M'Andal 2026, 1re édition",
+    titre: "Awards M'Andal 2026 — 1re édition",
+    texte:
+      "Save the date : Awards M'Andal 2026, 1re édition, le 26 septembre 2026 à 12 h, à Deïdo. Contact : (+237) 690 50 41 28. Avec JVEPI Centre, JVEPI, la Fondation Mackenzie et The Okwelians.",
   },
 ] as const;
 
@@ -96,6 +107,7 @@ export function AnnouncementsCarousel() {
                   src={announcement.src}
                   alt={announcement.alt}
                   className="h-auto max-h-[72vh] w-full object-contain"
+                  loading={index === 0 ? "eager" : "lazy"}
                   draggable={false}
                 />
               </button>
@@ -138,6 +150,14 @@ export function AnnouncementsCarousel() {
               />
             ))}
           </div>
+        </div>
+
+        <div
+          className="mt-4 rounded-2xl border border-border bg-card p-4 text-sm"
+          aria-live="polite"
+        >
+          <p className="font-semibold text-foreground">{activeAnnouncement.titre}</p>
+          <p className="mt-1 text-muted-foreground">{activeAnnouncement.texte}</p>
         </div>
       </div>
 

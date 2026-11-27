@@ -29,19 +29,19 @@ export function AuthRequiredModal({
     switch (category) {
       case "citoyennete":
         return {
-          badge: "⚖️ Volet Citoyenneté & Devoirs",
+          badge: "Volet Citoyenneté & Devoirs",
           color: "text-blue-400 bg-blue-500/10 border-blue-500/30",
           btnColor: "bg-blue-600 hover:bg-blue-500 text-white",
         };
       case "culture":
         return {
-          badge: "🌍 Volet Culture & Histoire Africaine",
+          badge: "Volet Culture & Histoire Africaine",
           color: "text-amber-400 bg-amber-500/10 border-amber-500/30",
           btnColor: "bg-amber-600 hover:bg-amber-500 text-white",
         };
       default:
         return {
-          badge: "📚 Volet Éducation & Concours",
+          badge: "Volet Éducation & Concours",
           color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/30",
           btnColor: "bg-emerald-600 hover:bg-emerald-500 text-white",
         };

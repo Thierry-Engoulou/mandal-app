@@ -225,7 +225,7 @@ export function StudentCoursesIndexPage() {
               Espace Pédagogique M'Andal
             </p>
             <h1 className="mt-1 font-display text-2xl font-bold md:text-3xl">
-              📚 Vos cours &amp; Programmes de classe
+              Vos cours &amp; Programmes de classe
             </h1>
             <p className="mt-2 max-w-2xl text-sm opacity-90">
               Tous les cours, fiches de synthèse, exercices et simulations enregistrés dans la base
@@ -242,7 +242,7 @@ export function StudentCoursesIndexPage() {
               onChange={(e) => setSelectedClassId(e.target.value)}
               className="rounded-lg bg-card px-3 py-2 text-sm font-bold text-foreground shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
             >
-              <option value="all">🌐 Tous les cours disponibles</option>
+              <option value="all">Tous les cours disponibles</option>
               <optgroup label="Niveaux Scolaires">
                 <option value="bac">Baccalauréat (Séries A · C · D)</option>
                 <option value="probatoire">Probatoire (Séries A · C · D · TI)</option>

@@ -71,25 +71,25 @@ function CitizenshipPage() {
               to="/"
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-blue-400"
             >
-              <span>🏠</span> Accueil
+              Accueil
             </Link>
             <Link
               to="/education"
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-emerald-400"
             >
-              <span>📚</span> Éducation
+              Éducation
             </Link>
             <Link
               to="/citoyennete"
               className="inline-flex items-center gap-1.5 text-sm font-bold text-blue-400"
             >
-              <span>⚖️</span> Citoyenneté
+              Citoyenneté
             </Link>
             <Link
               to="/culture"
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-amber-400"
             >
-              <span>🌍</span> Culture
+              Culture
             </Link>
           </nav>
           <div className="flex items-center gap-3">

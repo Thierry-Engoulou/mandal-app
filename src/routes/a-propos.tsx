@@ -11,6 +11,8 @@ import {
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
+  Scale,
+  Globe2,
 } from "lucide-react";
 import { MandalLogo } from "@/components/mandal-logo";
 import { Button } from "@/components/ui/button";
@@ -150,7 +152,7 @@ function AboutPage() {
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-emerald-500/40 transition">
-              <span className="text-3xl">📚</span>
+              <BookOpen className="size-7 text-emerald-600" aria-hidden="true" />
               <h3 className="mt-4 font-display text-lg font-bold">1. Éducation</h3>
               <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 Cours interactifs, simulations physiques GeoGebra, annales corrigées et fiches
@@ -158,7 +160,7 @@ function AboutPage() {
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-emerald-500/40 transition">
-              <span className="text-3xl">⚖️</span>
+              <Scale className="size-7 text-emerald-600" aria-hidden="true" />
               <h3 className="mt-4 font-display text-lg font-bold">2. Citoyenneté</h3>
               <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 Formation civique, respect du bien public, intégrité et valeurs républicaines pour
@@ -166,7 +168,7 @@ function AboutPage() {
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-emerald-500/40 transition">
-              <span className="text-3xl">🌍</span>
+              <Globe2 className="size-7 text-emerald-600" aria-hidden="true" />
               <h3 className="mt-4 font-display text-lg font-bold">3. Culture</h3>
               <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 Valorisation du patrimoine, des langues nationales et de l'histoire africaine pour
@@ -174,7 +176,7 @@ function AboutPage() {
               </p>
             </div>
             <div className="rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-emerald-500/40 transition">
-              <span className="text-3xl">🤝</span>
+              <Heart className="size-7 text-emerald-600" aria-hidden="true" />
               <h3 className="mt-4 font-display text-lg font-bold">4. Parrainage</h3>
               <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
                 Mise en relation d'élèves méritants avec des mentors professionnels et bourses

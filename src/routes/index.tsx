@@ -13,6 +13,7 @@ import {
   Heart,
   BookOpen,
   Award,
+  Globe2,
 } from "lucide-react";
 import classroomImage from "@/assets/mandal-classroom.jpg";
 import { AnnouncementsCarousel } from "@/components/announcements-carousel";
@@ -54,13 +55,13 @@ export const Route = createFileRoute("/")({
 });
 
 const navLinks = [
-  { to: "/", label: "Accueil", icon: "🏠" },
-  { to: "/education", label: "Éducation", icon: "📚" },
-  { to: "/banque-epreuves", label: "Épreuves", icon: "📝" },
-  { to: "/mandal-sup", label: "M'Andal'Sup", icon: "🎓" },
-  { to: "/citoyennete", label: "Citoyenneté", icon: "⚖️" },
-  { to: "/culture", label: "Culture", icon: "🌍" },
-  { to: "/a-propos", label: "À propos", icon: "✨" },
+  { to: "/", label: "Accueil" },
+  { to: "/education", label: "Éducation" },
+  { to: "/banque-epreuves", label: "Épreuves" },
+  { to: "/mandal-sup", label: "M'Andal'Sup" },
+  { to: "/citoyennete", label: "Citoyenneté" },
+  { to: "/culture", label: "Culture" },
+  { to: "/a-propos", label: "À propos" },
 ] as const;
 
 function Header() {
@@ -82,7 +83,6 @@ function Header() {
               to={item.to}
               className="inline-flex items-center gap-2 text-base font-bold text-foreground/80 transition-colors hover:text-emerald-600 dark:hover:text-emerald-400"
             >
-              <span>{item.icon}</span>
               <span>{item.label}</span>
             </Link>
           ))}
@@ -117,7 +117,6 @@ function Header() {
                     to={item.to}
                     className="flex items-center gap-3 rounded-xl px-4 py-3 text-lg font-bold text-foreground hover:bg-secondary"
                   >
-                    <span>{item.icon}</span>
                     <span>{item.label}</span>
                   </Link>
                 </SheetClose>
@@ -143,7 +142,7 @@ function Hero() {
     <main className="relative overflow-hidden bg-slate-950">
       <img
         src={classroomImage}
-        alt="Une enseignante accompagne des apprenants dans une salle de classe au Cameroun"
+        alt="Illustration : une enseignante accompagne des élèves en classe"
         width={1600}
         height={1104}
         className="absolute inset-0 h-full w-full object-cover object-center opacity-35"
@@ -153,7 +152,8 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/40" />
       <section className="relative mx-auto flex min-h-[75vh] w-full max-w-5xl flex-col items-center justify-end px-5 pb-16 pt-32 text-center sm:min-h-[80vh] lg:pb-24">
         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-300">
-          <GraduationCap className="size-4" /> L'Éducation d'Excellence Accessible à Tous
+          <GraduationCap className="size-4" /> Média numérique pour l'éducation, la culture et la
+          citoyenneté
         </div>
 
         <h1 className="animate-fade-up mt-6 font-display text-4xl font-extrabold leading-[1.1] text-white sm:text-6xl lg:text-7xl">
@@ -173,7 +173,6 @@ function Hero() {
             className="group rounded-full bg-gradient-to-r from-emerald-600 to-teal-600 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-emerald-600/30 transition-all hover:scale-105 hover:from-emerald-500 hover:to-teal-500"
           >
             <Link to="/education" className="flex items-center gap-2">
-              <span className="text-xl transition-transform group-hover:scale-125">📚</span>
               <span>01. Éducation</span>
             </Link>
           </Button>
@@ -185,7 +184,6 @@ function Hero() {
             className="group rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3.5 text-base font-bold text-white shadow-lg shadow-blue-600/30 transition-all hover:scale-105 hover:from-blue-500 hover:to-indigo-500"
           >
             <Link to="/citoyennete" className="flex items-center gap-2">
-              <span className="text-xl transition-transform group-hover:scale-125">⚖️</span>
               <span>02. Citoyenneté</span>
             </Link>
           </Button>
@@ -197,23 +195,9 @@ function Hero() {
             className="group rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 px-6 py-3.5 text-base font-bold text-slate-950 shadow-lg shadow-amber-500/30 transition-all hover:scale-105 hover:from-amber-400 hover:to-yellow-400"
           >
             <Link to="/culture" className="flex items-center gap-2">
-              <span className="text-xl transition-transform group-hover:scale-125">🌍</span>
               <span>03. Culture</span>
             </Link>
           </Button>
-        </div>
-
-        <div className="animate-fade-up mt-10 flex w-full max-w-md items-center gap-4 rounded-2xl border border-white/20 bg-white/15 px-6 py-3.5 shadow-2xl backdrop-blur-xl [animation-delay:240ms]">
-          <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-amber-400/20 text-xl shadow-[0_0_20px_rgba(251,191,36,0.45)]">
-            🏆
-          </span>
-          <div className="min-w-0 flex-1 text-left">
-            <p className="text-xs font-medium text-white/70">Progression moyenne</p>
-            <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-white/20">
-              <div className="h-full w-[98%] rounded-full bg-emerald-400" />
-            </div>
-          </div>
-          <p className="shrink-0 font-display text-lg font-bold text-white">+98% de réussite</p>
         </div>
       </section>
     </main>
@@ -225,7 +209,7 @@ function PillarsPreviewSection() {
     {
       to: "/education",
       num: "01",
-      icon: "📚",
+      icon: BookOpen,
       title: "Éducation",
       desc: "Niveaux scolaires (BEPC, Probatoire, Baccalauréat) & Préparations aux concours (ENSPD, IUT). Cours de Maths, Physique et annales corrigées.",
       tag: "Niveaux & Concours",
@@ -236,7 +220,7 @@ function PillarsPreviewSection() {
     {
       to: "/citoyennete",
       num: "02",
-      icon: "⚖️",
+      icon: Scale,
       title: "Citoyenneté",
       desc: "Comprendre ses droits, ses devoirs et l'engagement civique. La Constitution, lutte contre la corruption et vivre-ensemble pacifique.",
       tag: "Droits & Devoirs",
@@ -247,7 +231,7 @@ function PillarsPreviewSection() {
     {
       to: "/culture",
       num: "03",
-      icon: "🌍",
+      icon: Globe2,
       title: "Culture",
       desc: "Valoriser le patrimoine africain et camerounais. Histoire du continent, traditions orales, arts et grandes figures inspirantes.",
       tag: "Patrimoine & Fierté",
@@ -262,16 +246,14 @@ function PillarsPreviewSection() {
       <div className="mx-auto max-w-7xl px-5 lg:px-8">
         <div className="text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-400">
-            ✨ Architecture Pédagogique M'Andal
+            Trois volets
           </div>
           <h2 className="mt-4 font-display text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
-            Bien plus qu'un simple livre scolaire : <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-emerald-400 via-amber-300 to-orange-400 bg-clip-text text-transparent">
-              former le citoyen de demain
-            </span>
+            Apprendre, comprendre ses droits, connaître son histoire
           </h2>
           <p className="mt-3 text-slate-300 text-sm sm:text-base">
-            Explorez les 3 volets d'excellence pour outiller et inspirer chaque apprenant.
+            Trois volets complémentaires pour accompagner chaque apprenant, en classe comme en
+            dehors.
           </p>
         </div>
 
@@ -287,8 +269,8 @@ function PillarsPreviewSection() {
               <div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="flex size-14 items-center justify-center rounded-2xl bg-white/10 text-3xl shadow-inner backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                      {p.icon}
+                    <span className="flex size-14 items-center justify-center rounded-2xl bg-white/10 shadow-inner">
+                      <p.icon className="size-7" aria-hidden="true" />
                     </span>
                     <span className="font-display text-3xl font-black tracking-wider text-white/90">
                       {p.num}
@@ -302,10 +284,7 @@ function PillarsPreviewSection() {
                 </div>
 
                 <div className="mt-6">
-                  <h3 className="flex items-center gap-2 font-display text-2xl font-bold text-white">
-                    <span>{p.icon}</span>
-                    <span>{p.title}</span>
-                  </h3>
+                  <h3 className="font-display text-2xl font-bold text-white">{p.title}</h3>
                   <p className="mt-3 text-sm leading-relaxed text-slate-300">{p.desc}</p>
                 </div>
               </div>
@@ -320,7 +299,6 @@ function PillarsPreviewSection() {
                 >
                   <Link to={p.to} className="flex items-center justify-center gap-2">
                     <span>Consulter le volet {p.title}</span>
-                    <span>{p.icon}</span>
                     <ArrowRight className="size-4 ml-1 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
@@ -391,6 +369,7 @@ function Footer() {
                     src={partner.src}
                     alt={partner.alt}
                     className="h-12 max-w-full object-contain"
+                    loading="lazy"
                   />
                 </div>
               ))}
@@ -406,26 +385,20 @@ function Footer() {
         <LiensLegaux />
         <div className="flex flex-wrap items-center gap-5 text-sm font-semibold text-muted-foreground">
           <Link to="/" className="hover:text-emerald-500">
-            🏠 Accueil
+            Accueil
           </Link>
           <Link to="/education" className="hover:text-emerald-500">
-            📚 Éducation
+            Éducation
           </Link>
           <Link to="/citoyennete" className="hover:text-orange-500">
-            ⚖️ Citoyenneté
+            Citoyenneté
           </Link>
           <Link to="/culture" className="hover:text-amber-500">
-            🌍 Culture
+            Culture
           </Link>
           <a href="#parrainage" className="hover:text-foreground">
-            🤝 Parrainage
+            Parrainage
           </a>
-          <Link
-            to="/admin"
-            className="text-xs text-slate-400 hover:text-emerald-400 flex items-center gap-1 border border-slate-700/60 rounded-full px-2.5 py-0.5"
-          >
-            🛡️ Admin
-          </Link>
         </div>
       </div>
     </footer>

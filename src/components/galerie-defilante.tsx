@@ -23,8 +23,10 @@ export function GalerieDefilante() {
     ? depuisSupabase
     : PHOTOS_DE_DEPART.map((p) => ({ cle: p.src, src: p.src, legende: p.legende }));
 
-  // La liste est dupliquée pour une boucle sans à-coup (défilement de -50 %).
-  const boucle = [...photos, ...photos];
+  // Défilement continu seulement avec assez de photos : la liste est alors
+  // dupliquée pour une boucle sans à-coup (-50 %). Sinon, simple rangée à faire glisser.
+  const defile = photos.length >= 8;
+  const boucle = defile ? [...photos, ...photos] : photos;
 
   return (
     <section
@@ -39,9 +41,9 @@ export function GalerieDefilante() {
           Nos événements M'ANDAL
         </h2>
       </div>
-      <div className="overflow-x-auto motion-safe:overflow-x-hidden">
+      <div className={defile ? "overflow-x-auto motion-safe:overflow-x-hidden" : "overflow-x-auto"}>
         <ul
-          className="animate-defilement flex w-max list-none gap-4 px-5"
+          className={`flex w-max list-none gap-4 px-5 ${defile ? "animate-defilement" : ""}`}
           style={{ ["--duree-defilement" as string]: `${Math.max(30, photos.length * 8)}s` }}
         >
           {boucle.map((p, i) => (
